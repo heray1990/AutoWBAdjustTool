@@ -1,0 +1,13 @@
+LIBRARY COLORT
+
+EXPORTS
+
+initColorTemp         @1
+DeinitColorTemp       @2
+setColorTemp          @3
+checkColorTemp        @4
+adjustColorTemp       @5
+
+
+
+
