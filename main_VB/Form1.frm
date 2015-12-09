@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
+Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "mscomm32.ocx"
 Begin VB.Form Form1 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Auto Color Temp Adjust System"
@@ -8,7 +8,7 @@ Begin VB.Form Form1
    ClientTop       =   2625
    ClientWidth     =   10410
    BeginProperty Font 
-      Name            =   "Arial Narrow"
+      Name            =   "Arial"
       Size            =   9
       Charset         =   0
       Weight          =   400
@@ -165,7 +165,7 @@ Begin VB.Form Form1
       Appearance      =   0  'Flat
       BackColor       =   &H8000000F&
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   12
          Charset         =   0
          Weight          =   400
@@ -185,7 +185,7 @@ Begin VB.Form Form1
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   20.25
          Charset         =   0
          Weight          =   400
@@ -203,7 +203,7 @@ Begin VB.Form Form1
    Begin VB.Label Label3 
       Caption         =   "2970"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   18
          Charset         =   0
          Weight          =   400
@@ -224,7 +224,7 @@ Begin VB.Form Form1
       BorderStyle     =   1  'Fixed Single
       Caption         =   "Sampl1"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   32.25
          Charset         =   0
          Weight          =   400
@@ -244,7 +244,7 @@ Begin VB.Form Form1
       Appearance      =   0  'Flat
       Caption         =   "0S"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   15.75
          Charset         =   0
          Weight          =   400
@@ -262,7 +262,7 @@ Begin VB.Form Form1
    Begin VB.Label Label1 
       Caption         =   "2670"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   18
          Charset         =   0
          Weight          =   400
@@ -281,7 +281,7 @@ Begin VB.Form Form1
       BorderStyle     =   1  'Fixed Single
       Caption         =   "SPEC"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   8.25
          Charset         =   0
          Weight          =   400
@@ -302,7 +302,7 @@ Begin VB.Form Form1
       BorderStyle     =   1  'Fixed Single
       Caption         =   "WHITE"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   21.75
          Charset         =   0
          Weight          =   400
@@ -323,7 +323,7 @@ Begin VB.Form Form1
       BorderStyle     =   1  'Fixed Single
       Caption         =   "WARM2"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   21.75
          Charset         =   0
          Weight          =   400
@@ -344,7 +344,7 @@ Begin VB.Form Form1
       BorderStyle     =   1  'Fixed Single
       Caption         =   "COOL2"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   21.75
          Charset         =   0
          Weight          =   400
@@ -366,7 +366,7 @@ Begin VB.Form Form1
       BorderStyle     =   1  'Fixed Single
       Caption         =   "210"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   18
          Charset         =   0
          Weight          =   400
@@ -386,7 +386,7 @@ Begin VB.Form Form1
       BackColor       =   &H80000005&
       Caption         =   "2800"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   18
          Charset         =   0
          Weight          =   400
@@ -406,7 +406,7 @@ Begin VB.Form Form1
       BackColor       =   &H80000005&
       Caption         =   "2700"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   18
          Charset         =   0
          Weight          =   400
@@ -427,7 +427,7 @@ Begin VB.Form Form1
       BorderStyle     =   1  'Fixed Single
       Caption         =   "WARM1"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   21.75
          Charset         =   0
          Weight          =   400
@@ -448,7 +448,7 @@ Begin VB.Form Form1
       BorderStyle     =   1  'Fixed Single
       Caption         =   "NORMAL"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   21.75
          Charset         =   0
          Weight          =   400
@@ -469,7 +469,7 @@ Begin VB.Form Form1
       BorderStyle     =   1  'Fixed Single
       Caption         =   "COOL1"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   21.75
          Charset         =   0
          Weight          =   400
@@ -490,7 +490,7 @@ Begin VB.Form Form1
       BackColor       =   &H0080FF80&
       Caption         =   " ADJUST COLOR"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   38.25
          Charset         =   0
          Weight          =   400
@@ -511,7 +511,7 @@ Begin VB.Form Form1
       BorderStyle     =   1  'Fixed Single
       Caption         =   "   x:"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   18
          Charset         =   0
          Weight          =   400
@@ -532,7 +532,7 @@ Begin VB.Form Form1
       BorderStyle     =   1  'Fixed Single
       Caption         =   " y:"
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   18
          Charset         =   0
          Weight          =   400

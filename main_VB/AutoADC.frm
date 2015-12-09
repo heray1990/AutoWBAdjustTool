@@ -2,11 +2,11 @@ VERSION 5.00
 Begin VB.Form Form3 
    Caption         =   "Form3"
    ClientHeight    =   5850
-   ClientLeft      =   120
-   ClientTop       =   450
-   ClientWidth     =   12765
+   ClientLeft      =   165
+   ClientTop       =   555
+   ClientWidth     =   11400
    BeginProperty Font 
-      Name            =   "Arial Narrow"
+      Name            =   "Arial"
       Size            =   9
       Charset         =   0
       Weight          =   400
@@ -17,7 +17,7 @@ Begin VB.Form Form3
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form3"
    ScaleHeight     =   5850
-   ScaleWidth      =   12765
+   ScaleWidth      =   11400
    StartUpPosition =   3  '´°¿ÚÈ±Ê¡
    Begin VB.CommandButton Command3 
       Caption         =   "Command3"
@@ -37,7 +37,7 @@ Begin VB.Form Form3
    End
    Begin VB.TextBox Text2 
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   15.75
          Charset         =   0
          Weight          =   400
@@ -54,7 +54,7 @@ Begin VB.Form Form3
    End
    Begin VB.TextBox Text1 
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   12
          Charset         =   0
          Weight          =   400
@@ -73,7 +73,7 @@ Begin VB.Form Form3
       Caption         =   "Command"
       Default         =   -1  'True
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   18
          Charset         =   0
          Weight          =   400
