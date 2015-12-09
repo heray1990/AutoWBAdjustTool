@@ -171,6 +171,59 @@ SendDataBuf(11) = &HFE
 Form1.MSComm1.Output = SendDataBuf
 End Sub
 
+Public Sub SET_RGB_GAN(RGB_GAN As REALRGB)
+Dim SendDataBuf(0 To 11) As Byte
+'55  0A  06  XX  XX  XX  XX  XX  XX  00      FE
+SendDataBuf(0) = &H55
+SendDataBuf(1) = &HA
+SendDataBuf(2) = &H6
+SendDataBuf(3) = CByte(RGB_GAN.cRR \ 256)
+SendDataBuf(4) = CByte(RGB_GAN.cRR Mod 256)
+SendDataBuf(5) = CByte(RGB_GAN.cGG \ 256)
+SendDataBuf(6) = CByte(RGB_GAN.cGG Mod 256)
+SendDataBuf(7) = CByte(RGB_GAN.cBB \ 256)
+SendDataBuf(8) = CByte(RGB_GAN.cBB Mod 256)
+SendDataBuf(9) = &H0
+SendDataBuf(10) = chksumSend(SendDataBuf)
+SendDataBuf(11) = &HFE
+
+Form1.MSComm1.Output = SendDataBuf
+End Sub
+
+Public Sub SET_Brightness(Brightness As Long)
+Dim SendDataBuf(0 To 11) As Byte
+'55  37  02  XX  XX  00  00  00  00  00      FE
+SendDataBuf(0) = &H55
+SendDataBuf(1) = &H37
+SendDataBuf(2) = &H2
+SendDataBuf(3) = CByte(Brightness \ 256)
+SendDataBuf(4) = CByte(Brightness Mod 256)
+SendDataBuf(5) = &H0
+SendDataBuf(6) = &H0
+SendDataBuf(7) = &H0
+SendDataBuf(8) = &H0
+SendDataBuf(9) = &H0
+SendDataBuf(10) = chksumSend(SendDataBuf)
+SendDataBuf(11) = &HFE
+End Sub
+
+Public Sub SET_Contrast(Contrast As Long)
+Dim SendDataBuf(0 To 11) As Byte
+'55  39  02  XX  XX  00  00  00  00  00      FE
+SendDataBuf(0) = &H55
+SendDataBuf(1) = &H39
+SendDataBuf(2) = &H2
+SendDataBuf(3) = CByte(Contrast \ 256)
+SendDataBuf(4) = CByte(Contrast Mod 256)
+SendDataBuf(5) = &H0
+SendDataBuf(6) = &H0
+SendDataBuf(7) = &H0
+SendDataBuf(8) = &H0
+SendDataBuf(9) = &H0
+SendDataBuf(10) = chksumSend(SendDataBuf)
+SendDataBuf(11) = &HFE
+End Sub
+
 Public Sub SET_COMMAND_RS()
 Dim SendDataBuf(0 To 11) As Byte
 Dim i As Integer, j As Integer
