@@ -398,31 +398,31 @@ Dim m_Title As String
 Public WithEvents Obj As VPGCtrl.VPGCtrl
 Attribute Obj.VB_VarHelpID = -1
 
-Private Sub btnDwn_Click()
-    Dim parser As VPGParser.IParser
-    Dim nRetData() As String
-    Dim cmdList() As Long
-    Dim blockNo As Integer
-    Dim path As String
+'Private Sub btnDwn_Click()
+    'Dim parser As VPGParser.IParser
+    'Dim nRetData() As String
+    'Dim cmdList() As Long
+    'Dim blockNo As Integer
+    'Dim path As String
 
-    Set parser = New VPGParser.VPGParser_A222917
-    blockNo = Combo1.Text
-    path = readPath.Text
-    m_Status = False
-    If parser.ReadXML(path, cmdList, nRetData) = True Then
-        If ivpg.Download_3(nRetData, blockNo - 1, EnumCmdType_Load) Then
-            m_Status = True
-        End If
-    End If
+    'Set parser = New VPGParser.VPGParser_A222917
+    'blockNo = Combo1.Text
+    'path = readPath.Text
+    'm_Status = False
+    'If parser.ReadXML(path, cmdList, nRetData) = True Then
+        'If ivpg.Download_3(nRetData, blockNo - 1, EnumCmdType_Load) Then
+            'm_Status = True
+        'End If
+    'End If
     
-    If m_Status Then
-            MsgBox "Download Program Data Complete !"
-        Else
-            MsgBox "Download Program Data Fail !"
-    End If
+    'If m_Status Then
+            'MsgBox "Download Program Data Complete !"
+        'Else
+            'MsgBox "Download Program Data Fail !"
+    'End If
 
 
-End Sub
+'End Sub
 
 Private Sub btnEnable_Click()
     Dim cmdData(1) As Byte
@@ -431,9 +431,9 @@ Private Sub btnEnable_Click()
 
         Dim status As Boolean
         status = False
-        If ivpg.Download_2(cmdData, , EnumCmdType_InitilizeCmd) = True Then
-            status = True
-        End If
+        'If ivpg.Download_2(cmdData, , EnumCmdType_InitilizeCmd) = True Then
+            'status = True
+        'End If
 
         If status Then
             MsgBox "Box Enable Successfully !"

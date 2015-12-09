@@ -96,7 +96,7 @@ Attribute VB_Exposed = False
 Private Sub Command1_Click()
   strBuff = ""
   Text2 = ""
-  Call SET_AUTO_ADC
+  'Call SET_AUTO_ADC
   DelayMS 5000
   Text2 = strBuff
 End Sub

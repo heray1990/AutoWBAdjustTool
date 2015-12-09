@@ -825,11 +825,11 @@ If IsCheckColorTemp Then
 End If
   
   
-Save_AllWhiteBlance
+'Save_AllWhiteBlance
 
 DelayMS StepTime
 
-Save_AllWhiteBlance
+'Save_AllWhiteBlance
 
 DelayMS StepTime
 
@@ -1047,7 +1047,7 @@ Next j
 Cancel:
   
   If RES Then
-     Save_Gain
+     'Save_Gain
   
     Call saveData(ColorTemp, HighLowMode)
     Log_Info "Save current data of colorTemp."
@@ -1122,7 +1122,7 @@ Next j
 Cancel:
 
   If RES Then
-   Save_Gain
+   'Save_Gain
    
     Call saveData(ColorTemp, HighLowMode)
     Log_Info "Save current data of colorTemp."
@@ -1275,7 +1275,7 @@ SET_COLORTEMP 9300
 End Sub
 
 Private Sub Command8_Click()
-Save_Gain
+'Save_Gain
 End Sub
 
 Private Sub Command9_Click()

@@ -144,7 +144,7 @@ Private Declare Function RegCloseKey Lib "advapi32" (ByVal hKey As Long) As Long
 
 
 Private Sub cmdSysInfo_Click()
-  Call StartSysInfo
+  'Call StartSysInfo
 End Sub
 
 Private Sub cmdOK_Click()
@@ -153,8 +153,8 @@ Private Sub cmdOK_Click()
 End Sub
 
 Private Sub Form_Load()
-    Me.Caption = "關於 " & App.Title
-    lblVersion.Caption = "版本 " & App.Major & "." & App.Minor & "." & App.Revision
+    Me.Caption = "About " & App.Title
+    lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision
     lblTitle.Caption = App.Title
 End Sub
 
@@ -168,7 +168,7 @@ Public Sub StartSysInfo()
     If GetKeyValue(HKEY_LOCAL_MACHINE, gREGKEYSYSINFO, gREGVALSYSINFO, SysInfoPath) Then
     
     ElseIf GetKeyValue(HKEY_LOCAL_MACHINE, gREGKEYSYSINFOLOC, gREGVALSYSINFOLOC, SysInfoPath) Then
-        否存在
+
         If (Dir(SysInfoPath & "\MSINFO32.EXE") <> "") Then
             SysInfoPath = SysInfoPath & "\MSINFO32.EXE"
             
@@ -185,7 +185,7 @@ Public Sub StartSysInfo()
     
     Exit Sub
 SysInfoErr:
-    MsgBox "目前無法提供系統資訊", vbOKOnly
+    MsgBox "No system information now.", vbOKOnly
 End Sub
 
 Public Function GetKeyValue(KeyRoot As Long, KeyName As String, SubKeyRef As String, ByRef KeyVal As String) As Boolean
@@ -195,16 +195,14 @@ Public Function GetKeyValue(KeyRoot As Long, KeyName As String, SubKeyRef As Str
     Dim hDepth As Long
     Dim KeyValType As Long
     Dim tmpVal As String
-    Dim KeyValSize As Long                                  ' 註冊機碼變數的大小
-    '------------------------------------------------------------
-    ' 開啟 KeyRoot {HKEY_LOCAL_MACHINE...} 之下的註冊機碼 (RegKey)
-    '------------------------------------------------------------
+    Dim KeyValSize As Long
+    
     rc = RegOpenKeyEx(KeyRoot, KeyName, 0, KEY_ALL_ACCESS, hKey)
     
     If (rc <> ERROR_SUCCESS) Then GoTo GetKeyError
     
-    tmpVal = String$(1024, 0)                               ' 配置變數空間
-    KeyValSize = 1024                                       ' 標示變數大小
+    tmpVal = String$(1024, 0)
+    KeyValSize = 1024
     
     
     rc = RegQueryValueEx(hKey, SubKeyRef, 0, _
