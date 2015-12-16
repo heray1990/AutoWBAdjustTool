@@ -955,9 +955,7 @@ End Sub
 Public Sub ChangePattern(Ptn As String)
     Dim bNo(1) As Byte
 
-    
     cmbType.Text = "Pattern"
-
     txtRunNum.Text = Ptn
     
     bNo(0) = (CInt(txtRunNum.Text) And &HFF00) \ 256
@@ -965,8 +963,4 @@ Public Sub ChangePattern(Ptn As String)
 
     ivpg.RunKey (VPG_KEY_CKEY_OUT)
     ivpg.ExecuteCmd VPG_CMD_CM_DOWNLOAD, VPG_SCMD_SCM_CTL_RUNPTN, bNo, False
-
-
-
-
 End Sub

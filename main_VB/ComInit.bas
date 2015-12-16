@@ -39,10 +39,12 @@ End Sub
 
 
 Public Sub ComInit()
- On Error GoTo ErrExit
- If Form1.MSComm1.PortOpen = True Then
-    Form1.MSComm1.PortOpen = False
- End If
+On Error GoTo ErrExit
+
+    If Form1.MSComm1.PortOpen = True Then
+        Form1.MSComm1.PortOpen = False
+    End If
+    
     With Form1
         .MSComm1.CommPort = SetTVCurrentComID
         .MSComm1.Settings = SetTVCurrentComBaud & ",N,8,1"
@@ -53,18 +55,19 @@ Public Sub ComInit()
         .MSComm1.InputMode = comInputModeHex
         
         .MSComm1.NullDiscard = False
-          .MSComm1.DTREnable = False
-         .MSComm1.EOFEnable = False
-         .MSComm1.RTSEnable = False
-         .MSComm1.SThreshold = 1
+        .MSComm1.DTREnable = False
+        .MSComm1.EOFEnable = False
+        .MSComm1.RTSEnable = False
+        .MSComm1.SThreshold = 1
         .MSComm1.RThreshold = 1
         .MSComm1.InBufferSize = 1024
-       .MSComm1.OutBufferSize = 512
+        .MSComm1.OutBufferSize = 512
         
         .MSComm1.PortOpen = True
- 
     End With
-Exit Sub
+    
+    Exit Sub
+
 ErrExit:
         MsgBox Err.Description, vbCritical, Err.Source
 End Sub

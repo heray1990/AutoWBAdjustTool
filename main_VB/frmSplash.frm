@@ -128,148 +128,137 @@ Option Explicit
 Dim ss As Boolean
 
 Private Sub Form_Click()
- Unload Me
+    Unload Me
 End Sub
 
 Private Sub Form_DblClick()
-Unload Me
+    Unload Me
 End Sub
 
 Private Sub Form_Deactivate()
-Unload Me
+    Unload Me
 End Sub
 
 Private Sub Form_KeyPress(KeyAscii As Integer)
-Unload Me
+    Unload Me
 End Sub
 
 Private Sub Form_Load()
+
 On Error GoTo ErrExit
-  ss = False
-
-
-lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision
+    ss = False
+    lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision
  
-   
-sqlstring = "select * from CheckItem"
-Executesql (sqlstring)
+    sqlstring = "select * from CheckItem"
+    Executesql (sqlstring)
 
-If rs.EOF = False Then
-    rs.MoveFirst
-    cmbModelName.Clear
+    If rs.EOF = False Then
+        rs.MoveFirst
+        cmbModelName.Clear
 
-                Do While Not rs.EOF
-                    cmbModelName.AddItem rs.Fields("Mark")
-                    rs.MoveNext
-                Loop
-Else
-MsgBox "Read Data Error,Please Check Your Database!", vbOKOnly + vbInformation, "Warning!"
-End
-End If
+        Do While Not rs.EOF
+            cmbModelName.AddItem rs.Fields("Mark")
+            rs.MoveNext
+        Loop
+    Else
+        MsgBox "Read Data Error,Please Check Your Database!", vbOKOnly + vbInformation, "Warning!"
+        End
+    End If
+    
     Set cn = Nothing
     Set rs = Nothing
     sqlstring = ""
    
-sqlstring = "select * from CommonTable where Mark='ATS'"
-Executesql (sqlstring)
-If rs.EOF = False Then
-strCurrentModelName = rs("CurrentModelName")
-strDataVersion = rs("DataVersion")
-SetTVCurrentComID = rs("ComID")
-SetData = rs("Date")
-SetDay = rs("Day")
+    sqlstring = "select * from CommonTable where Mark='ATS'"
+    Executesql (sqlstring)
 
-Else
-MsgBox "Read Data Error,Please Check Your Database!", vbOKOnly + vbInformation, "Warning!"
-End If
-Set cn = Nothing
-Set rs = Nothing
-sqlstring = ""
-cmbModelName = strCurrentModelName
+    If rs.EOF = False Then
+        strCurrentModelName = rs("CurrentModelName")
+        strDataVersion = rs("DataVersion")
+        SetTVCurrentComID = rs("ComID")
+        SetData = rs("Date")
+        SetDay = rs("Day")
+    Else
+        MsgBox "Read Data Error,Please Check Your Database!", vbOKOnly + vbInformation, "Warning!"
+    End If
 
-If SetData <> Day(Date) Then
+    Set cn = Nothing
+    Set rs = Nothing
+    sqlstring = ""
 
-  sqlstring = "select * from CommonTable where Mark='ATS'"
-Executesql (sqlstring)
-  rs.Fields(4) = Day(Date)
-  rs.Fields(5) = SetDay + 1
+    cmbModelName = strCurrentModelName
+
+    If SetData <> Day(Date) Then
+        sqlstring = "select * from CommonTable where Mark='ATS'"
+        Executesql (sqlstring)
+        rs.Fields(4) = Day(Date)
+        rs.Fields(5) = SetDay + 1
   
-  rs.Update
+        rs.Update
 
- Set cn = Nothing
- Set rs = Nothing
- sqlstring = ""
-End If
+        Set cn = Nothing
+        Set rs = Nothing
+        sqlstring = ""
+    End If
 
-   
-Exit Sub
+    Exit Sub
+
 ErrExit:
-       MsgBox Err.Description, vbCritical, Err.Source
+    MsgBox Err.Description, vbCritical, Err.Source
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
+
 On Error GoTo ErrExit
 
-strCurrentModelName = cmbModelName
+    strCurrentModelName = cmbModelName
+    sqlstring = ""
 
-sqlstring = ""
-sqlstring = "update CommonTable set CurrentModelName='" & strCurrentModelName & "' where Mark='ATS'"
-Executesql (sqlstring)
-  Set cn = Nothing
-  Set rs = Nothing
-  sqlstring = ""
+    sqlstring = "update CommonTable set CurrentModelName='" & strCurrentModelName & "' where Mark='ATS'"
+    Executesql (sqlstring)
+    
+    Set cn = Nothing
+    Set rs = Nothing
+    sqlstring = ""
 
+    sqlstring = "select * from CheckItem where Mark='" & strCurrentModelName & "'"
+    Executesql (sqlstring)
 
-sqlstring = "select * from CheckItem where Mark='" & strCurrentModelName & "'"
-Executesql (sqlstring)
+    SetTVCurrentComBaud = rs("ComBaud")
+    IsCa210Channel = rs("Channel")
+    IsStepTime = rs("Delayms")
+    IsWhitePtn = rs("WhitePattern")
 
-SetTVCurrentComBaud = rs("ComBaud")
-IsCa210Channel = rs("Channel")
-IsStepTime = rs("Delayms")
-IsWhitePtn = rs("WhitePattern")
+    IsAdjCool_1 = rs("COOL_1")
+    IsAdjCool_2 = rs("COOL_2")
+    IsAdjNormal = rs("NORMAL")
+    IsAdjWarm_1 = rs("WARM_1")
+    IsAdjWarm_2 = rs("WARM_2")
 
-IsAdjCool_1 = rs("COOL_1")
-IsAdjCool_2 = rs("COOL_2")
-IsAdjNormal = rs("NORMAL")
-IsAdjWarm_1 = rs("WARM_1")
-IsAdjWarm_2 = rs("WARM_2")
+    IsBarcodeLen = rs("SN_Len")
+    IsSensorLight = rs("SensorL")
+    IsSaveData = rs("SaveData")
+    IsCheckColorTemp = rs("CheckColor")
 
+    IsSendOffset = rs("SendOFF")
+    IsAdjsutOffset = rs("AdjustOFF")
 
+    IsCool_1ModeIndex = rs("Cool_1MI")
+    IsCool_2ModeIndex = rs("Cool_2MI")
+    IsNormalModeIndex = rs("NormalMI")
+    IsWarm_1ModeIndex = rs("Warm_1MI")
+    IsWarm_2ModeIndex = rs("Warm_2MI")
 
-IsBarcodeLen = rs("SN_Len")
+    Set rs = Nothing
+    Set cn = Nothing
+    sqlstring = ""
 
-IsSensorLight = rs("SensorL")
-IsSaveData = rs("SaveData")
-IsCheckColorTemp = rs("CheckColor")
+    Form1.Show
+    Exit Sub
 
-IsSendOffset = rs("SendOFF")
-IsAdjsutOffset = rs("AdjustOFF")
-
-IsCool_1ModeIndex = rs("Cool_1MI")
-IsCool_2ModeIndex = rs("Cool_2MI")
-IsNormalModeIndex = rs("NormalMI")
-IsWarm_1ModeIndex = rs("Warm_1MI")
-IsWarm_2ModeIndex = rs("Warm_2MI")
-
-
-
-Set rs = Nothing
-Set cn = Nothing
-sqlstring = ""
-
-
-
-Form1.Show
-
-
-
-Exit Sub
 ErrExit:
-       
-        MsgBox ("The Licence Key is Wrong.")
+    MsgBox ("The Licence Key is Wrong.")
 End Sub
-
-
 
 Private Function ATS() As Boolean
 Dim path As String

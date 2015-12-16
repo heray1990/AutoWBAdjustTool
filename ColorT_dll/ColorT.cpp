@@ -61,48 +61,22 @@ COLORT_API int _stdcall initColorTemp(int *pTimming, int *pPattern,int *pMaxLV, 
 	*pTimming=GetPrivateProfileInt("CHROMA_SETTING","#####T",nDefault,buf);
 	*pPattern=GetPrivateProfileInt("CHROMA_SETTING","#####P",nDefault,buf);
 
-//14000K
-	getdata(&Spec14000K,"COOL2");
-//13000K
-	getdata(&Spec13000K,"COOL1");
-//11000K
-    getdata(&Spec11000K,"NORMAL");
-//9300K
-    getdata(&Spec9300K,"WARM1");
-//8500K
-    getdata(&Spec8500K,"WARM2");
-//7500K
-    getdata(&Spec7500K,"7500K");
-//6500K
-    getdata(&Spec6500K,"6500K");
-//5800K
-    getdata(&Spec5800K,"5800K");
-//5000K
-    getdata(&Spec5000K,"5000K");
-//4000K
-    getdata(&Spec4000K,"4000K");
-//3000K
-	getdata(&Spec3000K,"3000K");
-//2600K
-    getdata(&Spec2600K,"2600K");
+	//12000K
+	getdata(&Spec12000K,"COOL1");
+	//10000K
+    getdata(&Spec10000K,"NORMAL");
+	//6500K
+    getdata(&Spec6500K,"WARM1");
+
     return true;
 }
 
 COLORT_API int _stdcall DeinitColorTemp(char* ModelFile)
 {
-//    char strTemp[16];
-    savedata(&Spec14000K,"COOL2");
-    savedata(&Spec13000K,"COOL1");
-    savedata(&Spec11000K,"NORMAL");
-    savedata(&Spec9300K,"WARM1");
-	savedata(&Spec8500K,"WARM2");
-	savedata(&Spec7500K,"7500K");
-	savedata(&Spec6500K,"6500K");
-	savedata(&Spec5800K,"5800K");
-	savedata(&Spec5000K,"5000K");
-	savedata(&Spec4000K,"4000K");
-	savedata(&Spec3000K,"3000K");
-	savedata(&Spec2600K,"2600K");
+	savedata(&Spec12000K,"COOL1");
+	savedata(&Spec10000K,"NORMAL");
+	savedata(&Spec6500K,"WARM1");
+
     return true;
 }
 
@@ -110,42 +84,14 @@ COLORT_API int _stdcall setColorTemp(int colorTemp, pCOLORSPEC pSpecData,int GAN
 {
 	switch (colorTemp)
 	{
-	   case 14000:  
-           PrimaryData=Spec14000K;
+       case 12000: 
+           PrimaryData=Spec12000K;
 		   break;
-	   case 13000: 
-           PrimaryData=Spec13000K;
-		   break;
-	   case 11000:
-		   PrimaryData=Spec11000K;   
-		   break;
-	   case 9300:
-		   PrimaryData=Spec9300K;
-		   break;		   
-	   case 8500:
-		   PrimaryData=Spec8500K;
-		   break;
-	   case 7500:
-           PrimaryData=Spec7500K;
-		   break;
+	   case 10000: 
+           PrimaryData=Spec10000K;
+		   break;  
 	   case 6500:
 		   PrimaryData=Spec6500K; 
-		   break;
-
-	   case 5800:
-		   PrimaryData=Spec5800K;
-		   break;
-	   case 5000:
-		   PrimaryData=Spec5000K;
-		   break;
-       case 4000:  
-		   PrimaryData=Spec4000K;
-		   break;
-	   case 3000:  
-           PrimaryData=Spec3000K;
-		   break;
-	   case 2600:
-		   PrimaryData=Spec2600K;
 		   break;
        default:
 		   break;
@@ -235,44 +181,14 @@ void ReLoadRGB(int colorTemp)
 {
 switch (colorTemp)
 	{
-	   case 14000:  
-           AverageData(&Spec14000K);        //if (CalcRGB.cGG==128) AverageData(&Spec14000K);
+	   case 12000:  
+           AverageData(&Spec12000K);
 		   break;
-	   case 13000:  
-           AverageData(&Spec13000K);
-		   break;
-	   case 11000:    
-           AverageData(&Spec11000K);
-		   break;
-	   case 9300:    
-           AverageData(&Spec9300K);
-		   break;		   
-	   case 8500:  
-           AverageData(&Spec8500K);
-		   break;
-	   case 7500:  
-           AverageData(&Spec7500K);
+	   case 10000:  
+           AverageData(&Spec10000K);
 		   break;
 	   case 6500: 
            AverageData(&Spec6500K);
-		   break;
-	   case 1:
-           AverageData(&Spec6500K);
-		   break;
-	   case 5800:  
-           AverageData(&Spec5800K);
-		   break;
-	   case 5000:  
-           AverageData(&Spec5000K);
-		   break;
-       case 4000:
-           AverageData(&Spec4000K);
-		   break;
-	   case 3000: 
-           AverageData(&Spec3000K);
-		   break;
-	   case 2600:
-           AverageData(&Spec2600K);
 		   break;
        default:
 		   break;
@@ -484,7 +400,8 @@ void VerifyRGB(unsigned int& RGB)
 	    if (RGB>maxColorRGB_OFF) RGB=maxColorRGB_OFF;
 	}
 }
- int getdata(pCOLORSPEC pColorST,char* CT)
+
+int getdata(pCOLORSPEC pColorST,char* CT)
 {
 //	char strTemp[16];
 	char spec[32]="SPEC_";
@@ -492,6 +409,7 @@ void VerifyRGB(unsigned int& RGB)
     char tol[32]="TOL_";
 	char chk[32]="CHK_";
 	char lowset[32]="PRESET_OFF_";
+
     strcat(spec,CT);
     strcat(preset,CT);
 	strcat(tol,CT);
@@ -510,5 +428,6 @@ void VerifyRGB(unsigned int& RGB)
 	pColorST->LowRR=GetPrivateProfileInt(lowset,"###R",nDefault,buf);
     pColorST->LowGG=GetPrivateProfileInt(lowset,"###G",nDefault,buf);
     pColorST->LowBB=GetPrivateProfileInt(lowset,"###B",nDefault,buf);
-return true;
+
+	return true;
 }

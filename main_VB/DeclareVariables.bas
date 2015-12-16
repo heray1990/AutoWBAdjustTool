@@ -110,3 +110,7 @@ Public Type REALRGB
 End Type
 Public rRGB As REALRGB
 Public rRGB1 As REALRGB
+
+Public Const valColorTempCool1 As Long = 12000
+Public Const valColorTempNormal As Long = 10000
+Public Const valColorTempWarm1 As Long = 6500
