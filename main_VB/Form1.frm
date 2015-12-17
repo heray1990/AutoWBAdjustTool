@@ -601,14 +601,12 @@ Option Explicit
 Dim RES As Long
 Dim Result As Boolean
 Dim presetData As COLORTEMPSPEC
-Dim c14000K As COLORTEMPSPEC
 Dim c12000K As COLORTEMPSPEC
 Dim c10000K As COLORTEMPSPEC
 Dim c6500K As COLORTEMPSPEC
 Dim cFF12000K As COLORTEMPSPEC
 Dim cFF10000K As COLORTEMPSPEC
 Dim cFF6500K As COLORTEMPSPEC
-Dim cUSERK As COLORTEMPSPEC
 Dim rColor As REALCOLOR
 Dim Timming, Pattern, Calibrate, MinBrightness As Long
 Dim specMaxLV, specMinLV, MaxLV, MinLV As Long
@@ -1187,6 +1185,7 @@ On Error Resume Next
     'The values here are about 15 times bigger than the actual pixel.
     '(1515,1275) is the origin of dx-dy axis.
     'In lv axis, 1660 is the distance from the bottom edge of blue rectangle to the top of Picture1.
+    'In dx, 365 is half a side of blue rectangle.
     xPos = 1515 + (rColor.xx - presetData.xx) * 365 / presetData.xt
     yPos = 1275 - (rColor.yy - presetData.yy) * 385 / presetData.yt
     vPos = 1660 - (rColor.lv - presetData.lv) * 385 / 50
@@ -1288,10 +1287,6 @@ Private Sub Command9_Click()
     DelayMS StepTime * 2
 
     i = i + 1
-End Sub
-
-Private Sub Picture1_Click()
-
 End Sub
 
 Private Sub tbAutoADC_Click()
@@ -1419,14 +1414,6 @@ End Sub
 Private Sub saveData(ColorTemp As Long, HL As Long)
 
     Select Case ColorTemp
-        Case 14000
-            c14000K.xx = rColor.xx
-            c14000K.yy = rColor.yy
-            c14000K.lv = rColor.lv
-            c14000K.nColorRR = rRGB.cRR
-            c14000K.nColorGG = rRGB.cGG
-            c14000K.nColorBB = rRGB.cBB
-
         Case valColorTempCool1
             If HL Then
                 c12000K.xx = rColor.xx
@@ -1477,24 +1464,12 @@ Private Sub saveData(ColorTemp As Long, HL As Long)
                 cFF6500K.nColorGG = rRGB.cGG
                 cFF6500K.nColorBB = rRGB.cBB
             End If
-
-        Case 1000
-            cUSERK.xx = rColor.xx
-            cUSERK.yy = rColor.yy
-            cUSERK.lv = rColor.lv
-            cUSERK.nColorRR = rRGB.cRR
-            cUSERK.nColorGG = rRGB.cGG
-            cUSERK.nColorBB = rRGB.cBB
     End Select
   
 End Sub
 
 Private Sub LoadData(ColorTemp As Long)
     Select Case ColorTemp
-        Case 14000
-            rRGB1.cRR = c14000K.nColorRR
-            rRGB1.cBB = c14000K.nColorBB
-            
         Case valColorTempCool1
             rRGB1.cRR = c12000K.nColorRR
             rRGB1.cBB = c12000K.nColorBB
@@ -1506,10 +1481,6 @@ Private Sub LoadData(ColorTemp As Long)
         Case valColorTempWarm1
             rRGB1.cRR = c6500K.nColorRR
             rRGB1.cBB = c6500K.nColorBB
-
-        Case 1000
-            cUSERK.nColorRR = rRGB.cRR
-            cUSERK.nColorBB = rRGB.cBB
     End Select
 End Sub
 
@@ -1574,25 +1545,6 @@ Private Sub saveALLcData()
         rs.Fields(40) = cmdMark
         rs.Fields(41) = Date
         rs.Fields(42) = Time
-  
-        rs.Fields(43) = c14000K.xx
-        rs.Fields(44) = c14000K.yy
-        rs.Fields(45) = c14000K.lv
-        rs.Fields(46) = c14000K.nColorRR
-        rs.Fields(47) = c14000K.nColorGG
-        rs.Fields(48) = c14000K.nColorBB
-        rs.Fields(49) = c6500K.xx
-        rs.Fields(50) = c6500K.yy
-        rs.Fields(51) = c6500K.lv
-        rs.Fields(52) = c6500K.nColorRR
-        rs.Fields(53) = c6500K.nColorGG
-        rs.Fields(54) = c6500K.nColorBB
-        rs.Fields(55) = cUSERK.xx
-        rs.Fields(56) = cUSERK.yy
-        rs.Fields(57) = cUSERK.lv
-        rs.Fields(58) = cUSERK.nColorRR
-        rs.Fields(59) = cUSERK.nColorGG
-        rs.Fields(60) = cUSERK.nColorBB
   
         rs.Update
 
