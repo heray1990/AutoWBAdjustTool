@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin VB.Form frmInformation 
    BackColor       =   &H00404040&
-   BorderStyle     =   0  '沒有框線
+   BorderStyle     =   0  'None
    ClientHeight    =   660
    ClientLeft      =   0
    ClientTop       =   0
@@ -15,7 +15,7 @@ Begin VB.Form frmInformation
    Begin VB.Label Infbox 
       BackColor       =   &H00404040&
       BeginProperty Font 
-         Name            =   "標楷體"
+         Name            =   "Tahoma"
          Size            =   14.25
          Charset         =   136
          Weight          =   700
@@ -37,6 +37,6 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub Form_Deactivate()
-Me.Hide
+    Me.Hide
 End Sub
 

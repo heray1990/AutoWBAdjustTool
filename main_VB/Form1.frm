@@ -677,6 +677,9 @@ On Error GoTo ErrExit
         DelayMS 200
     End If
     strBuff = ""
+    
+    ENTER_FAC_MODE
+    DelayMS StepTime
 
     Log_Info "###INITIAL USER###"
     Log_Info "###INITIAL USER###"
@@ -829,6 +832,9 @@ On Error GoTo ErrExit
     SAVE_WB_DATA_TO_ALL_SRC
     DelayMS StepTime
 
+    EXIT_FAC_MODE
+    DelayMS StepTime
+
     Call saveALLcData
 
 PASS:
@@ -870,15 +876,16 @@ ErrExit:
 End Sub
 
 Private Function funSNWrite() As Boolean
-strSerialNo = ""
-scanbarcode = ""
-strSerialNo = UCase$(txtInput.Text)
-If subJudgeTheSNIsAvailable = True Then
-  funSNWrite = True
-  scanbarcode = strSerialNo
-Else
-  funSNWrite = False
-End If
+    strSerialNo = ""
+    scanbarcode = ""
+    strSerialNo = UCase$(txtInput.Text)
+
+    If subJudgeTheSNIsAvailable = True Then
+        funSNWrite = True
+        scanbarcode = strSerialNo
+    Else
+        funSNWrite = False
+    End If
 End Function
 
 Private Sub subInitBeforeRunning()
@@ -888,102 +895,103 @@ Private Sub subInitBeforeRunning()
 End Sub
 
 Private Sub subInitAfterRunning()
-countTime = CLng(Timer - countTime)
+    countTime = CLng(Timer - countTime)
 
-Label9.Caption = countTime & "S"
-IsSNWriteSuccess = False
+    Label9.Caption = countTime & "S"
+    IsSNWriteSuccess = False
 
-txtInput.Text = ""
-txtInput.SetFocus
-
+    txtInput.Text = ""
+    txtInput.SetFocus
 End Sub
-Private Function subJudgeTheSNIsAvailable() As Boolean
-If strSerialNo = "" Or Len(strSerialNo) <> IsBarcodeLen Then
-  CheckStep.Text = ""
-  CheckStep.Text = CheckStep.Text + "Please confirm the SN again?" + vbCrLf
-  txtInput.Text = ""
-  txtInput.SetFocus
-  subJudgeTheSNIsAvailable = False
-Else
-  subJudgeTheSNIsAvailable = True
-  Set cn = Nothing
-  Set rs = Nothing
-  sqlstring = ""
-End If
 
+Private Function subJudgeTheSNIsAvailable() As Boolean
+    If strSerialNo = "" Or Len(strSerialNo) <> IsBarcodeLen Then
+        CheckStep.Text = ""
+        CheckStep.Text = CheckStep.Text + "Please confirm the SN again?" + vbCrLf
+        txtInput.Text = ""
+        txtInput.SetFocus
+        subJudgeTheSNIsAvailable = False
+    Else
+        subJudgeTheSNIsAvailable = True
+        
+        Set cn = Nothing
+        Set rs = Nothing
+        sqlstring = ""
+    End If
 End Function
 
 Sub ShowError_Sys(t As Integer)
-Dim s As String
-s = "Unknown"
-Select Case t
-    Case 1
-        s = "ColorTemp_COOL_1 is Wrong, Please Check Again."
-    Case 2
-        s = "ColorTemp_COOL_2 is Wrong, Please Check Again."
-    Case 3
-        s = "ColorTemp_NORMAL is Wrong, Please Check Again."
-    Case 4
-        s = "ColorTemp_WARM_1 is Wrong, Please Check Again."
-    Case 5
-        s = "ColorTemp_WARM_2 is Wrong, Please Check Again."
-    Case 6
-        s = "LAB_SN:" + strSerialNo + "(End)  Len:" + Str$(IsBarcodeLen) + vbCrLf + "Barcode SerialNumber is Wrong"
-    Case 7
-        s = "Can not Write DVI EDID."
-    Case 8
-        s = "Calibrate FAIL.(AUTO LEVEL)"
-    Case 9
-        s = "RS232 Connector Error"
-    Case 10
-        s = "Read DSUB EDID FAIL"
-    Case 11
-        s = "OFFSET_Color_COOL_1 is Wrong, Please Check Again."
-    Case 12
-        s = "OFFSET_Color_COOL_2 is Wrong, Please Check Again."
-    Case 13
-        s = "OFFSET_Color_NORMAL is Wrong, Please Check Again."
-    Case 14
-        s = "OFFSET_Color_WARM_1 is Wrong, Please Check Again."
-    Case 15
-        s = "OFFSET_Color_WARM_2 is Wrong, Please Check Again."
-    Case 16
-        s = "HDMI2 CheckSum is Wrong"
-    Case 17
-        s = "Can not Write HDMI-2 EDID."
-        
-    Case 18
-        s = "min_Brightness is over SPEC."
-    Case 19
-        s = "FW Version is Wrong."
-    Case 20
-        s = "Can not Write OSD-SN."
-    Case 21
-        s = "max_Brightness is over SPEC."
-    Case 22
-        s = "ColorTemp_COOL_1 is Wrong, Please Check Again."
-    Case 23
-        s = "ColorTemp_COOL_2 is Wrong, Please Check Again."
-    Case 24
-        s = "ColorTemp_NORMAL is Wrong, Please Check Again."
-    Case 25
-        s = "ColorTemp_WARM_1 is Wrong, Please Check Again."
-    Case 26
-        s = "ColorTemp_WARM_2 is Wrong, Please Check Again."
-    Case 27
-        s = "ColorTemp_5000 is Wrong, Please Check Again."
-    Case 28
-        s = "ColorTemp_3000 is Wrong, Please Check Again."
-    Case 29
-        s = "LightSensor Data is Wrong, Please Check Again."
-    Case 30
-        s = ""
-End Select
+    Dim s As String
+    
+    s = "Unknown"
+
+    Select Case t
+        Case 1
+            s = "ColorTemp_COOL_1 is Wrong, Please Check Again."
+        Case 2
+            s = "ColorTemp_COOL_2 is Wrong, Please Check Again."
+        Case 3
+            s = "ColorTemp_NORMAL is Wrong, Please Check Again."
+        Case 4
+            s = "ColorTemp_WARM_1 is Wrong, Please Check Again."
+        Case 5
+            s = "ColorTemp_WARM_2 is Wrong, Please Check Again."
+        Case 6
+            s = "LAB_SN:" + strSerialNo + "(End)  Len:" + Str$(IsBarcodeLen) + vbCrLf + "Barcode SerialNumber is Wrong"
+        Case 7
+            s = "Can not Write DVI EDID."
+        Case 8
+            s = "Calibrate FAIL.(AUTO LEVEL)"
+        Case 9
+            s = "RS232 Connector Error"
+        Case 10
+            s = "Read DSUB EDID FAIL"
+        Case 11
+            s = "OFFSET_Color_COOL_1 is Wrong, Please Check Again."
+        Case 12
+            s = "OFFSET_Color_COOL_2 is Wrong, Please Check Again."
+        Case 13
+            s = "OFFSET_Color_NORMAL is Wrong, Please Check Again."
+        Case 14
+            s = "OFFSET_Color_WARM_1 is Wrong, Please Check Again."
+        Case 15
+            s = "OFFSET_Color_WARM_2 is Wrong, Please Check Again."
+        Case 16
+            s = "HDMI2 CheckSum is Wrong"
+        Case 17
+            s = "Can not Write HDMI-2 EDID."
+        Case 18
+            s = "min_Brightness is over SPEC."
+        Case 19
+            s = "FW Version is Wrong."
+        Case 20
+            s = "Can not Write OSD-SN."
+        Case 21
+            s = "max_Brightness is over SPEC."
+        Case 22
+            s = "ColorTemp_COOL_1 is Wrong, Please Check Again."
+        Case 23
+            s = "ColorTemp_COOL_2 is Wrong, Please Check Again."
+        Case 24
+            s = "ColorTemp_NORMAL is Wrong, Please Check Again."
+        Case 25
+            s = "ColorTemp_WARM_1 is Wrong, Please Check Again."
+        Case 26
+            s = "ColorTemp_WARM_2 is Wrong, Please Check Again."
+        Case 27
+            s = "ColorTemp_5000 is Wrong, Please Check Again."
+        Case 28
+            s = "ColorTemp_3000 is Wrong, Please Check Again."
+        Case 29
+            s = "LightSensor Data is Wrong, Please Check Again."
+        Case 30
+            s = ""
+    End Select
+
     CheckStep.ForeColor = &HFF&
     CheckStep.Text = CheckStep.Text + "Error Code:" + Str$(t) + vbCrLf + s + vbCrLf
     CheckStep.SelStart = Len(CheckStep)
     CheckStep.SetFocus
-
 End Sub
 
 Private Sub Command3_Click()
@@ -1013,7 +1021,7 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, FixValue As 
         DelayMS StepTime
 
         showData (1)
-  
+
         For k = 1 To 50
             If IsStop = True Then GoTo Cancel
             
@@ -1129,98 +1137,104 @@ Cancel:
 End Function
 
 Private Function checkColorAgain(ColorTemp As Long, FixValue As Long, HighLowMode As Long) As Boolean
-  Dim i, j, k As Integer
+    Dim i, j, k As Integer
   
-  Log_Info "========Check " + Str$(ColorTemp) + "K========"
+    Log_Info "========Check " + Str$(ColorTemp) + "K========"
   
-For j = 1 To 2
-  SET_COLORTEMP ColorTemp
+    For j = 1 To 2
+        SET_COLORTEMP ColorTemp
   
-  
-  Call setColorTemp(ColorTemp, presetData, HighLowMode)
-  DelayMS StepTime
-  Log_Info "Init current colorTemp. RES:" + Str$(RES)
+        Call setColorTemp(ColorTemp, presetData, HighLowMode)
+        DelayMS StepTime
+        Log_Info "Init current colorTemp. RES:" + Str$(RES)
 
-  Label1 = Str$(presetData.xx)
-  Label3 = Str$(presetData.yy)
+        Label1 = Str$(presetData.xx)
+        Label3 = Str$(presetData.yy)
 
-  showData (1)
+        showData (1)
 
-  If IsStop = True Then GoTo Cancel
-  RES = checkColorTempTest(rColor, ColorTemp)
-  Log_Info "Check colorTemp. RES:" + Str$(RES)
+        If IsStop = True Then GoTo Cancel
+        RES = checkColorTempTest(rColor, ColorTemp)
+        Log_Info "Check colorTemp. RES:" + Str$(RES)
 
+        If RES Then Exit For
 
-  If RES Then Exit For
-
-  DelayMS StepTime
-Next j
+        DelayMS StepTime
+    Next j
   
 Cancel:
-
-  If RES Then
-
-    checkColorAgain = True
-  Else
-    checkColorAgain = False
-  End If
-
-
-
-
+    If RES Then
+        checkColorAgain = True
+    Else
+        checkColorAgain = False
+    End If
 
 End Function
 
 
-
-
 Private Sub showData(step As Integer)
-   On Error Resume Next
-   Dim xPos, yPos, vPos As Long
-   DelayMS StepTime
-   ObjCa.Measure
-   rColor.xx = CLng(ObjProbe.sx * 10000)
-   rColor.yy = CLng(ObjProbe.sy * 10000)
-   rColor.lv = CLng(ObjProbe.lv)
+On Error Resume Next
+    Dim xPos, yPos, vPos As Long
+    
+    DelayMS StepTime
+    ObjCa.Measure
+    rColor.xx = CLng(ObjProbe.sx * 10000)
+    rColor.yy = CLng(ObjProbe.sy * 10000)
+    rColor.lv = CLng(ObjProbe.lv)
   
-   Picture1.Cls
-   xPos = 1515 + (rColor.xx - presetData.xx) * 365 / presetData.xt
-   yPos = 1275 - (rColor.yy - presetData.yy) * 385 / presetData.yt
-   vPos = 1660 - (rColor.lv - presetData.lv) * 385 / 50
-  
-   If xPos < 360 Then xPos = 360
-   If xPos > 2660 Then xPos = 2660
-   If yPos < 80 Then yPos = 80
-   If yPos > 2480 Then yPos = 2480
+    Picture1.Cls
+    
+    'The values here are about 15 times bigger than the actual pixel.
+    '(1515,1275) is the origin of dx-dy axis.
+    'In lv axis, 1660 is the distance from the bottom edge of blue rectangle to the top of Picture1.
+    xPos = 1515 + (rColor.xx - presetData.xx) * 365 / presetData.xt
+    yPos = 1275 - (rColor.yy - presetData.yy) * 385 / presetData.yt
+    vPos = 1660 - (rColor.lv - presetData.lv) * 385 / 50
+
+    'In dx-dy axis, 360 is the distance from left edge of white rectangle to the left of Picture1.
+    'In dx-dy axis, 2660 is the distance from right edge of white rectangle to the left of Picture1.
+    'In dx-dy axis, 80 is the distance from top edge of white rectangle to the top of Picture1.
+    'In dx-dy axis, 2660 is the distance from bottom edge of white rectangle to the top of Picture1.
+    If xPos < 360 Then xPos = 360
+    If xPos > 2660 Then xPos = 2660
+    If yPos < 80 Then yPos = 80
+    If yPos > 2480 Then yPos = 2480
    
-   If Abs(rColor.xx - presetData.xx) <= presetData.xt And Abs(rColor.yy - presetData.yy) <= presetData.yt Then
-      lbColorTempWrong.Visible = False
-      Picture1.Circle (xPos, yPos), 23, &H30FF30
-   Else
-      lbColorTempWrong.Visible = True
-      Picture1.Circle (xPos, yPos), 23, &HFF&
-      If rColor.xx < 5 Then
-        IsStop = True
-        ObjCa.RemoteMode = 2
-        MsgBox ("Please check the CA210 Probe is OK or not.")
-        RES = False
-      End If
-   End If
-   If rColor.lv > presetData.lv Then
-      Picture1.Line (3060, vPos)-(3390, vPos), &H30FF30
-   Else
-      Picture1.Line (3060, vPos)-(3390, vPos), &HFF&
-   End If
+    If Abs(rColor.xx - presetData.xx) <= presetData.xt And Abs(rColor.yy - presetData.yy) <= presetData.yt Then
+        lbColorTempWrong.Visible = False
+        Picture1.Circle (xPos, yPos), 23, &H30FF30
+    Else
+        lbColorTempWrong.Visible = True
+        Picture1.Circle (xPos, yPos), 23, &HFF&
+      
+        If rColor.xx < 5 Then
+            IsStop = True
+            ObjCa.RemoteMode = 2
+            MsgBox ("Please check the CA210 Probe is OK or not.")
+            RES = False
+        End If
+    End If
+
+    'In lv axis, 3060 is the distance from left edge of white rectangle to the left of Picture1.
+    'In lv axis, 3390 is the distance from right edge of white rectangle to the left of Picture1.
+    If rColor.lv > presetData.lv Then
+        Picture1.Line (3060, vPos)-(3390, vPos), &H30FF30
+    Else
+        Picture1.Line (3060, vPos)-(3390, vPos), &HFF&
+    End If
  
-     Log_Info "_x/y/Lv: " + Str$(rColor.xx) + " / " + Str$(rColor.yy) + " / " + Str$(rColor.lv)
-     If Label6 <> "CHECK" Then Log_Info "_R/G/B:  " + Str$(rRGB.cRR) + " / " + Str$(rRGB.cGG) + " / " + Str$(rRGB.cBB)
-     Label_x = Str$(rColor.xx)
-     Label_y = Str$(rColor.yy)
-     Label_Lv = Str$(rColor.lv)
-     DelayMS 30
-   If DebugFlag Then
-     DelayMS 2000
-   End If
+    Log_Info "_x/y/Lv: " + Str$(rColor.xx) + " / " + Str$(rColor.yy) + " / " + Str$(rColor.lv)
+
+    If Label6 <> "CHECK" Then Log_Info "_R/G/B:  " + Str$(rRGB.cRR) + " / " + Str$(rRGB.cGG) + " / " + Str$(rRGB.cBB)
+
+    Label_x = Str$(rColor.xx)
+    Label_y = Str$(rColor.yy)
+    Label_Lv = Str$(rColor.lv)
+    DelayMS 30
+
+    If DebugFlag Then
+        DelayMS 2000
+    End If
 End Sub
 
 
@@ -1234,84 +1248,83 @@ Private Sub Command1_Click()
 End Sub
 
 Private Sub Command2_Click()
-IsStop = True
-
-txtInput.SetFocus
+    IsStop = True
+    txtInput.SetFocus
 End Sub
 
-
-
-
-
 Private Sub Command4_Click()
-Dim xx As REALRGB
+    Dim xx As REALRGB
 
-SET_USR_R_GAN 128 + i
-DelayMS StepTime * 3
-SET_USR_B_GAN 128 + i
-DelayMS StepTime * 2
-i = i + 1
+    SET_R_GAN 128 + i
+    DelayMS StepTime * 3
+
+    SET_B_GAN 128 + i
+    DelayMS StepTime * 2
+
+    i = i + 1
 End Sub
 
 Private Sub Command5_Click()
-SET_COLORTEMP valColorTempCool1
+    SET_COLORTEMP valColorTempCool1
 End Sub
 
 Private Sub Command6_Click()
-SET_COLORTEMP valColorTempNormal
+    SET_COLORTEMP valColorTempNormal
 End Sub
 
 Private Sub Command7_Click()
-SET_COLORTEMP valColorTempWarm1
+    SET_COLORTEMP valColorTempWarm1
 End Sub
 
 Private Sub Command8_Click()
-'Save_Gain
+    'Save_Gain
 End Sub
 
 Private Sub Command9_Click()
-SET_USR_R_OFF 512 + i
-DelayMS StepTime * 3
-SET_USR_B_GAN 512 + i
-DelayMS StepTime * 2
-i = i + 1
+    SET_R_OFF 512 + i
+    DelayMS StepTime * 3
+
+    SET_B_GAN 512 + i
+    DelayMS StepTime * 2
+
+    i = i + 1
+End Sub
+
+Private Sub Picture1_Click()
+
 End Sub
 
 Private Sub tbAutoADC_Click()
-  Form3.Show
+    Form3.Show
 End Sub
 
 Private Sub tbDebugMode_Click()
-  DebugFlag = True
+    DebugFlag = True
 End Sub
 
 Private Sub tbDisConnectastro_Click()
-  ObjCa.RemoteMode = 0
+    ObjCa.RemoteMode = 0
 End Sub
 
 Private Sub tbSetComPort_Click()
-  Form2.Show
+    Form2.Show
 End Sub
 
-
-
 Private Sub vbConChroma_Click()
-frmCmbType.Show
-
+    frmCmbType.Show
 End Sub
 
 Private Sub vbEXIT_Click()
-  Unload Me
-  End
+    Unload Me
+    End
 End Sub
 
 Private Sub vbSetSPEC_Click()
-
-frmSetData.Show
+    frmSetData.Show
 End Sub
 
 Private Sub vbAbout_Click()
-frmAbout.Show
+    frmAbout.Show
 End Sub
 
 Private Sub vbConCA310_Click()
@@ -1331,7 +1344,6 @@ End Sub
 
 
 Private Sub Form_Load()
-
     i = 0
     SetTVCurrentComBaud = 115200
     StepTime = IsStepTime
@@ -1353,7 +1365,6 @@ Private Sub Form_Load()
     If IsAdjNormal = False Then lbAdjustNormal.ForeColor = &HC0C0C0
     If IsAdjWarm_1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
     If IsAdjWarm_2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
-
 End Sub
 
 Private Sub subInitInterface()

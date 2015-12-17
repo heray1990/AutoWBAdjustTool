@@ -261,94 +261,79 @@ ErrExit:
 End Sub
 
 Private Function ATS() As Boolean
-Dim path As String
-Dim a As String
-Dim b As String
-Dim c As String
-Dim d As String
-Dim oldkey As String
-Dim i%
-Dim key As Single
-
-
-Dim fso As New FileSystemObject
-Dim Hdid
-Dim hardwareid As String
-Set fso = CreateObject("scripting.filesystemobject")
-Set Hdid = fso.GetDrive("C:")
-hardwareid = Hex(Hdid.SerialNumber)
-path = App.path
+    Dim path As String
+    Dim a As String
+    Dim b As String
+    Dim c As String
+    Dim d As String
+    Dim oldkey As String
+    Dim i%
+    Dim key As Single
+    Dim fso As New FileSystemObject
+    Dim Hdid
+    Dim hardwareid As String
+    
+    Set fso = CreateObject("scripting.filesystemobject")
+    Set Hdid = fso.GetDrive("C:")
+    hardwareid = Hex(Hdid.SerialNumber)
+    path = App.path
 
 On Error GoTo SSS
-
 kk:
-ATS = False
+    ATS = False
 
-Open ("C:\source.dll") For Input As #1
-Input #1, b
-Close #1
-Open ("C:\sys.dat") For Input As #2
-Input #2, c
-Close #2
+    Open ("C:\source.dll") For Input As #1
+    Input #1, b
+    Close #1
+    Open ("C:\sys.dat") For Input As #2
+    Input #2, c
+    Close #2
 
+    key = Val(b)
 
-key = Val(b)
+    If key < 283155 And key > 282950 And c = "3" + hardwareid Then
+        If Month(Date) > 4 And Month(Date) < 7 And Year(Date) = 2014 Then
+            ATS = True
+        Else
+            a = Str$(key + 100)
+        End If
 
-
-
-If key < 283155 And key > 282950 And c = "3" + hardwareid Then
-  If Month(Date) > 4 And Month(Date) < 7 And Year(Date) = 2014 Then
-    ATS = True
-  Else
-    a = Str$(key + 100)
-  End If
-  a = Str$(key + 1)
-  Open ("C:\source.dll") For Output As #8
-  Print #8, a
-  Close #8
-  Exit Function
-Else
-  If i > 1 Then
-  MsgBox ("Please apply for a licensed APP.")
-  Unload frmSplash
-  End
-  End If
+        a = Str$(key + 1)
+        Open ("C:\source.dll") For Output As #8
+        Print #8, a
+        Close #8
+        Exit Function
+    Else
+        If i > 1 Then
+            MsgBox ("Please apply for a licensed APP.")
+            Unload frmSplash
+            End
+        End If
   
-  GoTo SSS
-  End
-  Exit Function
-End If
+        GoTo SSS
+        End
+        Exit Function
+    End If
 
 SSS:
+    For i = 1 To 3
+        a = InputBox("" & vbNewLine & "     Please Input The Licence Key.", "LICENCE")
 
+        If a = "2829558" Then
+            a = Str$(Val(key) + Val(Left$(a, 6)))
+            Open ("C:\source.dll") For Output As #5
+            Print #5, a
+            Close #5
+            i = i + 1
+            GoTo kk
+            Exit Function
+        ElseIf a = "DIPHD@23456" Then MsgBox (hardwareid)
+            MsgBox ("The Licence Key is Wrong.")
+        End If
 
-For i = 1 To 3
-
-a = InputBox("" & vbNewLine & "     Please Input The Licence Key.", "LICENCE")
-If a = "2829558" Then
-
-
-
-a = Str$(Val(key) + Val(Left$(a, 6)))
-
-Open ("C:\source.dll") For Output As #5
-Print #5, a
-Close #5
-
-
-
-i = i + 1
-GoTo kk
-Exit Function
-Else
-  If a = "DIPHD@23456" Then MsgBox (hardwareid)
-  MsgBox ("The Licence Key is Wrong.")
-End If
-
-Next i
-  End
-  Exit Function
+    Next i
+    End
+    Exit Function
 
 End Function
-
 

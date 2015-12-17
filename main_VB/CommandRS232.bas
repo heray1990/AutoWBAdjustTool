@@ -323,6 +323,16 @@ Public Sub SAVE_WB_DATA_TO_ALL_SRC()
     Form1.MSComm1.Output = SendDataBuf
 End Sub
 
+Private Function chksumSend(ByRef data() As Byte) As Byte
+    Dim i As Integer
+
+    chksumSend = &H0
+
+    For i = 0 To 8
+        chksumSend = chksumSend Xor data(i)
+    Next i
+End Function
+
 
 Public Sub Save_Cool1()
 Dim SendDataBuf(0 To 11) As Byte
@@ -410,122 +420,6 @@ SendDataBuf(11) = &HFE
 Form1.MSComm1.Output = SendDataBuf
 End Sub
 
-Public Sub SET_USR_R_OFF(USR_R_OFF As Long)
-Dim SendDataBuf(0 To 11) As Byte
-'55  04  02  XX  XX  00  00  00  00  00      FE
-SendDataBuf(0) = &H55
-SendDataBuf(1) = &H4
-SendDataBuf(2) = &H2
-SendDataBuf(3) = CByte(USR_R_OFF \ 256)
-SendDataBuf(4) = CByte(USR_R_OFF Mod 256)
-SendDataBuf(5) = &H0
-SendDataBuf(6) = &H0
-SendDataBuf(7) = &H0
-SendDataBuf(8) = &H0
-SendDataBuf(9) = &H0
-SendDataBuf(10) = chksumSend(SendDataBuf)
-SendDataBuf(11) = &HFE
-Debug.Print SendDataBuf(10)
-Form1.MSComm1.Output = SendDataBuf
-End Sub
-
-Public Sub SET_USR_G_OFF(USR_G_OFF As Long)
-Dim SendDataBuf(0 To 11) As Byte
-'55  05  02  XX  XX  00  00  00  00  00      FE
-SendDataBuf(0) = &H55
-SendDataBuf(1) = &H5
-SendDataBuf(2) = &H2
-SendDataBuf(3) = CByte(USR_G_OFF \ 256)
-SendDataBuf(4) = CByte(USR_G_OFF Mod 256)
-SendDataBuf(5) = &H0
-SendDataBuf(6) = &H0
-SendDataBuf(7) = &H0
-SendDataBuf(8) = &H0
-SendDataBuf(9) = &H0
-SendDataBuf(10) = chksumSend(SendDataBuf)
-SendDataBuf(11) = &HFE
-Debug.Print SendDataBuf(10)
-Form1.MSComm1.Output = SendDataBuf
-End Sub
-
-Public Sub SET_USR_B_OFF(USR_B_OFF As Long)
-Dim SendDataBuf(0 To 11) As Byte
-'55  06  02  XX  XX  00  00  00  00  00      FE
-SendDataBuf(0) = &H55
-SendDataBuf(1) = &H6
-SendDataBuf(2) = &H2
-SendDataBuf(3) = CByte(USR_B_OFF \ 256)
-SendDataBuf(4) = CByte(USR_B_OFF Mod 256)
-SendDataBuf(5) = &H0
-SendDataBuf(6) = &H0
-SendDataBuf(7) = &H0
-SendDataBuf(8) = &H0
-SendDataBuf(9) = &H0
-SendDataBuf(10) = chksumSend(SendDataBuf)
-SendDataBuf(11) = &HFE
-Debug.Print SendDataBuf(10)
-Form1.MSComm1.Output = SendDataBuf
-End Sub
-
-Public Sub SET_USR_R_GAN(USR_R_GAN As Long)
-Dim SendDataBuf(0 To 11) As Byte
-'55  0A  02  XX  XX  00  00  00  00  00      FE
-SendDataBuf(0) = &H55
-SendDataBuf(1) = &HA
-SendDataBuf(2) = &H2
-SendDataBuf(3) = CByte(USR_R_GAN \ 256)
-SendDataBuf(4) = CByte(USR_R_GAN Mod 256)
-SendDataBuf(5) = &H0
-SendDataBuf(6) = &H0
-SendDataBuf(7) = &H0
-SendDataBuf(8) = &H0
-SendDataBuf(9) = &H0
-SendDataBuf(10) = chksumSend(SendDataBuf)
-SendDataBuf(11) = &HFE
-Debug.Print SendDataBuf(10)
-Form1.MSComm1.Output = SendDataBuf
-End Sub
-
-Public Sub SET_USR_G_GAN(USR_G_GAN As Long)
-Dim SendDataBuf(0 To 11) As Byte
-'55  0B  02  XX  XX  00  00  00  00  00      FE
-SendDataBuf(0) = &H55
-SendDataBuf(1) = &HB
-SendDataBuf(2) = &H2
-SendDataBuf(3) = CByte(USR_G_GAN \ 256)
-SendDataBuf(4) = CByte(USR_G_GAN Mod 256)
-SendDataBuf(5) = &H0
-SendDataBuf(6) = &H0
-SendDataBuf(7) = &H0
-SendDataBuf(8) = &H0
-SendDataBuf(9) = &H0
-SendDataBuf(10) = chksumSend(SendDataBuf)
-SendDataBuf(11) = &HFE
-
-Form1.MSComm1.Output = SendDataBuf
-End Sub
-
-Public Sub SET_USR_B_GAN(USR_B_GAN As Long)
-Dim SendDataBuf(0 To 11) As Byte
-'55  0C  02  XX  XX  00  00  00  00  00      FE
-SendDataBuf(0) = &H55
-SendDataBuf(1) = &HC
-SendDataBuf(2) = &H2
-SendDataBuf(3) = CByte(USR_B_GAN \ 256)
-SendDataBuf(4) = CByte(USR_B_GAN Mod 256)
-SendDataBuf(5) = &H0
-SendDataBuf(6) = &H0
-SendDataBuf(7) = &H0
-SendDataBuf(8) = &H0
-SendDataBuf(9) = &H0
-SendDataBuf(10) = chksumSend(SendDataBuf)
-SendDataBuf(11) = &HFE
-
-Form1.MSComm1.Output = SendDataBuf
-End Sub
-
-
-
 Public Sub SET_COMMAND_RS()
 Dim SendDataBuf(0 To 11) As Byte
 Dim i As Integer, j As Integer
@@ -545,16 +439,6 @@ SendDataBuf(11) = &HFE
 Debug.Print SendDataBuf(10)
 Form1.MSComm1.Output = SendDataBuf
 End Sub
-
-Private Function chksumSend(ByRef data() As Byte) As Byte
-    Dim i As Integer
-
-    chksumSend = &H0
-
-    For i = 0 To 8
-        chksumSend = chksumSend Xor data(i)
-    Next i
-End Function
 
 Function StringToInt(TS As String) As Byte
 
