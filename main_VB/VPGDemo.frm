@@ -398,31 +398,29 @@ Dim m_Title As String
 Public WithEvents Obj As VPGCtrl.VPGCtrl
 Attribute Obj.VB_VarHelpID = -1
 
-'Private Sub btnDwn_Click()
-    'Dim parser As VPGParser.IParser
-    'Dim nRetData() As String
-    'Dim cmdList() As Long
-    'Dim blockNo As Integer
-    'Dim path As String
+Private Sub btnDwn_Click()
+    Dim parser As VPGParser.IParser
+    Dim nRetData() As String
+    Dim cmdList() As Long
+    Dim blockNo As Integer
+    Dim path As String
 
-    'Set parser = New VPGParser.VPGParser_A222917
-    'blockNo = Combo1.Text
-    'path = readPath.Text
-    'm_Status = False
-    'If parser.ReadXML(path, cmdList, nRetData) = True Then
-        'If ivpg.Download_3(nRetData, blockNo - 1, EnumCmdType_Load) Then
-            'm_Status = True
-        'End If
-    'End If
+    Set parser = New VPGParser.VPGParser_A222917
+    blockNo = Combo1.Text
+    path = readPath.Text
+    m_Status = False
+    If parser.ReadXML(path, cmdList, nRetData) = True Then
+        If ivpg.Download_3(nRetData, blockNo - 1, EnumCmdType_Load) Then
+            m_Status = True
+        End If
+    End If
     
-    'If m_Status Then
-            'MsgBox "Download Program Data Complete !"
-        'Else
-            'MsgBox "Download Program Data Fail !"
-    'End If
-
-
-'End Sub
+    If m_Status Then
+            MsgBox "Download Program Data Complete !"
+        Else
+            MsgBox "Download Program Data Fail !"
+    End If
+End Sub
 
 Private Sub btnEnable_Click()
     Dim cmdData(1) As Byte
@@ -493,7 +491,7 @@ End Sub
 
 Private Sub btnStop_Click()
     m_IsStop = True
-    'Call StopTest
+    Call StopTest
 End Sub
 
 Private Sub StopTest()
@@ -514,71 +512,70 @@ Private Sub StopTest()
         End If
     End If
 End Sub
+
 Private Sub cmbModel_Click()
 
-
-Select Case cmbModel.Text
-    Case "2401"
-        Set ivpg = New VPGCtrl.VPGCtrl_24xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG2401)
-    Case "2402"
-        Set ivpg = New VPGCtrl.VPGCtrl_24xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG2402)
-    Case "2333_B"
-        Set ivpg = New VPGCtrl.VPGCtrl_24xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG2333_B)
-    Case "23293_B"
-        Set ivpg = New VPGCtrl.VPGCtrl_24xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG23293_B)
-    Case "23294"
-        Set ivpg = New VPGCtrl.VPGCtrl_24xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG23294)
-    Case "22293"
-        Set ivpg = New VPGCtrl.VPGCtrl_22xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG22293)
-    Case "22293_A"
-        Set ivpg = New VPGCtrl.VPGCtrl_22xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG22293_A)
-    Case "22293_B"
-        Set ivpg = New VPGCtrl.VPGCtrl_22xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG22293_B)
-    Case "2233"
-        Set ivpg = New VPGCtrl.VPGCtrl_22xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG2233)
-    Case "2233_A"
-        Set ivpg = New VPGCtrl.VPGCtrl_22xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG2233_A)
-    Case "2233_B"
-        Set ivpg = New VPGCtrl.VPGCtrl_22xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG2233_B)
-    Case "2234"
-        Set ivpg = New VPGCtrl.VPGCtrl_22xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG2234)
-    Case "22294"
-        Set ivpg = New VPGCtrl.VPGCtrl_22xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG22294)
-    Case "22294_A"
-        Set ivpg = New VPGCtrl.VPGCtrl_22xx
-        Set Obj = ivpg
-        ivpg.InitDevice (VPG_MODEL_VPG22294_A)
-        
-End Select
-
+    Select Case cmbModel.Text
+        Case "2401"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2401)
+        Case "2402"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2402)
+        Case "2333_B"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2333_B)
+        Case "23293_B"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG23293_B)
+        Case "23294"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG23294)
+        Case "22293"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22293)
+        Case "22293_A"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22293_A)
+        Case "22293_B"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22293_B)
+        Case "2233"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2233)
+        Case "2233_A"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2233_A)
+        Case "2233_B"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2233_B)
+        Case "2234"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2234)
+        Case "22294"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22294)
+        Case "22294_A"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22294_A)
+    End Select
 
 End Sub
+
 Private Sub Obj_OnAllowToStopTest()
     If m_IsStop = True Then
         m_IsStop = False
@@ -605,9 +602,11 @@ Private Sub Obj_OnChangedConnectState(ByVal bIsConnected As Boolean)
             Me.Caption = m_Title + " [Disconnected]"
     End If
 End Sub
+
 Private Sub Obj_OnShowMessage(ByVal msg As String)
     Debug.Print (msg)
 End Sub
+
 Private Sub cmdB_Click()
     If m_BOpen = False Then
         ivpg.RunKey VPG_KEY_CKEY_B, 1
@@ -632,7 +631,6 @@ Private Sub cmdExe_Click()
     If ivpg.ExecuteCmd(VPG_CMD_CM_DOWNLOAD, VPG_SCMD_SCM_CTL_RUNRGB, bBuf, False) = False Then
         MsgBox "RunRGB Function Perform Fail. "
     End If
-    
     
 End Sub
 
@@ -761,9 +759,8 @@ Private Sub Form_Load()
     
     Dim i As Integer
     
-    
     m_Title = Me.Caption
-    cmbModel.Text = "23293_B"
+    cmbModel.Text = "22294_A"
     
     cmbType.Text = "Pattern"
 
@@ -775,7 +772,6 @@ Private Sub Form_Load()
 
     txtRunNum.Text = "103"
     cmbModel_Click
-     
 
 End Sub
 

@@ -1393,19 +1393,19 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
 On Error GoTo ErrExit
-  
 
-  If (IsCa210ok = True) Then
-    ObjCa.RemoteMode = 0
-  End If
+    If (IsCa210ok = True) Then
+        ObjCa.RemoteMode = 0
+    End If
   
-  If MSComm1.PortOpen = True Then
-    MSComm1.PortOpen = False
-  End If
+    If MSComm1.PortOpen = True Then
+        MSComm1.PortOpen = False
+    End If
   
-  Call DeinitColorTemp(strCurrentModelName)
-  End
-Exit Sub
+    Call DeinitColorTemp(strCurrentModelName)
+    End
+    Exit Sub
+
 ErrExit:
         MsgBox Err.Description, vbCritical, Err.Source
 End Sub
