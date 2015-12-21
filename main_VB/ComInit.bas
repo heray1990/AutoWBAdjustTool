@@ -53,7 +53,7 @@ On Error GoTo ErrExit
         
         .MSComm1.InBufferCount = 0
         .MSComm1.OutBufferCount = 0
-        .MSComm1.InputMode = comInputModeHex
+        .MSComm1.InputMode = comInputModeBinary
         
         .MSComm1.NullDiscard = False
         .MSComm1.DTREnable = False

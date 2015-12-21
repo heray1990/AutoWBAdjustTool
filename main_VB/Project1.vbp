@@ -21,7 +21,6 @@ Form=frmComPort.frm
 Module=Module5; AdjustDLL.bas
 Form=frmSplash.frm
 Module=Module6; DataBase.bas
-Form=AutoADC.frm
 Form=frmSetData.frm
 Form=VPGDemo.frm
 IconForm="Form1"

@@ -17,8 +17,6 @@ Public Sub ENTER_FAC_MODE()
     SendDataBuf(8) = &H1
     SendDataBuf(9) = &H4
     
-    'Form1.TxtReceive.Text = Form1.TxtReceive.Text & "Enter Factory Mode" & vbCrLf
-    'cmdIdentifyNum = 0
     Form1.MSComm1.Output = SendDataBuf
 End Sub
 
@@ -37,13 +35,11 @@ Public Sub EXIT_FAC_MODE()
     SendDataBuf(7) = &H0
     SendDataBuf(8) = &H0
     SendDataBuf(9) = &H5
-    
-    'Form1.TxtReceive.Text = Form1.TxtReceive.Text & "Exit Factory Mode" & vbCrLf
-    'cmdIdentifyNum = 1
+
     Form1.MSComm1.Output = SendDataBuf
 End Sub
 
-Public Sub SEL_INPUT_HDMI1()
+Public Sub SEL_INPUT_HDMI1_FOR_WB()
 
     Dim SendDataBuf(0 To 9) As Byte
     
@@ -171,13 +167,13 @@ Public Sub SEL_TEMP_WARM()
 End Sub
 
 Public Sub SET_RGB_GAN(RGB_GAN As REALRGB)
-    SET_R_GAN (RGB_GAN.cRR)
+    SET_R_GAN RGB_GAN.cRR
     DelayMS 500
     
-    SET_G_GAN (RGB_GAN.cGG)
+    SET_G_GAN RGB_GAN.cGG
     DelayMS 500
     
-    SET_B_GAN (RGB_GAN.cBB)
+    SET_B_GAN RGB_GAN.cBB
     DelayMS 500
 End Sub
 

@@ -1,12 +1,12 @@
 VERSION 5.00
-Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "mscomm32.ocx"
+Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
 Begin VB.Form Form1 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Auto Color Temp Adjust System"
    ClientHeight    =   4635
    ClientLeft      =   5865
    ClientTop       =   2625
-   ClientWidth     =   10410
+   ClientWidth     =   10335
    BeginProperty Font 
       Name            =   "Arial"
       Size            =   9
@@ -21,73 +21,8 @@ Begin VB.Form Form1
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    ScaleHeight     =   4635
-   ScaleWidth      =   10410
+   ScaleWidth      =   10335
    StartUpPosition =   2  'ÆÁÄ»ÖÐÐÄ
-   Begin VB.CommandButton Command9 
-      Caption         =   "Command9"
-      Height          =   495
-      Left            =   12480
-      TabIndex        =   30
-      Top             =   240
-      Width           =   1215
-   End
-   Begin VB.CommandButton Command8 
-      Caption         =   "Command8"
-      Height          =   375
-      Left            =   12600
-      TabIndex        =   29
-      Top             =   3360
-      Width           =   1215
-   End
-   Begin VB.CommandButton Command7 
-      Caption         =   "Command7"
-      Height          =   375
-      Left            =   10560
-      TabIndex        =   28
-      Top             =   3840
-      Width           =   1215
-   End
-   Begin VB.CommandButton Command6 
-      Caption         =   "Command6"
-      Height          =   255
-      Left            =   10560
-      TabIndex        =   27
-      Top             =   3240
-      Width           =   735
-   End
-   Begin VB.CommandButton Command5 
-      Caption         =   "Command5"
-      Height          =   375
-      Left            =   10440
-      TabIndex        =   26
-      Top             =   2640
-      Width           =   855
-   End
-   Begin VB.TextBox Text1 
-      Height          =   495
-      Left            =   10920
-      TabIndex        =   25
-      Text            =   "Text1"
-      Top             =   1920
-      Width           =   855
-   End
-   Begin VB.CommandButton Command4 
-      Caption         =   "Command4"
-      Height          =   615
-      Left            =   10800
-      TabIndex        =   24
-      Top             =   600
-      Width           =   1095
-   End
-   Begin VB.CommandButton Command3 
-      Caption         =   "Command3"
-      Height          =   975
-      Left            =   11880
-      TabIndex        =   21
-      Top             =   1800
-      Visible         =   0   'False
-      Width           =   1335
-   End
    Begin VB.PictureBox Picture1 
       Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
@@ -98,7 +33,7 @@ Begin VB.Form Form1
       Picture         =   "Form1.frx":57E2
       ScaleHeight     =   2550
       ScaleWidth      =   3780
-      TabIndex        =   8
+      TabIndex        =   6
       Top             =   960
       Width           =   3810
       Begin VB.Label lbColorTempWrong 
@@ -107,59 +42,23 @@ Begin VB.Form Form1
          ForeColor       =   &H000000FF&
          Height          =   255
          Left            =   360
-         TabIndex        =   9
+         TabIndex        =   7
          Top             =   10
          Visible         =   0   'False
          Width           =   975
       End
    End
    Begin VB.Timer Timer1 
-      Left            =   14280
-      Top             =   3840
+      Left            =   10560
+      Top             =   3480
    End
    Begin MSCommLib.MSComm MSComm1 
-      Left            =   12960
-      Top             =   3720
+      Left            =   10560
+      Top             =   3960
       _ExtentX        =   1005
       _ExtentY        =   1005
       _Version        =   393216
       DTREnable       =   -1  'True
-   End
-   Begin VB.CommandButton Command2 
-      Cancel          =   -1  'True
-      Caption         =   "STOP"
-      BeginProperty Font 
-         Name            =   "PMingLiU"
-         Size            =   9
-         Charset         =   136
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   615
-      Left            =   13080
-      TabIndex        =   7
-      Top             =   960
-      Width           =   1215
-   End
-   Begin VB.CommandButton Command1 
-      Caption         =   "START"
-      Default         =   -1  'True
-      BeginProperty Font 
-         Name            =   "PMingLiU"
-         Size            =   9
-         Charset         =   136
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   615
-      Left            =   14400
-      TabIndex        =   6
-      Top             =   240
-      Width           =   1215
    End
    Begin VB.TextBox CheckStep 
       Appearance      =   0  'Flat
@@ -213,7 +112,7 @@ Begin VB.Form Form1
       EndProperty
       Height          =   405
       Left            =   4480
-      TabIndex        =   23
+      TabIndex        =   20
       Top             =   4080
       Width           =   975
    End
@@ -235,7 +134,7 @@ Begin VB.Form Form1
       ForeColor       =   &H80000008&
       Height          =   975
       Left            =   120
-      TabIndex        =   22
+      TabIndex        =   19
       Top             =   0
       Width           =   2535
    End
@@ -255,7 +154,7 @@ Begin VB.Form Form1
       ForeColor       =   &H80000008&
       Height          =   330
       Left            =   5640
-      TabIndex        =   20
+      TabIndex        =   18
       Top             =   4130
       Width           =   750
    End
@@ -272,7 +171,7 @@ Begin VB.Form Form1
       EndProperty
       Height          =   405
       Left            =   3120
-      TabIndex        =   19
+      TabIndex        =   17
       Top             =   4080
       Width           =   975
    End
@@ -292,7 +191,7 @@ Begin VB.Form Form1
       ForeColor       =   &H80000008&
       Height          =   525
       Left            =   2640
-      TabIndex        =   18
+      TabIndex        =   16
       Top             =   4020
       Width           =   3805
    End
@@ -313,7 +212,7 @@ Begin VB.Form Form1
       ForeColor       =   &H80000008&
       Height          =   525
       Left            =   120
-      TabIndex        =   17
+      TabIndex        =   15
       Top             =   4020
       Width           =   2535
    End
@@ -334,7 +233,7 @@ Begin VB.Form Form1
       ForeColor       =   &H80000008&
       Height          =   525
       Left            =   120
-      TabIndex        =   16
+      TabIndex        =   14
       Top             =   3510
       Width           =   2535
    End
@@ -355,7 +254,7 @@ Begin VB.Form Form1
       ForeColor       =   &H80000008&
       Height          =   525
       Left            =   120
-      TabIndex        =   15
+      TabIndex        =   13
       Top             =   1980
       Width           =   2535
    End
@@ -377,7 +276,7 @@ Begin VB.Form Form1
       ForeColor       =   &H80000008&
       Height          =   510
       Left            =   5520
-      TabIndex        =   14
+      TabIndex        =   12
       Top             =   3525
       Width           =   930
    End
@@ -397,7 +296,7 @@ Begin VB.Form Form1
       ForeColor       =   &H00000080&
       Height          =   525
       Left            =   4500
-      TabIndex        =   13
+      TabIndex        =   11
       Top             =   3555
       Width           =   975
    End
@@ -417,7 +316,7 @@ Begin VB.Form Form1
       ForeColor       =   &H00404000&
       Height          =   525
       Left            =   3120
-      TabIndex        =   12
+      TabIndex        =   10
       Top             =   3555
       Width           =   975
    End
@@ -522,7 +421,7 @@ Begin VB.Form Form1
       ForeColor       =   &H80000008&
       Height          =   510
       Left            =   2640
-      TabIndex        =   10
+      TabIndex        =   8
       Top             =   3525
       Width           =   1545
    End
@@ -543,7 +442,7 @@ Begin VB.Form Form1
       ForeColor       =   &H80000008&
       Height          =   510
       Left            =   4170
-      TabIndex        =   11
+      TabIndex        =   9
       Top             =   3525
       Width           =   1425
    End
@@ -627,15 +526,21 @@ On Error GoTo ErrExit
         If IsStop = True Then
             Exit Sub
         End If
-        'txtInput = ""
+        
         txtInput = scanbarcode
-        Command2.SetFocus
     Else
         ShowError_Sys (6)
         GoTo FAIL
     End If
-
+    
+    ENTER_FAC_MODE
+    DelayMS StepTime
+    
+    SEL_INPUT_HDMI1_FOR_WB
+    DelayMS StepTime
+    
 On Error GoTo ErrExit
+
     If IsCa210ok = False Then
         MsgBox "CA210 disconnected,Please click'Connect'->'Connect CA210'to do operation!", vbOKOnly + vbInformation, "warning"
         txtInput.Text = ""
@@ -670,12 +575,6 @@ On Error GoTo ErrExit
     Set ObjMemory = ObjCa.Memory
     ObjMemory.ChannelNO = IsCa210Channel
     
-    ENTER_FAC_MODE
-    DelayMS StepTime
-    
-    SEL_INPUT_HDMI1
-    DelayMS StepTime
-    
     If IsAdjsutOffset Then
         Call frmCmbType.ChangePattern(IsWhitePtn)
         DelayMS 200
@@ -684,12 +583,6 @@ On Error GoTo ErrExit
 
     Log_Info "###INITIAL USER###"
     Log_Info "###INITIAL USER###"
-
-    Call SET_BRIGHTNESS(50)
-    DelayMS StepTime
-
-    Call SET_CONTRAST(50)
-    DelayMS StepTime
 
     Log_Info "###ADJUST COLORTEMP###"
     Log_Info "###ADJUST COLORTEMP###"
@@ -1040,7 +933,7 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, FixValue As 
                 showData (2)
             End If
   
-            DelayMS 200
+            DelayMS StepTime
         Next k
   
         If RES Then Exit For
@@ -1156,7 +1049,8 @@ Private Function checkColorAgain(ColorTemp As Long, FixValue As Long, HighLowMod
         showData (1)
 
         If IsStop = True Then GoTo Cancel
-        RES = checkColorTempTest(rColor, ColorTemp)
+        'RES = checkColorTempTest(rColor, ColorTemp)
+        RES = checkColorTemp(rColor, ColorTemp)
         Log_Info "Check colorTemp. RES:" + Str$(RES)
 
         If RES Then Exit For
@@ -1240,63 +1134,6 @@ On Error Resume Next
     End If
 End Sub
 
-
-Private Sub Command1_Click()
-    IsStop = False
-    subMainProcesser
-                    
-    If IsStop = True Then
-        Exit Sub
-    End If
-End Sub
-
-Private Sub Command2_Click()
-    IsStop = True
-    txtInput.SetFocus
-End Sub
-
-Private Sub Command4_Click()
-    Dim xx As REALRGB
-
-    SET_R_GAN 128 + i
-    DelayMS StepTime * 3
-
-    SET_B_GAN 128 + i
-    DelayMS StepTime * 2
-
-    i = i + 1
-End Sub
-
-Private Sub Command5_Click()
-    SET_COLORTEMP valColorTempCool1
-End Sub
-
-Private Sub Command6_Click()
-    SET_COLORTEMP valColorTempNormal
-End Sub
-
-Private Sub Command7_Click()
-    SET_COLORTEMP valColorTempWarm1
-End Sub
-
-Private Sub Command8_Click()
-    'Save_Gain
-End Sub
-
-Private Sub Command9_Click()
-    SET_R_OFF 512 + i
-    DelayMS StepTime * 3
-
-    SET_B_GAN 512 + i
-    DelayMS StepTime * 2
-
-    i = i + 1
-End Sub
-
-Private Sub tbAutoADC_Click()
-    Form3.Show
-End Sub
-
 Private Sub tbDebugMode_Click()
     DebugFlag = True
 End Sub
@@ -1345,6 +1182,8 @@ Private Sub Form_Load()
     subInitComPort
     subInitInterface
     
+    Label8 = strCurrentModelName
+    
     RES = initColorTemp(Timming, Pattern, specMaxLV, specMinLV, Calibrate, MinBrightness, strCurrentModelName, App.path)      'InitLPT in dll.
 
     If Timming = 0 Then
@@ -1352,7 +1191,6 @@ Private Sub Form_Load()
     End If
 
     DebugFlag = False
-    Label8 = strCurrentModelName
 
     If IsAdjCool_1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
     If IsAdjCool_2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0
@@ -1386,7 +1224,12 @@ End Sub
 
 Private Sub txtInput_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
-        Call Command1_Click
+        IsStop = False
+        Call subMainProcesser
+        
+        If IsStop = True Then
+            Exit Sub
+        End If
     End If
 End Sub
 
