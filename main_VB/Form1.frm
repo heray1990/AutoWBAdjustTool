@@ -1343,10 +1343,10 @@ Private Sub Form_Load()
     
     subInitComPort
     subInitInterface
-    RES = initColorTemp(Timming, Pattern, specMaxLV, specMinLV, Calibrate, MinBrightness, strCurrentModelName)      'InitLPT in dll.
+    RES = initColorTemp(Timming, Pattern, specMaxLV, specMinLV, Calibrate, MinBrightness, strCurrentModelName, App.path)      'InitLPT in dll.
 
     If Timming = 0 Then
-        RES = initColorTemp(Timming, Pattern, specMaxLV, specMinLV, Calibrate, MinBrightness, strCurrentModelName)
+        RES = initColorTemp(Timming, Pattern, specMaxLV, specMinLV, Calibrate, MinBrightness, strCurrentModelName, App.path)
     End If
 
     DebugFlag = False

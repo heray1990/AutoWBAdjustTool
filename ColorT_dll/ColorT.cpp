@@ -38,11 +38,19 @@ CColorT::CColorT()
 	return; 
 }
 
-COLORT_API int _stdcall initColorTemp(int *pTimming, int *pPattern,int *pMaxLV, int *pMinLV, BOOL *pCalibraEN, BOOL *pMiniBriEN, char* ModelFile)
+COLORT_API int _stdcall initColorTemp(int *pTimming, 
+									  int *pPattern,
+									  int *pMaxLV, 
+									  int *pMinLV,
+									  BOOL *pCalibraEN,
+									  BOOL *pMiniBriEN,
+									  char* ModelFile,
+									  char* pCurDir)
 {
 	int tempRx=0,tempRy=0,tempGx=0,tempGy=0,tempBx=0,tempBy=0;
 
-	::GetCurrentDirectory(512,buf);
+	//::GetCurrentDirectory(512,buf);
+	strcpy(buf,pCurDir);
 	strcat(buf,"\\");
 	strcat(buf,ModelFile);
 	strcat(buf,"\\CONFIG.ini");
@@ -250,7 +258,7 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 				   }
 
                    //CalcRGB.cBB=PrimaryData.PriBB-1;
-                  // VerifyRGB(CalcRGB.cBB);
+                   // VerifyRGB(CalcRGB.cBB);
 			   }
 			   else
 			   {
