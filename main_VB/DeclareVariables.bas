@@ -114,3 +114,9 @@ Public rRGB1 As REALRGB
 Public Const valColorTempCool1 As Long = 12000
 Public Const valColorTempNormal As Long = 10000
 Public Const valColorTempWarm1 As Long = 6500
+
+Public Sub Log_Info(strLog As String)
+    Form1.CheckStep.Text = Form1.CheckStep.Text + strLog + vbCrLf
+    Form1.CheckStep.SelStart = Len(Form1.CheckStep)
+    Form1.CheckStep.SetFocus
+End Sub

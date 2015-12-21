@@ -64,7 +64,7 @@ End Sub
 
 Public Sub SET_BRIGHTNESS(Brightness As Long)
 
-    Dim SendDataBuf(0 To 9) As Byte
+    Dim SendDataBuf(10) As Byte
     
     '6E 51 86 03 FE 10 00 XX XX CHK
     SendDataBuf(0) = &H6E
@@ -84,7 +84,7 @@ End Sub
 
 Public Sub SET_CONTRAST(Contrast As Long)
 
-    Dim SendDataBuf(0 To 11) As Byte
+    Dim SendDataBuf(10) As Byte
 
     '6E 51 86 03 FE 12 00 XX XX CHK
     SendDataBuf(0) = &H6E
@@ -117,7 +117,7 @@ End Sub
 
 Public Sub SEL_TEMP_COOL()
 
-    Dim SendDataBuf(0 To 9) As Byte
+    Dim SendDataBuf(10) As Byte
     
     '6E 51 86 03 FE 14 0A 27 01 7C
     SendDataBuf(0) = &H6E
@@ -136,7 +136,7 @@ End Sub
 
 Public Sub SEL_TEMP_NORMAL()
 
-    Dim SendDataBuf(0 To 9) As Byte
+    Dim SendDataBuf(10) As Byte
     
     '6E 51 86 03 FE 14 06 27 01 70
     SendDataBuf(0) = &H6E
@@ -155,7 +155,7 @@ End Sub
 
 Public Sub SEL_TEMP_WARM()
 
-    Dim SendDataBuf(0 To 9) As Byte
+    Dim SendDataBuf(10) As Byte
     
     '6E 51 86 03 FE 14 05 27 01 73
     SendDataBuf(0) = &H6E
@@ -185,7 +185,7 @@ End Sub
 
 Public Sub SET_R_GAN(R_GAN As Long)
 
-    Dim SendDataBuf(0 To 9) As Byte
+    Dim SendDataBuf(10) As Byte
 
     '6E 51 86 03 FE 16 00 XX XX CHK
     SendDataBuf(0) = &H6E
@@ -205,7 +205,7 @@ End Sub
 
 Public Sub SET_G_GAN(G_GAN As Long)
 
-    Dim SendDataBuf(0 To 9) As Byte
+    Dim SendDataBuf(10) As Byte
 
     '6E 51 86 03 FE 18 00 XX XX CHK
     SendDataBuf(0) = &H6E
@@ -225,7 +225,7 @@ End Sub
 
 Public Sub SET_B_GAN(B_GAN As Long)
 
-    Dim SendDataBuf(0 To 9) As Byte
+    Dim SendDataBuf(10) As Byte
 
     '6E 51 86 03 FE 1A 00 XX XX CHK
     SendDataBuf(0) = &H6E
@@ -245,7 +245,7 @@ End Sub
 
 Public Sub SET_R_OFF(R_OFF As Long)
 
-    Dim SendDataBuf(0 To 9) As Byte
+    Dim SendDataBuf(10) As Byte
 
     '6E 51 86 03 FE 6C 00 XX XX CHK
     SendDataBuf(0) = &H6E
@@ -265,7 +265,7 @@ End Sub
 
 Public Sub SET_G_OFF(G_OFF As Long)
 
-    Dim SendDataBuf(0 To 9) As Byte
+    Dim SendDataBuf(10) As Byte
 
     '6E 51 86 03 FE 6E 00 XX XX CHK
     SendDataBuf(0) = &H6E
@@ -285,7 +285,7 @@ End Sub
 
 Public Sub SET_B_OFF(B_OFF As Long)
 
-    Dim SendDataBuf(0 To 9) As Byte
+    Dim SendDataBuf(10) As Byte
 
     '6E 51 86 03 FE 70 00 XX XX CHK
     SendDataBuf(0) = &H6E
@@ -305,7 +305,7 @@ End Sub
 
 Public Sub SAVE_WB_DATA_TO_ALL_SRC()
 
-    Dim SendDataBuf(0 To 9) As Byte
+    Dim SendDataBuf(10) As Byte
 
     '6E 51 86 03 FE 14 05 23 00 76
     SendDataBuf(0) = &H6E

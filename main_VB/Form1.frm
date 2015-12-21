@@ -669,15 +669,18 @@ On Error GoTo ErrExit
 
     Set ObjMemory = ObjCa.Memory
     ObjMemory.ChannelNO = IsCa210Channel
-
+    
+    ENTER_FAC_MODE
+    DelayMS StepTime
+    
+    SEL_INPUT_HDMI1
+    DelayMS StepTime
+    
     If IsAdjsutOffset Then
         Call frmCmbType.ChangePattern(IsWhitePtn)
         DelayMS 200
     End If
     strBuff = ""
-    
-    ENTER_FAC_MODE
-    DelayMS StepTime
 
     Log_Info "###INITIAL USER###"
     Log_Info "###INITIAL USER###"
@@ -1329,12 +1332,6 @@ Private Sub vbConCA310_Click()
     Else
         CONNECT_CA210
     End If
-End Sub
-
-Private Sub Log_Info(strLog As String)
-    CheckStep.Text = CheckStep.Text + strLog + vbCrLf
-    CheckStep.SelStart = Len(CheckStep)
-    CheckStep.SetFocus
 End Sub
 
 
