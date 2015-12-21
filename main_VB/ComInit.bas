@@ -7,12 +7,12 @@ On Error GoTo ShowError
     While (Timer - start) < (mmSec / 1000#)
         DoEvents
 
-                If IsStop = True Then
-                Exit Sub
-                End If
-   
+    If IsStop = True Then
+        Exit Sub
+    End If
     Wend
- Exit Sub
+    Exit Sub
+
 ShowError:
     MsgBox Err.Source & "------" & Err.Description
     Exit Sub
@@ -26,12 +26,13 @@ On Error GoTo ShowError
     While (Timer - start) < (mmSec / 1000#)
         DoEvents
    
-                If IsStop = True Then
-                Exit Sub
-                End If
+    If IsStop = True Then
+        Exit Sub
+    End If
 
     Wend
- Exit Sub
+    Exit Sub
+
 ShowError:
     MsgBox Err.Source & "------" & Err.Description
     Exit Sub

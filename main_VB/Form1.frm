@@ -898,7 +898,7 @@ End Sub
 Private Sub subInitAfterRunning()
     countTime = CLng(Timer - countTime)
 
-    Label9.Caption = countTime & "S"
+    Label9.Caption = countTime & "s"
     IsSNWriteSuccess = False
 
     txtInput.Text = ""
@@ -1015,6 +1015,7 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, FixValue As 
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
         rRGB.cBB = presetData.nColorBB
+        
         Label1 = Str$(presetData.xx)
         Label3 = Str$(presetData.yy)
 
@@ -1343,6 +1344,7 @@ Private Sub Form_Load()
     
     subInitComPort
     subInitInterface
+    
     RES = initColorTemp(Timming, Pattern, specMaxLV, specMinLV, Calibrate, MinBrightness, strCurrentModelName, App.path)      'InitLPT in dll.
 
     If Timming = 0 Then
