@@ -64,7 +64,7 @@ COLORSPEC Spec12000K;
 COLORSPEC Spec10000K;
 COLORSPEC Spec6500K;
 COLORSPEC PrimaryData;
-REALCOLOR CurrentData;
+//REALCOLOR CurrentData;
 REALRGB CalcRGB;
 //  CString strBuff;
 

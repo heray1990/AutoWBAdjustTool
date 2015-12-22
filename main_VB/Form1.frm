@@ -912,7 +912,14 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, FixValue As 
         Label1 = Str$(presetData.xx)
         Label3 = Str$(presetData.yy)
 
-        SET_RGB_GAN rRGB
+        'SET_RGB_GAN rRGB
+        SET_R_GAN rRGB.cRR
+        DelayMS StepTime
+        
+        SET_G_GAN rRGB.cGG
+        DelayMS StepTime
+        
+        SET_B_GAN rRGB.cBB
         DelayMS StepTime
 
         showData (1)
@@ -927,18 +934,26 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, FixValue As 
             
             If RES = False Then
                 Call adjustColorTemp(FixValue, AdjustSingle, SingleStep, rRGB)
-                SET_RGB_GAN rRGB
+ 
+                'SET_RGB_GAN rRGB
+                SET_R_GAN rRGB.cRR
+                DelayMS StepTime
+                
+                SET_G_GAN rRGB.cGG
+                DelayMS StepTime
+                
+                SET_B_GAN rRGB.cBB
                 DelayMS StepTime
 
                 showData (2)
             End If
   
-            DelayMS StepTime
+            'DelayMS StepTime
         Next k
   
         If RES Then Exit For
         
-        DelayMS StepTime
+        'DelayMS StepTime
     Next j
 
 Cancel:
@@ -1236,6 +1251,7 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
 On Error GoTo ErrExit
 
+    IsStop = True
     If (IsCa210ok = True) Then
         ObjCa.RemoteMode = 0
     End If

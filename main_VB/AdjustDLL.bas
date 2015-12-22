@@ -8,5 +8,5 @@ Public Declare Function initColorTemp Lib "ColorT.dll" (ByRef Timming As Long, B
 Public Declare Function DeinitColorTemp Lib "ColorT.dll" (ByVal ModelFile As String) As Long
 Public Declare Function setColorTemp Lib "ColorT.dll" (ByVal colorT As Long, ByRef pCOLORs As COLORTEMPSPEC, ByVal refHighLowMode As Long) As Long
 Public Declare Function checkColorTemp Lib "ColorT.dll" (ByRef getC As REALCOLOR, ByVal colorT As Long) As Long
-Public Declare Function checkColorTempTest Lib "ColorT.dll" (ByRef getC As REALCOLOR, ByVal colorT As Long) As Long
+'Public Declare Function checkColorTempTest Lib "ColorT.dll" (ByRef getC As REALCOLOR, ByVal colorT As Long) As Long
 Public Declare Function adjustColorTemp Lib "ColorT.dll" (ByVal FixValue As Long, ByVal xyAdjMode As Long, ByVal step As Long, ByRef pREALRGB As REALRGB) As Long

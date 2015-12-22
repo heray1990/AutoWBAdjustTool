@@ -144,9 +144,12 @@ COLORT_API int _stdcall checkColorTemp(pREALCOLOR pGetColor,int colorTemp)
 	ca_x=pGetColor->sx;
 	ca_y=pGetColor->sy;
 	ca_lv=pGetColor->Lv;
-    if ((ca_x < PrimaryData.sx-PrimaryData.cxt)||(ca_x > PrimaryData.sx+PrimaryData.cxt)||(ca_y < PrimaryData.sy-PrimaryData.cyt)||(ca_y > PrimaryData.sy+PrimaryData.cyt))
-	{
 
+    if ((ca_x < PrimaryData.sx-PrimaryData.cxt) ||
+		(ca_x > PrimaryData.sx+PrimaryData.cxt) ||
+		(ca_y < PrimaryData.sy-PrimaryData.cyt) ||
+		(ca_y > PrimaryData.sy+PrimaryData.cyt))
+	{
 	   PrimaryData.PriRR=CalcRGB.cRR;
 	   PrimaryData.PriGG=CalcRGB.cGG;
 	   PrimaryData.PriBB=CalcRGB.cBB;
@@ -154,16 +157,19 @@ COLORT_API int _stdcall checkColorTemp(pREALCOLOR pGetColor,int colorTemp)
     //   CurrentData.sy=ca_y;
        return false;
 	}
+
     PrimaryData.PriRR=CalcRGB.cRR;           //For stepbystep adjust.
     PrimaryData.PriGG=CalcRGB.cGG;
     PrimaryData.PriBB=CalcRGB.cBB;
 	ReLoadRGB(colorTemp);
+
 	if (AdjustGAN==1)
 	{
 	    if (ca_lv < PrimaryData.LimLV) return false;
 	}
 	return true;
 }
+
 void AverageData(pCOLORSPEC pColorST)
 {
 	if (AdjustGAN==1)
@@ -187,7 +193,7 @@ void AverageData(pCOLORSPEC pColorST)
 }
 void ReLoadRGB(int colorTemp)
 {
-switch (colorTemp)
+	switch (colorTemp)
 	{
 	   case 12000:  
            AverageData(&Spec12000K);
@@ -396,16 +402,16 @@ void VerifyRGB(unsigned int& RGB)
 	if (AdjustGAN==1)
 	{
 	    if (RGB<=minColorRGB_GAN)
-    	RGB=minColorRGB_GAN;
+    		RGB=minColorRGB_GAN;
     	else
-	    if (RGB>maxColorRGB_GAN) RGB=maxColorRGB_GAN;
+			if (RGB>maxColorRGB_GAN) RGB=maxColorRGB_GAN;
 	}
 	else
 	{
 	    if (RGB<=minColorRGB_OFF)
-	    RGB=minColorRGB_OFF;
+			RGB=minColorRGB_OFF;
 	    else
-	    if (RGB>maxColorRGB_OFF) RGB=maxColorRGB_OFF;
+			if (RGB>maxColorRGB_OFF) RGB=maxColorRGB_OFF;
 	}
 }
 
