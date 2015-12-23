@@ -594,6 +594,9 @@ On Error GoTo ErrExit
         If Result = False Then
             ShowError_Sys (1)
             GoTo FAIL
+        Else
+            SAVE_WB_DATA_TO_ALL_SRC
+            DelayMS StepTime * 2
         End If
 
         lbAdjustCOOL_1.BackColor = &HC0FFC0
@@ -606,6 +609,9 @@ On Error GoTo ErrExit
         If Result = False Then
             ShowError_Sys (3)
             GoTo FAIL
+        Else
+            SAVE_WB_DATA_TO_ALL_SRC
+            DelayMS StepTime * 2
         End If
 
         lbAdjustNormal.BackColor = &HC0FFC0
@@ -618,6 +624,9 @@ On Error GoTo ErrExit
         If Result = False Then
             ShowError_Sys (4)
             GoTo FAIL
+        Else
+            SAVE_WB_DATA_TO_ALL_SRC
+            DelayMS StepTime * 2
         End If
 
         lbAdjustWARM_1.BackColor = &HC0FFC0
@@ -720,11 +729,11 @@ On Error GoTo ErrExit
 
     End If
     
-    SAVE_WB_DATA_TO_ALL_SRC
-    DelayMS StepTime
+    'SAVE_WB_DATA_TO_ALL_SRC
+    'DelayMS StepTime
 
-    SAVE_WB_DATA_TO_ALL_SRC
-    DelayMS StepTime
+    'SAVE_WB_DATA_TO_ALL_SRC
+    'DelayMS StepTime * 2
 
     EXIT_FAC_MODE
     DelayMS StepTime

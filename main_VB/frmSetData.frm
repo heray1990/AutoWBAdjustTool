@@ -691,56 +691,56 @@ Text4.Text = rs("SN_Len")
 Text5.Text = rs("WhitePattern")
 
 If rs("COOL_2") Then
-  Check1.value = 1
+  Check1.Value = 1
 Else
-  Check1.value = 0
+  Check1.Value = 0
 End If
 If rs("COOL_1") Then
-  Check2.value = 1
+  Check2.Value = 1
 Else
-  Check2.value = 0
+  Check2.Value = 0
 End If
 If rs("NORMAL") Then
-  Check3.value = 1
+  Check3.Value = 1
 Else
-  Check3.value = 0
+  Check3.Value = 0
 End If
 If rs("WARM_1") Then
-  Check4.value = 1
+  Check4.Value = 1
 Else
-  Check4.value = 0
+  Check4.Value = 0
 End If
 If rs("WARM_2") Then
-  Check5.value = 1
+  Check5.Value = 1
 Else
-  Check5.value = 0
+  Check5.Value = 0
 End If
 
 
 If rs("SaveData") Then
-  Check6.value = 1
+  Check6.Value = 1
 Else
-  Check6.value = 0
+  Check6.Value = 0
 End If
 If rs("CheckColor") Then
-  Check7.value = 1
+  Check7.Value = 1
 Else
-  Check7.value = 0
+  Check7.Value = 0
 End If
 If rs("SendOFF") Then
-  Check8.value = 1
+  Check8.Value = 1
 Else
-  Check8.value = 0
+  Check8.Value = 0
 End If
 If rs("AdjustOFF") Then
-  Check9.value = 1
+  Check9.Value = 1
 Else
-  Check9.value = 0
+  Check9.Value = 0
 End If
 If rs("SensorL") Then
-  Check10.value = 1
+  Check10.Value = 1
 Else
-  Check10.value = 0
+  Check10.Value = 0
 End If
 
 
@@ -766,29 +766,29 @@ Executesql (sqlstring)
   rs.Fields(4) = Val(Text5.Text)
   
 
-  If Check1.value = 1 Then rs.Fields(5) = True
-  If Check1.value = 0 Then rs.Fields(5) = False
-  If Check2.value = 1 Then rs.Fields(6) = True
-  If Check2.value = 0 Then rs.Fields(6) = False
-  If Check3.value = 1 Then rs.Fields(7) = True
-  If Check3.value = 0 Then rs.Fields(7) = False
-  If Check4.value = 1 Then rs.Fields(8) = True
-  If Check4.value = 0 Then rs.Fields(8) = False
-  If Check5.value = 1 Then rs.Fields(9) = True
-  If Check5.value = 0 Then rs.Fields(9) = False
+  If Check1.Value = 1 Then rs.Fields(5) = True
+  If Check1.Value = 0 Then rs.Fields(5) = False
+  If Check2.Value = 1 Then rs.Fields(6) = True
+  If Check2.Value = 0 Then rs.Fields(6) = False
+  If Check3.Value = 1 Then rs.Fields(7) = True
+  If Check3.Value = 0 Then rs.Fields(7) = False
+  If Check4.Value = 1 Then rs.Fields(8) = True
+  If Check4.Value = 0 Then rs.Fields(8) = False
+  If Check5.Value = 1 Then rs.Fields(9) = True
+  If Check5.Value = 0 Then rs.Fields(9) = False
   
   rs.Fields(10) = Val(Text4.Text)
  
-  If Check6.value = 1 Then rs.Fields(11) = True
-  If Check6.value = 0 Then rs.Fields(11) = False
-  If Check7.value = 1 Then rs.Fields(12) = True
-  If Check7.value = 0 Then rs.Fields(12) = False
-  If Check8.value = 1 Then rs.Fields(13) = True
-  If Check8.value = 0 Then rs.Fields(13) = False
-  If Check9.value = 1 Then rs.Fields(14) = True
-  If Check9.value = 0 Then rs.Fields(14) = False
-  If Check10.value = 1 Then rs.Fields(15) = True
-  If Check10.value = 0 Then rs.Fields(15) = False
+  If Check6.Value = 1 Then rs.Fields(11) = True
+  If Check6.Value = 0 Then rs.Fields(11) = False
+  If Check7.Value = 1 Then rs.Fields(12) = True
+  If Check7.Value = 0 Then rs.Fields(12) = False
+  If Check8.Value = 1 Then rs.Fields(13) = True
+  If Check8.Value = 0 Then rs.Fields(13) = False
+  If Check9.Value = 1 Then rs.Fields(14) = True
+  If Check9.Value = 0 Then rs.Fields(14) = False
+  If Check10.Value = 1 Then rs.Fields(15) = True
+  If Check10.Value = 0 Then rs.Fields(15) = False
   
 
   rs.Fields(16) = Val(Text6.Text)

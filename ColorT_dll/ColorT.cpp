@@ -141,29 +141,29 @@ COLORT_API int _stdcall setColorTemp(int colorTemp, pCOLORSPEC pSpecData,int GAN
 
 COLORT_API int _stdcall checkColorTemp(pREALCOLOR pGetColor,int colorTemp)
 {
-	ca_x=pGetColor->sx;
-	ca_y=pGetColor->sy;
-	ca_lv=pGetColor->Lv;
+	ca_x = pGetColor->sx;
+	ca_y = pGetColor->sy;
+	ca_lv = pGetColor->Lv;
 
-    if ((ca_x < PrimaryData.sx-PrimaryData.cxt) ||
-		(ca_x > PrimaryData.sx+PrimaryData.cxt) ||
-		(ca_y < PrimaryData.sy-PrimaryData.cyt) ||
-		(ca_y > PrimaryData.sy+PrimaryData.cyt))
+    if ((ca_x < PrimaryData.sx - PrimaryData.cxt) ||
+		(ca_x > PrimaryData.sx + PrimaryData.cxt) ||
+		(ca_y < PrimaryData.sy - PrimaryData.cyt) ||
+		(ca_y > PrimaryData.sy + PrimaryData.cyt))
 	{
-	   PrimaryData.PriRR=CalcRGB.cRR;
-	   PrimaryData.PriGG=CalcRGB.cGG;
-	   PrimaryData.PriBB=CalcRGB.cBB;
-	//   CurrentData.sx=ca_x;
-    //   CurrentData.sy=ca_y;
+	   PrimaryData.PriRR = CalcRGB.cRR;
+	   PrimaryData.PriGG = CalcRGB.cGG;
+	   PrimaryData.PriBB = CalcRGB.cBB;
+	//   CurrentData.sx = ca_x;
+    //   CurrentData.sy = ca_y;
        return false;
 	}
 
-    PrimaryData.PriRR=CalcRGB.cRR;           //For stepbystep adjust.
-    PrimaryData.PriGG=CalcRGB.cGG;
-    PrimaryData.PriBB=CalcRGB.cBB;
+    PrimaryData.PriRR = CalcRGB.cRR;           //For stepbystep adjust.
+    PrimaryData.PriGG = CalcRGB.cGG;
+    PrimaryData.PriBB = CalcRGB.cBB;
 	ReLoadRGB(colorTemp);
 
-	if (AdjustGAN==1)
+	if (AdjustGAN == 1)
 	{
 	    if (ca_lv < PrimaryData.LimLV) return false;
 	}
@@ -172,17 +172,17 @@ COLORT_API int _stdcall checkColorTemp(pREALCOLOR pGetColor,int colorTemp)
 
 void AverageData(pCOLORSPEC pColorST)
 {
-	if (AdjustGAN==1)
+	if (AdjustGAN == 1)
 	{
-        pColorST->PriRR=(pColorST->PriRR+CalcRGB.cRR)/2;
-        pColorST->PriGG=(pColorST->PriGG+CalcRGB.cGG)/2;
-        pColorST->PriBB=(pColorST->PriBB+CalcRGB.cBB)/2;
+        pColorST->PriRR = (pColorST->PriRR + CalcRGB.cRR) / 2;
+        pColorST->PriGG = (pColorST->PriGG + CalcRGB.cGG) / 2;
+        pColorST->PriBB = (pColorST->PriBB + CalcRGB.cBB) / 2;
 	}
 	else
 	{
-        pColorST->LowRR=(pColorST->LowRR+CalcRGB.cRR)/2;
-        pColorST->LowGG=(pColorST->LowGG+CalcRGB.cGG)/2;
-        pColorST->LowBB=(pColorST->LowBB+CalcRGB.cBB)/2;
+        pColorST->LowRR = (pColorST->LowRR + CalcRGB.cRR) / 2;
+        pColorST->LowGG = (pColorST->LowGG+CalcRGB.cGG) / 2;
+        pColorST->LowBB = (pColorST->LowBB+CalcRGB.cBB) / 2;
 	}
 /*	GainRx=(GainRx+CalcGainRx)/2;
 	GainRy=(GainRy+CalcGainRy)/2;
@@ -191,6 +191,7 @@ void AverageData(pCOLORSPEC pColorST)
 	GainBx=(GainBx+CalcGainBx)/2;
 	GainBy=(GainBy+CalcGainBy)/2;*/
 }
+
 void ReLoadRGB(int colorTemp)
 {
 	switch (colorTemp)
@@ -350,17 +351,17 @@ void delay(unsigned milliseconds)
  int savedata(pCOLORSPEC pColorST,char* CT)
 {
 	char strTemp[18];
-	char preset[32]="PRESET_GAN_";
-	char lowset[32]="PRESET_OFF_";
-    strcat(preset,CT);
-    strcat(lowset,CT);
-    if (0!=pColorST->PriRR)
+	char preset[32] = "PRESET_GAN_";
+	char lowset[32] = "PRESET_OFF_";
+    strcat(preset, CT);
+    strcat(lowset, CT);
+    if (0 != pColorST->PriRR)
 	{
-		if (AdjustGAN==1)
+		if (AdjustGAN == 1)
 		{
-	        WritePrivateProfileString(preset,"###R",_itoa(pColorST->PriRR,strTemp,10),buf);
-     	    WritePrivateProfileString(preset,"###G",_itoa(pColorST->PriGG,strTemp,10),buf);
-	        WritePrivateProfileString(preset,"###B",_itoa(pColorST->PriBB,strTemp,10),buf);	
+	        WritePrivateProfileString(preset, "###R", _itoa(pColorST->PriRR, strTemp, 10), buf);
+     	    WritePrivateProfileString(preset, "###G", _itoa(pColorST->PriGG, strTemp, 10), buf);
+	        WritePrivateProfileString(preset, "###B", _itoa(pColorST->PriBB, strTemp, 10), buf);	
 		}
 		else
 		{
