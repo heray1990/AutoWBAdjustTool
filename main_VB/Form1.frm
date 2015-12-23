@@ -510,6 +510,7 @@ Dim rColor As REALCOLOR
 Dim Timming, Pattern, Calibrate, MinBrightness As Long
 Dim specMaxLV, specMinLV, MaxLV, MinLV As Long
 Dim StepTime As Long
+Dim resCodeForAdjustColorTemp As Long
 
 Private Sub subMainProcesser()
 
@@ -589,7 +590,7 @@ On Error GoTo ErrExit
 
     If IsAdjCool_1 Then
         lbAdjustCOOL_1.BackColor = &H80FFFF
-        Result = autoAdjustColorTemperature_Gain(valColorTempCool1, FixG, HighBri)
+        Result = autoAdjustColorTemperature_Gain(valColorTempCool1, adjustMode3, HighBri)
   
         If Result = False Then
             ShowError_Sys (1)
@@ -604,7 +605,7 @@ On Error GoTo ErrExit
 
     If IsAdjNormal Then
         lbAdjustNormal.BackColor = &H80FFFF
-        Result = autoAdjustColorTemperature_Gain(valColorTempNormal, FixG, HighBri)
+        Result = autoAdjustColorTemperature_Gain(valColorTempNormal, adjustMode3, HighBri)
 
         If Result = False Then
             ShowError_Sys (3)
@@ -619,7 +620,7 @@ On Error GoTo ErrExit
 
     If IsAdjWarm_1 Then
         lbAdjustWARM_1.BackColor = &H80FFFF
-        Result = autoAdjustColorTemperature_Gain(valColorTempWarm1, FixG, HighBri)
+        Result = autoAdjustColorTemperature_Gain(valColorTempWarm1, adjustMode3, HighBri)
 
         If Result = False Then
             ShowError_Sys (4)
@@ -645,7 +646,7 @@ On Error GoTo ErrExit
         If IsAdjCool_1 Then
             If IsAdjsutOffset Then
                 lbAdjustCOOL_1.BackColor = &H80FFFF
-                Result = autoAdjustColorTemperature_Offset(valColorTempCool1, FixG, LowBri)
+                Result = autoAdjustColorTemperature_Offset(valColorTempCool1, adjustMode3, LowBri)
                 
                 If Result = False Then
                     ShowError_Sys (11)
@@ -659,7 +660,7 @@ On Error GoTo ErrExit
         If IsAdjNormal Then
             If IsAdjsutOffset Then
                 lbAdjustNormal.BackColor = &H80FFFF
-                Result = autoAdjustColorTemperature_Offset(valColorTempNormal, FixG, LowBri)
+                Result = autoAdjustColorTemperature_Offset(valColorTempNormal, adjustMode3, LowBri)
 
                 If Result = False Then
                     ShowError_Sys (13)
@@ -673,7 +674,7 @@ On Error GoTo ErrExit
         If IsAdjWarm_1 Then
             If IsAdjsutOffset Then
                 lbAdjustWARM_1.BackColor = &H80FFFF
-                Result = autoAdjustColorTemperature_Offset(valColorTempWarm1, FixG, LowBri)
+                Result = autoAdjustColorTemperature_Offset(valColorTempWarm1, adjustMode3, LowBri)
                 
                 If Result = False Then
                     ShowError_Sys (14)
@@ -693,7 +694,7 @@ On Error GoTo ErrExit
 
         If IsAdjCool_1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
-            Result = checkColorAgain(valColorTempCool1, FixG, HighBri)
+            Result = checkColorAgain(valColorTempCool1, adjustMode3, HighBri)
 
             If Result = False Then
                 ShowError_Sys (1)
@@ -705,7 +706,7 @@ On Error GoTo ErrExit
      
         If IsAdjNormal Then
             lbAdjustNormal.BackColor = &H80FFFF
-            Result = checkColorAgain(valColorTempNormal, FixG, HighBri)
+            Result = checkColorAgain(valColorTempNormal, adjustMode3, HighBri)
       
             If Result = False Then
                 ShowError_Sys (3)
@@ -717,7 +718,7 @@ On Error GoTo ErrExit
      
         If IsAdjWarm_1 Then
             lbAdjustWARM_1.BackColor = &H80FFFF
-            Result = checkColorAgain(valColorTempWarm1, FixG, HighBri)
+            Result = checkColorAgain(valColorTempWarm1, adjustMode3, HighBri)
 
             If Result = False Then
                 ShowError_Sys (4)
@@ -901,7 +902,7 @@ Private Sub Command3_Click()
   RES = setColorTemp(valColorTempNormal, presetData, 0)
 End Sub
 
-Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, FixValue As Long, HighLowMode As Long) As Boolean
+Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
   
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
@@ -933,6 +934,8 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, FixValue As 
 
         showData (1)
 
+        resCodeForAdjustColorTemp = 0
+        
         For k = 1 To 50
             If IsStop = True Then GoTo Cancel
             
@@ -942,7 +945,16 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, FixValue As 
             If RES Then Exit For
             
             If RES = False Then
-                Call adjustColorTemp(FixValue, AdjustSingle, SingleStep, rRGB)
+                If resCodeForAdjustColorTemp = 0 Then
+                    Call adjustColorTemp(adjustMode3, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
+                ElseIf resCodeForAdjustColorTemp = 1 Then
+                    Call adjustColorTemp(adjustMode1, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
+                ElseIf resCodeForAdjustColorTemp = 2 Then
+                    Call adjustColorTemp(adjustMode2, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
+                ElseIf resCodeForAdjustColorTemp = 3 Then
+                    Call adjustColorTemp(adjustMode4, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
+                End If
+                Log_Info "SET_RGB_GAN: R = " + Str$(rRGB.cRR) + ", G = " + Str$(rRGB.cGG) + ", B = " + Str$(rRGB.cBB) + ", resultcode = " + Str$(resCodeForAdjustColorTemp)
  
                 'SET_RGB_GAN rRGB
                 SET_R_GAN rRGB.cRR
@@ -977,7 +989,7 @@ Cancel:
 
 End Function
 
-Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue As Long, HighLowMode As Long) As Boolean
+Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, adjustVal As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
   
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
@@ -1023,7 +1035,7 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
 
             If RES Then Exit For
             If RES = False Then
-                Call adjustColorTemp(FixValue, AdjustSingle, SingleStep, rRGB)
+                'Call adjustColorTemp(adjustVal, AdjustSingle, SingleStep, rRGB)
 
                 SET_R_OFF rRGB.cRR
                 DelayMS StepTime * 2
@@ -1055,7 +1067,7 @@ Cancel:
 
 End Function
 
-Private Function checkColorAgain(ColorTemp As Long, FixValue As Long, HighLowMode As Long) As Boolean
+Private Function checkColorAgain(ColorTemp As Long, adjustVal As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
   
     Log_Info "========Check " + Str$(ColorTemp) + "K========"

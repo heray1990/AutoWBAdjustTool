@@ -213,11 +213,18 @@ void ReLoadRGB(int colorTemp)
 /////////////////////////////////////////////////////////////////////////////
 ////////////////////////Add for Colortemperature App.////////////////////////
 /////////////////////////////////////////////////////////////////////////////
-COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjStep, pREALRGB pAdjRGB)
+// LeTV spec, R Gain <= 135, G Gain <= 128, B Gain <= 135
+// *pResultCode = 0: Both x and y are out of range. But all Gains are in spec.
+//                   Then go to case 3 to do the normal adjust.
+// *pResultCode = 1: Both x and y are out of range. B Gain equals to 135.
+//                   Then adjust R Gain to match x next time.
+// *pResultCode = 2: Only y is out of range. B Gain equals to 135. Then adjust
+//                   G Gain to match y. 
+COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjStep, pREALRGB pAdjRGB, int *pResultCode)
 {
 	switch (FixValue)
 	{
-		case 3:   //  "FixBB"
+		case 1:   //  "adjust R"
 			if (AdjStep)    //microStep
 			{
 				if (xyAdjMode)    //yf
@@ -229,13 +236,80 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 			}
 			else            //StepbyStep
 			{
+				if (ca_x < PrimaryData.sx - PrimaryData.xt)
+				{
+					if (CalcRGB.cRR >= 135)
+					{
+						CalcRGB.cRR = 135;
+						*pResultCode = 2;
+					}
+					else
+					{
+						if (PrimaryData.sx - ca_x < 50)
+						{
+							CalcRGB.cRR = PrimaryData.PriRR + 5;
+						}
+						else if (PrimaryData.sx - ca_x < 25)
+						{
+							CalcRGB.cRR = PrimaryData.PriRR + 3;
+						}
+						else
+						{
+							CalcRGB.cRR = PrimaryData.PriRR + 1;
+						}
+					}
+				}
+				else if (ca_x > PrimaryData.sx + PrimaryData.xt)
+				{
+					{
+						if (ca_x - PrimaryData.sx > 50)
+						{
+							CalcRGB.cRR = PrimaryData.PriRR - 5;
+						}
+						else if (ca_x - PrimaryData.sx > 25)
+						{
+							CalcRGB.cRR = PrimaryData.PriRR - 3;
+						}
+						else
+						{
+							CalcRGB.cRR = PrimaryData.PriRR - 1;
+						}
+					}
+				}
+				else    // x is OK
+				{
+					*pResultCode = 2;
+				}
 			}
 			break;
-		case 1:   //  "FixRR"
-			//TODO
-			return false;
+		case 2:   //  "adjust G"
+			if (AdjStep)    //microStep
+			{
+				if (xyAdjMode)    //yf
+				{
+				}
+				else    //xf&yf
+				{
+				}
+			}
+			else            //StepbyStep
+			{
+				if (CalcRGB.cGG > 128)
+				{
+					CalcRGB.cGG = 128;
+				}
+				// Now x is OK, then adjust G Gain to match y.
+				if (ca_y < PrimaryData.sy - PrimaryData.yt)
+				{
+					CalcRGB.cGG = CalcRGB.cGG + 1;
+				}
+				else if (ca_y > PrimaryData.sy + PrimaryData.yt)
+				{
+					CalcRGB.cGG = CalcRGB.cGG - 1;
+				}
+			}
 			break;
-		case 2:   //  "FixGG" 
+		case 3:   //  "normal adjust" 
 			if (AdjStep)    //microStep
 			{
 				if (xyAdjMode)    //yf
@@ -261,25 +335,30 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 					{
 						CalcRGB.cBB = PrimaryData.PriBB - 1;
 					}
-
-					//CalcRGB.cBB=PrimaryData.PriBB-1;
-					// VerifyRGB(CalcRGB.cBB);
 				}
 				else
 				{
 					if (ca_y > PrimaryData.sy + PrimaryData.yt)
 					{
-						if (ca_y - PrimaryData.sy > 100)
+						if (CalcRGB.cBB >= 135)
 						{
-							CalcRGB.cBB = PrimaryData.PriBB + 5;
-						}
-						else if (ca_y - PrimaryData.sy > 50)
-						{
-							CalcRGB.cBB = PrimaryData.PriBB + 3;
+							CalcRGB.cBB = 135;
+							*pResultCode = 1;
 						}
 						else
 						{
-							CalcRGB.cBB = PrimaryData.PriBB + 1;
+							if (ca_y - PrimaryData.sy > 100)
+							{
+								CalcRGB.cBB = PrimaryData.PriBB + 5;
+							}
+							else if (ca_y - PrimaryData.sy > 50)
+							{
+								CalcRGB.cBB = PrimaryData.PriBB + 3;
+							}
+							else
+							{
+								CalcRGB.cBB = PrimaryData.PriBB + 1;
+							}
 						}
 					}
 					else
@@ -303,21 +382,47 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 						{
 							if (ca_x < PrimaryData.sx - PrimaryData.xt)
 							{
-								if (PrimaryData.sx - ca_x < 50)
+								if (CalcRGB.cRR >= 135)
 								{
-									CalcRGB.cRR = PrimaryData.PriRR + 5;
-								}
-								else if (PrimaryData.sx - ca_x < 25)
-								{
-									CalcRGB.cRR = PrimaryData.PriRR + 3;
+									CalcRGB.cRR = 135;
+									*pResultCode = 3;
+
+									CalcRGB.cBB = PrimaryData.PriBB - 1;
 								}
 								else
 								{
-									CalcRGB.cRR = PrimaryData.PriRR + 1;
+									if (PrimaryData.sx - ca_x < 50)
+									{
+										CalcRGB.cRR = PrimaryData.PriRR + 5;
+									}
+									else if (PrimaryData.sx - ca_x < 25)
+									{
+										CalcRGB.cRR = PrimaryData.PriRR + 3;
+									}
+									else
+									{
+										CalcRGB.cRR = PrimaryData.PriRR + 1;
+									}
 								}
 							}
 						}
 					}
+				}
+			}
+			break;
+		case 4:
+			{
+				if (ca_x < PrimaryData.sx - PrimaryData.xt)
+				{
+					CalcRGB.cBB = PrimaryData.PriBB - 1;
+				}
+				else if (ca_x > PrimaryData.sx + PrimaryData.xt)
+				{
+					CalcRGB.cBB = PrimaryData.PriBB - 1;
+				}
+				else
+				{
+					*pResultCode = 2;
 				}
 			}
 			break;
@@ -400,7 +505,7 @@ void VerifyRGB(unsigned int& RGB)
 	    if (RGB<=minColorRGB_GAN)
     		RGB=minColorRGB_GAN;
     	else
-			if (RGB>maxColorRGB_GAN) RGB=maxColorRGB_GAN;
+			if (RGB>135) RGB=135;
 	}
 	else
 	{

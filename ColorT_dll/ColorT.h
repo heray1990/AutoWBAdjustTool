@@ -82,7 +82,7 @@ COLORT_API int _stdcall  initColorTemp(int *pTimming, int *pPattern,int *pMaxLV,
 COLORT_API int _stdcall  DeinitColorTemp(char* ModelFile);
 COLORT_API int _stdcall  setColorTemp(int colorTemp, pCOLORSPEC pSpecData,int GANref);
 COLORT_API int _stdcall  checkColorTemp(pREALCOLOR PGetColor,int colorTemp);
-COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjStep, pREALRGB pAdjRGB);
+COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjStep, pREALRGB pAdjRGB, int *pResultCode);
 
 void  delay(unsigned milliseconds);
 int   savedata(pCOLORSPEC pColorST,char* CT);
