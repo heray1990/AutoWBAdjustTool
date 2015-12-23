@@ -65,7 +65,7 @@ Begin VB.Form Form1
       BackColor       =   &H8000000F&
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   12
+         Size            =   10.5
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -730,11 +730,31 @@ On Error GoTo ErrExit
 
     End If
     
-    'SAVE_WB_DATA_TO_ALL_SRC
-    'DelayMS StepTime
+    'Last check:
+    'Cool, 100% white pattern, brightness = 100, contrast = 100
+    'Check Lv and save x, y, lv
+    Call frmCmbType.ChangePattern("101")
+    DelayMS StepTime
+    
+    SET_BRIGHTNESS 100
+    DelayMS StepTime
+    Log_Info "Set brightness to 100"
+    
+    SET_CONTRAST 100
+    DelayMS StepTime
+    Log_Info "Set contrast to 100"
+    
+    SET_COLORTEMP valColorTempCool1
+    DelayMS StepTime
+    Log_Info "Set color temp to cool1"
 
-    'SAVE_WB_DATA_TO_ALL_SRC
-    'DelayMS StepTime * 2
+    DelayMS StepTime
+    ObjCa.Measure
+    rColor.xx = CLng(ObjProbe.sx * 10000)
+    rColor.yy = CLng(ObjProbe.sy * 10000)
+    rColor.lv = CLng(ObjProbe.lv)
+    
+    Log_Info "x = " + Str$(rColor.xx) + ", y = " + Str$(rColor.yy) + ", lv = " + Str$(rColor.lv)
 
     EXIT_FAC_MODE
     DelayMS StepTime
