@@ -507,6 +507,7 @@ Dim cFF12000K As COLORTEMPSPEC
 Dim cFF10000K As COLORTEMPSPEC
 Dim cFF6500K As COLORTEMPSPEC
 Dim rColor As REALCOLOR
+Dim rColorLastChk As REALCOLOR
 Dim Timming, Pattern, Calibrate, MinBrightness As Long
 Dim specMaxLV, specMinLV, MaxLV, MinLV As Long
 Dim StepTime As Long
@@ -750,11 +751,11 @@ On Error GoTo ErrExit
 
     DelayMS StepTime
     ObjCa.Measure
-    rColor.xx = CLng(ObjProbe.sx * 10000)
-    rColor.yy = CLng(ObjProbe.sy * 10000)
-    rColor.lv = CLng(ObjProbe.lv)
+    rColorLastChk.xx = CLng(ObjProbe.sx * 10000)
+    rColorLastChk.yy = CLng(ObjProbe.sy * 10000)
+    rColorLastChk.lv = CLng(ObjProbe.lv)
     
-    Log_Info "x = " + Str$(rColor.xx) + ", y = " + Str$(rColor.yy) + ", lv = " + Str$(rColor.lv)
+    Log_Info "x = " + Str$(rColorLastChk.xx) + ", y = " + Str$(rColorLastChk.yy) + ", lv = " + Str$(rColorLastChk.lv)
 
     EXIT_FAC_MODE
     DelayMS StepTime
@@ -1441,9 +1442,12 @@ Private Sub saveALLcData()
         rs.Fields(38) = MinLV
         rs.Fields(39) = MaxLV
 
-        rs.Fields(40) = cmdMark
-        rs.Fields(41) = Date
-        rs.Fields(42) = Time
+        rs.Fields(40) = rColorLastChk.xx
+        rs.Fields(41) = rColorLastChk.yy
+        rs.Fields(42) = rColorLastChk.lv
+        rs.Fields(43) = cmdMark
+        rs.Fields(44) = Date
+        rs.Fields(45) = Time
   
         rs.Update
 
