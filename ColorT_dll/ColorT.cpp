@@ -307,6 +307,15 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 				{
 					CalcRGB.cGG = CalcRGB.cGG - 1;
 				}
+
+				if (ca_x > PrimaryData.sx + PrimaryData.xt)
+				{
+					CalcRGB.cRR = CalcRGB.cRR - 1;
+				}
+				else if (ca_x < PrimaryData.sx - PrimaryData.xt)
+				{
+					CalcRGB.cRR = CalcRGB.cRR + 1;
+				}
 			}
 			break;
 		case 3:   //  "normal adjust" 

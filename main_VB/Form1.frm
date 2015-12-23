@@ -757,6 +757,11 @@ On Error GoTo ErrExit
     
     Log_Info "x = " + Str$(rColorLastChk.xx) + ", y = " + Str$(rColorLastChk.yy) + ", lv = " + Str$(rColorLastChk.lv)
 
+    If rColorLastChk.lv < specMinLV Then
+        Log_Info "亮度不在规格！"
+        GoTo FAIL
+    End If
+
     EXIT_FAC_MODE
     DelayMS StepTime
 
@@ -1445,9 +1450,10 @@ Private Sub saveALLcData()
         rs.Fields(40) = rColorLastChk.xx
         rs.Fields(41) = rColorLastChk.yy
         rs.Fields(42) = rColorLastChk.lv
-        rs.Fields(43) = cmdMark
-        rs.Fields(44) = Date
-        rs.Fields(45) = Time
+        rs.Fields(43) = specMinLV
+        rs.Fields(44) = cmdMark
+        rs.Fields(45) = Date
+        rs.Fields(46) = Time
   
         rs.Update
 
