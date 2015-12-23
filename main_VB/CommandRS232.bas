@@ -113,7 +113,8 @@ Public Sub SEL_TEMP_COOL()
 
     Dim SendDataBuf(0 To 9) As Byte
     
-    '6E 51 86 03 FE 14 0A 27 01 7C
+    'HDMI Cool
+    '6E 51 86 03 FE 14 0A 23 01 78
     SendDataBuf(0) = &H6E
     SendDataBuf(1) = &H51
     SendDataBuf(2) = &H86
@@ -121,9 +122,9 @@ Public Sub SEL_TEMP_COOL()
     SendDataBuf(4) = &HFE
     SendDataBuf(5) = &H14
     SendDataBuf(6) = &HA
-    SendDataBuf(7) = &H27
+    SendDataBuf(7) = &H23
     SendDataBuf(8) = &H1
-    SendDataBuf(9) = &H7C
+    SendDataBuf(9) = &H78
     
     Form1.MSComm1.Output = SendDataBuf
 End Sub
@@ -132,7 +133,8 @@ Public Sub SEL_TEMP_NORMAL()
 
     Dim SendDataBuf(0 To 9) As Byte
     
-    '6E 51 86 03 FE 14 06 27 01 70
+    'HDMI normal
+    '6E 51 86 03 FE 14 06 23 01 74
     SendDataBuf(0) = &H6E
     SendDataBuf(1) = &H51
     SendDataBuf(2) = &H86
@@ -140,9 +142,9 @@ Public Sub SEL_TEMP_NORMAL()
     SendDataBuf(4) = &HFE
     SendDataBuf(5) = &H14
     SendDataBuf(6) = &H6
-    SendDataBuf(7) = &H27
+    SendDataBuf(7) = &H23
     SendDataBuf(8) = &H1
-    SendDataBuf(9) = &H70
+    SendDataBuf(9) = &H74
     
     Form1.MSComm1.Output = SendDataBuf
 End Sub
@@ -151,7 +153,8 @@ Public Sub SEL_TEMP_WARM()
 
     Dim SendDataBuf(0 To 9) As Byte
     
-    '6E 51 86 03 FE 14 05 27 01 73
+    'HDMI warm
+    '6E 51 86 03 FE 14 05 23 01 77
     SendDataBuf(0) = &H6E
     SendDataBuf(1) = &H51
     SendDataBuf(2) = &H86
@@ -159,9 +162,9 @@ Public Sub SEL_TEMP_WARM()
     SendDataBuf(4) = &HFE
     SendDataBuf(5) = &H14
     SendDataBuf(6) = &H5
-    SendDataBuf(7) = &H27
+    SendDataBuf(7) = &H23
     SendDataBuf(8) = &H1
-    SendDataBuf(9) = &H73
+    SendDataBuf(9) = &H77
     
     Form1.MSComm1.Output = SendDataBuf
 End Sub
