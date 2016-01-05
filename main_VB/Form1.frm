@@ -714,7 +714,11 @@ CHECK:
 
             If Result = False Then
                 ShowError_Sys (1)
-                'GoTo FAIL
+
+                If adjustGainCoolFlag > 0 Then
+                    GoTo FAIL
+                End If
+
                 adjustGainCoolFlag = adjustGainCoolFlag + 1
                 GoTo ADJUST_GAIN_COOL
             End If
@@ -779,12 +783,20 @@ CHECK:
         GoTo FAIL
     End If
 
-    EXIT_FAC_MODE
+    SET_BRIGHTNESS 50
     DelayMS StepTime
+    Log_Info "Set brightness to 50"
+    
+    SET_CONTRAST 50
+    DelayMS StepTime
+    Log_Info "Set contrast to 50"
 
     Call saveALLcData
 
 PASS:
+    EXIT_FAC_MODE
+    DelayMS StepTime
+
     CheckStep.ForeColor = &H80000008
     CheckStep.BackColor = &HC0FFC0
     checkResult.ForeColor = &HC000&
@@ -802,6 +814,9 @@ PASS:
     Exit Sub
 
 FAIL:
+    EXIT_FAC_MODE
+    DelayMS StepTime
+    
     If IsAdjsutOffset Then Call frmCmbType.ChangePattern(IsWhitePtn)
     
     CheckStep.SelStart = Len(CheckStep)
@@ -1097,6 +1112,9 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
     
                 DelayMS 200
             Next k
+        Else
+            Call saveData(ColorTemp, HighLowMode)
+            autoAdjustColorTemperature_Offset = True
         End If
 
         If RES Then Exit For
