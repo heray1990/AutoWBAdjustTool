@@ -450,128 +450,119 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 
 COLORT_API int _stdcall  adjustColorTempOffset(int FixValue, BOOL xyAdjMode, BOOL AdjStep, pREALRGB pAdjRGB)
 {
-    switch (FixValue)
+	switch (FixValue)
 	{
-	   case 3:   //  "FixBB"
-		   if (AdjStep)    //microStep
-		   {
-			   if (xyAdjMode)    //yf
-			   {
-               }
-
-               else    //xf&yf
-			   {
-			   }
-           }
-		   else            //StepbyStep
-		   {
-		   }
-		   break;
-	   case 1:   //  "FixRR"
-		   //TODO
-           return false;
-		   break;
-	   case 2:   //  "FixGG" 
-		   if (AdjStep)    //microStep
-		   {
-			   if (xyAdjMode)    //yf
-			   {
-               }
-
-               else    //xf&yf
-			   {
-			   }
-           }
-		   else            //StepbyStep
-		   {
-			   if (ca_y < PrimaryData.sy-PrimaryData.yt)
-			   {
-				   if (PrimaryData.sy-ca_y>70+PrimaryData.yt)
-				   {
-					   CalcRGB.cBB=PrimaryData.PriBB-5;
-				   }
-				   else if (PrimaryData.sy-ca_y>50+PrimaryData.yt)
-				   {
-					   CalcRGB.cBB=PrimaryData.PriBB-3;
-				   }
-				   else
-				   {
-					   CalcRGB.cBB=PrimaryData.PriBB-1;
-				   }
-
-                   //CalcRGB.cBB=PrimaryData.PriBB-1;
-                  // VerifyRGB(CalcRGB.cBB);
-			   }
-			   else
-			   {
-				   if (ca_y > PrimaryData.sy+PrimaryData.yt)
-				   {
-					   if (ca_y-PrimaryData.sy>70+PrimaryData.yt)
-					   {
-						   CalcRGB.cBB=PrimaryData.PriBB+5;
-					   }
-					   else if (ca_y-PrimaryData.sy>50+PrimaryData.yt)
-					   {
-						   CalcRGB.cBB=PrimaryData.PriBB+3;
-					   }
-					   else
-					   {
-						   CalcRGB.cBB=PrimaryData.PriBB+1;
-					   }
-					   
-				   }
-				   else
-				   {
-					   if (ca_x > PrimaryData.sx+PrimaryData.xt)
-					   {
-                           if (ca_x-PrimaryData.sx>70+PrimaryData.xt)
-						   {
-							   CalcRGB.cRR=PrimaryData.PriRR-5;
-						   }
-						   else if (ca_x-PrimaryData.sx>50+PrimaryData.xt)
-						   {
-							   CalcRGB.cRR=PrimaryData.PriRR-3;
-						   }
-						   else
-						   {
-							   CalcRGB.cRR=PrimaryData.PriRR-1;
-						   }
-						   
-					   }
-					   else
-					   {
-						   if (ca_x < PrimaryData.sx-PrimaryData.xt)
-						   {
-							   if (PrimaryData.sx-ca_x<70+PrimaryData.xt)
-							   {
-								   CalcRGB.cRR=PrimaryData.PriRR+5;
-							   }
-							   else if (PrimaryData.sx-ca_x<50+PrimaryData.xt)
-							   {
-								   CalcRGB.cRR=PrimaryData.PriRR+3;
-							   }
-							   else
-							   {
-								   CalcRGB.cRR=PrimaryData.PriRR+1;
-							   }
-							   
-						   }
-					   }
-				   }
-
-			   }
-		   }
-		   break;
-       default: 
-		   break;
+		case 3:   //  "FixBB"
+			if (AdjStep)    //microStep
+			{
+				if (xyAdjMode)    //yf
+				{
+				}
+				else    //xf&yf
+				{
+				}
+			}
+			else            //StepbyStep
+			{
+			}
+			break;
+		case 1:   //  "FixRR"
+			//TODO
+			return false;
+			break;
+		case 2:   //  "FixGG"
+			if (AdjStep)    //microStep
+			{
+				if (xyAdjMode)    //yf
+				{
+				}
+				else    //xf&yf
+				{
+				}
+			}
+			else            //StepbyStep
+			{
+				if (ca_y < PrimaryData.sy-PrimaryData.yt)
+				{
+					if (PrimaryData.sy-ca_y>70+PrimaryData.yt)
+					{
+						CalcRGB.cBB=PrimaryData.PriBB-5;
+					}
+					else if (PrimaryData.sy-ca_y>50+PrimaryData.yt)
+					{
+						CalcRGB.cBB=PrimaryData.PriBB-3;
+					}
+					else
+					{
+						CalcRGB.cBB=PrimaryData.PriBB-1;
+					} 
+				}
+				else
+				{
+					if (ca_y > PrimaryData.sy+PrimaryData.yt)
+					{
+						if (ca_y-PrimaryData.sy>70+PrimaryData.yt)
+						{
+							CalcRGB.cBB=PrimaryData.PriBB+5;
+						}
+						else if (ca_y-PrimaryData.sy>50+PrimaryData.yt)
+						{
+							CalcRGB.cBB=PrimaryData.PriBB+3;
+						}
+						else
+						{
+							CalcRGB.cBB=PrimaryData.PriBB+1;
+						}
+					}
+					else
+					{
+						if (ca_x > PrimaryData.sx+PrimaryData.xt)
+						{
+							if (ca_x-PrimaryData.sx>70+PrimaryData.xt)
+							{
+								CalcRGB.cRR=PrimaryData.PriRR-5;
+							}
+							else if (ca_x-PrimaryData.sx>50+PrimaryData.xt)
+							{
+								CalcRGB.cRR=PrimaryData.PriRR-3;
+							}
+							else
+							{
+								CalcRGB.cRR=PrimaryData.PriRR-1;
+							}
+						}
+						else
+						{
+							if (ca_x < PrimaryData.sx-PrimaryData.xt)
+							{
+								if (PrimaryData.sx-ca_x<70+PrimaryData.xt)
+								{
+									CalcRGB.cRR=PrimaryData.PriRR+5;
+								}
+								else if (PrimaryData.sx-ca_x<50+PrimaryData.xt)
+								{
+									CalcRGB.cRR=PrimaryData.PriRR+3;
+								}
+								else
+								{
+									CalcRGB.cRR=PrimaryData.PriRR+1;
+								}
+							}
+						}
+					}
+				}
+			}
+			break;
+		default:
+			break;
 	}
     VerifyRGB(CalcRGB.cRR);
     VerifyRGB(CalcRGB.cBB);
 	pAdjRGB->cRR=CalcRGB.cRR;
-    pAdjRGB->cGG=CalcRGB.cGG;
+	pAdjRGB->cGG=CalcRGB.cGG;
 	pAdjRGB->cBB=CalcRGB.cBB;
-    return true;
-
+	
+	return true;
 }
 
 /*
