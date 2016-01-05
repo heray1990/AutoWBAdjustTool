@@ -170,6 +170,37 @@ COLORT_API int _stdcall checkColorTemp(pREALCOLOR pGetColor,int colorTemp)
 	return true;
 }
 
+COLORT_API int _stdcall checkColorTempOffset(pREALCOLOR pGetColor,int colorTemp)
+{
+	ca_x = pGetColor->sx;
+	ca_y = pGetColor->sy;
+	ca_lv = pGetColor->Lv;
+
+    if ((ca_x < PrimaryData.sx - 100) ||
+		(ca_x > PrimaryData.sx + 100) ||
+		(ca_y < PrimaryData.sy - 100) ||
+		(ca_y > PrimaryData.sy + 100))
+	{
+	   PrimaryData.PriRR = CalcRGB.cRR;
+	   PrimaryData.PriGG = CalcRGB.cGG;
+	   PrimaryData.PriBB = CalcRGB.cBB;
+	//   CurrentData.sx = ca_x;
+    //   CurrentData.sy = ca_y;
+       return false;
+	}
+
+    PrimaryData.PriRR = CalcRGB.cRR;           //For stepbystep adjust.
+    PrimaryData.PriGG = CalcRGB.cGG;
+    PrimaryData.PriBB = CalcRGB.cBB;
+	ReLoadRGB(colorTemp);
+
+	if (AdjustGAN == 1)
+	{
+	    if (ca_lv < PrimaryData.LimLV) return false;
+	}
+	return true;
+}
+
 void AverageData(pCOLORSPEC pColorST)
 {
 	if (AdjustGAN == 1)
@@ -482,71 +513,27 @@ COLORT_API int _stdcall  adjustColorTempOffset(int FixValue, BOOL xyAdjMode, BOO
 			}
 			else            //StepbyStep
 			{
-				if (ca_y < PrimaryData.sy-PrimaryData.yt)
+				if (ca_y < PrimaryData.sy - 100)
 				{
-					if (PrimaryData.sy-ca_y>70+PrimaryData.yt)
-					{
-						CalcRGB.cBB=PrimaryData.PriBB-5;
-					}
-					else if (PrimaryData.sy-ca_y>50+PrimaryData.yt)
-					{
-						CalcRGB.cBB=PrimaryData.PriBB-3;
-					}
-					else
-					{
-						CalcRGB.cBB=PrimaryData.PriBB-1;
-					} 
+					CalcRGB.cBB = PrimaryData.PriBB - 1; 
 				}
 				else
 				{
-					if (ca_y > PrimaryData.sy+PrimaryData.yt)
+					if (ca_y > PrimaryData.sy + 100)
 					{
-						if (ca_y-PrimaryData.sy>70+PrimaryData.yt)
-						{
-							CalcRGB.cBB=PrimaryData.PriBB+5;
-						}
-						else if (ca_y-PrimaryData.sy>50+PrimaryData.yt)
-						{
-							CalcRGB.cBB=PrimaryData.PriBB+3;
-						}
-						else
-						{
-							CalcRGB.cBB=PrimaryData.PriBB+1;
-						}
+						CalcRGB.cBB = PrimaryData.PriBB + 1;
 					}
 					else
 					{
-						if (ca_x > PrimaryData.sx+PrimaryData.xt)
+						if (ca_x > PrimaryData.sx + 100)
 						{
-							if (ca_x-PrimaryData.sx>70+PrimaryData.xt)
-							{
-								CalcRGB.cRR=PrimaryData.PriRR-5;
-							}
-							else if (ca_x-PrimaryData.sx>50+PrimaryData.xt)
-							{
-								CalcRGB.cRR=PrimaryData.PriRR-3;
-							}
-							else
-							{
-								CalcRGB.cRR=PrimaryData.PriRR-1;
-							}
+							CalcRGB.cRR = PrimaryData.PriRR - 1;
 						}
 						else
 						{
-							if (ca_x < PrimaryData.sx-PrimaryData.xt)
+							if (ca_x < PrimaryData.sx - 100)
 							{
-								if (PrimaryData.sx-ca_x<70+PrimaryData.xt)
-								{
-									CalcRGB.cRR=PrimaryData.PriRR+5;
-								}
-								else if (PrimaryData.sx-ca_x<50+PrimaryData.xt)
-								{
-									CalcRGB.cRR=PrimaryData.PriRR+3;
-								}
-								else
-								{
-									CalcRGB.cRR=PrimaryData.PriRR+1;
-								}
+								CalcRGB.cRR = PrimaryData.PriRR + 1;
 							}
 						}
 					}
