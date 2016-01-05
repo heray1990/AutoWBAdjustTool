@@ -28,7 +28,7 @@ On Error GoTo ER
             ObjCa.AveragingMode = 2
             ObjCa.SetAnalogRange 2.5, 2.5
             ObjCa.DisplayMode = 0
-            ObjMemory.ChannelNO = 1
+            ObjMemory.ChannelNO = 3
       
             frmInformation.Infbox.Caption = ""
             frmInformation.Hide

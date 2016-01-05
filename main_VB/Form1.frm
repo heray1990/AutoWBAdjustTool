@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
+Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "mscomm32.ocx"
 Begin VB.Form Form1 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Auto Color Temp Adjust System"
@@ -647,11 +647,14 @@ On Error GoTo ErrExit
         If IsAdjCool_1 Then
             If IsAdjsutOffset Then
                 lbAdjustCOOL_1.BackColor = &H80FFFF
-                Result = autoAdjustColorTemperature_Offset(valColorTempCool1, adjustMode3, LowBri)
+                Result = autoAdjustColorTemperature_Offset(valColorTempCool1, FixG, LowBri)
                 
                 If Result = False Then
                     ShowError_Sys (11)
                     GoTo FAIL
+                Else
+                    SAVE_WB_DATA_TO_ALL_SRC
+                    DelayMS StepTime * 2
                 End If
    
                 lbAdjustCOOL_1.BackColor = &HC0FFC0
@@ -661,11 +664,14 @@ On Error GoTo ErrExit
         If IsAdjNormal Then
             If IsAdjsutOffset Then
                 lbAdjustNormal.BackColor = &H80FFFF
-                Result = autoAdjustColorTemperature_Offset(valColorTempNormal, adjustMode3, LowBri)
+                Result = autoAdjustColorTemperature_Offset(valColorTempNormal, FixG, LowBri)
 
                 If Result = False Then
                     ShowError_Sys (13)
                     GoTo FAIL
+                Else
+                    SAVE_WB_DATA_TO_ALL_SRC
+                    DelayMS StepTime * 2
                 End If
     
                 lbAdjustNormal.BackColor = &HC0FFC0
@@ -675,11 +681,14 @@ On Error GoTo ErrExit
         If IsAdjWarm_1 Then
             If IsAdjsutOffset Then
                 lbAdjustWARM_1.BackColor = &H80FFFF
-                Result = autoAdjustColorTemperature_Offset(valColorTempWarm1, adjustMode3, LowBri)
+                Result = autoAdjustColorTemperature_Offset(valColorTempWarm1, FixG, LowBri)
                 
                 If Result = False Then
                     ShowError_Sys (14)
                     GoTo FAIL
+                Else
+                    SAVE_WB_DATA_TO_ALL_SRC
+                    DelayMS StepTime * 2
                 End If
 
                 lbAdjustWARM_1.BackColor = &HC0FFC0
@@ -1015,7 +1024,7 @@ Cancel:
 
 End Function
 
-Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, adjustVal As Long, HighLowMode As Long) As Boolean
+Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
   
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
@@ -1040,16 +1049,16 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, adjustVal 
         DelayMS StepTime
 
         SET_B_GAN rRGB1.cBB
-        DelayMS StepTime * 2
+        DelayMS StepTime
 
         SET_R_OFF rRGB.cRR
-        DelayMS StepTime * 2
+        DelayMS StepTime
      
         SET_G_OFF rRGB.cGG
-        DelayMS StepTime * 2
+        DelayMS StepTime
      
         SET_B_OFF rRGB.cBB
-        DelayMS StepTime * 2
+        DelayMS StepTime
 
         showData (1)
 
@@ -1061,13 +1070,13 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, adjustVal 
 
             If RES Then Exit For
             If RES = False Then
-                'Call adjustColorTemp(adjustVal, AdjustSingle, SingleStep, rRGB)
+                Call adjustColorTempOffset(FixValue, AdjustSingle, SingleStep, rRGB)
 
                 SET_R_OFF rRGB.cRR
-                DelayMS StepTime * 2
+                DelayMS StepTime
 
                 SET_B_OFF rRGB.cBB
-                DelayMS StepTime * 2
+                DelayMS StepTime
 
                 showData (2)
             End If

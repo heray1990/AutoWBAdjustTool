@@ -1,6 +1,9 @@
 Attribute VB_Name = "Module3"
 Option Explicit
 
+Public Const FixR = 1
+Public Const FixG = 2
+Public Const FixB = 3
 Public Const adjustMode1 = 1
 Public Const adjustMode2 = 2
 Public Const adjustMode3 = 3

@@ -10,3 +10,4 @@ Public Declare Function setColorTemp Lib "ColorT.dll" (ByVal colorT As Long, ByR
 Public Declare Function checkColorTemp Lib "ColorT.dll" (ByRef getC As REALCOLOR, ByVal colorT As Long) As Long
 'Public Declare Function checkColorTempTest Lib "ColorT.dll" (ByRef getC As REALCOLOR, ByVal colorT As Long) As Long
 Public Declare Function adjustColorTemp Lib "ColorT.dll" (ByVal FixValue As Long, ByVal xyAdjMode As Long, ByVal step As Long, ByRef pREALRGB As REALRGB, ByRef resultCode As Long) As Long
+Public Declare Function adjustColorTempOffset Lib "ColorT.dll" (ByVal FixValue As Long, ByVal xyAdjMode As Long, ByVal step As Long, ByRef pREALRGB As REALRGB) As Long
