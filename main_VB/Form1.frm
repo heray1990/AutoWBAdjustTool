@@ -638,8 +638,8 @@ On Error GoTo ErrExit
         Label6 = "GREY"
 
         If IsAdjsutOffset Then
-            Call frmCmbType.ChangePattern("109")
-            DelayMS 800
+            Call frmCmbType.ChangePattern("110")
+            DelayMS StepTime
         End If
 
         DelayMS StepTime
@@ -647,7 +647,7 @@ On Error GoTo ErrExit
         If IsAdjCool_1 Then
             If IsAdjsutOffset Then
                 lbAdjustCOOL_1.BackColor = &H80FFFF
-                Result = autoAdjustColorTemperature_Offset(valColorTempCool1, FixG, LowBri)
+                Result = autoAdjustColorTemperature_Offset(valColorTempCool1, FixG, LowBri, True)
                 
                 If Result = False Then
                     ShowError_Sys (11)
@@ -664,7 +664,7 @@ On Error GoTo ErrExit
         If IsAdjNormal Then
             If IsAdjsutOffset Then
                 lbAdjustNormal.BackColor = &H80FFFF
-                Result = autoAdjustColorTemperature_Offset(valColorTempNormal, FixG, LowBri)
+                Result = autoAdjustColorTemperature_Offset(valColorTempNormal, FixG, LowBri, False)
 
                 If Result = False Then
                     ShowError_Sys (13)
@@ -681,7 +681,7 @@ On Error GoTo ErrExit
         If IsAdjWarm_1 Then
             If IsAdjsutOffset Then
                 lbAdjustWARM_1.BackColor = &H80FFFF
-                Result = autoAdjustColorTemperature_Offset(valColorTempWarm1, FixG, LowBri)
+                Result = autoAdjustColorTemperature_Offset(valColorTempWarm1, FixG, LowBri, False)
                 
                 If Result = False Then
                     ShowError_Sys (14)
@@ -1024,7 +1024,7 @@ Cancel:
 
 End Function
 
-Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue As Long, HighLowMode As Long) As Boolean
+Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue As Long, HighLowMode As Long, isReallyAdjustOffset As Boolean) As Boolean
     Dim i, j, k As Integer
   
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
@@ -1047,42 +1047,47 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
 
         SET_R_GAN rRGB1.cRR
         DelayMS StepTime
+        
+        SET_G_GAN rRGB1.cGG
+        DelayMS StepTime
 
         SET_B_GAN rRGB1.cBB
         DelayMS StepTime
 
         SET_R_OFF rRGB.cRR
         DelayMS StepTime
-     
+        
         SET_G_OFF rRGB.cGG
         DelayMS StepTime
      
         SET_B_OFF rRGB.cBB
         DelayMS StepTime
 
-        showData (1)
+        If isReallyAdjustOffset Then
+            showData (1)
 
-        For k = 1 To 50
-            If IsStop = True Then GoTo Cancel
-            
-            RES = checkColorTemp(rColor, ColorTemp)
-            Log_Info "Check colorTemp. RES:" + Str$(RES)
-
-            If RES Then Exit For
-            If RES = False Then
-                Call adjustColorTempOffset(FixValue, AdjustSingle, SingleStep, rRGB)
-
-                SET_R_OFF rRGB.cRR
-                DelayMS StepTime
-
-                SET_B_OFF rRGB.cBB
-                DelayMS StepTime
-
-                showData (2)
-            End If
-
-            DelayMS 200
-        Next k
+            For k = 1 To 50
+                If IsStop = True Then GoTo Cancel
+                
+                RES = checkColorTempOffset(rColor, ColorTemp)
+                Log_Info "Check colorTemp. RES:" + Str$(RES)
+    
+                If RES Then Exit For
+                If RES = False Then
+                    Call adjustColorTempOffset(FixValue, AdjustSingle, SingleStep, rRGB)
+    
+                    SET_R_OFF rRGB.cRR
+                    DelayMS StepTime
+    
+                    SET_B_OFF rRGB.cBB
+                    DelayMS StepTime
+    
+                    showData (2)
+                End If
+    
+                DelayMS 200
+            Next k
+        End If
 
         If RES Then Exit For
 
@@ -1386,14 +1391,17 @@ Private Sub LoadData(ColorTemp As Long)
     Select Case ColorTemp
         Case valColorTempCool1
             rRGB1.cRR = c12000K.nColorRR
+            rRGB1.cGG = c12000K.nColorGG
             rRGB1.cBB = c12000K.nColorBB
             
         Case valColorTempNormal
             rRGB1.cRR = c10000K.nColorRR
+            rRGB1.cGG = c10000K.nColorGG
             rRGB1.cBB = c10000K.nColorBB
             
         Case valColorTempWarm1
             rRGB1.cRR = c6500K.nColorRR
+            rRGB1.cGG = c6500K.nColorGG
             rRGB1.cBB = c6500K.nColorBB
     End Select
 End Sub
