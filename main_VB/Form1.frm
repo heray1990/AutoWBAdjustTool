@@ -589,6 +589,7 @@ On Error GoTo ErrExit
     Log_Info "###ADJUST COLORTEMP###"
     Log_Info "###ADJUST COLORTEMP###"
 
+ADJUST_GAIN_COOL:
     If IsAdjCool_1 Then
         lbAdjustCOOL_1.BackColor = &H80FFFF
         Result = autoAdjustColorTemperature_Gain(valColorTempCool1, adjustMode3, HighBri)
@@ -602,6 +603,10 @@ On Error GoTo ErrExit
         End If
 
         lbAdjustCOOL_1.BackColor = &HC0FFC0
+    End If
+
+    If adjustGainCoolFlag > 0 Then
+        GoTo CHECK
     End If
 
     If IsAdjNormal Then
@@ -696,9 +701,10 @@ On Error GoTo ErrExit
         End If
 
     End If
-  
+
     If IsAdjsutOffset Then Call frmCmbType.ChangePattern(IsWhitePtn)
 
+CHECK:
     If IsCheckColorTemp Then
         Label6 = "CHECK"
 
@@ -708,7 +714,9 @@ On Error GoTo ErrExit
 
             If Result = False Then
                 ShowError_Sys (1)
-                GoTo FAIL
+                'GoTo FAIL
+                adjustGainCoolFlag = adjustGainCoolFlag + 1
+                GoTo ADJUST_GAIN_COOL
             End If
       
             lbAdjustCOOL_1.BackColor = &HC0FFC0
@@ -831,6 +839,7 @@ Private Sub subInitBeforeRunning()
     countTime = Timer
     IsSNWriteSuccess = True
     strSerialNo = ""
+    adjustGainCoolFlag = 0
 End Sub
 
 Private Sub subInitAfterRunning()
@@ -838,6 +847,7 @@ Private Sub subInitAfterRunning()
 
     Label9.Caption = countTime & "s"
     IsSNWriteSuccess = False
+    adjustGainCoolFlag = 0
 
     txtInput.Text = ""
     txtInput.SetFocus

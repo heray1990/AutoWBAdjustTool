@@ -27,7 +27,7 @@ End Type
 Public strBuff As String
 
 Public i As Integer
-
+Public adjustGainCoolFlag As Integer
 
 Public Const xxf = 1
 Public Const xfyf = 2
