@@ -184,15 +184,13 @@ COLORT_API int _stdcall checkColorTempOffset(pREALCOLOR pGetColor,int colorTemp)
 	   PrimaryData.PriRR = CalcRGB.cRR;
 	   PrimaryData.PriGG = CalcRGB.cGG;
 	   PrimaryData.PriBB = CalcRGB.cBB;
-	//   CurrentData.sx = ca_x;
-    //   CurrentData.sy = ca_y;
        return false;
 	}
 
     PrimaryData.PriRR = CalcRGB.cRR;           //For stepbystep adjust.
     PrimaryData.PriGG = CalcRGB.cGG;
     PrimaryData.PriBB = CalcRGB.cBB;
-	ReLoadRGB(colorTemp);
+	//ReLoadRGB(colorTemp);
 
 	if (AdjustGAN == 1)
 	{
@@ -213,8 +211,8 @@ void AverageData(pCOLORSPEC pColorST)
 	else
 	{
         pColorST->LowRR = (pColorST->LowRR + CalcRGB.cRR) / 2;
-        pColorST->LowGG = (pColorST->LowGG+CalcRGB.cGG) / 2;
-        pColorST->LowBB = (pColorST->LowBB+CalcRGB.cBB) / 2;
+        pColorST->LowGG = (pColorST->LowGG + CalcRGB.cGG) / 2;
+        pColorST->LowBB = (pColorST->LowBB + CalcRGB.cBB) / 2;
 	}
 /*	GainRx=(GainRx+CalcGainRx)/2;
 	GainRy=(GainRy+CalcGainRy)/2;
