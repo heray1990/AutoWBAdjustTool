@@ -590,6 +590,14 @@ On Error GoTo ErrExit
     Log_Info "###ADJUST COLORTEMP###"
 
 ADJUST_GAIN_COOL:
+    SET_BRIGHTNESS 50
+    DelayMS StepTime
+    Log_Info "Set brightness to 50"
+        
+    SET_CONTRAST 50
+    DelayMS StepTime
+    Log_Info "Set contrast to 50"
+
     If IsAdjCool_1 Then
         lbAdjustCOOL_1.BackColor = &H80FFFF
         Result = autoAdjustColorTemperature_Gain(valColorTempCool1, adjustMode3, HighBri)
@@ -640,6 +648,14 @@ ADJUST_GAIN_COOL:
     End If
   
     If IsSendOffset Then
+        SET_BRIGHTNESS 50
+        DelayMS StepTime
+        Log_Info "Set brightness to 50"
+        
+        SET_CONTRAST 50
+        DelayMS StepTime
+        Log_Info "Set contrast to 50"
+
         Label6 = "GREY"
 
         If IsAdjsutOffset Then
@@ -703,6 +719,14 @@ ADJUST_GAIN_COOL:
     End If
 
     If IsAdjsutOffset Then Call frmCmbType.ChangePattern(IsWhitePtn)
+
+    SET_BRIGHTNESS 50
+    DelayMS StepTime
+    Log_Info "Set brightness to 50"
+    
+    SET_CONTRAST 50
+    DelayMS StepTime
+    Log_Info "Set contrast to 50"
 
 CHECK:
     If IsCheckColorTemp Then
@@ -782,14 +806,6 @@ CHECK:
         Log_Info "亮度不在规格！"
         GoTo FAIL
     End If
-
-    SET_BRIGHTNESS 50
-    DelayMS StepTime
-    Log_Info "Set brightness to 50"
-    
-    SET_CONTRAST 50
-    DelayMS StepTime
-    Log_Info "Set contrast to 50"
 
     Call saveALLcData
 
