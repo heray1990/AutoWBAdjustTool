@@ -958,10 +958,6 @@ Sub ShowError_Sys(t As Integer)
     CheckStep.SetFocus
 End Sub
 
-Private Sub Command3_Click()
-  RES = setColorTemp(valColorTempNormal, presetData, 0)
-End Sub
-
 Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
   
@@ -982,7 +978,6 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
         Label1 = Str$(presetData.xx)
         Label3 = Str$(presetData.yy)
 
-        'SET_RGB_GAN rRGB
         SET_R_GAN rRGB.cRR
         DelayMS StepTime
         
@@ -991,6 +986,21 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
         
         SET_B_GAN rRGB.cBB
         DelayMS StepTime
+        
+        If adjustGainCoolFlag > 0 Then
+            Call LoadData(ColorTemp, False)
+            
+            Log_Info "SET_RGB_OFF: R = " + Str$(rRGB1.cRR) + ", G = " + Str$(rRGB1.cGG) + ", B = " + Str$(rRGB1.cBB)
+        
+            SET_R_OFF rRGB1.cRR
+            DelayMS StepTime
+        
+            SET_G_OFF rRGB1.cGG
+            DelayMS StepTime
+     
+            SET_B_OFF rRGB1.cBB
+            DelayMS StepTime
+        End If
 
         showData (1)
 
@@ -1016,7 +1026,6 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
                 End If
                 Log_Info "SET_RGB_GAN: R = " + Str$(rRGB.cRR) + ", G = " + Str$(rRGB.cGG) + ", B = " + Str$(rRGB.cBB) + ", resultcode = " + Str$(resCodeForAdjustColorTemp)
  
-                'SET_RGB_GAN rRGB
                 SET_R_GAN rRGB.cRR
                 DelayMS StepTime
                 
@@ -1039,7 +1048,6 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
 
 Cancel:
     If RES Then
-        'Save_Gain
         Call saveData(ColorTemp, HighLowMode)
         Log_Info "Save current data of colorTemp."
         autoAdjustColorTemperature_Gain = True
@@ -1068,7 +1076,7 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
         Label1 = Str$(presetData.xx)
         Label3 = Str$(presetData.yy)
 
-        Call LoadData(ColorTemp)
+        Call LoadData(ColorTemp, True)
 
         SET_R_GAN rRGB1.cRR
         DelayMS StepTime
@@ -1103,6 +1111,9 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
     
                     SET_R_OFF rRGB.cRR
                     DelayMS StepTime
+                    
+                    SET_G_OFF rRGB.cGG
+                    DelayMS StepTime
     
                     SET_B_OFF rRGB.cBB
                     DelayMS StepTime
@@ -1124,8 +1135,6 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
  
 Cancel:
     If RES Then
-        'Save_Gain
-   
         Call saveData(ColorTemp, HighLowMode)
         Log_Info "Save current data of colorTemp."
         autoAdjustColorTemperature_Offset = True
@@ -1153,7 +1162,7 @@ Private Function checkColorAgain(ColorTemp As Long, adjustVal As Long, HighLowMo
         showData (1)
 
         If IsStop = True Then GoTo Cancel
-        'RES = checkColorTempTest(rColor, ColorTemp)
+
         RES = checkColorTemp(rColor, ColorTemp)
         Log_Info "Check colorTemp. RES:" + Str$(RES)
 
@@ -1415,22 +1424,40 @@ Private Sub saveData(ColorTemp As Long, HL As Long)
   
 End Sub
 
-Private Sub LoadData(ColorTemp As Long)
+Private Sub LoadData(ColorTemp As Long, isGain As Boolean)
     Select Case ColorTemp
         Case valColorTempCool1
-            rRGB1.cRR = c12000K.nColorRR
-            rRGB1.cGG = c12000K.nColorGG
-            rRGB1.cBB = c12000K.nColorBB
+            If isGain Then
+                rRGB1.cRR = c12000K.nColorRR
+                rRGB1.cGG = c12000K.nColorGG
+                rRGB1.cBB = c12000K.nColorBB
+            Else
+                rRGB1.cRR = cFF12000K.nColorRR
+                rRGB1.cGG = cFF12000K.nColorGG
+                rRGB1.cBB = cFF12000K.nColorBB
+            End If
             
         Case valColorTempNormal
-            rRGB1.cRR = c10000K.nColorRR
-            rRGB1.cGG = c10000K.nColorGG
-            rRGB1.cBB = c10000K.nColorBB
+            If isGain Then
+                rRGB1.cRR = c10000K.nColorRR
+                rRGB1.cGG = c10000K.nColorGG
+                rRGB1.cBB = c10000K.nColorBB
+            Else
+                rRGB1.cRR = cFF10000K.nColorRR
+                rRGB1.cGG = cFF10000K.nColorGG
+                rRGB1.cBB = cFF10000K.nColorBB
+            End If
             
         Case valColorTempWarm1
-            rRGB1.cRR = c6500K.nColorRR
-            rRGB1.cGG = c6500K.nColorGG
-            rRGB1.cBB = c6500K.nColorBB
+            If isGain Then
+                rRGB1.cRR = c6500K.nColorRR
+                rRGB1.cGG = c6500K.nColorGG
+                rRGB1.cBB = c6500K.nColorBB
+            Else
+                rRGB1.cRR = cFF6500K.nColorRR
+                rRGB1.cGG = cFF6500K.nColorGG
+                rRGB1.cBB = cFF6500K.nColorBB
+            End If
     End Select
 End Sub
 

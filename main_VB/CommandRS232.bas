@@ -169,17 +169,6 @@ Public Sub SEL_TEMP_WARM()
     Form1.MSComm1.Output = SendDataBuf
 End Sub
 
-Public Sub SET_RGB_GAN(RGB_GAN As REALRGB)
-    SET_R_GAN RGB_GAN.cRR
-    DelayMS 500
-    
-    SET_G_GAN RGB_GAN.cGG
-    DelayMS 500
-    
-    SET_B_GAN RGB_GAN.cBB
-    DelayMS 500
-End Sub
-
 Public Sub SET_R_GAN(R_GAN As Long)
 
     Dim SendDataBuf(0 To 9) As Byte
