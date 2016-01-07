@@ -37,7 +37,7 @@ Public Const StepbyStep = False
 
 
 
-Public IsCa210Channel As Long
+Public Ca210ChannelNO As Long
 Public IsStepTime As Long
 Public IsWhitePtn As String
 

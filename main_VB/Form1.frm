@@ -575,7 +575,7 @@ On Error GoTo ErrExit
     If IsAdjWarm_2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
 
     Set ObjMemory = ObjCa.Memory
-    ObjMemory.ChannelNO = IsCa210Channel
+    ObjMemory.ChannelNO = Ca210ChannelNO
     
     If IsAdjsutOffset Then
         Call frmCmbType.ChangePattern(IsWhitePtn)

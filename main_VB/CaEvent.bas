@@ -28,7 +28,7 @@ On Error GoTo ER
             ObjCa.AveragingMode = 2
             ObjCa.SetAnalogRange 2.5, 2.5
             ObjCa.DisplayMode = 0
-            ObjMemory.ChannelNO = 3
+            ObjMemory.ChannelNO = Ca210ChannelNO
       
             frmInformation.Infbox.Caption = ""
             frmInformation.Hide
@@ -55,30 +55,7 @@ ER:
     End Select
 End Sub
 
-Public Sub Set22Channel()
-      Set ObjMemory = ObjCa.Memory
-      ObjMemory.ChannelNO = 6
-End Sub
-Public Sub Set26Channel()
-      Set ObjMemory = ObjCa.Memory
-      ObjMemory.ChannelNO = 4
-End Sub
-Public Sub Set32Channel()
-      Set ObjMemory = ObjCa.Memory
-      ObjMemory.ChannelNO = 5
-End Sub
-Public Sub Set22LEDChannel()
-      Set ObjMemory = ObjCa.Memory
-      ObjMemory.ChannelNO = 7
-End Sub
-Public Sub Set32LEDChannel()
-      Set ObjMemory = ObjCa.Memory
-      ObjMemory.ChannelNO = 8
-End Sub
-Public Sub Set40LEDChannel()
-      Set ObjMemory = ObjCa.Memory
-      ObjMemory.ChannelNO = 9
-End Sub
+
 Public Function GetX() As Single
     ObjCa.Measure
     GetX = ObjProbe.sx

@@ -225,7 +225,7 @@ On Error GoTo ErrExit
     Executesql (sqlstring)
 
     SetTVCurrentComBaud = rs("ComBaud")
-    IsCa210Channel = rs("Channel")
+    Ca210ChannelNO = rs("Channel")
     IsStepTime = rs("Delayms")
     IsWhitePtn = rs("WhitePattern")
 

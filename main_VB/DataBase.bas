@@ -4,6 +4,8 @@ Option Explicit
 Public cn As New ADODB.Connection
 Public rs As New ADODB.Recordset
 Public sqlstring As String
+
+
 Public Function Executesql(sqlstr As String)
 Dim strPath As String
 On Error GoTo ADOERROR
