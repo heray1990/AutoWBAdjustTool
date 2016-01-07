@@ -30,11 +30,11 @@ Begin VB.Form frmSplash
       EndProperty
       ForeColor       =   &H00FF0000&
       Height          =   600
-      Left            =   960
+      Left            =   1080
       Sorted          =   -1  'True
       TabIndex        =   0
       Text            =   "Sample1"
-      Top             =   1320
+      Top             =   1440
       Width           =   3135
    End
    Begin VB.Label lblVersion 
@@ -55,13 +55,14 @@ Begin VB.Form frmSplash
       Height          =   255
       Left            =   4680
       TabIndex        =   4
-      Top             =   600
+      Top             =   720
       Width           =   825
    End
    Begin VB.Label Label2 
+      Alignment       =   2  'Center
       AutoSize        =   -1  'True
       BackColor       =   &H00808080&
-      Caption         =   "Auto-Adjust ColorTemp System"
+      Caption         =   "Auto White Balance System"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   14.25
@@ -73,10 +74,10 @@ Begin VB.Form frmSplash
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   330
-      Left            =   960
+      Left            =   120
       TabIndex        =   3
-      Top             =   120
-      Width           =   4365
+      Top             =   240
+      Width           =   5355
    End
    Begin VB.Label Label1 
       BackColor       =   &H00808080&
@@ -94,12 +95,13 @@ Begin VB.Form frmSplash
       Height          =   375
       Left            =   960
       TabIndex        =   2
-      Top             =   960
+      Top             =   1080
       Width           =   3255
    End
    Begin VB.Label Label3 
+      Alignment       =   2  'Center
       BackColor       =   &H00808080&
-      Caption         =   " Copyright 2013-2015           Design by  TE            ATS INC."
+      Caption         =   "Copyright 2013-2016    Design by ECHOM"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   9.75
