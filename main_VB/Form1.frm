@@ -576,11 +576,10 @@ On Error GoTo ErrExit
 
     Set ObjMemory = ObjCa.Memory
     ObjMemory.ChannelNO = Ca210ChannelNO
-    
-    If IsAdjsutOffset Then
-        Call frmCmbType.ChangePattern(IsWhitePtn)
-        DelayMS 200
-    End If
+
+    Call frmCmbType.ChangePattern(IsWhitePtn)
+    DelayMS 200
+
     strBuff = ""
 
     Log_Info "###INITIAL USER###"
@@ -613,8 +612,10 @@ ADJUST_GAIN_COOL:
         lbAdjustCOOL_1.BackColor = &HC0FFC0
     End If
 
-    If adjustGainCoolFlag > 0 Then
-        GoTo CHECK
+    If isAdjsutOffset Then
+        If adjustGainCoolFlag > 0 Then
+            GoTo CHECK
+        End If
     End If
 
     If IsAdjNormal Then
@@ -647,7 +648,7 @@ ADJUST_GAIN_COOL:
         lbAdjustWARM_1.BackColor = &HC0FFC0
     End If
   
-    If IsAdjsutOffset Then
+    If isAdjsutOffset Then
         SET_BRIGHTNESS 50
         DelayMS StepTime
         Log_Info "Set brightness to 50"
@@ -658,67 +659,58 @@ ADJUST_GAIN_COOL:
 
         Label6 = "GREY"
 
-        If IsAdjsutOffset Then
-            Call frmCmbType.ChangePattern("110")
-            DelayMS StepTime
-        End If
+        Call frmCmbType.ChangePattern("110")
+        DelayMS StepTime
 
         DelayMS StepTime
 
         If IsAdjCool_1 Then
-            If IsAdjsutOffset Then
-                lbAdjustCOOL_1.BackColor = &H80FFFF
-                Result = autoAdjustColorTemperature_Offset(valColorTempCool1, FixG, LowBri, True)
+            lbAdjustCOOL_1.BackColor = &H80FFFF
+            Result = autoAdjustColorTemperature_Offset(valColorTempCool1, FixG, LowBri, True)
                 
-                If Result = False Then
-                    ShowError_Sys (11)
-                    GoTo FAIL
-                Else
-                    SAVE_WB_DATA_TO_ALL_SRC
-                    DelayMS StepTime * 2
-                End If
-   
-                lbAdjustCOOL_1.BackColor = &HC0FFC0
+            If Result = False Then
+                ShowError_Sys (11)
+                GoTo FAIL
+            Else
+                SAVE_WB_DATA_TO_ALL_SRC
+                DelayMS StepTime * 2
             End If
+   
+            lbAdjustCOOL_1.BackColor = &HC0FFC0
         End If
    
         If IsAdjNormal Then
-            If IsAdjsutOffset Then
-                lbAdjustNormal.BackColor = &H80FFFF
-                Result = autoAdjustColorTemperature_Offset(valColorTempNormal, FixG, LowBri, False)
+            lbAdjustNormal.BackColor = &H80FFFF
+            Result = autoAdjustColorTemperature_Offset(valColorTempNormal, FixG, LowBri, False)
 
-                If Result = False Then
-                    ShowError_Sys (13)
-                    GoTo FAIL
-                Else
-                    SAVE_WB_DATA_TO_ALL_SRC
-                    DelayMS StepTime * 2
-                End If
-    
-                lbAdjustNormal.BackColor = &HC0FFC0
+            If Result = False Then
+                ShowError_Sys (13)
+                GoTo FAIL
+            Else
+                SAVE_WB_DATA_TO_ALL_SRC
+                DelayMS StepTime * 2
             End If
+    
+            lbAdjustNormal.BackColor = &HC0FFC0
         End If
    
         If IsAdjWarm_1 Then
-            If IsAdjsutOffset Then
-                lbAdjustWARM_1.BackColor = &H80FFFF
-                Result = autoAdjustColorTemperature_Offset(valColorTempWarm1, FixG, LowBri, False)
+            lbAdjustWARM_1.BackColor = &H80FFFF
+            Result = autoAdjustColorTemperature_Offset(valColorTempWarm1, FixG, LowBri, False)
                 
-                If Result = False Then
-                    ShowError_Sys (14)
-                    GoTo FAIL
-                Else
-                    SAVE_WB_DATA_TO_ALL_SRC
-                    DelayMS StepTime * 2
-                End If
-
-                lbAdjustWARM_1.BackColor = &HC0FFC0
+            If Result = False Then
+                ShowError_Sys (14)
+                GoTo FAIL
+            Else
+                SAVE_WB_DATA_TO_ALL_SRC
+                DelayMS StepTime * 2
             End If
+
+            lbAdjustWARM_1.BackColor = &HC0FFC0
         End If
 
+        Call frmCmbType.ChangePattern(IsWhitePtn)
     End If
-
-    If IsAdjsutOffset Then Call frmCmbType.ChangePattern(IsWhitePtn)
 
     SET_BRIGHTNESS 50
     DelayMS StepTime
@@ -739,12 +731,16 @@ CHECK:
             If Result = False Then
                 ShowError_Sys (1)
 
-                If adjustGainCoolFlag > 0 Then
+                If isAdjsutOffset Then
+                    If adjustGainCoolFlag > 0 Then
+                        GoTo FAIL
+                    End If
+    
+                    adjustGainCoolFlag = adjustGainCoolFlag + 1
+                    GoTo ADJUST_GAIN_COOL
+                Else
                     GoTo FAIL
                 End If
-
-                adjustGainCoolFlag = adjustGainCoolFlag + 1
-                GoTo ADJUST_GAIN_COOL
             End If
       
             lbAdjustCOOL_1.BackColor = &HC0FFC0
@@ -810,6 +806,14 @@ CHECK:
     Call saveALLcData
 
 PASS:
+    SET_BRIGHTNESS 50
+    DelayMS StepTime
+    Log_Info "Set brightness to 50"
+    
+    SET_CONTRAST 50
+    DelayMS StepTime
+    Log_Info "Set contrast to 50"
+
     EXIT_FAC_MODE
     DelayMS StepTime
 
@@ -830,10 +834,16 @@ PASS:
     Exit Sub
 
 FAIL:
+    SET_BRIGHTNESS 50
+    DelayMS StepTime
+    Log_Info "Set brightness to 50"
+    
+    SET_CONTRAST 50
+    DelayMS StepTime
+    Log_Info "Set contrast to 50"
+    
     EXIT_FAC_MODE
     DelayMS StepTime
-    
-    If IsAdjsutOffset Then Call frmCmbType.ChangePattern(IsWhitePtn)
     
     CheckStep.SelStart = Len(CheckStep)
     CheckStep.SetFocus
@@ -1003,18 +1013,28 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
         SET_B_GAN rRGB.cBB
         DelayMS StepTime
         
-        If adjustGainCoolFlag > 0 Then
-            Call LoadData(ColorTemp, False)
-            
-            Log_Info "SET_RGB_OFF: R = " + Str$(rRGB1.cRR) + ", G = " + Str$(rRGB1.cGG) + ", B = " + Str$(rRGB1.cBB)
+        If isAdjsutOffset Then
+            If adjustGainCoolFlag > 0 Then
+                Call LoadData(ColorTemp, False)
+                Log_Info "SET_RGB_OFF: R = " + Str$(rRGB1.cRR) + ", G = " + Str$(rRGB1.cGG) + ", B = " + Str$(rRGB1.cBB)
+           
+                SET_R_OFF rRGB1.cRR
+                DelayMS StepTime
+           
+                SET_G_OFF rRGB1.cGG
+                DelayMS StepTime
         
-            SET_R_OFF rRGB1.cRR
+                SET_B_OFF rRGB1.cBB
+                DelayMS StepTime
+            End If
+        Else
+            SET_R_OFF 128
+            DelayMS StepTime
+           
+            SET_G_OFF 128
             DelayMS StepTime
         
-            SET_G_OFF rRGB1.cGG
-            DelayMS StepTime
-     
-            SET_B_OFF rRGB1.cBB
+            SET_B_OFF 128
             DelayMS StepTime
         End If
 

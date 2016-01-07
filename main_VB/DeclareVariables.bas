@@ -58,7 +58,7 @@ Public IsSensorLight As Boolean
 Public IsSaveData As Boolean
 Public IsCheckColorTemp  As Boolean
 
-Public IsAdjsutOffset As Boolean
+Public isAdjsutOffset As Boolean
 
 Public strCurrentModelName As String
 Public strDataVersion As String
