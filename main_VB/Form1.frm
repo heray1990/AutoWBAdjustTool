@@ -30,7 +30,7 @@ Begin VB.Form Form1
       ForeColor       =   &H80000008&
       Height          =   2580
       Left            =   2640
-      Picture         =   "Form1.frx":57E2
+      Picture         =   "Form1.frx":3204A
       ScaleHeight     =   2550
       ScaleWidth      =   3780
       TabIndex        =   6
@@ -76,7 +76,7 @@ Begin VB.Form Form1
       Left            =   6440
       MultiLine       =   -1  'True
       TabIndex        =   5
-      Text            =   "Form1.frx":248DC
+      Text            =   "Form1.frx":51144
       Top             =   960
       Width           =   3805
    End

@@ -37,7 +37,7 @@ Begin VB.Form frmAbout
       Width           =   1260
    End
    Begin VB.Label lblDisclaimer 
-      Caption         =   "Copyright 2013 -2015              All rights reserved.              QQ: "
+      Caption         =   "Copyright 2013 - 2016             All rights reserved.              Echom "
       ForeColor       =   &H00000000&
       Height          =   555
       Left            =   240
@@ -46,7 +46,7 @@ Begin VB.Form frmAbout
       Width           =   3015
    End
    Begin VB.Label lblDescription 
-      Caption         =   "Main Function:         ColorTemp Auto Adjust && Check System"
+      Caption         =   "Auto White Balance adjustment for Letv."
       BeginProperty Font 
          Name            =   "PMingLiU"
          Size            =   9.75
@@ -73,7 +73,7 @@ Begin VB.Form frmAbout
       Y2              =   1242.392
    End
    Begin VB.Label lblTitle 
-      Caption         =   "ColorTemp AutoAdjust System"
+      Caption         =   "Auto White Balance System"
       BeginProperty Font 
          Name            =   "PMingLiU"
          Size            =   14.25
@@ -235,4 +235,3 @@ GetKeyError:
     GetKeyValue = False
     rc = RegCloseKey(hKey)
 End Function
-
