@@ -30,7 +30,7 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   3345
       Left            =   0
-      TabIndex        =   29
+      TabIndex        =   28
       Top             =   600
       Width           =   3135
       Begin VB.TextBox Text5 
@@ -47,7 +47,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   1800
-         TabIndex        =   35
+         TabIndex        =   34
          Text            =   "103"
          Top             =   2760
          Width           =   1095
@@ -140,7 +140,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   36
+         TabIndex        =   35
          Top             =   2760
          Width           =   1455
       End
@@ -157,7 +157,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   33
+         TabIndex        =   32
          Top             =   960
          Width           =   1455
       End
@@ -174,7 +174,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   32
+         TabIndex        =   31
          Top             =   360
          Width           =   1455
       End
@@ -191,7 +191,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   31
+         TabIndex        =   30
          Top             =   1560
          Width           =   1455
       End
@@ -208,7 +208,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   30
+         TabIndex        =   29
          Top             =   2160
          Width           =   1455
       End
@@ -226,7 +226,7 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   3345
       Left            =   3240
-      TabIndex        =   28
+      TabIndex        =   27
       Top             =   600
       Width           =   2295
       Begin VB.CheckBox Check1 
@@ -336,7 +336,7 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   3345
       Left            =   5640
-      TabIndex        =   22
+      TabIndex        =   21
       Top             =   600
       Width           =   2535
       Begin VB.TextBox Text9 
@@ -447,7 +447,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   27
+         TabIndex        =   26
          Top             =   2160
          Width           =   1455
       End
@@ -464,7 +464,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   26
+         TabIndex        =   25
          Top             =   1560
          Width           =   1455
       End
@@ -481,7 +481,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   25
+         TabIndex        =   24
          Top             =   360
          Width           =   1455
       End
@@ -498,7 +498,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   24
+         TabIndex        =   23
          Top             =   960
          Width           =   1455
       End
@@ -515,7 +515,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   23
+         TabIndex        =   22
          Top             =   2760
          Width           =   1455
       End
@@ -533,7 +533,7 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   3345
       Left            =   8280
-      TabIndex        =   21
+      TabIndex        =   20
       Top             =   600
       Width           =   2535
       Begin VB.CheckBox Check10 
@@ -550,32 +550,13 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   435
          Left            =   240
-         TabIndex        =   19
-         Top             =   2760
+         TabIndex        =   18
+         Top             =   2160
          Width           =   2055
       End
       Begin VB.CheckBox Check9 
          Alignment       =   1  'Right Justify
          Caption         =   "AdjustOffset"
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   435
-         Left            =   240
-         TabIndex        =   18
-         Top             =   2160
-         Value           =   1  'Checked
-         Width           =   2055
-      End
-      Begin VB.CheckBox Check8 
-         Alignment       =   1  'Right Justify
-         Caption         =   "SendOffset"
          BeginProperty Font 
             Name            =   "Arial Narrow"
             Size            =   15.75
@@ -635,7 +616,7 @@ Begin VB.Form frmSetData
       Caption         =   "Save"
       Height          =   555
       Left            =   8400
-      TabIndex        =   20
+      TabIndex        =   19
       Top             =   0
       Width           =   1095
    End
@@ -660,7 +641,7 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   615
       Left            =   120
-      TabIndex        =   34
+      TabIndex        =   33
       Top             =   0
       Width           =   2895
    End
@@ -678,134 +659,127 @@ Private Sub Command2_Click()
 End Sub
 
 Private Sub Form_Load()
+    sqlstring = "select * from CheckItem where Mark='" & strCurrentModelName & "'"
+    Executesql (sqlstring)
 
- sqlstring = "select * from CheckItem where Mark='" & strCurrentModelName & "'"
-Executesql (sqlstring)
-
- Label1 = strCurrentModelName
+    Label1 = strCurrentModelName
  
-Text1.Text = rs("ComBaud")
-Text2.Text = rs("Channel")
-Text3.Text = rs("Delayms")
-Text4.Text = rs("SN_Len")
-Text5.Text = rs("WhitePattern")
+    Text1.Text = rs("ComBaud")
+    Text2.Text = rs("Channel")
+    Text3.Text = rs("Delayms")
+    Text4.Text = rs("SN_Len")
+    Text5.Text = rs("WhitePattern")
 
-If rs("COOL_2") Then
-  Check1.Value = 1
-Else
-  Check1.Value = 0
-End If
-If rs("COOL_1") Then
-  Check2.Value = 1
-Else
-  Check2.Value = 0
-End If
-If rs("NORMAL") Then
-  Check3.Value = 1
-Else
-  Check3.Value = 0
-End If
-If rs("WARM_1") Then
-  Check4.Value = 1
-Else
-  Check4.Value = 0
-End If
-If rs("WARM_2") Then
-  Check5.Value = 1
-Else
-  Check5.Value = 0
-End If
+    If rs("COOL_2") Then
+        Check1.Value = 1
+    Else
+        Check1.Value = 0
+    End If
 
+    If rs("COOL_1") Then
+        Check2.Value = 1
+    Else
+        Check2.Value = 0
+    End If
 
-If rs("SaveData") Then
-  Check6.Value = 1
-Else
-  Check6.Value = 0
-End If
-If rs("CheckColor") Then
-  Check7.Value = 1
-Else
-  Check7.Value = 0
-End If
-If rs("SendOFF") Then
-  Check8.Value = 1
-Else
-  Check8.Value = 0
-End If
-If rs("AdjustOFF") Then
-  Check9.Value = 1
-Else
-  Check9.Value = 0
-End If
-If rs("SensorL") Then
-  Check10.Value = 1
-Else
-  Check10.Value = 0
-End If
+    If rs("NORMAL") Then
+        Check3.Value = 1
+    Else
+        Check3.Value = 0
+    End If
 
+    If rs("WARM_1") Then
+        Check4.Value = 1
+    Else
+        Check4.Value = 0
+    End If
 
-Text7.Text = rs("Cool_1MI")
-Text6.Text = rs("Cool_2MI")
-Text8.Text = rs("NormalMI")
-Text9.Text = rs("Warm_1MI")
-Text10.Text = rs("Warm_2MI")
+    If rs("WARM_2") Then
+        Check5.Value = 1
+    Else
+        Check5.Value = 0
+    End If
 
+    If rs("SaveData") Then
+        Check6.Value = 1
+    Else
+        Check6.Value = 0
+    End If
 
-Set rs = Nothing
-Set cn = Nothing
-sqlstring = ""
+    If rs("CheckColor") Then
+        Check7.Value = 1
+    Else
+        Check7.Value = 0
+    End If
 
+    If rs("AdjustOFF") Then
+        Check9.Value = 1
+    Else
+        Check9.Value = 0
+    End If
+
+    If rs("SensorL") Then
+        Check10.Value = 1
+    Else
+        Check10.Value = 0
+    End If
+
+    Text7.Text = rs("Cool_1MI")
+    Text6.Text = rs("Cool_2MI")
+    Text8.Text = rs("NormalMI")
+    Text9.Text = rs("Warm_1MI")
+    Text10.Text = rs("Warm_2MI")
+
+    Set rs = Nothing
+    Set cn = Nothing
+    sqlstring = ""
 End Sub
 
 Private Sub Command1_Click()
-  sqlstring = "select * from CheckItem where Mark='" & strCurrentModelName & "'"
-Executesql (sqlstring)
-  rs.Fields(1) = Val(Text1.Text)
-  rs.Fields(2) = Val(Text2.Text)
-  rs.Fields(3) = Val(Text3.Text)
-  rs.Fields(4) = Val(Text5.Text)
+    sqlstring = "select * from CheckItem where Mark='" & strCurrentModelName & "'"
+    Executesql (sqlstring)
   
+    rs.Fields(1) = Val(Text1.Text)
+    rs.Fields(2) = Val(Text2.Text)
+    rs.Fields(3) = Val(Text3.Text)
+    rs.Fields(4) = Val(Text5.Text)
 
-  If Check1.Value = 1 Then rs.Fields(5) = True
-  If Check1.Value = 0 Then rs.Fields(5) = False
-  If Check2.Value = 1 Then rs.Fields(6) = True
-  If Check2.Value = 0 Then rs.Fields(6) = False
-  If Check3.Value = 1 Then rs.Fields(7) = True
-  If Check3.Value = 0 Then rs.Fields(7) = False
-  If Check4.Value = 1 Then rs.Fields(8) = True
-  If Check4.Value = 0 Then rs.Fields(8) = False
-  If Check5.Value = 1 Then rs.Fields(9) = True
-  If Check5.Value = 0 Then rs.Fields(9) = False
+    If Check1.Value = 1 Then rs.Fields(5) = True
+    If Check1.Value = 0 Then rs.Fields(5) = False
+    If Check2.Value = 1 Then rs.Fields(6) = True
+    If Check2.Value = 0 Then rs.Fields(6) = False
+    If Check3.Value = 1 Then rs.Fields(7) = True
+    If Check3.Value = 0 Then rs.Fields(7) = False
+    If Check4.Value = 1 Then rs.Fields(8) = True
+    If Check4.Value = 0 Then rs.Fields(8) = False
+    If Check5.Value = 1 Then rs.Fields(9) = True
+    If Check5.Value = 0 Then rs.Fields(9) = False
   
-  rs.Fields(10) = Val(Text4.Text)
+    rs.Fields(10) = Val(Text4.Text)
  
-  If Check6.Value = 1 Then rs.Fields(11) = True
-  If Check6.Value = 0 Then rs.Fields(11) = False
-  If Check7.Value = 1 Then rs.Fields(12) = True
-  If Check7.Value = 0 Then rs.Fields(12) = False
-  If Check8.Value = 1 Then rs.Fields(13) = True
-  If Check8.Value = 0 Then rs.Fields(13) = False
-  If Check9.Value = 1 Then rs.Fields(14) = True
-  If Check9.Value = 0 Then rs.Fields(14) = False
-  If Check10.Value = 1 Then rs.Fields(15) = True
-  If Check10.Value = 0 Then rs.Fields(15) = False
-  
+    If Check6.Value = 1 Then rs.Fields(11) = True
+    If Check6.Value = 0 Then rs.Fields(11) = False
+    If Check7.Value = 1 Then rs.Fields(12) = True
+    If Check7.Value = 0 Then rs.Fields(12) = False
+    If Check9.Value = 1 Then rs.Fields(13) = True
+    If Check9.Value = 0 Then rs.Fields(13) = False
+    If Check10.Value = 1 Then rs.Fields(14) = True
+    If Check10.Value = 0 Then rs.Fields(14) = False
 
-  rs.Fields(16) = Val(Text6.Text)
-  rs.Fields(17) = Val(Text7.Text)
-  rs.Fields(18) = Val(Text8.Text)
-  rs.Fields(19) = Val(Text9.Text)
-  rs.Fields(20) = Val(Text10.Text)
-  
-  rs.Update
+    rs.Fields(15) = Val(Text6.Text)
+    rs.Fields(16) = Val(Text7.Text)
+    rs.Fields(17) = Val(Text8.Text)
+    rs.Fields(18) = Val(Text9.Text)
+    rs.Fields(19) = Val(Text10.Text)
 
- Set cn = Nothing
- Set rs = Nothing
- sqlstring = ""
+    rs.Update
 
-MsgBox "Save success!", vbOKOnly, "warning"
-Unload Me
-Unload Form1
+    Set cn = Nothing
+    Set rs = Nothing
+    sqlstring = ""
 
+    MsgBox "Save success!", vbOKOnly, "warning"
+    Unload Me
+    Unload Form1
 End Sub
 

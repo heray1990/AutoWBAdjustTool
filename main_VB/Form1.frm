@@ -647,7 +647,7 @@ ADJUST_GAIN_COOL:
         lbAdjustWARM_1.BackColor = &HC0FFC0
     End If
   
-    If IsSendOffset Then
+    If IsAdjsutOffset Then
         SET_BRIGHTNESS 50
         DelayMS StepTime
         Log_Info "Set brightness to 50"
