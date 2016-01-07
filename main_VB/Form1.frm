@@ -538,8 +538,8 @@ On Error GoTo ErrExit
 
     If IsCa210ok = False Then
         MsgBox "CA210 disconnected,Please click'Connect'->'Connect CA210'to do operation!", vbOKOnly + vbInformation, "warning"
-        txtInput.Text = ""
-        txtInput.SetFocus
+        subInitAfterRunning
+        
         Exit Sub
     End If
 
@@ -872,6 +872,7 @@ End Function
 Private Sub subInitBeforeRunning()
     countTime = Timer
     IsSNWriteSuccess = True
+    txtInput.Locked = True
     strSerialNo = ""
     adjustGainCoolFlag = 0
 End Sub
@@ -881,6 +882,7 @@ Private Sub subInitAfterRunning()
 
     Label9.Caption = countTime & "s"
     IsSNWriteSuccess = False
+    txtInput.Locked = False
     adjustGainCoolFlag = 0
 
     txtInput.Text = ""
@@ -1315,6 +1317,7 @@ Private Sub Form_Load()
     SetTVCurrentComBaud = 115200
     StepTime = IsStepTime
     IsStop = False
+    txtInput.Locked = False
     
     subInitComPort
     subInitInterface
@@ -1362,7 +1365,10 @@ End Sub
 Private Sub txtInput_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
         IsStop = False
-        Call subMainProcesser
+        
+        If txtInput.Locked = False Then
+            Call subMainProcesser
+        End If
         
         If IsStop = True Then
             Exit Sub
