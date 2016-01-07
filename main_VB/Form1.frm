@@ -464,9 +464,6 @@ Begin VB.Form Form1
       Begin VB.Menu vbConChroma 
          Caption         =   "ConnectChroma"
       End
-      Begin VB.Menu vbEXIT 
-         Caption         =   "EXIT"
-      End
    End
    Begin VB.Menu vbSET 
       Caption         =   "Setting"
@@ -482,10 +479,6 @@ Begin VB.Form Form1
       Begin VB.Menu vbAbout 
          Caption         =   "About"
          Shortcut        =   {F2}
-      End
-      Begin VB.Menu vbHELP 
-         Caption         =   "Help"
-         Shortcut        =   {F1}
       End
    End
 End
@@ -1297,11 +1290,6 @@ End Sub
 
 Private Sub vbConChroma_Click()
     frmCmbType.Show
-End Sub
-
-Private Sub vbEXIT_Click()
-    Unload Me
-    End
 End Sub
 
 Private Sub vbSetSPEC_Click()
