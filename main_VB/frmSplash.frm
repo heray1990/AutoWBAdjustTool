@@ -242,7 +242,7 @@ On Error GoTo ErrExit
     IsSaveData = rs("SaveData")
     IsCheckColorTemp = rs("CheckColor")
 
-    IsAdjsutOffset = rs("AdjustOFF")
+    isAdjustOffset = rs("AdjustOFF")
 
     IsCool_1ModeIndex = rs("Cool_1MI")
     IsCool_2ModeIndex = rs("Cool_2MI")

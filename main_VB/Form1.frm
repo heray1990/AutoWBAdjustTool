@@ -612,7 +612,7 @@ ADJUST_GAIN_COOL:
         lbAdjustCOOL_1.BackColor = &HC0FFC0
     End If
 
-    If isAdjsutOffset Then
+    If isAdjustOffset Then
         If adjustGainCoolFlag > 0 Then
             GoTo CHECK
         End If
@@ -648,7 +648,7 @@ ADJUST_GAIN_COOL:
         lbAdjustWARM_1.BackColor = &HC0FFC0
     End If
   
-    If isAdjsutOffset Then
+    If isAdjustOffset Then
         SET_BRIGHTNESS 50
         DelayMS StepTime
         Log_Info "Set brightness to 50"
@@ -731,7 +731,7 @@ CHECK:
             If Result = False Then
                 ShowError_Sys (1)
 
-                If isAdjsutOffset Then
+                If isAdjustOffset Then
                     If adjustGainCoolFlag > 0 Then
                         GoTo FAIL
                     End If
@@ -1013,7 +1013,7 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
         SET_B_GAN rRGB.cBB
         DelayMS StepTime
         
-        If isAdjsutOffset Then
+        If isAdjustOffset Then
             If adjustGainCoolFlag > 0 Then
                 Call LoadData(ColorTemp, False)
                 Log_Info "SET_RGB_OFF: R = " + Str$(rRGB1.cRR) + ", G = " + Str$(rRGB1.cGG) + ", B = " + Str$(rRGB1.cBB)
