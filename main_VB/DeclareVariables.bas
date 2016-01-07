@@ -54,7 +54,6 @@ Public IsAdj2600k As Boolean
 
 Public IsBarcodeLen As Integer
 Public IsFunctionAutoBri As Boolean
-Public IsSensorLight As Boolean
 Public IsSaveData As Boolean
 Public IsCheckColorTemp  As Boolean
 

@@ -30,7 +30,7 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   3345
       Left            =   0
-      TabIndex        =   28
+      TabIndex        =   27
       Top             =   600
       Width           =   3135
       Begin VB.TextBox Text5 
@@ -47,7 +47,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   1800
-         TabIndex        =   34
+         TabIndex        =   33
          Text            =   "103"
          Top             =   2760
          Width           =   1095
@@ -140,7 +140,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   35
+         TabIndex        =   34
          Top             =   2760
          Width           =   1455
       End
@@ -157,7 +157,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   32
+         TabIndex        =   31
          Top             =   960
          Width           =   1455
       End
@@ -174,7 +174,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   31
+         TabIndex        =   30
          Top             =   360
          Width           =   1455
       End
@@ -191,7 +191,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   30
+         TabIndex        =   29
          Top             =   1560
          Width           =   1455
       End
@@ -208,7 +208,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   29
+         TabIndex        =   28
          Top             =   2160
          Width           =   1455
       End
@@ -226,7 +226,7 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   3345
       Left            =   3240
-      TabIndex        =   27
+      TabIndex        =   26
       Top             =   600
       Width           =   2295
       Begin VB.CheckBox Check1 
@@ -336,7 +336,7 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   3345
       Left            =   5640
-      TabIndex        =   21
+      TabIndex        =   20
       Top             =   600
       Width           =   2535
       Begin VB.TextBox Text9 
@@ -447,7 +447,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   26
+         TabIndex        =   25
          Top             =   2160
          Width           =   1455
       End
@@ -464,7 +464,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   25
+         TabIndex        =   24
          Top             =   1560
          Width           =   1455
       End
@@ -481,7 +481,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   24
+         TabIndex        =   23
          Top             =   360
          Width           =   1455
       End
@@ -498,7 +498,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   23
+         TabIndex        =   22
          Top             =   960
          Width           =   1455
       End
@@ -515,7 +515,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   22
+         TabIndex        =   21
          Top             =   2760
          Width           =   1455
       End
@@ -533,27 +533,9 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   3345
       Left            =   8280
-      TabIndex        =   20
+      TabIndex        =   19
       Top             =   600
       Width           =   2535
-      Begin VB.CheckBox Check10 
-         Alignment       =   1  'Right Justify
-         Caption         =   "SensorLight"
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   435
-         Left            =   240
-         TabIndex        =   18
-         Top             =   2160
-         Width           =   2055
-      End
       Begin VB.CheckBox Check9 
          Alignment       =   1  'Right Justify
          Caption         =   "AdjustOffset"
@@ -616,7 +598,7 @@ Begin VB.Form frmSetData
       Caption         =   "Save"
       Height          =   555
       Left            =   8400
-      TabIndex        =   19
+      TabIndex        =   18
       Top             =   0
       Width           =   1095
    End
@@ -641,7 +623,7 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   615
       Left            =   120
-      TabIndex        =   33
+      TabIndex        =   32
       Top             =   0
       Width           =   2895
    End
@@ -718,12 +700,6 @@ Private Sub Form_Load()
         Check9.Value = 0
     End If
 
-    If rs("SensorL") Then
-        Check10.Value = 1
-    Else
-        Check10.Value = 0
-    End If
-
     Text7.Text = rs("Cool_1MI")
     Text6.Text = rs("Cool_2MI")
     Text8.Text = rs("NormalMI")
@@ -763,14 +739,12 @@ Private Sub Command1_Click()
     If Check7.Value = 0 Then rs.Fields(12) = False
     If Check9.Value = 1 Then rs.Fields(13) = True
     If Check9.Value = 0 Then rs.Fields(13) = False
-    If Check10.Value = 1 Then rs.Fields(14) = True
-    If Check10.Value = 0 Then rs.Fields(14) = False
 
-    rs.Fields(15) = Val(Text6.Text)
-    rs.Fields(16) = Val(Text7.Text)
-    rs.Fields(17) = Val(Text8.Text)
-    rs.Fields(18) = Val(Text9.Text)
-    rs.Fields(19) = Val(Text10.Text)
+    rs.Fields(14) = Val(Text6.Text)
+    rs.Fields(15) = Val(Text7.Text)
+    rs.Fields(16) = Val(Text8.Text)
+    rs.Fields(17) = Val(Text9.Text)
+    rs.Fields(18) = Val(Text10.Text)
 
     rs.Update
 

@@ -238,7 +238,6 @@ On Error GoTo ErrExit
     IsAdjWarm_2 = rs("WARM_2")
 
     IsBarcodeLen = rs("SN_Len")
-    IsSensorLight = rs("SensorL")
     IsSaveData = rs("SaveData")
     IsCheckColorTemp = rs("CheckColor")
 
