@@ -1070,25 +1070,16 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
         Next k
   
         If isAdjustOffset Then
-            If ColorTemp = valColorTempCool1 Then
-                SET_R_OFF 128
-                DelayMS StepTime
-               
-                SET_G_OFF 128
-                DelayMS StepTime
+            Call LoadData(ColorTemp, False)
             
-                SET_B_OFF 127
-                DelayMS StepTime
-            Else
-                SET_R_OFF 128
-                DelayMS StepTime
+            SET_R_OFF rRGB1.cRR
+            DelayMS StepTime
                
-                SET_G_OFF 128
-                DelayMS StepTime
+            SET_G_OFF rRGB1.cGG
+            DelayMS StepTime
             
-                SET_B_OFF 128
-                DelayMS StepTime
-            End If
+            SET_B_OFF rRGB1.cBB
+            DelayMS StepTime
         Else
             SET_R_OFF 128
             DelayMS StepTime
@@ -1125,12 +1116,12 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
         SET_COLORTEMP ColorTemp
         DelayMS StepTime
 
-        'Call setColorTemp(ColorTemp, presetData, HighLowMode)
-        'DelayMS StepTime
-        'Log_Info "Init current colorTemp. RES:" + Str$(RES)
-        'rRGB.cRR = presetData.nColorRR
-        'rRGB.cGG = presetData.nColorGG
-        'rRGB.cBB = presetData.nColorBB
+        Call setColorTemp(ColorTemp, presetData, HighLowMode)
+        DelayMS StepTime
+        Log_Info "Init current colorTemp. RES:" + Str$(RES)
+        rRGB.cRR = presetData.nColorRR
+        rRGB.cGG = presetData.nColorGG
+        rRGB.cBB = presetData.nColorBB
   
         'Label1 = Str$(presetData.xx)
         'Label3 = Str$(presetData.yy)
@@ -1146,25 +1137,14 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
         'SET_B_GAN rRGB1.cBB
         'DelayMS StepTime
 
-        If ColorTemp = valColorTempCool1 Then
-           SET_R_OFF 128
-           DelayMS StepTime
+        SET_R_OFF rRGB.cRR
+        DelayMS StepTime
            
-           SET_G_OFF 128
-           DelayMS StepTime
+        SET_G_OFF rRGB.cGG
+        DelayMS StepTime
         
-           SET_B_OFF 127
-           DelayMS StepTime
-        Else
-           SET_R_OFF 128
-           DelayMS StepTime
-           
-           SET_G_OFF 128
-           DelayMS StepTime
-        
-           SET_B_OFF 128
-           DelayMS StepTime
-        End If
+        SET_B_OFF rRGB.cBB
+        DelayMS StepTime
 
         If False Then
             showData (1)
