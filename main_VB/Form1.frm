@@ -572,9 +572,6 @@ On Error GoTo ErrExit
     strBuff = ""
 
     Log_Info "###INITIAL USER###"
-    Log_Info "###INITIAL USER###"
-
-    Log_Info "###ADJUST COLORTEMP###"
     Log_Info "###ADJUST COLORTEMP###"
 
     If isAdjustOffset Then
@@ -586,7 +583,7 @@ On Error GoTo ErrExit
         DelayMS StepTime
         Log_Info "Set contrast to 50"
 
-        Label6 = "GREY"
+        Label6.Caption = "GREY"
 
         Call frmCmbType.ChangePattern("110")
         DelayMS StepTime
@@ -600,7 +597,7 @@ On Error GoTo ErrExit
                 GoTo FAIL
             Else
                 SAVE_WB_DATA_TO_ALL_SRC
-                DelayMS StepTime * 2
+                DelayMS StepTime
             End If
    
             lbAdjustCOOL_1.BackColor = &HC0FFC0
@@ -615,7 +612,7 @@ On Error GoTo ErrExit
                 GoTo FAIL
             Else
                 SAVE_WB_DATA_TO_ALL_SRC
-                DelayMS StepTime * 2
+                DelayMS StepTime
             End If
     
             lbAdjustNormal.BackColor = &HC0FFC0
@@ -630,13 +627,11 @@ On Error GoTo ErrExit
                 GoTo FAIL
             Else
                 SAVE_WB_DATA_TO_ALL_SRC
-                DelayMS StepTime * 2
+                DelayMS StepTime
             End If
 
             lbAdjustWARM_1.BackColor = &HC0FFC0
         End If
-
-        'Call frmCmbType.ChangePattern(IsWhitePtn)
     End If
 
     Call frmCmbType.ChangePattern(IsWhitePtn)
@@ -650,7 +645,7 @@ On Error GoTo ErrExit
     DelayMS StepTime
     Log_Info "Set contrast to 50"
     
-    Label6 = "WHITE"
+    Label6.Caption = "WHITE"
 
 ADJUST_GAIN_AGAIN_COOL1:
     If IsAdjCool_1 Then
@@ -662,15 +657,13 @@ ADJUST_GAIN_AGAIN_COOL1:
             GoTo FAIL
         Else
             SAVE_WB_DATA_TO_ALL_SRC
-            DelayMS StepTime * 2
+            DelayMS StepTime
         End If
 
         lbAdjustCOOL_1.BackColor = &HC0FFC0
         
-        If isAdjustOffset Then
-            If adjustGainAgainCool1Flag > 0 Then
-                GoTo CHECK_COOL1
-            End If
+        If adjustGainAgainCool1Flag > 0 Then
+            GoTo CHECK_COOL1
         End If
     End If
 
@@ -684,15 +677,13 @@ ADJUST_GAIN_AGAIN_NORMAL:
             GoTo FAIL
         Else
             SAVE_WB_DATA_TO_ALL_SRC
-            DelayMS StepTime * 2
+            DelayMS StepTime
         End If
 
         lbAdjustNormal.BackColor = &HC0FFC0
         
-        If isAdjustOffset Then
-            If adjustGainAgainNormalFlag > 0 Then
-                GoTo CHECK_NORMAL
-            End If
+        If adjustGainAgainNormalFlag > 0 Then
+            GoTo CHECK_NORMAL
         End If
     End If
 
@@ -706,31 +697,20 @@ ADJUST_GAIN_AGAIN_WARM1:
             GoTo FAIL
         Else
             SAVE_WB_DATA_TO_ALL_SRC
-            DelayMS StepTime * 2
+            DelayMS StepTime
         End If
 
         lbAdjustWARM_1.BackColor = &HC0FFC0
         
-        If isAdjustOffset Then
-            If adjustGainAgainWarm1Flag > 0 Then
-                GoTo CHECK_WARM1
-            End If
+        If adjustGainAgainWarm1Flag > 0 Then
+            GoTo CHECK_WARM1
         End If
     End If
 
-    SET_BRIGHTNESS 50
-    DelayMS StepTime
-    Log_Info "Set brightness to 50"
-    
-    SET_CONTRAST 50
-    DelayMS StepTime
-    Log_Info "Set contrast to 50"
-
     If IsCheckColorTemp Then
-        Label6 = "CHECK"
-
 CHECK_COOL1:
         If IsAdjCool_1 Then
+            Label6.Caption = "CHECK"
             lbAdjustCOOL_1.BackColor = &H80FFFF
             Result = checkColorAgain(valColorTempCool1, adjustMode3, HighBri)
 
@@ -758,6 +738,7 @@ CHECK_COOL1:
      
 CHECK_NORMAL:
         If IsAdjNormal Then
+            Label6.Caption = "CHECK"
             lbAdjustNormal.BackColor = &H80FFFF
             Result = checkColorAgain(valColorTempNormal, adjustMode3, HighBri)
       
@@ -785,6 +766,7 @@ CHECK_NORMAL:
 
 CHECK_WARM1:
         If IsAdjWarm_1 Then
+            Label6.Caption = "CHECK"
             lbAdjustWARM_1.BackColor = &H80FFFF
             Result = checkColorAgain(valColorTempWarm1, adjustMode3, HighBri)
 
@@ -809,7 +791,6 @@ CHECK_WARM1:
 
             lbAdjustWARM_1.BackColor = &HC0FFC0
         End If
-
     End If
     
     'Last check:
@@ -846,14 +827,6 @@ CHECK_WARM1:
     Call saveALLcData
 
 PASS:
-    SET_BRIGHTNESS 50
-    DelayMS StepTime
-    Log_Info "Set brightness to 50"
-    
-    SET_CONTRAST 50
-    DelayMS StepTime
-    Log_Info "Set contrast to 50"
-
     EXIT_FAC_MODE
     DelayMS StepTime
 
@@ -870,21 +843,13 @@ PASS:
     checkResult.BackColor = &HFF00&
     checkResult.ForeColor = &HC00000
     
-    Label6 = "PASS"
+    Label6.Caption = "PASS"
     
     Call subInitAfterRunning
 
     Exit Sub
 
 FAIL:
-    SET_BRIGHTNESS 50
-    DelayMS StepTime
-    Log_Info "Set brightness to 50"
-    
-    SET_CONTRAST 50
-    DelayMS StepTime
-    Log_Info "Set contrast to 50"
-    
     EXIT_FAC_MODE
     DelayMS StepTime
     
@@ -898,7 +863,7 @@ FAIL:
     checkResult.ForeColor = &H0&
     checkResult.ForeColor = &HFFFF&
     
-    Label6 = "FAIL"
+    Label6.Caption = "FAIL"
 
     Call subInitAfterRunning
 
