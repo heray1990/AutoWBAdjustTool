@@ -556,7 +556,6 @@ On Error GoTo ErrExit
     lbAdjustNormal.BackColor = &H8000000F
     lbAdjustWARM_1.BackColor = &H8000000F
     lbAdjustWARM_2.BackColor = &H8000000F
-    Label6 = "WHITE"
 
     Picture1.Cls
     lbColorTempWrong.Visible = False
@@ -570,9 +569,6 @@ On Error GoTo ErrExit
     Set ObjMemory = ObjCa.Memory
     ObjMemory.ChannelNO = Ca210ChannelNO
 
-    Call frmCmbType.ChangePattern(IsWhitePtn)
-    DelayMS 200
-
     strBuff = ""
 
     Log_Info "###INITIAL USER###"
@@ -581,66 +577,6 @@ On Error GoTo ErrExit
     Log_Info "###ADJUST COLORTEMP###"
     Log_Info "###ADJUST COLORTEMP###"
 
-ADJUST_GAIN_COOL:
-    SET_BRIGHTNESS 50
-    DelayMS StepTime
-    Log_Info "Set brightness to 50"
-        
-    SET_CONTRAST 50
-    DelayMS StepTime
-    Log_Info "Set contrast to 50"
-
-    If IsAdjCool_1 Then
-        lbAdjustCOOL_1.BackColor = &H80FFFF
-        Result = autoAdjustColorTemperature_Gain(valColorTempCool1, adjustMode3, HighBri)
-  
-        If Result = False Then
-            ShowError_Sys (1)
-            GoTo FAIL
-        Else
-            SAVE_WB_DATA_TO_ALL_SRC
-            DelayMS StepTime * 2
-        End If
-
-        lbAdjustCOOL_1.BackColor = &HC0FFC0
-    End If
-
-    If isAdjustOffset Then
-        If adjustGainCoolFlag > 0 Then
-            GoTo CHECK
-        End If
-    End If
-
-    If IsAdjNormal Then
-        lbAdjustNormal.BackColor = &H80FFFF
-        Result = autoAdjustColorTemperature_Gain(valColorTempNormal, adjustMode3, HighBri)
-
-        If Result = False Then
-            ShowError_Sys (3)
-            GoTo FAIL
-        Else
-            SAVE_WB_DATA_TO_ALL_SRC
-            DelayMS StepTime * 2
-        End If
-
-        lbAdjustNormal.BackColor = &HC0FFC0
-    End If
-
-    If IsAdjWarm_1 Then
-        lbAdjustWARM_1.BackColor = &H80FFFF
-        Result = autoAdjustColorTemperature_Gain(valColorTempWarm1, adjustMode3, HighBri)
-
-        If Result = False Then
-            ShowError_Sys (4)
-            GoTo FAIL
-        Else
-            SAVE_WB_DATA_TO_ALL_SRC
-            DelayMS StepTime * 2
-        End If
-
-        lbAdjustWARM_1.BackColor = &HC0FFC0
-    End If
-  
     If isAdjustOffset Then
         SET_BRIGHTNESS 50
         DelayMS StepTime
@@ -655,11 +591,9 @@ ADJUST_GAIN_COOL:
         Call frmCmbType.ChangePattern("110")
         DelayMS StepTime
 
-        DelayMS StepTime
-
         If IsAdjCool_1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
-            Result = autoAdjustColorTemperature_Offset(valColorTempCool1, FixG, LowBri, True)
+            Result = autoAdjustColorTemperature_Offset(valColorTempCool1, FixG, LowBri)
                 
             If Result = False Then
                 ShowError_Sys (11)
@@ -674,7 +608,7 @@ ADJUST_GAIN_COOL:
    
         If IsAdjNormal Then
             lbAdjustNormal.BackColor = &H80FFFF
-            Result = autoAdjustColorTemperature_Offset(valColorTempNormal, FixG, LowBri, False)
+            Result = autoAdjustColorTemperature_Offset(valColorTempNormal, FixG, LowBri)
 
             If Result = False Then
                 ShowError_Sys (13)
@@ -689,7 +623,7 @@ ADJUST_GAIN_COOL:
    
         If IsAdjWarm_1 Then
             lbAdjustWARM_1.BackColor = &H80FFFF
-            Result = autoAdjustColorTemperature_Offset(valColorTempWarm1, FixG, LowBri, False)
+            Result = autoAdjustColorTemperature_Offset(valColorTempWarm1, FixG, LowBri)
                 
             If Result = False Then
                 ShowError_Sys (14)
@@ -702,7 +636,86 @@ ADJUST_GAIN_COOL:
             lbAdjustWARM_1.BackColor = &HC0FFC0
         End If
 
-        Call frmCmbType.ChangePattern(IsWhitePtn)
+        'Call frmCmbType.ChangePattern(IsWhitePtn)
+    End If
+
+    Call frmCmbType.ChangePattern(IsWhitePtn)
+    DelayMS StepTime
+
+    SET_BRIGHTNESS 50
+    DelayMS StepTime
+    Log_Info "Set brightness to 50"
+        
+    SET_CONTRAST 50
+    DelayMS StepTime
+    Log_Info "Set contrast to 50"
+    
+    Label6 = "WHITE"
+
+ADJUST_GAIN_AGAIN_COOL1:
+    If IsAdjCool_1 Then
+        lbAdjustCOOL_1.BackColor = &H80FFFF
+        Result = autoAdjustColorTemperature_Gain(valColorTempCool1, adjustMode3, HighBri)
+  
+        If Result = False Then
+            ShowError_Sys (1)
+            GoTo FAIL
+        Else
+            SAVE_WB_DATA_TO_ALL_SRC
+            DelayMS StepTime * 2
+        End If
+
+        lbAdjustCOOL_1.BackColor = &HC0FFC0
+        
+        If isAdjustOffset Then
+            If adjustGainAgainCool1Flag > 0 Then
+                GoTo CHECK_COOL1
+            End If
+        End If
+    End If
+
+ADJUST_GAIN_AGAIN_NORMAL:
+    If IsAdjNormal Then
+        lbAdjustNormal.BackColor = &H80FFFF
+        Result = autoAdjustColorTemperature_Gain(valColorTempNormal, adjustMode3, HighBri)
+
+        If Result = False Then
+            ShowError_Sys (3)
+            GoTo FAIL
+        Else
+            SAVE_WB_DATA_TO_ALL_SRC
+            DelayMS StepTime * 2
+        End If
+
+        lbAdjustNormal.BackColor = &HC0FFC0
+        
+        If isAdjustOffset Then
+            If adjustGainAgainNormalFlag > 0 Then
+                GoTo CHECK_NORMAL
+            End If
+        End If
+    End If
+
+ADJUST_GAIN_AGAIN_WARM1:
+    If IsAdjWarm_1 Then
+        lbAdjustWARM_1.BackColor = &H80FFFF
+        Result = autoAdjustColorTemperature_Gain(valColorTempWarm1, adjustMode3, HighBri)
+
+        If Result = False Then
+            ShowError_Sys (4)
+            GoTo FAIL
+        Else
+            SAVE_WB_DATA_TO_ALL_SRC
+            DelayMS StepTime * 2
+        End If
+
+        lbAdjustWARM_1.BackColor = &HC0FFC0
+        
+        If isAdjustOffset Then
+            If adjustGainAgainWarm1Flag > 0 Then
+                GoTo CHECK_WARM1
+            End If
+        End If
     End If
 
     SET_BRIGHTNESS 50
@@ -713,10 +726,10 @@ ADJUST_GAIN_COOL:
     DelayMS StepTime
     Log_Info "Set contrast to 50"
 
-CHECK:
     If IsCheckColorTemp Then
         Label6 = "CHECK"
 
+CHECK_COOL1:
         If IsAdjCool_1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
             Result = checkColorAgain(valColorTempCool1, adjustMode3, HighBri)
@@ -724,40 +737,74 @@ CHECK:
             If Result = False Then
                 ShowError_Sys (1)
 
-                If isAdjustOffset Then
-                    If adjustGainCoolFlag > 0 Then
-                        GoTo FAIL
-                    End If
-    
-                    adjustGainCoolFlag = adjustGainCoolFlag + 1
-                    GoTo ADJUST_GAIN_COOL
-                Else
+                If adjustGainAgainCool1Flag > 0 Then
                     GoTo FAIL
                 End If
+
+                SET_BRIGHTNESS 50
+                DelayMS StepTime
+                Log_Info "Set brightness to 50"
+                    
+                SET_CONTRAST 50
+                DelayMS StepTime
+                Log_Info "Set contrast to 50"
+                
+                adjustGainAgainCool1Flag = adjustGainAgainCool1Flag + 1
+                GoTo ADJUST_GAIN_AGAIN_COOL1
             End If
       
             lbAdjustCOOL_1.BackColor = &HC0FFC0
         End If
      
+CHECK_NORMAL:
         If IsAdjNormal Then
             lbAdjustNormal.BackColor = &H80FFFF
             Result = checkColorAgain(valColorTempNormal, adjustMode3, HighBri)
       
             If Result = False Then
                 ShowError_Sys (3)
-                GoTo FAIL
+
+                If adjustGainAgainNormalFlag > 0 Then
+                    GoTo FAIL
+                End If
+                
+                SET_BRIGHTNESS 50
+                DelayMS StepTime
+                Log_Info "Set brightness to 50"
+                    
+                SET_CONTRAST 50
+                DelayMS StepTime
+                Log_Info "Set contrast to 50"
+    
+                adjustGainAgainNormalFlag = adjustGainAgainNormalFlag + 1
+                GoTo ADJUST_GAIN_AGAIN_NORMAL
             End If
     
             lbAdjustNormal.BackColor = &HC0FFC0
         End If
-     
+
+CHECK_WARM1:
         If IsAdjWarm_1 Then
             lbAdjustWARM_1.BackColor = &H80FFFF
             Result = checkColorAgain(valColorTempWarm1, adjustMode3, HighBri)
 
             If Result = False Then
                 ShowError_Sys (4)
-                GoTo FAIL
+                
+                If adjustGainAgainWarm1Flag > 0 Then
+                    GoTo FAIL
+                End If
+                
+                SET_BRIGHTNESS 50
+                DelayMS StepTime
+                Log_Info "Set brightness to 50"
+                    
+                SET_CONTRAST 50
+                DelayMS StepTime
+                Log_Info "Set contrast to 50"
+    
+                adjustGainAgainWarm1Flag = adjustGainAgainWarm1Flag + 1
+                GoTo ADJUST_GAIN_AGAIN_WARM1
             End If
 
             lbAdjustWARM_1.BackColor = &HC0FFC0
@@ -812,17 +859,18 @@ PASS:
 
     CheckStep.ForeColor = &H80000008
     CheckStep.BackColor = &HC0FFC0
-    checkResult.ForeColor = &HC000&
-    checkResult.Caption = "PASS"
-    DelayMS StepTime
     CheckStep = CheckStep + strSerialNo + vbCrLf
     CheckStep = CheckStep + strSerialNo + vbCrLf
     CheckStep = CheckStep + "TEST ALL PASS"
     CheckStep.SelStart = Len(CheckStep)
     CheckStep.SetFocus
-    Call subInitAfterRunning
+    checkResult.ForeColor = &HC000&
+    checkResult.Caption = "PASS"
+    DelayMS StepTime
     checkResult.BackColor = &HFF00&
     checkResult.ForeColor = &HC00000
+    
+    Call subInitAfterRunning
 
     Exit Sub
 
@@ -840,15 +888,15 @@ FAIL:
     
     CheckStep.SelStart = Len(CheckStep)
     CheckStep.SetFocus
-    Call subInitAfterRunning
-    checkResult.BackColor = &HFF&
     CheckStep.BackColor = &HFFFF&
+    checkResult.BackColor = &HFF&
     checkResult.ForeColor = &H808080
     checkResult.Caption = "FAIL"
-    DelayMS 1900
+    DelayMS StepTime
     checkResult.ForeColor = &H0&
-    DelayMS 300
     checkResult.ForeColor = &HFFFF&
+    
+    Call subInitAfterRunning
 
     Exit Sub
 
@@ -874,7 +922,9 @@ Private Sub subInitBeforeRunning()
     IsSNWriteSuccess = True
     txtInput.Locked = True
     strSerialNo = ""
-    adjustGainCoolFlag = 0
+    adjustGainAgainCool1Flag = 0
+    adjustGainAgainNormalFlag = 0
+    adjustGainAgainWarm1Flag = 0
 End Sub
 
 Private Sub subInitAfterRunning()
@@ -882,19 +932,20 @@ Private Sub subInitAfterRunning()
 
     Label9.Caption = countTime & "s"
     IsSNWriteSuccess = False
-    txtInput.Locked = False
-    adjustGainCoolFlag = 0
+    adjustGainAgainCool1Flag = 0
+    adjustGainAgainNormalFlag = 0
+    adjustGainAgainWarm1Flag = 0
 
     txtInput.Text = ""
     txtInput.SetFocus
+    txtInput.Locked = False
 End Sub
 
 Private Function subJudgeTheSNIsAvailable() As Boolean
     If strSerialNo = "" Or Len(strSerialNo) <> IsBarcodeLen Then
         CheckStep.Text = ""
         CheckStep.Text = CheckStep.Text + "Please confirm the SN again?" + vbCrLf
-        txtInput.Text = ""
-        txtInput.SetFocus
+
         subJudgeTheSNIsAvailable = False
     Else
         subJudgeTheSNIsAvailable = True
@@ -1007,31 +1058,6 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
         
         SET_B_GAN rRGB.cBB
         DelayMS StepTime
-        
-        If isAdjustOffset Then
-            If adjustGainCoolFlag > 0 Then
-                Call LoadData(ColorTemp, False)
-                Log_Info "SET_RGB_OFF: R = " + Str$(rRGB1.cRR) + ", G = " + Str$(rRGB1.cGG) + ", B = " + Str$(rRGB1.cBB)
-           
-                SET_R_OFF rRGB1.cRR
-                DelayMS StepTime
-           
-                SET_G_OFF rRGB1.cGG
-                DelayMS StepTime
-        
-                SET_B_OFF rRGB1.cBB
-                DelayMS StepTime
-            End If
-        Else
-            SET_R_OFF 128
-            DelayMS StepTime
-           
-            SET_G_OFF 128
-            DelayMS StepTime
-        
-            SET_B_OFF 128
-            DelayMS StepTime
-        End If
 
         showData (1)
 
@@ -1072,6 +1098,37 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
             'DelayMS StepTime
         Next k
   
+        If isAdjustOffset Then
+            If ColorTemp = valColorTempCool1 Then
+                SET_R_OFF 128
+                DelayMS StepTime
+               
+                SET_G_OFF 128
+                DelayMS StepTime
+            
+                SET_B_OFF 127
+                DelayMS StepTime
+            Else
+                SET_R_OFF 128
+                DelayMS StepTime
+               
+                SET_G_OFF 128
+                DelayMS StepTime
+            
+                SET_B_OFF 128
+                DelayMS StepTime
+            End If
+        Else
+            SET_R_OFF 128
+            DelayMS StepTime
+           
+            SET_G_OFF 128
+            DelayMS StepTime
+        
+            SET_B_OFF 128
+            DelayMS StepTime
+        End If
+        
         If RES Then Exit For
         
         'DelayMS StepTime
@@ -1088,7 +1145,7 @@ Cancel:
 
 End Function
 
-Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue As Long, HighLowMode As Long, isReallyAdjustOffset As Boolean) As Boolean
+Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
   
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
@@ -1097,37 +1154,48 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
         SET_COLORTEMP ColorTemp
         DelayMS StepTime
 
-        Call setColorTemp(ColorTemp, presetData, HighLowMode)
-        DelayMS StepTime
-        Log_Info "Init current colorTemp. RES:" + Str$(RES)
-        rRGB.cRR = presetData.nColorRR
-        rRGB.cGG = presetData.nColorGG
-        rRGB.cBB = presetData.nColorBB
+        'Call setColorTemp(ColorTemp, presetData, HighLowMode)
+        'DelayMS StepTime
+        'Log_Info "Init current colorTemp. RES:" + Str$(RES)
+        'rRGB.cRR = presetData.nColorRR
+        'rRGB.cGG = presetData.nColorGG
+        'rRGB.cBB = presetData.nColorBB
   
-        Label1 = Str$(presetData.xx)
-        Label3 = Str$(presetData.yy)
+        'Label1 = Str$(presetData.xx)
+        'Label3 = Str$(presetData.yy)
 
-        Call LoadData(ColorTemp, True)
+        'Call LoadData(ColorTemp, True)
 
-        SET_R_GAN rRGB1.cRR
-        DelayMS StepTime
+        'SET_R_GAN rRGB1.cRR
+        'DelayMS StepTime
         
-        SET_G_GAN rRGB1.cGG
-        DelayMS StepTime
+        'SET_G_GAN rRGB1.cGG
+        'DelayMS StepTime
 
-        SET_B_GAN rRGB1.cBB
-        DelayMS StepTime
+        'SET_B_GAN rRGB1.cBB
+        'DelayMS StepTime
 
-        SET_R_OFF rRGB.cRR
-        DelayMS StepTime
+        If ColorTemp = valColorTempCool1 Then
+           SET_R_OFF 128
+           DelayMS StepTime
+           
+           SET_G_OFF 128
+           DelayMS StepTime
         
-        SET_G_OFF rRGB.cGG
-        DelayMS StepTime
-     
-        SET_B_OFF rRGB.cBB
-        DelayMS StepTime
+           SET_B_OFF 127
+           DelayMS StepTime
+        Else
+           SET_R_OFF 128
+           DelayMS StepTime
+           
+           SET_G_OFF 128
+           DelayMS StepTime
+        
+           SET_B_OFF 128
+           DelayMS StepTime
+        End If
 
-        If isReallyAdjustOffset Then
+        If False Then
             showData (1)
 
             For k = 1 To 50
@@ -1157,6 +1225,8 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
         Else
             Call saveData(ColorTemp, HighLowMode)
             autoAdjustColorTemperature_Offset = True
+            
+            Exit Function
         End If
 
         If RES Then Exit For
