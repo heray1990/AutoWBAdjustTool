@@ -141,7 +141,7 @@ Begin VB.Form Form1
    Begin VB.Label Label9 
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
-      Caption         =   "0S"
+      Caption         =   "0s"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   15.75
@@ -199,7 +199,7 @@ Begin VB.Form Form1
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "WHITE"
+      Caption         =   "INITIAL"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   21.75
@@ -870,6 +870,8 @@ PASS:
     checkResult.BackColor = &HFF00&
     checkResult.ForeColor = &HC00000
     
+    Label6 = "PASS"
+    
     Call subInitAfterRunning
 
     Exit Sub
@@ -896,6 +898,8 @@ FAIL:
     checkResult.ForeColor = &H0&
     checkResult.ForeColor = &HFFFF&
     
+    Label6 = "FAIL"
+
     Call subInitAfterRunning
 
     Exit Sub
@@ -919,6 +923,8 @@ End Function
 
 Private Sub subInitBeforeRunning()
     countTime = Timer
+    Label9.Caption = "0s"
+
     IsSNWriteSuccess = True
     txtInput.Locked = True
     strSerialNo = ""
@@ -929,8 +935,8 @@ End Sub
 
 Private Sub subInitAfterRunning()
     countTime = CLng(Timer - countTime)
-
     Label9.Caption = countTime & "s"
+
     IsSNWriteSuccess = False
     adjustGainAgainCool1Flag = 0
     adjustGainAgainNormalFlag = 0
