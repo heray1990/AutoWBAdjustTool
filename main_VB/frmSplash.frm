@@ -176,8 +176,11 @@ On Error GoTo ErrExit
 
     If rs.EOF = False Then
         strCurrentModelName = rs("CurrentModelName")
-        strDataVersion = rs("DataVersion")
+        SetTVCurrentComBaud = rs("ComBaud")
         SetTVCurrentComID = rs("ComID")
+        Ca210ChannelNO = rs("Channel")
+        delayTime = rs("Delayms")
+        strDataVersion = rs("DataVersion")
         SetData = rs("Date")
         SetDay = rs("Day")
     Else
@@ -193,8 +196,8 @@ On Error GoTo ErrExit
     If SetData <> Day(Date) Then
         sqlstring = "select * from CommonTable where Mark='ATS'"
         Executesql (sqlstring)
-        rs.Fields(4) = Day(Date)
-        rs.Fields(5) = SetDay + 1
+        rs.Fields(7) = Day(Date)
+        rs.Fields(8) = SetDay + 1
   
         rs.Update
 
@@ -226,21 +229,15 @@ On Error GoTo ErrExit
     sqlstring = "select * from CheckItem where Mark='" & strCurrentModelName & "'"
     Executesql (sqlstring)
 
-    SetTVCurrentComBaud = rs("ComBaud")
-    Ca210ChannelNO = rs("Channel")
-    IsStepTime = rs("Delayms")
-    IsWhitePtn = rs("WhitePattern")
+    barCodeLen = rs("SN_Len")
 
-    IsAdjCool_1 = rs("COOL_1")
-    IsAdjCool_2 = rs("COOL_2")
-    IsAdjNormal = rs("NORMAL")
-    IsAdjWarm_1 = rs("WARM_1")
-    IsAdjWarm_2 = rs("WARM_2")
-
-    IsBarcodeLen = rs("SN_Len")
-    IsSaveData = rs("SaveData")
-    IsCheckColorTemp = rs("CheckColor")
-
+    isAdjustCool2 = rs("COOL_2")
+    isAdjustCool1 = rs("COOL_1")
+    isAdjustNormal = rs("NORMAL")
+    isAdjustWarm1 = rs("WARM_1")
+    isAdjustWarm2 = rs("WARM_2")
+    isSaveData = rs("SaveData")
+    isCheckColorTemp = rs("CheckColor")
     isAdjustOffset = rs("AdjustOFF")
 
     Set rs = Nothing

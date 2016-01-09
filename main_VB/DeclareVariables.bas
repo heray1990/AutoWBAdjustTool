@@ -37,27 +37,24 @@ Public Const yyf = 3
 Public Const microStep = True
 Public Const StepbyStep = False
 
-
-
 Public Ca210ChannelNO As Long
-Public IsStepTime As Long
-Public IsWhitePtn As String
+Public delayTime As Long
 
-Public IsAdjCool_1 As Boolean
-Public IsAdjCool_2  As Boolean
-Public IsAdjNormal  As Boolean
-Public IsAdjWarm_1 As Boolean
-Public IsAdjWarm_2  As Boolean
+Public isAdjustCool1 As Boolean
+Public isAdjustCool2  As Boolean
+Public isAdjustNormal  As Boolean
+Public isAdjustWarm1 As Boolean
+Public isAdjustWarm2  As Boolean
 
 Public IsAdj5400k As Boolean
 Public IsAdj5000k As Boolean
 Public IsAdj4000k As Boolean
 Public IsAdj2600k As Boolean
 
-Public IsBarcodeLen As Integer
+Public barCodeLen As Integer
 Public IsFunctionAutoBri As Boolean
-Public IsSaveData As Boolean
-Public IsCheckColorTemp  As Boolean
+Public isSaveData As Boolean
+Public isCheckColorTemp  As Boolean
 
 Public isAdjustOffset As Boolean
 
@@ -66,6 +63,7 @@ Public strDataVersion As String
 Public IsStop As Boolean
 Public IsACK As Boolean
 Public SetTVCurrentComID As Integer
+Public SetTVCurrentComBaud As Long
 Public SetData As Integer
 Public SetDay As Integer
 
@@ -75,7 +73,6 @@ Public IsSNWriteSuccess As Boolean
 Public scanbarcode As String
 Public strSerialNo As String
 Public countTime As Long
-Public SetTVCurrentComBaud As Long
 
 
 Public Type COLORTEMPSPEC
