@@ -243,12 +243,6 @@ On Error GoTo ErrExit
 
     isAdjustOffset = rs("AdjustOFF")
 
-    IsCool_1ModeIndex = rs("Cool_1MI")
-    IsCool_2ModeIndex = rs("Cool_2MI")
-    IsNormalModeIndex = rs("NormalMI")
-    IsWarm_1ModeIndex = rs("Warm_1MI")
-    IsWarm_2ModeIndex = rs("Warm_2MI")
-
     Set rs = Nothing
     Set cn = Nothing
     sqlstring = ""

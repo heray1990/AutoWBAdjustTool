@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin VB.Form frmSetData 
    Caption         =   "SpecData"
-   ClientHeight    =   4020
+   ClientHeight    =   4215
    ClientLeft      =   6435
    ClientTop       =   3210
-   ClientWidth     =   10950
+   ClientWidth     =   8415
    BeginProperty Font 
       Name            =   "Arial Narrow"
       Size            =   18
@@ -15,8 +15,8 @@ Begin VB.Form frmSetData
       Strikethrough   =   0   'False
    EndProperty
    LinkTopic       =   "Form4"
-   ScaleHeight     =   4020
-   ScaleWidth      =   10950
+   ScaleHeight     =   4215
+   ScaleWidth      =   8415
    Begin VB.Frame Frame1 
       Caption         =   "CommSetting"
       BeginProperty Font 
@@ -29,9 +29,9 @@ Begin VB.Form frmSetData
          Strikethrough   =   0   'False
       EndProperty
       Height          =   3345
-      Left            =   0
-      TabIndex        =   27
-      Top             =   600
+      Left            =   120
+      TabIndex        =   15
+      Top             =   840
       Width           =   3135
       Begin VB.TextBox Text5 
          Alignment       =   2  'Center
@@ -47,7 +47,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   1800
-         TabIndex        =   33
+         TabIndex        =   21
          Text            =   "103"
          Top             =   2760
          Width           =   1095
@@ -66,7 +66,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   1800
-         TabIndex        =   2
+         TabIndex        =   1
          Text            =   "1"
          Top             =   960
          Width           =   1095
@@ -84,7 +84,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   1800
-         TabIndex        =   1
+         TabIndex        =   0
          Text            =   "115200"
          Top             =   360
          Width           =   1095
@@ -103,7 +103,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   1800
-         TabIndex        =   3
+         TabIndex        =   2
          Text            =   "500"
          Top             =   1560
          Width           =   1095
@@ -122,7 +122,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   1800
-         TabIndex        =   4
+         TabIndex        =   3
          Text            =   "1"
          Top             =   2160
          Width           =   1095
@@ -140,7 +140,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   34
+         TabIndex        =   22
          Top             =   2760
          Width           =   1455
       End
@@ -157,7 +157,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   31
+         TabIndex        =   19
          Top             =   960
          Width           =   1455
       End
@@ -174,7 +174,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   30
+         TabIndex        =   18
          Top             =   360
          Width           =   1455
       End
@@ -191,7 +191,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   29
+         TabIndex        =   17
          Top             =   1560
          Width           =   1455
       End
@@ -208,7 +208,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   495
          Left            =   240
-         TabIndex        =   28
+         TabIndex        =   16
          Top             =   2160
          Width           =   1455
       End
@@ -225,9 +225,9 @@ Begin VB.Form frmSetData
          Strikethrough   =   0   'False
       EndProperty
       Height          =   3345
-      Left            =   3240
-      TabIndex        =   26
-      Top             =   600
+      Left            =   3360
+      TabIndex        =   14
+      Top             =   840
       Width           =   2295
       Begin VB.CheckBox Check1 
          Alignment       =   1  'Right Justify
@@ -243,7 +243,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   435
          Left            =   240
-         TabIndex        =   5
+         TabIndex        =   4
          Top             =   360
          Width           =   1695
       End
@@ -261,7 +261,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   435
          Left            =   240
-         TabIndex        =   6
+         TabIndex        =   5
          Top             =   960
          Value           =   1  'Checked
          Width           =   1695
@@ -280,7 +280,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   435
          Left            =   240
-         TabIndex        =   7
+         TabIndex        =   6
          Top             =   1560
          Value           =   1  'Checked
          Width           =   1695
@@ -299,7 +299,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   435
          Left            =   240
-         TabIndex        =   8
+         TabIndex        =   7
          Top             =   2160
          Value           =   1  'Checked
          Width           =   1695
@@ -318,206 +318,9 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   435
          Left            =   240
-         TabIndex        =   9
+         TabIndex        =   8
          Top             =   2760
          Width           =   1695
-      End
-   End
-   Begin VB.Frame Frame3 
-      Caption         =   "ModeIndex"
-      BeginProperty Font 
-         Name            =   "Arial Narrow"
-         Size            =   12
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   3345
-      Left            =   5640
-      TabIndex        =   20
-      Top             =   600
-      Width           =   2535
-      Begin VB.TextBox Text9 
-         Alignment       =   2  'Center
-         Appearance      =   0  'Flat
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Left            =   1680
-         TabIndex        =   13
-         Text            =   "2"
-         Top             =   2160
-         Width           =   615
-      End
-      Begin VB.TextBox Text8 
-         Alignment       =   2  'Center
-         Appearance      =   0  'Flat
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Left            =   1680
-         TabIndex        =   12
-         Text            =   "1"
-         Top             =   1560
-         Width           =   615
-      End
-      Begin VB.TextBox Text6 
-         Alignment       =   2  'Center
-         Appearance      =   0  'Flat
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Left            =   1680
-         TabIndex        =   10
-         Text            =   "NA"
-         Top             =   360
-         Width           =   615
-      End
-      Begin VB.TextBox Text7 
-         Alignment       =   2  'Center
-         Appearance      =   0  'Flat
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Left            =   1680
-         TabIndex        =   11
-         Text            =   "0"
-         Top             =   960
-         Width           =   615
-      End
-      Begin VB.TextBox Text10 
-         Alignment       =   2  'Center
-         Appearance      =   0  'Flat
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Left            =   1680
-         TabIndex        =   14
-         Text            =   "NA"
-         Top             =   2760
-         Width           =   615
-      End
-      Begin VB.Label Label7 
-         Caption         =   "WARM_1"
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Left            =   240
-         TabIndex        =   25
-         Top             =   2160
-         Width           =   1455
-      End
-      Begin VB.Label Label8 
-         Caption         =   "NORMAL"
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Left            =   240
-         TabIndex        =   24
-         Top             =   1560
-         Width           =   1455
-      End
-      Begin VB.Label Label9 
-         Caption         =   "COOL_2"
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Left            =   240
-         TabIndex        =   23
-         Top             =   360
-         Width           =   1455
-      End
-      Begin VB.Label Label10 
-         Caption         =   "COOL_1"
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Left            =   240
-         TabIndex        =   22
-         Top             =   960
-         Width           =   1455
-      End
-      Begin VB.Label Label6 
-         Caption         =   "WARM_2"
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Left            =   240
-         TabIndex        =   21
-         Top             =   2760
-         Width           =   1455
       End
    End
    Begin VB.Frame Frame4 
@@ -531,10 +334,10 @@ Begin VB.Form frmSetData
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   3345
-      Left            =   8280
-      TabIndex        =   19
-      Top             =   600
+      Height          =   2625
+      Left            =   5760
+      TabIndex        =   13
+      Top             =   840
       Width           =   2535
       Begin VB.CheckBox Check9 
          Alignment       =   1  'Right Justify
@@ -550,7 +353,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   435
          Left            =   240
-         TabIndex        =   17
+         TabIndex        =   11
          Top             =   1560
          Value           =   1  'Checked
          Width           =   2055
@@ -569,7 +372,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   435
          Left            =   240
-         TabIndex        =   16
+         TabIndex        =   10
          Top             =   960
          Value           =   1  'Checked
          Width           =   2055
@@ -588,7 +391,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   435
          Left            =   240
-         TabIndex        =   15
+         TabIndex        =   9
          Top             =   360
          Value           =   1  'Checked
          Width           =   2055
@@ -597,34 +400,26 @@ Begin VB.Form frmSetData
    Begin VB.CommandButton Command1 
       Caption         =   "Save"
       Height          =   555
-      Left            =   8400
-      TabIndex        =   18
-      Top             =   0
-      Width           =   1095
-   End
-   Begin VB.CommandButton Command2 
-      Caption         =   "Exit"
-      Height          =   555
-      Left            =   9720
-      TabIndex        =   0
-      Top             =   0
+      Left            =   7200
+      TabIndex        =   12
+      Top             =   3600
       Width           =   1095
    End
    Begin VB.Label Label1 
       Caption         =   "Label1"
       BeginProperty Font 
          Name            =   "Arial Narrow"
-         Size            =   27.75
+         Size            =   24
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   615
+      Height          =   550
       Left            =   120
-      TabIndex        =   32
-      Top             =   0
+      TabIndex        =   20
+      Top             =   120
       Width           =   2895
    End
 End
@@ -635,10 +430,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 Option Explicit
-
-Private Sub Command2_Click()
-  Unload Me
-End Sub
 
 Private Sub Form_Load()
     sqlstring = "select * from CheckItem where Mark='" & strCurrentModelName & "'"

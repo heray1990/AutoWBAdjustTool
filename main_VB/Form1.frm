@@ -454,13 +454,6 @@ Begin VB.Form Form1
       Begin VB.Menu tbDisConnectastro 
          Caption         =   "DisConnectCA210(&D)"
       End
-      Begin VB.Menu tbDebugMode 
-         Caption         =   "DebugMode(&M)"
-      End
-      Begin VB.Menu tbAutoADC 
-         Caption         =   "ReadMAC(&A)"
-         Shortcut        =   {F8}
-      End
       Begin VB.Menu vbConChroma 
          Caption         =   "ConnectChroma"
       End
@@ -1293,14 +1286,6 @@ On Error Resume Next
     Label_y = Str$(rColor.yy)
     Label_Lv = Str$(rColor.lv)
     DelayMS 30
-
-    If DebugFlag Then
-        DelayMS 2000
-    End If
-End Sub
-
-Private Sub tbDebugMode_Click()
-    DebugFlag = True
 End Sub
 
 Private Sub tbDisConnectastro_Click()
@@ -1350,8 +1335,6 @@ Private Sub Form_Load()
     If Timming = 0 Then
         RES = initColorTemp(Timming, Pattern, specMaxLV, specMinLV, Calibrate, MinBrightness, strCurrentModelName, App.path)
     End If
-
-    DebugFlag = False
 
     If IsAdjCool_1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
     If IsAdjCool_2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0

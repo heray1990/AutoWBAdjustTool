@@ -68,11 +68,6 @@ Public IsACK As Boolean
 Public SetTVCurrentComID As Integer
 Public SetData As Integer
 Public SetDay As Integer
-Public IsCool_1ModeIndex As Long
-Public IsCool_2ModeIndex As Long
-Public IsNormalModeIndex As Long
-Public IsWarm_1ModeIndex As Long
-Public IsWarm_2ModeIndex As Long
 
 Public IsCa210ok As Boolean
 
@@ -80,8 +75,6 @@ Public IsSNWriteSuccess As Boolean
 Public scanbarcode As String
 Public strSerialNo As String
 Public countTime As Long
-Public DebugFlag As Boolean
-
 Public SetTVCurrentComBaud As Long
 
 

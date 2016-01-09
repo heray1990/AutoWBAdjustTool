@@ -13,7 +13,9 @@ Begin VB.Form frmInformation
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '¿Ã¹õ¤¤¥¡
    Begin VB.Label Infbox 
+      Alignment       =   2  'Center
       BackColor       =   &H00404040&
+      Caption         =   "Please Wait,Initiating..."
       BeginProperty Font 
          Name            =   "Tahoma"
          Size            =   14.25
@@ -24,11 +26,11 @@ Begin VB.Form frmInformation
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   375
-      Left            =   240
+      Height          =   435
+      Left            =   90
       TabIndex        =   0
       Top             =   120
-      Width           =   4575
+      Width           =   4815
    End
 End
 Attribute VB_Name = "frmInformation"
