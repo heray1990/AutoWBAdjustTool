@@ -255,7 +255,7 @@ Begin VB.Form Form1
       Height          =   525
       Left            =   120
       TabIndex        =   13
-      Top             =   1980
+      Top             =   1470
       Width           =   2535
    End
    Begin VB.Label Label_Lv 
@@ -380,7 +380,7 @@ Begin VB.Form Form1
       Height          =   525
       Left            =   120
       TabIndex        =   2
-      Top             =   1470
+      Top             =   1980
       Width           =   2535
    End
    Begin VB.Label checkResult 
@@ -817,7 +817,9 @@ CHECK_WARM1:
         GoTo FAIL
     End If
 
-    Call saveALLcData
+    If isSaveData Then
+        Call saveALLcData
+    End If
 
 PASS:
     EXIT_FAC_MODE
