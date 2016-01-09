@@ -7,6 +7,7 @@ Begin VB.Form frmAbout
    ClientTop       =   1935
    ClientWidth     =   5730
    ClipControls    =   0   'False
+   Icon            =   "frmAbout.frx":0000
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
    MinButton       =   0   'False
@@ -14,18 +15,6 @@ Begin VB.Form frmAbout
    ScaleMode       =   0  'User
    ScaleWidth      =   5380.766
    ShowInTaskbar   =   0   'False
-   Begin VB.PictureBox picIcon 
-      AutoSize        =   -1  'True
-      ClipControls    =   0   'False
-      Height          =   540
-      Left            =   240
-      ScaleHeight     =   337.12
-      ScaleMode       =   0  'User
-      ScaleWidth      =   337.12
-      TabIndex        =   1
-      Top             =   240
-      Width           =   540
-   End
    Begin VB.CommandButton cmdOK 
       Cancel          =   -1  'True
       Caption         =   "OK"
@@ -41,7 +30,7 @@ Begin VB.Form frmAbout
       ForeColor       =   &H00000000&
       Height          =   555
       Left            =   240
-      TabIndex        =   5
+      TabIndex        =   4
       Top             =   1920
       Width           =   3015
    End
@@ -59,7 +48,7 @@ Begin VB.Form frmAbout
       ForeColor       =   &H00000000&
       Height          =   690
       Left            =   1080
-      TabIndex        =   4
+      TabIndex        =   3
       Top             =   1080
       Width           =   4515
    End
@@ -86,7 +75,7 @@ Begin VB.Form frmAbout
       ForeColor       =   &H00000000&
       Height          =   480
       Left            =   1080
-      TabIndex        =   2
+      TabIndex        =   1
       Top             =   240
       Width           =   4485
    End
@@ -103,7 +92,7 @@ Begin VB.Form frmAbout
       Caption         =   "Ver1.00"
       Height          =   225
       Left            =   1080
-      TabIndex        =   3
+      TabIndex        =   2
       Top             =   780
       Width           =   3885
    End

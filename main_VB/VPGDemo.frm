@@ -1,11 +1,12 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Begin VB.Form frmCmbType 
    Caption         =   "Chroma"
    ClientHeight    =   7935
    ClientLeft      =   6750
    ClientTop       =   4020
    ClientWidth     =   6285
+   Icon            =   "VPGDemo.frx":0000
    LinkTopic       =   "Form4"
    ScaleHeight     =   7935
    ScaleWidth      =   6285
@@ -16,9 +17,9 @@ Begin VB.Form frmCmbType
    End
    Begin VB.ComboBox cmbModel 
       Height          =   300
-      ItemData        =   "VPGDemo.frx":0000
+      ItemData        =   "VPGDemo.frx":1DF72
       Left            =   360
-      List            =   "VPGDemo.frx":002E
+      List            =   "VPGDemo.frx":1DFA0
       Style           =   2  'Dropdown List
       TabIndex        =   42
       Top             =   120
@@ -173,9 +174,9 @@ Begin VB.Form frmCmbType
       Width           =   2655
       Begin VB.ComboBox cmbType 
          Height          =   300
-         ItemData        =   "VPGDemo.frx":009B
+         ItemData        =   "VPGDemo.frx":1E00D
          Left            =   120
-         List            =   "VPGDemo.frx":00A8
+         List            =   "VPGDemo.frx":1E01A
          Style           =   2  'Dropdown List
          TabIndex        =   24
          Top             =   360
@@ -647,7 +648,7 @@ Private Sub cmdOpen_Click()
     Dim strfilter As String
     
     strfilter = "Bitmap File (*.bmp)|*.bmp"
-    If rdoDownload.value = True Then
+    If rdoDownload.Value = True Then
         dlgOpen.ShowOpen
     Else
         dlgOpen.ShowSave
@@ -794,7 +795,7 @@ Private Sub Command1_Click()
     
     
     
-    If rdoDownload.value = True Then
+    If rdoDownload.Value = True Then
         Open txtBmpPath.Text For Binary As #file_num
         ReDim byteDownloadData(FileLen(txtBmpPath.Text))
         Dim i As Long
