@@ -567,6 +567,10 @@ On Error GoTo ErrExit
     Log_Info "###INITIAL USER###"
     Log_Info "###ADJUST COLORTEMP###"
 
+    'Timing 74: HDMI-1080P60
+    Call frmCmbType.ChangeTiming("74")
+    DelayMS delayTime
+
     If isAdjustOffset Then
         SET_BRIGHTNESS 50
         DelayMS delayTime

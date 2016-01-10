@@ -948,6 +948,17 @@ Private Sub txtRValue_Validate(Cancel As Boolean)
     End If
 End Sub
 
+Public Sub ChangeTiming(Tim As String)
+    Dim bNo(1) As Byte
+
+    cmbType.Text = "Timing"
+    txtRunNum.Text = Tim
+    
+    bNo(0) = (CInt(txtRunNum.Text) And &HFF00) \ 256
+    bNo(1) = CInt(txtRunNum.Text) And &HFF
+
+    ivpg.ExecuteCmd VPG_CMD_CM_DOWNLOAD, VPG_SCMD_SCM_CTL_RUNTIM, bNo, False
+End Sub
 
 Public Sub ChangePattern(Ptn As String)
     Dim bNo(1) As Byte
