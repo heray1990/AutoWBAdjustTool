@@ -498,6 +498,7 @@ Dim rColorLastChk As REALCOLOR
 Dim Timming, Pattern, Calibrate, MinBrightness As Long
 Dim specMaxLV, specMinLV, MaxLV, MinLV As Long
 Dim resCodeForAdjustColorTemp As Long
+Dim cmdMark As String
 
 Private Sub subMainProcesser()
 
@@ -821,13 +822,14 @@ CHECK_WARM1:
         GoTo FAIL
     End If
 
-    If isSaveData Then
-        Call saveALLcData
-    End If
-
 PASS:
     EXIT_FAC_MODE
     DelayMS delayTime
+
+    If isSaveData Then
+        cmdMark = "Y"
+        Call saveALLcData
+    End If
 
     CheckStep.ForeColor = &H80000008
     CheckStep.BackColor = &HC0FFC0
@@ -851,7 +853,12 @@ PASS:
 FAIL:
     EXIT_FAC_MODE
     DelayMS delayTime
-    
+
+    If isSaveData Then
+        cmdMark = "N"
+        Call saveALLcData
+    End If
+
     CheckStep.SelStart = Len(CheckStep)
     CheckStep.SetFocus
     CheckStep.BackColor = &HFFFF&
@@ -1502,77 +1509,53 @@ Private Sub LoadData(ColorTemp As Long, isGain As Boolean)
 End Sub
 
 Private Sub saveALLcData()
-
-    Dim cmdFTP As String
-    Dim cmdMark As String
-    Dim OffsetRGB As String
-    
     If strSerialNo = "" Then
         Exit Sub
     Else
-        cmdMark = "Y"
         sqlstring = "select * from DataRecord"
         Executesql (sqlstring)
         rs.AddNew
 
         rs.Fields(0) = strCurrentModelName
-        rs.Fields(1) = strSerialNo
+        rs.Fields(1) = Date
+        rs.Fields(2) = Time
+        rs.Fields(3) = strSerialNo
+        rs.Fields(4) = rColorLastChk.lv
+        rs.Fields(5) = specMinLV
 
-        rs.Fields(2) = c12000K.xx
-        rs.Fields(3) = c12000K.yy
-        rs.Fields(4) = c12000K.lv
-        rs.Fields(5) = c12000K.nColorRR
-        rs.Fields(6) = c12000K.nColorGG
-        rs.Fields(7) = c12000K.nColorBB
-        rs.Fields(8) = c10000K.xx
-        rs.Fields(9) = c10000K.yy
-        rs.Fields(10) = c10000K.lv
-        rs.Fields(11) = c10000K.nColorRR
-        rs.Fields(12) = c10000K.nColorGG
-        rs.Fields(13) = c10000K.nColorBB
-        rs.Fields(14) = c6500K.xx
-        rs.Fields(15) = c6500K.yy
-        rs.Fields(16) = c6500K.lv
-        rs.Fields(17) = c6500K.nColorRR
-        rs.Fields(18) = c6500K.nColorGG
-        rs.Fields(19) = c6500K.nColorBB
+        rs.Fields(6) = c12000K.xx
+        rs.Fields(7) = c12000K.yy
+        rs.Fields(8) = c12000K.nColorRR
+        rs.Fields(9) = c12000K.nColorGG
+        rs.Fields(10) = c12000K.nColorBB
+        rs.Fields(11) = c10000K.xx
+        rs.Fields(12) = c10000K.yy
+        rs.Fields(13) = c10000K.nColorRR
+        rs.Fields(14) = c10000K.nColorGG
+        rs.Fields(15) = c10000K.nColorBB
+        rs.Fields(16) = c6500K.xx
+        rs.Fields(17) = c6500K.yy
+        rs.Fields(18) = c6500K.nColorRR
+        rs.Fields(19) = c6500K.nColorGG
+        rs.Fields(20) = c6500K.nColorBB
   
-        rs.Fields(20) = cFF12000K.xx
-        rs.Fields(21) = cFF12000K.yy
-        rs.Fields(22) = cFF12000K.lv
-        rs.Fields(23) = cFF12000K.nColorRR
-        rs.Fields(24) = cFF12000K.nColorGG
-        rs.Fields(25) = cFF12000K.nColorBB
-        rs.Fields(26) = cFF10000K.xx
-        rs.Fields(27) = cFF10000K.yy
-        rs.Fields(28) = cFF10000K.lv
-        rs.Fields(29) = cFF10000K.nColorRR
-        rs.Fields(30) = cFF10000K.nColorGG
-        rs.Fields(31) = cFF10000K.nColorBB
-        rs.Fields(32) = cFF6500K.xx
-        rs.Fields(33) = cFF6500K.yy
-        rs.Fields(34) = cFF6500K.lv
-        rs.Fields(35) = cFF6500K.nColorRR
-        rs.Fields(36) = cFF6500K.nColorGG
-        rs.Fields(37) = cFF6500K.nColorBB
+        rs.Fields(21) = cFF12000K.nColorRR
+        rs.Fields(22) = cFF12000K.nColorGG
+        rs.Fields(23) = cFF12000K.nColorBB
+        rs.Fields(24) = cFF10000K.nColorRR
+        rs.Fields(25) = cFF10000K.nColorGG
+        rs.Fields(26) = cFF10000K.nColorBB
+        rs.Fields(27) = cFF6500K.nColorRR
+        rs.Fields(28) = cFF6500K.nColorGG
+        rs.Fields(29) = cFF6500K.nColorBB
 
-        rs.Fields(38) = MinLV
-        rs.Fields(39) = MaxLV
+        rs.Fields(30) = cmdMark
 
-        rs.Fields(40) = rColorLastChk.xx
-        rs.Fields(41) = rColorLastChk.yy
-        rs.Fields(42) = rColorLastChk.lv
-        rs.Fields(43) = specMinLV
-        rs.Fields(44) = cmdMark
-        rs.Fields(45) = Date
-        rs.Fields(46) = Time
-  
         rs.Update
 
         Set cn = Nothing
         Set rs = Nothing
         sqlstring = ""
     End If
-
 End Sub
 
