@@ -176,14 +176,11 @@ On Error GoTo ErrExit
 
     If rs.EOF = False Then
         strCurrentModelName = rs("CurrentModelName")
-        SetTVCurrentComBaud = rs("ComBaud")
-        SetTVCurrentComID = rs("ComID")
+        setTVCurrentComBaud = rs("ComBaud")
+        setTVCurrentComID = rs("ComID")
         Ca210ChannelNO = rs("Channel")
         delayTime = rs("Delayms")
         setTVInputSource = Trim(rs("TVInputSource"))
-        strDataVersion = rs("DataVersion")
-        SetData = rs("Date")
-        SetDay = rs("Day")
     Else
         MsgBox "Read Data Error,Please Check Your Database!", vbOKOnly + vbInformation, "Warning!"
     End If
@@ -193,20 +190,6 @@ On Error GoTo ErrExit
     sqlstring = ""
 
     cmbModelName = strCurrentModelName
-
-    If SetData <> Day(Date) Then
-        sqlstring = "select * from CommonTable where Mark='ATS'"
-        Executesql (sqlstring)
-        rs.Fields(8) = Day(Date)
-        rs.Fields(9) = SetDay + 1
-  
-        rs.Update
-
-        Set cn = Nothing
-        Set rs = Nothing
-        sqlstring = ""
-    End If
-
     Exit Sub
 
 ErrExit:

@@ -96,22 +96,22 @@ Private Sub cmdSet_Click()
     On Error GoTo ErrExit
 
     If Len(Trim$(cmbTcomID.Text)) = 5 Then
-        SetTVCurrentComID = Val(Right(Trim$(cmbTcomID.Text), 2))
+        setTVCurrentComID = Val(Right(Trim$(cmbTcomID.Text), 2))
     ElseIf Len(Trim$(cmbTcomID.Text)) = 4 Then
-        SetTVCurrentComID = Val(Right(Trim$(cmbTcomID.Text), 1))
+        setTVCurrentComID = Val(Right(Trim$(cmbTcomID.Text), 1))
     Else
-        SetTVCurrentComID = 1
+        setTVCurrentComID = 1
     End If
  
-    SetTVCurrentComBaud = Val(cmbTbaud)
+    setTVCurrentComBaud = Val(cmbTbaud)
 
     If Form1.MSComm1.PortOpen = True Then
         Form1.MSComm1.PortOpen = False
     End If
 
     With Form1
-        .MSComm1.CommPort = SetTVCurrentComID
-        .MSComm1.Settings = SetTVCurrentComBaud & ",N,8,1"
+        .MSComm1.CommPort = setTVCurrentComID
+        .MSComm1.Settings = setTVCurrentComBaud & ",N,8,1"
         .MSComm1.PortOpen = True
     End With
 
@@ -126,8 +126,8 @@ End Sub
 Private Sub Form_Load()
 On Error GoTo ErrExit
 
-    cmbTcomID.Text = "COM" & SetTVCurrentComID
-    cmbTbaud.Text = SetTVCurrentComBaud
+    cmbTcomID.Text = "COM" & setTVCurrentComID
+    cmbTbaud.Text = setTVCurrentComBaud
 
     For i = 1 To 20
         cmbTcomID.AddItem "COM" & i

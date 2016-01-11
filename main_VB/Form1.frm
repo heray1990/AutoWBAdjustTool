@@ -255,7 +255,7 @@ Begin VB.Form Form1
       Height          =   525
       Left            =   120
       TabIndex        =   13
-      Top             =   1470
+      Top             =   1980
       Width           =   2535
    End
    Begin VB.Label Label_Lv 
@@ -380,7 +380,7 @@ Begin VB.Form Form1
       Height          =   525
       Left            =   120
       TabIndex        =   2
-      Top             =   1980
+      Top             =   1470
       Width           =   2535
    End
    Begin VB.Label checkResult 
@@ -1349,7 +1349,7 @@ End Sub
 
 Private Sub Form_Load()
     i = 0
-    SetTVCurrentComBaud = 115200
+    setTVCurrentComBaud = 115200
     delayTime = delayTime
     IsStop = False
     txtInput.Locked = False
@@ -1381,7 +1381,7 @@ Private Sub subInitComPort()
     Executesql (sqlstring)
     
     If rs.EOF = False Then
-        SetTVCurrentComID = rs("ComID")
+        setTVCurrentComID = rs("ComID")
     Else
         MsgBox "Read Data Error,Please Check Your Database!", vbOKOnly + vbInformation, "Warning!"
         End

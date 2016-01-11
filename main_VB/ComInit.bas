@@ -47,8 +47,8 @@ On Error GoTo ErrExit
     End If
     
     With Form1
-        .MSComm1.CommPort = SetTVCurrentComID
-        .MSComm1.Settings = SetTVCurrentComBaud & ",N,8,1"
+        .MSComm1.CommPort = setTVCurrentComID
+        .MSComm1.Settings = setTVCurrentComBaud & ",N,8,1"
         .MSComm1.InputLen = 0
         
         .MSComm1.InBufferCount = 0

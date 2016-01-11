@@ -46,11 +46,6 @@ Public isAdjustNormal  As Boolean
 Public isAdjustWarm1 As Boolean
 Public isAdjustWarm2  As Boolean
 
-Public IsAdj5400k As Boolean
-Public IsAdj5000k As Boolean
-Public IsAdj4000k As Boolean
-Public IsAdj2600k As Boolean
-
 Public barCodeLen As Integer
 Public IsFunctionAutoBri As Boolean
 Public isSaveData As Boolean
@@ -59,14 +54,11 @@ Public isCheckColorTemp  As Boolean
 Public isAdjustOffset As Boolean
 
 Public strCurrentModelName As String
-Public strDataVersion As String
 Public IsStop As Boolean
 Public IsACK As Boolean
-Public SetTVCurrentComID As Integer
-Public SetTVCurrentComBaud As Long
+Public setTVCurrentComID As Integer
+Public setTVCurrentComBaud As Long
 Public setTVInputSource As String
-Public SetData As Integer
-Public SetDay As Integer
 
 Public IsCa210ok As Boolean
 
