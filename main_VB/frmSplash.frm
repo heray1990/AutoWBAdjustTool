@@ -214,6 +214,7 @@ On Error GoTo ErrExit
     Executesql (sqlstring)
 
     barCodeLen = rs("SN_Len")
+    maxBrightnessSpec = rs("LvSpec")
 
     isAdjustCool2 = rs("COOL_2")
     isAdjustCool1 = rs("COOL_1")

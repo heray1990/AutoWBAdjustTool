@@ -65,6 +65,7 @@ Public IsACK As Boolean
 Public setTVCurrentComID As Integer
 Public setTVCurrentComBaud As Long
 Public setTVInputSource As String
+Public maxBrightnessSpec As Long
 
 Public IsCa210ok As Boolean
 

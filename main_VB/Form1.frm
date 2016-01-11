@@ -835,8 +835,8 @@ CHECK_WARM1:
 
     showData (lastChkShwDataStep)
     
-    If rColorLastChk.lv < specMinLV Then
-        Log_Info "亮度不在规格！"
+    If rColorLastChk.lv < maxBrightnessSpec Then
+        ShowError_Sys (30)
         GoTo FAIL
     End If
 
@@ -1018,6 +1018,8 @@ Sub ShowError_Sys(t As Integer)
         Case 29
             s = "LightSensor Data is Wrong, Please Check Again."
         Case 30
+            s = "亮度不在规格！"
+        Case 31
             s = ""
     End Select
 
@@ -1279,7 +1281,7 @@ On Error Resume Next
     xPos = 1515 + (rColor.xx - presetData.xx) * 365 / presetData.xt
     yPos = 1275 - (rColor.yy - presetData.yy) * 385 / presetData.yt
     If step = lastChkShwDataStep Then
-        vPos = 1660 - (rColor.lv - specMinLV) * 385 / 50
+        vPos = 1660 - (rColor.lv - maxBrightnessSpec) * 385 / 50
     Else
         vPos = 1660 - (rColor.lv - presetData.lv) * 385 / 50
     End If
@@ -1313,7 +1315,7 @@ On Error Resume Next
     'In lv axis, 3060 is the distance from left edge of white rectangle to the left of Picture1.
     'In lv axis, 3390 is the distance from right edge of white rectangle to the left of Picture1.
     If step = lastChkShwDataStep Then
-        If rColor.lv > specMinLV Then
+        If rColor.lv > maxBrightnessSpec Then
             Picture1.Line (3060, vPos)-(3390, vPos), &H30FF30
         Else
             Picture1.Line (3060, vPos)-(3390, vPos), &HFF&
@@ -1581,7 +1583,7 @@ Private Sub saveALLcData()
         rs.Fields(25) = cFF6500K.nColorBB
 
         rs.Fields(26) = rColorLastChk.lv
-        rs.Fields(27) = specMinLV
+        rs.Fields(27) = maxBrightnessSpec
 
         rs.Fields(28) = cmdMark
         rs.Fields(29) = Date

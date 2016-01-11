@@ -4,7 +4,7 @@ Begin VB.Form frmSetData
    ClientHeight    =   4110
    ClientLeft      =   6435
    ClientTop       =   3210
-   ClientWidth     =   4980
+   ClientWidth     =   4965
    BeginProperty Font 
       Name            =   "Arial Narrow"
       Size            =   18
@@ -17,7 +17,7 @@ Begin VB.Form frmSetData
    Icon            =   "frmSetData.frx":0000
    LinkTopic       =   "Form4"
    ScaleHeight     =   4110
-   ScaleWidth      =   4980
+   ScaleWidth      =   4965
    Begin VB.Frame Frame5 
       Caption         =   "Common"
       BeginProperty Font 
@@ -29,12 +29,31 @@ Begin VB.Form frmSetData
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   1450
+      Height          =   1815
       Index           =   1
       Left            =   2520
       TabIndex        =   10
       Top             =   1680
       Width           =   2400
+      Begin VB.TextBox txtLvSpec 
+         Alignment       =   2  'Center
+         Appearance      =   0  'Flat
+         BeginProperty Font 
+            Name            =   "ËÎÌו"
+            Size            =   9
+            Charset         =   134
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   300
+         Left            =   1200
+         TabIndex        =   22
+         Text            =   "280"
+         Top             =   1350
+         Width           =   1000
+      End
       Begin VB.ComboBox cmbInputSource 
          BeginProperty Font 
             Name            =   "ËÎÌו"
@@ -91,6 +110,24 @@ Begin VB.Form frmSetData
          Text            =   "500"
          Top             =   300
          Width           =   1000
+      End
+      Begin VB.Label Label6 
+         Caption         =   "Lv Spec:"
+         BeginProperty Font 
+            Name            =   "ËÎÌו"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   1
+         Left            =   200
+         TabIndex        =   21
+         Top             =   1400
+         Width           =   900
       End
       Begin VB.Label Label5 
          Caption         =   "TV Source:"
@@ -383,7 +420,7 @@ Begin VB.Form frmSetData
       Height          =   435
       Left            =   3720
       TabIndex        =   5
-      Top             =   3480
+      Top             =   3600
       Width           =   1095
    End
    Begin VB.Label Label1 
@@ -418,6 +455,7 @@ Private Sub Form_Load()
     Executesql (sqlstring)
     
     txtSNLen.Text = rs("SN_Len")
+    txtLvSpec.Text = rs("LvSpec")
 
     If rs("COOL_2") Then
         Check1.Value = 1
@@ -480,25 +518,26 @@ End Sub
 Private Sub Command1_Click()
     sqlstring = "select * from CheckItem where Mark='" & strCurrentModelName & "'"
     Executesql (sqlstring)
-  
-    rs.Fields(1) = Val(txtSNLen.Text)
 
-    If Check1.Value = 1 Then rs.Fields(2) = True
-    If Check1.Value = 0 Then rs.Fields(2) = False
-    If Check2.Value = 1 Then rs.Fields(3) = True
-    If Check2.Value = 0 Then rs.Fields(3) = False
-    If Check3.Value = 1 Then rs.Fields(4) = True
-    If Check3.Value = 0 Then rs.Fields(4) = False
-    If Check4.Value = 1 Then rs.Fields(5) = True
-    If Check4.Value = 0 Then rs.Fields(5) = False
-    If Check5.Value = 1 Then rs.Fields(6) = True
-    If Check5.Value = 0 Then rs.Fields(6) = False
-    If Check6.Value = 1 Then rs.Fields(7) = True
-    If Check6.Value = 0 Then rs.Fields(7) = False
-    If Check7.Value = 1 Then rs.Fields(8) = True
-    If Check7.Value = 0 Then rs.Fields(8) = False
-    If Check8.Value = 1 Then rs.Fields(9) = True
-    If Check8.Value = 0 Then rs.Fields(9) = False
+    If Check1.Value = 1 Then rs.Fields(1) = True
+    If Check1.Value = 0 Then rs.Fields(1) = False
+    If Check2.Value = 1 Then rs.Fields(2) = True
+    If Check2.Value = 0 Then rs.Fields(2) = False
+    If Check3.Value = 1 Then rs.Fields(3) = True
+    If Check3.Value = 0 Then rs.Fields(3) = False
+    If Check4.Value = 1 Then rs.Fields(4) = True
+    If Check4.Value = 0 Then rs.Fields(4) = False
+    If Check5.Value = 1 Then rs.Fields(5) = True
+    If Check5.Value = 0 Then rs.Fields(5) = False
+    If Check6.Value = 1 Then rs.Fields(6) = True
+    If Check6.Value = 0 Then rs.Fields(6) = False
+    If Check7.Value = 1 Then rs.Fields(7) = True
+    If Check7.Value = 0 Then rs.Fields(7) = False
+    If Check8.Value = 1 Then rs.Fields(8) = True
+    If Check8.Value = 0 Then rs.Fields(8) = False
+    
+    rs.Fields(9) = Val(txtLvSpec.Text)
+    rs.Fields(10) = Val(txtSNLen.Text)
 
     rs.Update
 
