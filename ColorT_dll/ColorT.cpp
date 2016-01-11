@@ -38,9 +38,7 @@ CColorT::CColorT()
 	return; 
 }
 
-COLORT_API int _stdcall initColorTemp(int *pTimming, 
-									  int *pPattern,
-									  BOOL *pCalibraEN,
+COLORT_API int _stdcall initColorTemp(BOOL *pCalibraEN,
 									  BOOL *pMiniBriEN,
 									  char* ModelFile,
 									  char* pCurDir)
@@ -60,9 +58,6 @@ COLORT_API int _stdcall initColorTemp(int *pTimming,
 	
 	*pCalibraEN=GetPrivateProfileInt("AutoColor_Enable","####",nDefault,buf);
 	*pMiniBriEN=GetPrivateProfileInt("MiniBrightness_Enable","####",nDefault,buf);
-
-	*pTimming=GetPrivateProfileInt("CHROMA_SETTING","#####T",nDefault,buf);
-	*pPattern=GetPrivateProfileInt("CHROMA_SETTING","#####P",nDefault,buf);
 
 	//12000K
 	getdata(&Spec12000K,"COOL1");

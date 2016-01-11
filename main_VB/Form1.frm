@@ -495,7 +495,7 @@ Dim cFF10000K As COLORTEMPSPEC
 Dim cFF6500K As COLORTEMPSPEC
 Dim rColor As REALCOLOR
 Dim rColorLastChk As REALCOLOR
-Dim Timming, Pattern, Calibrate, MinBrightness As Long
+Dim Calibrate, MinBrightness As Long
 Dim resCodeForAdjustColorTemp As Long
 Dim cmdMark As String
 
@@ -1369,7 +1369,6 @@ End Sub
 
 Private Sub Form_Load()
     i = 0
-    setTVCurrentComBaud = 115200
     delayTime = delayTime
     IsStop = False
     txtInput.Locked = False
@@ -1379,11 +1378,7 @@ Private Sub Form_Load()
     
     Label8 = strCurrentModelName
     
-    RES = initColorTemp(Timming, Pattern, Calibrate, MinBrightness, strCurrentModelName, App.path)      'InitLPT in dll.
-
-    If Timming = 0 Then
-        RES = initColorTemp(Timming, Pattern, Calibrate, MinBrightness, strCurrentModelName, App.path)
-    End If
+    RES = initColorTemp(Calibrate, MinBrightness, strCurrentModelName, App.path)      'InitLPT in dll.
 
     If isAdjustCool1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
     If isAdjustCool2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0
