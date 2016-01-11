@@ -78,7 +78,7 @@ int min_rgb=0;
 int AdjustGAN=0;
 
 
-COLORT_API int _stdcall  initColorTemp(int *pTimming, int *pPattern,int *pMaxLV, int *pMinLV, BOOL *pCalibraEN, BOOL *pMiniBriEN, char* ModelFile, char* pCurDir);
+COLORT_API int _stdcall  initColorTemp(int *pTimming, int *pPattern, BOOL *pCalibraEN, BOOL *pMiniBriEN, char* ModelFile, char* pCurDir);
 COLORT_API int _stdcall  DeinitColorTemp(char* ModelFile);
 COLORT_API int _stdcall  setColorTemp(int colorTemp, pCOLORSPEC pSpecData,int GANref);
 COLORT_API int _stdcall  checkColorTemp(pREALCOLOR PGetColor,int colorTemp);

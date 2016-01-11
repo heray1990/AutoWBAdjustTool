@@ -40,8 +40,6 @@ CColorT::CColorT()
 
 COLORT_API int _stdcall initColorTemp(int *pTimming, 
 									  int *pPattern,
-									  int *pMaxLV, 
-									  int *pMinLV,
 									  BOOL *pCalibraEN,
 									  BOOL *pMiniBriEN,
 									  char* ModelFile,
@@ -59,9 +57,6 @@ COLORT_API int _stdcall initColorTemp(int *pTimming,
 	minColorRGB_OFF=GetPrivateProfileInt("Color_Level_RGB_OFF","####min",nDefault,buf);	
 	maxColorRGB_GAN=GetPrivateProfileInt("Color_Level_RGB_GAN","####max",nDefault,buf);
 	minColorRGB_GAN=GetPrivateProfileInt("Color_Level_RGB_GAN","####min",nDefault,buf);
-	*pMaxLV=GetPrivateProfileInt("Brightness_SPEC","####max",nDefault,buf);
-	*pMinLV=GetPrivateProfileInt("Brightness_SPEC","####min",nDefault,buf);
-
 	
 	*pCalibraEN=GetPrivateProfileInt("AutoColor_Enable","####",nDefault,buf);
 	*pMiniBriEN=GetPrivateProfileInt("MiniBrightness_Enable","####",nDefault,buf);
