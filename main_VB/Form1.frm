@@ -827,7 +827,7 @@ PASS:
     DelayMS delayTime
 
     If isSaveData Then
-        cmdMark = "Y"
+        cmdMark = "PASS"
         Call saveALLcData
     End If
 
@@ -855,7 +855,7 @@ FAIL:
     DelayMS delayTime
 
     If isSaveData Then
-        cmdMark = "N"
+        cmdMark = "FAIL"
         Call saveALLcData
     End If
 
@@ -1517,39 +1517,40 @@ Private Sub saveALLcData()
         rs.AddNew
 
         rs.Fields(0) = strCurrentModelName
-        rs.Fields(1) = Date
-        rs.Fields(2) = Time
-        rs.Fields(3) = strSerialNo
-        rs.Fields(4) = rColorLastChk.lv
-        rs.Fields(5) = specMinLV
+        rs.Fields(1) = strSerialNo
 
-        rs.Fields(6) = c12000K.xx
-        rs.Fields(7) = c12000K.yy
-        rs.Fields(8) = c12000K.nColorRR
-        rs.Fields(9) = c12000K.nColorGG
-        rs.Fields(10) = c12000K.nColorBB
-        rs.Fields(11) = c10000K.xx
-        rs.Fields(12) = c10000K.yy
-        rs.Fields(13) = c10000K.nColorRR
-        rs.Fields(14) = c10000K.nColorGG
-        rs.Fields(15) = c10000K.nColorBB
-        rs.Fields(16) = c6500K.xx
-        rs.Fields(17) = c6500K.yy
-        rs.Fields(18) = c6500K.nColorRR
-        rs.Fields(19) = c6500K.nColorGG
-        rs.Fields(20) = c6500K.nColorBB
-  
-        rs.Fields(21) = cFF12000K.nColorRR
-        rs.Fields(22) = cFF12000K.nColorGG
-        rs.Fields(23) = cFF12000K.nColorBB
-        rs.Fields(24) = cFF10000K.nColorRR
-        rs.Fields(25) = cFF10000K.nColorGG
-        rs.Fields(26) = cFF10000K.nColorBB
-        rs.Fields(27) = cFF6500K.nColorRR
-        rs.Fields(28) = cFF6500K.nColorGG
-        rs.Fields(29) = cFF6500K.nColorBB
+        rs.Fields(2) = c12000K.xx
+        rs.Fields(3) = c12000K.yy
+        rs.Fields(4) = c12000K.nColorRR
+        rs.Fields(5) = c12000K.nColorGG
+        rs.Fields(6) = c12000K.nColorBB
+        rs.Fields(7) = c10000K.xx
+        rs.Fields(8) = c10000K.yy
+        rs.Fields(9) = c10000K.nColorRR
+        rs.Fields(10) = c10000K.nColorGG
+        rs.Fields(11) = c10000K.nColorBB
+        rs.Fields(12) = c6500K.xx
+        rs.Fields(13) = c6500K.yy
+        rs.Fields(14) = c6500K.nColorRR
+        rs.Fields(15) = c6500K.nColorGG
+        rs.Fields(16) = c6500K.nColorBB
+        
+        rs.Fields(17) = cFF12000K.nColorRR
+        rs.Fields(18) = cFF12000K.nColorGG
+        rs.Fields(19) = cFF12000K.nColorBB
+        rs.Fields(20) = cFF10000K.nColorRR
+        rs.Fields(21) = cFF10000K.nColorGG
+        rs.Fields(22) = cFF10000K.nColorBB
+        rs.Fields(23) = cFF6500K.nColorRR
+        rs.Fields(24) = cFF6500K.nColorGG
+        rs.Fields(25) = cFF6500K.nColorBB
 
-        rs.Fields(30) = cmdMark
+        rs.Fields(26) = rColorLastChk.lv
+        rs.Fields(27) = specMinLV
+
+        rs.Fields(28) = cmdMark
+        rs.Fields(29) = Date
+        rs.Fields(30) = Time
 
         rs.Update
 
