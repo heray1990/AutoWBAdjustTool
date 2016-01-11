@@ -1349,6 +1349,10 @@ Private Sub vbConChroma_Click()
     frmCmbType.Show
 End Sub
 
+Private Sub vbSetComPort_Click()
+    Form2.Show
+End Sub
+
 Private Sub vbSetSPEC_Click()
     frmSetData.Show
 End Sub
