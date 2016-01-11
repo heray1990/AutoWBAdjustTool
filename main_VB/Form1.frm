@@ -832,9 +832,8 @@ CHECK_WARM1:
     rColorLastChk.lv = CLng(ObjProbe.lv)
     
     Log_Info "x = " + Str$(rColorLastChk.xx) + ", y = " + Str$(rColorLastChk.yy) + ", lv = " + Str$(rColorLastChk.lv)
-    Label_x = Str$(rColorLastChk.xx)
-    Label_y = Str$(rColorLastChk.yy)
-    Label_Lv = Str$(rColorLastChk.lv)
+
+    showData (lastChkShwDataStep)
     
     If rColorLastChk.lv < specMinLV Then
         Log_Info "亮度不在规格！"
@@ -1174,7 +1173,7 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
         DelayMS delayTime
 
         If False Then
-            showData (1)
+            showData (3)
 
             For k = 1 To 50
                 If IsStop = True Then GoTo Cancel
@@ -1195,7 +1194,7 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
                     SET_B_OFF rRGB.cBB
                     DelayMS delayTime
     
-                    showData (2)
+                    showData (4)
                 End If
     
                 DelayMS 200
@@ -1238,7 +1237,7 @@ Private Function checkColorAgain(ColorTemp As Long, adjustVal As Long, HighLowMo
         Label1 = Str$(presetData.xx)
         Label3 = Str$(presetData.yy)
 
-        showData (1)
+        showData (5)
 
         If IsStop = True Then GoTo Cancel
 
@@ -1260,6 +1259,7 @@ Cancel:
 End Function
 
 
+'step = lastChkShwDataStep: Check max brightness of TV with brightness 100 and contrast 100 in 100% white pattern.
 Private Sub showData(step As Integer)
 On Error Resume Next
     Dim xPos, yPos, vPos As Long
@@ -1278,7 +1278,11 @@ On Error Resume Next
     'In dx, 365 is half a side of blue rectangle.
     xPos = 1515 + (rColor.xx - presetData.xx) * 365 / presetData.xt
     yPos = 1275 - (rColor.yy - presetData.yy) * 385 / presetData.yt
-    vPos = 1660 - (rColor.lv - presetData.lv) * 385 / 50
+    If step = lastChkShwDataStep Then
+        vPos = 1660 - (rColor.lv - specMinLV) * 385 / 50
+    Else
+        vPos = 1660 - (rColor.lv - presetData.lv) * 385 / 50
+    End If
 
     'In dx-dy axis, 360 is the distance from left edge of white rectangle to the left of Picture1.
     'In dx-dy axis, 2660 is the distance from right edge of white rectangle to the left of Picture1.
@@ -1288,28 +1292,38 @@ On Error Resume Next
     If xPos > 2660 Then xPos = 2660
     If yPos < 80 Then yPos = 80
     If yPos > 2480 Then yPos = 2480
-   
-    If Abs(rColor.xx - presetData.xx) <= presetData.xt And Abs(rColor.yy - presetData.yy) <= presetData.yt Then
-        lbColorTempWrong.Visible = False
-        Picture1.Circle (xPos, yPos), 23, &H30FF30
-    Else
-        lbColorTempWrong.Visible = True
-        Picture1.Circle (xPos, yPos), 23, &HFF&
-      
-        If rColor.xx < 5 Then
-            IsStop = True
-            ObjCa.RemoteMode = 2
-            MsgBox ("Please check the CA210 Probe is OK or not.")
-            RES = False
+
+    If step <> lastChkShwDataStep Then
+        If Abs(rColor.xx - presetData.xx) <= presetData.xt And Abs(rColor.yy - presetData.yy) <= presetData.yt Then
+            lbColorTempWrong.Visible = False
+            Picture1.Circle (xPos, yPos), 23, &H30FF30
+        Else
+            lbColorTempWrong.Visible = True
+            Picture1.Circle (xPos, yPos), 23, &HFF&
+          
+            If rColor.xx < 5 Then
+                IsStop = True
+                ObjCa.RemoteMode = 2
+                MsgBox ("Please check the CA210 Probe is OK or not.")
+                RES = False
+            End If
         End If
     End If
 
     'In lv axis, 3060 is the distance from left edge of white rectangle to the left of Picture1.
     'In lv axis, 3390 is the distance from right edge of white rectangle to the left of Picture1.
-    If rColor.lv > presetData.lv Then
-        Picture1.Line (3060, vPos)-(3390, vPos), &H30FF30
+    If step = lastChkShwDataStep Then
+        If rColor.lv > specMinLV Then
+            Picture1.Line (3060, vPos)-(3390, vPos), &H30FF30
+        Else
+            Picture1.Line (3060, vPos)-(3390, vPos), &HFF&
+        End If
     Else
-        Picture1.Line (3060, vPos)-(3390, vPos), &HFF&
+        If rColor.lv > presetData.lv Then
+            Picture1.Line (3060, vPos)-(3390, vPos), &H30FF30
+        Else
+            Picture1.Line (3060, vPos)-(3390, vPos), &HFF&
+        End If
     End If
  
     Log_Info "_x/y/Lv: " + Str$(rColor.xx) + " / " + Str$(rColor.yy) + " / " + Str$(rColor.lv)

@@ -18,6 +18,12 @@ Public Const ComplexStep = 1
 Public Const HighBri = 1
 Public Const LowBri = 0
 
+Public Const valColorTempCool1 As Long = 12000
+Public Const valColorTempNormal As Long = 10000
+Public Const valColorTempWarm1 As Long = 6500
+
+Public Const lastChkShwDataStep As Integer = 6
+
 Type ColorTemp
     x As Single
     y As Single
@@ -98,9 +104,6 @@ End Type
 Public rRGB As REALRGB
 Public rRGB1 As REALRGB
 
-Public Const valColorTempCool1 As Long = 12000
-Public Const valColorTempNormal As Long = 10000
-Public Const valColorTempWarm1 As Long = 6500
 
 Public Sub Log_Info(strLog As String)
     Form1.CheckStep.Text = Form1.CheckStep.Text + strLog + vbCrLf
