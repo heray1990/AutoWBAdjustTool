@@ -11,7 +11,7 @@ Begin VB.Form frmInformation
    ScaleHeight     =   660
    ScaleWidth      =   5010
    ShowInTaskbar   =   0   'False
-   StartUpPosition =   2  '¿Ã¹õ¤¤¥¡
+   StartUpPosition =   2  'ÆÁÄ»ÖÐÐÄ
    Begin VB.Label Infbox 
       Alignment       =   2  'Center
       BackColor       =   &H00404040&

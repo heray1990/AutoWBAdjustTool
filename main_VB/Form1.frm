@@ -832,7 +832,10 @@ CHECK_WARM1:
     rColorLastChk.lv = CLng(ObjProbe.lv)
     
     Log_Info "x = " + Str$(rColorLastChk.xx) + ", y = " + Str$(rColorLastChk.yy) + ", lv = " + Str$(rColorLastChk.lv)
-
+    Label_x = Str$(rColorLastChk.xx)
+    Label_y = Str$(rColorLastChk.yy)
+    Label_Lv = Str$(rColorLastChk.lv)
+    
     If rColorLastChk.lv < specMinLV Then
         Log_Info "亮度不在规格！"
         GoTo FAIL
@@ -871,8 +874,10 @@ FAIL:
     DelayMS delayTime
 
     If isSaveData Then
-        cmdMark = "FAIL"
-        Call saveALLcData
+        If IsSNWriteSuccess = funSNWrite Then
+            cmdMark = "FAIL"
+            Call saveALLcData
+        End If
     End If
 
     CheckStep.SelStart = Len(CheckStep)
@@ -966,7 +971,7 @@ Sub ShowError_Sys(t As Integer)
         Case 5
             s = "ColorTemp_WARM_2 is Wrong, Please Check Again."
         Case 6
-            s = "LAB_SN:" + strSerialNo + "(End)  Len:" + Str$(barCodeLen) + vbCrLf + "Barcode SerialNumber is Wrong"
+            s = "LAB_SN:" + strSerialNo + "(End)  Len:" + Str$(barCodeLen) + vbCrLf + "条形码长度不对，请确认！"
         Case 7
             s = "Can not Write DVI EDID."
         Case 8
