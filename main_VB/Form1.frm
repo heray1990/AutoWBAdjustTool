@@ -496,7 +496,7 @@ Dim cFF6500K As COLORTEMPSPEC
 Dim rColor As REALCOLOR
 Dim rColorLastChk As REALCOLOR
 Dim Timming, Pattern, Calibrate, MinBrightness As Long
-Dim specMaxLV, specMinLV, MaxLV, MinLV As Long
+Dim specMaxLV, specMinLV As Long
 Dim resCodeForAdjustColorTemp As Long
 Dim cmdMark As String
 
@@ -521,12 +521,6 @@ On Error GoTo ErrExit
         ShowError_Sys (6)
         GoTo FAIL
     End If
-    
-    ENTER_FAC_MODE
-    DelayMS delayTime
-    
-    SEL_INPUT_HDMI1_FOR_WB
-    DelayMS delayTime
     
 On Error GoTo ErrExit
 
@@ -568,8 +562,30 @@ On Error GoTo ErrExit
     Log_Info "###INITIAL USER###"
     Log_Info "###ADJUST COLORTEMP###"
 
+    ENTER_FAC_MODE
+    DelayMS delayTime
+    
+    If setTVInputSource = "HDMI1" Then
+        Log_Info "Switch to HDMI1"
+        SEL_INPUT_HDMI1_FOR_WB
+        DelayMS delayTime
+    ElseIf setTVInputSource = "HDMI2" Then
+        Log_Info "Switch to HDMI2"
+        SEL_INPUT_HDMI2_FOR_WB
+        DelayMS delayTime
+    ElseIf setTVInputSource = "HDMI3" Then
+        Log_Info "Switch to HDMI3"
+        SEL_INPUT_HDMI3_FOR_WB
+        DelayMS delayTime
+    Else
+        Log_Info "Switch to HDMI1"
+        SEL_INPUT_HDMI1_FOR_WB
+        DelayMS delayTime
+    End If
+
+    'Timing 69: HDMI-720P60
     'Timing 74: HDMI-1080P60
-    Call frmCmbType.ChangeTiming("74")
+    Call frmCmbType.ChangeTiming("69")
     DelayMS delayTime
 
     If isAdjustOffset Then

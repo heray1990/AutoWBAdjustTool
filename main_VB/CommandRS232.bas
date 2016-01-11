@@ -58,6 +58,44 @@ Public Sub SEL_INPUT_HDMI1_FOR_WB()
     Form1.MSComm1.Output = SendDataBuf
 End Sub
 
+Public Sub SEL_INPUT_HDMI2_FOR_WB()
+
+    Dim SendDataBuf(0 To 9) As Byte
+    
+    '6E 51 86 03 FE 60 00 43 02 65
+    SendDataBuf(0) = &H6E
+    SendDataBuf(1) = &H51
+    SendDataBuf(2) = &H86
+    SendDataBuf(3) = &H3
+    SendDataBuf(4) = &HFE
+    SendDataBuf(5) = &H60
+    SendDataBuf(6) = &H0
+    SendDataBuf(7) = &H43
+    SendDataBuf(8) = &H2
+    SendDataBuf(9) = &H65
+    
+    Form1.MSComm1.Output = SendDataBuf
+End Sub
+
+Public Sub SEL_INPUT_HDMI3_FOR_WB()
+
+    Dim SendDataBuf(0 To 9) As Byte
+    
+    '6E 51 86 03 FE 60 00 63 02 45
+    SendDataBuf(0) = &H6E
+    SendDataBuf(1) = &H51
+    SendDataBuf(2) = &H86
+    SendDataBuf(3) = &H3
+    SendDataBuf(4) = &HFE
+    SendDataBuf(5) = &H60
+    SendDataBuf(6) = &H0
+    SendDataBuf(7) = &H63
+    SendDataBuf(8) = &H2
+    SendDataBuf(9) = &H45
+    
+    Form1.MSComm1.Output = SendDataBuf
+End Sub
+
 Public Sub SET_BRIGHTNESS(Brightness As Long)
 
     Dim SendDataBuf(0 To 9) As Byte

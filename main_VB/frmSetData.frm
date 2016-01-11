@@ -29,12 +29,31 @@ Begin VB.Form frmSetData
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   1150
+      Height          =   1450
       Index           =   1
       Left            =   2520
-      TabIndex        =   11
+      TabIndex        =   10
       Top             =   1680
       Width           =   2400
+      Begin VB.ComboBox cmbInputSource 
+         BeginProperty Font 
+            Name            =   "宋体"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   300
+         ItemData        =   "frmSetData.frx":1DF72
+         Left            =   1200
+         List            =   "frmSetData.frx":1DF7F
+         TabIndex        =   18
+         Text            =   "HDMI1"
+         Top             =   1000
+         Width           =   1000
+      End
       Begin VB.TextBox txtSNLen 
          Alignment       =   2  'Center
          Appearance      =   0  'Flat
@@ -49,7 +68,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   300
          Left            =   1200
-         TabIndex        =   14
+         TabIndex        =   13
          Text            =   "1"
          Top             =   650
          Width           =   1000
@@ -68,12 +87,30 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   300
          Left            =   1200
-         TabIndex        =   12
+         TabIndex        =   11
          Text            =   "500"
          Top             =   300
          Width           =   1000
       End
-      Begin VB.Label Label6 
+      Begin VB.Label Label5 
+         Caption         =   "TV Source:"
+         BeginProperty Font 
+            Name            =   "宋体"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   0
+         Left            =   200
+         TabIndex        =   19
+         Top             =   1050
+         Width           =   900
+      End
+      Begin VB.Label Label4 
          Caption         =   "SN_Len:"
          BeginProperty Font 
             Name            =   "宋体"
@@ -87,11 +124,11 @@ Begin VB.Form frmSetData
          Height          =   255
          Index           =   0
          Left            =   200
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   700
          Width           =   900
       End
-      Begin VB.Label Label5 
+      Begin VB.Label Label3 
          Caption         =   "Delay(ms):"
          BeginProperty Font 
             Name            =   "宋体"
@@ -105,7 +142,7 @@ Begin VB.Form frmSetData
          Height          =   255
          Index           =   0
          Left            =   200
-         TabIndex        =   13
+         TabIndex        =   12
          Top             =   350
          Width           =   900
       End
@@ -124,7 +161,7 @@ Begin VB.Form frmSetData
       Height          =   800
       Index           =   0
       Left            =   2520
-      TabIndex        =   8
+      TabIndex        =   7
       Top             =   840
       Width           =   2400
       Begin VB.TextBox txtChannel 
@@ -141,12 +178,12 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   300
          Left            =   1200
-         TabIndex        =   10
+         TabIndex        =   9
          Text            =   "1"
          Top             =   300
          Width           =   1000
       End
-      Begin VB.Label Label4 
+      Begin VB.Label Label2 
          Caption         =   "Channel:"
          BeginProperty Font 
             Name            =   "宋体"
@@ -160,7 +197,7 @@ Begin VB.Form frmSetData
          Height          =   255
          Index           =   0
          Left            =   200
-         TabIndex        =   9
+         TabIndex        =   8
          Top             =   350
          Width           =   900
       End
@@ -195,7 +232,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   18
+         TabIndex        =   17
          Top             =   2800
          Value           =   1  'Checked
          Width           =   1800
@@ -214,7 +251,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   17
+         TabIndex        =   16
          Top             =   2450
          Value           =   1  'Checked
          Width           =   1800
@@ -233,7 +270,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   16
+         TabIndex        =   15
          Top             =   2100
          Value           =   1  'Checked
          Width           =   1800
@@ -363,8 +400,8 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   555
       Left            =   120
-      TabIndex        =   7
-      Top             =   150
+      TabIndex        =   20
+      Top             =   120
       Width           =   4695
    End
 End
@@ -434,8 +471,9 @@ Private Sub Form_Load()
     Set cn = Nothing
     sqlstring = ""
 
-    Label1 = strCurrentModelName
+    Label1.Caption = strCurrentModelName
     txtChannel.Text = Ca210ChannelNO
+    cmbInputSource.Text = setTVInputSource
     txtDelay.Text = delayTime
 End Sub
 
@@ -473,6 +511,7 @@ Private Sub Command1_Click()
 
     rs.Fields(4) = Val(txtChannel.Text)
     rs.Fields(5) = Val(txtDelay.Text)
+    rs.Fields(6) = cmbInputSource.Text
     
     rs.Update
     

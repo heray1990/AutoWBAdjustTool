@@ -180,6 +180,7 @@ On Error GoTo ErrExit
         SetTVCurrentComID = rs("ComID")
         Ca210ChannelNO = rs("Channel")
         delayTime = rs("Delayms")
+        setTVInputSource = Trim(rs("TVInputSource"))
         strDataVersion = rs("DataVersion")
         SetData = rs("Date")
         SetDay = rs("Day")
@@ -196,8 +197,8 @@ On Error GoTo ErrExit
     If SetData <> Day(Date) Then
         sqlstring = "select * from CommonTable where Mark='ATS'"
         Executesql (sqlstring)
-        rs.Fields(7) = Day(Date)
-        rs.Fields(8) = SetDay + 1
+        rs.Fields(8) = Day(Date)
+        rs.Fields(9) = SetDay + 1
   
         rs.Update
 

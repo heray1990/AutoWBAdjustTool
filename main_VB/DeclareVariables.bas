@@ -64,6 +64,7 @@ Public IsStop As Boolean
 Public IsACK As Boolean
 Public SetTVCurrentComID As Integer
 Public SetTVCurrentComBaud As Long
+Public setTVInputSource As String
 Public SetData As Integer
 Public SetDay As Integer
 
