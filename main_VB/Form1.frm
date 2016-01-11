@@ -496,7 +496,6 @@ Dim cFF6500K As COLORTEMPSPEC
 Dim rColor As REALCOLOR
 Dim rColorLastChk As REALCOLOR
 Dim Timming, Pattern, Calibrate, MinBrightness As Long
-Dim specMaxLV, specMinLV As Long
 Dim resCodeForAdjustColorTemp As Long
 Dim cmdMark As String
 
@@ -1380,10 +1379,10 @@ Private Sub Form_Load()
     
     Label8 = strCurrentModelName
     
-    RES = initColorTemp(Timming, Pattern, specMaxLV, specMinLV, Calibrate, MinBrightness, strCurrentModelName, App.path)      'InitLPT in dll.
+    RES = initColorTemp(Timming, Pattern, Calibrate, MinBrightness, strCurrentModelName, App.path)      'InitLPT in dll.
 
     If Timming = 0 Then
-        RES = initColorTemp(Timming, Pattern, specMaxLV, specMinLV, Calibrate, MinBrightness, strCurrentModelName, App.path)
+        RES = initColorTemp(Timming, Pattern, Calibrate, MinBrightness, strCurrentModelName, App.path)
     End If
 
     If isAdjustCool1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
