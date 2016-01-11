@@ -15,9 +15,6 @@ On Error GoTo ER
 
     Select Case sel
         Case vbYes
-            frmInformation.Show
-            'frmInformation.Infbox.Caption = "Please Wait,Initiating..."
-      
             ObjCa210.AutoConnect
             Set ObjCa = ObjCa210.SingleCa
             Set ObjProbe = ObjCa.SingleProbe
@@ -29,9 +26,7 @@ On Error GoTo ER
             ObjCa.SetAnalogRange 2.5, 2.5
             ObjCa.DisplayMode = 0
             ObjMemory.ChannelNO = Ca210ChannelNO
-      
-            'frmInformation.Infbox.Caption = ""
-            frmInformation.Hide
+
             Form1.ZOrder (0)
             Delay 200
     
