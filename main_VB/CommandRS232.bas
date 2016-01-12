@@ -39,7 +39,7 @@ Public Sub EXIT_FAC_MODE()
     Form1.MSComm1.Output = SendDataBuf
 End Sub
 
-Public Sub SEL_INPUT_HDMI1_FOR_WB()
+Public Sub SEL_INPUT_SOURCE_FOR_WB(inputSource As String, portNum As Integer)
 
     Dim SendDataBuf(0 To 9) As Byte
     
@@ -51,53 +51,48 @@ Public Sub SEL_INPUT_HDMI1_FOR_WB()
     SendDataBuf(4) = &HFE
     SendDataBuf(5) = &H60
     SendDataBuf(6) = &H0
-    SendDataBuf(7) = &H23
+
+    If inputSource = "HDMI" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H23
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H43
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H63
+        Else
+            SendDataBuf(7) = &H23
+        End If
+    ElseIf inputSource = "CVBS" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H25
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H45
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H65
+        Else
+            SendDataBuf(7) = &H25
+        End If
+    ElseIf inputSource = "YPbPr" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H27
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H47
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H67
+        Else
+            SendDataBuf(7) = &H27
+        End If
+    Else
+        SendDataBuf(7) = &H23
+    End If
+    
     SendDataBuf(8) = &H2
-    SendDataBuf(9) = &H5
-    
-    Form1.MSComm1.Output = SendDataBuf
-End Sub
+    SendDataBuf(9) = chksumSend(SendDataBuf)
 
-Public Sub SEL_INPUT_HDMI2_FOR_WB()
-
-    Dim SendDataBuf(0 To 9) As Byte
-    
-    '6E 51 86 03 FE 60 00 43 02 65
-    SendDataBuf(0) = &H6E
-    SendDataBuf(1) = &H51
-    SendDataBuf(2) = &H86
-    SendDataBuf(3) = &H3
-    SendDataBuf(4) = &HFE
-    SendDataBuf(5) = &H60
-    SendDataBuf(6) = &H0
-    SendDataBuf(7) = &H43
-    SendDataBuf(8) = &H2
-    SendDataBuf(9) = &H65
-    
-    Form1.MSComm1.Output = SendDataBuf
-End Sub
-
-Public Sub SEL_INPUT_HDMI3_FOR_WB()
-
-    Dim SendDataBuf(0 To 9) As Byte
-    
-    '6E 51 86 03 FE 60 00 63 02 45
-    SendDataBuf(0) = &H6E
-    SendDataBuf(1) = &H51
-    SendDataBuf(2) = &H86
-    SendDataBuf(3) = &H3
-    SendDataBuf(4) = &HFE
-    SendDataBuf(5) = &H60
-    SendDataBuf(6) = &H0
-    SendDataBuf(7) = &H63
-    SendDataBuf(8) = &H2
-    SendDataBuf(9) = &H45
-    
     Form1.MSComm1.Output = SendDataBuf
 End Sub
 
 Public Sub SET_BRIGHTNESS(Brightness As Long)
-
     Dim SendDataBuf(0 To 9) As Byte
     
     '6E 51 86 03 FE 10 00 XX XX CHK
@@ -116,7 +111,6 @@ Public Sub SET_BRIGHTNESS(Brightness As Long)
 End Sub
 
 Public Sub SET_CONTRAST(Contrast As Long)
-
     Dim SendDataBuf(0 To 9) As Byte
 
     '6E 51 86 03 FE 12 00 XX XX CHK
@@ -134,20 +128,38 @@ Public Sub SET_CONTRAST(Contrast As Long)
     Form1.MSComm1.Output = SendDataBuf
 End Sub
 
-Public Sub SET_COLORTEMP(colorT As Long)
+Public Sub SET_BACKLIGHT(Backlight As Long)
+    Dim SendDataBuf(0 To 9) As Byte
+
+    '6E 51 86 03 FE 13 00 XX XX CHK
+    SendDataBuf(0) = &H6E
+    SendDataBuf(1) = &H51
+    SendDataBuf(2) = &H86
+    SendDataBuf(3) = &H3
+    SendDataBuf(4) = &HFE
+    SendDataBuf(5) = &H13
+    SendDataBuf(6) = &H0
+    SendDataBuf(7) = CByte(Backlight \ 256)
+    SendDataBuf(8) = CByte(Backlight Mod 256)
+    SendDataBuf(9) = chksumSend(SendDataBuf)
+    
+    Form1.MSComm1.Output = SendDataBuf
+End Sub
+
+Public Sub SET_COLORTEMP(colorT As Long, inputSource As String, portNum As Integer)
     Select Case colorT
       Case valColorTempCool1
-         SEL_TEMP_COOL
+         Call SEL_TEMP_COOL(inputSource, portNum)
       Case valColorTempNormal
-         SEL_TEMP_NORMAL
+         Call SEL_TEMP_NORMAL(inputSource, portNum)
       Case valColorTempWarm1
-         SEL_TEMP_WARM
+         Call SEL_TEMP_WARM(inputSource, portNum)
     End Select
     
     DelayMS 500
 End Sub
 
-Public Sub SEL_TEMP_COOL()
+Public Sub SEL_TEMP_COOL(inputSource As String, portNum As Integer)
 
     Dim SendDataBuf(0 To 9) As Byte
     
@@ -160,14 +172,48 @@ Public Sub SEL_TEMP_COOL()
     SendDataBuf(4) = &HFE
     SendDataBuf(5) = &H14
     SendDataBuf(6) = &HA
-    SendDataBuf(7) = &H23
+
+    If inputSource = "HDMI" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H23
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H43
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H63
+        Else
+            SendDataBuf(7) = &H23
+        End If
+    ElseIf inputSource = "CVBS" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H25
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H45
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H65
+        Else
+            SendDataBuf(7) = &H25
+        End If
+    ElseIf inputSource = "YPbPr" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H27
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H47
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H67
+        Else
+            SendDataBuf(7) = &H27
+        End If
+    Else
+        SendDataBuf(7) = &H23
+    End If
+
     SendDataBuf(8) = &H1
-    SendDataBuf(9) = &H78
+    SendDataBuf(9) = chksumSend(SendDataBuf)
     
     Form1.MSComm1.Output = SendDataBuf
 End Sub
 
-Public Sub SEL_TEMP_NORMAL()
+Public Sub SEL_TEMP_NORMAL(inputSource As String, portNum As Integer)
 
     Dim SendDataBuf(0 To 9) As Byte
     
@@ -180,14 +226,48 @@ Public Sub SEL_TEMP_NORMAL()
     SendDataBuf(4) = &HFE
     SendDataBuf(5) = &H14
     SendDataBuf(6) = &H6
-    SendDataBuf(7) = &H23
+    
+    If inputSource = "HDMI" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H23
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H43
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H63
+        Else
+            SendDataBuf(7) = &H23
+        End If
+    ElseIf inputSource = "CVBS" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H25
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H45
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H65
+        Else
+            SendDataBuf(7) = &H25
+        End If
+    ElseIf inputSource = "YPbPr" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H27
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H47
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H67
+        Else
+            SendDataBuf(7) = &H27
+        End If
+    Else
+        SendDataBuf(7) = &H23
+    End If
+
     SendDataBuf(8) = &H1
-    SendDataBuf(9) = &H74
+    SendDataBuf(9) = chksumSend(SendDataBuf)
     
     Form1.MSComm1.Output = SendDataBuf
 End Sub
 
-Public Sub SEL_TEMP_WARM()
+Public Sub SEL_TEMP_WARM(inputSource As String, portNum As Integer)
 
     Dim SendDataBuf(0 To 9) As Byte
     
@@ -200,9 +280,43 @@ Public Sub SEL_TEMP_WARM()
     SendDataBuf(4) = &HFE
     SendDataBuf(5) = &H14
     SendDataBuf(6) = &H5
-    SendDataBuf(7) = &H23
+    
+    If inputSource = "HDMI" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H23
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H43
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H63
+        Else
+            SendDataBuf(7) = &H23
+        End If
+    ElseIf inputSource = "CVBS" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H25
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H45
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H65
+        Else
+            SendDataBuf(7) = &H25
+        End If
+    ElseIf inputSource = "YPbPr" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H27
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H47
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H67
+        Else
+            SendDataBuf(7) = &H27
+        End If
+    Else
+        SendDataBuf(7) = &H23
+    End If
+
     SendDataBuf(8) = &H1
-    SendDataBuf(9) = &H77
+    SendDataBuf(9) = chksumSend(SendDataBuf)
     
     Form1.MSComm1.Output = SendDataBuf
 End Sub
@@ -321,7 +435,7 @@ Public Sub SET_B_OFF(B_OFF As Long)
     Form1.MSComm1.Output = SendDataBuf
 End Sub
 
-Public Sub SAVE_WB_DATA_TO_ALL_SRC()
+Public Sub SAVE_WB_DATA_TO_ALL_SRC(inputSource As String, portNum As Integer)
 
     Dim SendDataBuf(0 To 9) As Byte
 
@@ -333,9 +447,43 @@ Public Sub SAVE_WB_DATA_TO_ALL_SRC()
     SendDataBuf(4) = &HFE
     SendDataBuf(5) = &H14
     SendDataBuf(6) = &H5
-    SendDataBuf(7) = &H23
+    
+    If inputSource = "HDMI" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H23
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H43
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H63
+        Else
+            SendDataBuf(7) = &H23
+        End If
+    ElseIf inputSource = "CVBS" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H25
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H45
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H65
+        Else
+            SendDataBuf(7) = &H25
+        End If
+    ElseIf inputSource = "YPbPr" Then
+        If portNum = 1 Then
+            SendDataBuf(7) = &H27
+        ElseIf portNum = 2 Then
+            SendDataBuf(7) = &H47
+        ElseIf portNum = 3 Then
+            SendDataBuf(7) = &H67
+        Else
+            SendDataBuf(7) = &H27
+        End If
+    Else
+        SendDataBuf(7) = &H23
+    End If
+    
     SendDataBuf(8) = &H0
-    SendDataBuf(9) = &H76
+    SendDataBuf(9) = chksumSend(SendDataBuf)
     
     Form1.MSComm1.Output = SendDataBuf
 End Sub

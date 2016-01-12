@@ -511,7 +511,7 @@ Private Sub Form_Load()
 
     Label1.Caption = strCurrentModelName
     txtChannel.Text = Ca210ChannelNO
-    cmbInputSource.Text = setTVInputSource
+    cmbInputSource.Text = setTVInputSource & CStr(setTVInputSourcePortNum)
     txtDelay.Text = delayTime
 End Sub
 

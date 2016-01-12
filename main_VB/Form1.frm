@@ -564,38 +564,17 @@ On Error GoTo ErrExit
     ENTER_FAC_MODE
     DelayMS delayTime
     
-    If setTVInputSource = "HDMI1" Then
-        Log_Info "Switch to HDMI1"
-        SEL_INPUT_HDMI1_FOR_WB
-        DelayMS delayTime
-    ElseIf setTVInputSource = "HDMI2" Then
-        Log_Info "Switch to HDMI2"
-        SEL_INPUT_HDMI2_FOR_WB
-        DelayMS delayTime
-    ElseIf setTVInputSource = "HDMI3" Then
-        Log_Info "Switch to HDMI3"
-        SEL_INPUT_HDMI3_FOR_WB
-        DelayMS delayTime
-    Else
-        Log_Info "Switch to HDMI1"
-        SEL_INPUT_HDMI1_FOR_WB
+    Call SEL_INPUT_SOURCE_FOR_WB(setTVInputSource, setTVInputSourcePortNum)
+    DelayMS delayTime
+
+    If setTVInputSource = "HDMI" Then
+        'Timing 69: HDMI-720P60
+        'Timing 74: HDMI-1080P60
+        Call frmCmbType.ChangeTiming("69")
         DelayMS delayTime
     End If
 
-    'Timing 69: HDMI-720P60
-    'Timing 74: HDMI-1080P60
-    Call frmCmbType.ChangeTiming("69")
-    DelayMS delayTime
-
     If isAdjustOffset Then
-        SET_BRIGHTNESS 50
-        DelayMS delayTime
-        Log_Info "Set brightness to 50"
-        
-        SET_CONTRAST 50
-        DelayMS delayTime
-        Log_Info "Set contrast to 50"
-
         Label6.Caption = "GREY"
 
         Call frmCmbType.ChangePattern("110")
@@ -609,7 +588,7 @@ On Error GoTo ErrExit
                 ShowError_Sys (11)
                 GoTo FAIL
             Else
-                SAVE_WB_DATA_TO_ALL_SRC
+                Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
                 DelayMS delayTime
             End If
    
@@ -624,7 +603,7 @@ On Error GoTo ErrExit
                 ShowError_Sys (13)
                 GoTo FAIL
             Else
-                SAVE_WB_DATA_TO_ALL_SRC
+                Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
                 DelayMS delayTime
             End If
     
@@ -639,7 +618,7 @@ On Error GoTo ErrExit
                 ShowError_Sys (14)
                 GoTo FAIL
             Else
-                SAVE_WB_DATA_TO_ALL_SRC
+                Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
                 DelayMS delayTime
             End If
 
@@ -649,14 +628,6 @@ On Error GoTo ErrExit
 
     Call frmCmbType.ChangePattern("103")
     DelayMS delayTime
-
-    SET_BRIGHTNESS 50
-    DelayMS delayTime
-    Log_Info "Set brightness to 50"
-        
-    SET_CONTRAST 50
-    DelayMS delayTime
-    Log_Info "Set contrast to 50"
     
     Label6.Caption = "WHITE"
 
@@ -669,7 +640,7 @@ ADJUST_GAIN_AGAIN_COOL1:
             ShowError_Sys (1)
             GoTo FAIL
         Else
-            SAVE_WB_DATA_TO_ALL_SRC
+            Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
             DelayMS delayTime
         End If
 
@@ -689,7 +660,7 @@ ADJUST_GAIN_AGAIN_NORMAL:
             ShowError_Sys (3)
             GoTo FAIL
         Else
-            SAVE_WB_DATA_TO_ALL_SRC
+            Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
             DelayMS delayTime
         End If
 
@@ -709,7 +680,7 @@ ADJUST_GAIN_AGAIN_WARM1:
             ShowError_Sys (4)
             GoTo FAIL
         Else
-            SAVE_WB_DATA_TO_ALL_SRC
+            Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
             DelayMS delayTime
         End If
 
@@ -733,14 +704,6 @@ CHECK_COOL1:
                 If adjustGainAgainCool1Flag > 0 Then
                     GoTo FAIL
                 End If
-
-                SET_BRIGHTNESS 50
-                DelayMS delayTime
-                Log_Info "Set brightness to 50"
-                    
-                SET_CONTRAST 50
-                DelayMS delayTime
-                Log_Info "Set contrast to 50"
                 
                 adjustGainAgainCool1Flag = adjustGainAgainCool1Flag + 1
                 GoTo ADJUST_GAIN_AGAIN_COOL1
@@ -761,14 +724,6 @@ CHECK_NORMAL:
                 If adjustGainAgainNormalFlag > 0 Then
                     GoTo FAIL
                 End If
-                
-                SET_BRIGHTNESS 50
-                DelayMS delayTime
-                Log_Info "Set brightness to 50"
-                    
-                SET_CONTRAST 50
-                DelayMS delayTime
-                Log_Info "Set contrast to 50"
     
                 adjustGainAgainNormalFlag = adjustGainAgainNormalFlag + 1
                 GoTo ADJUST_GAIN_AGAIN_NORMAL
@@ -789,14 +744,6 @@ CHECK_WARM1:
                 If adjustGainAgainWarm1Flag > 0 Then
                     GoTo FAIL
                 End If
-                
-                SET_BRIGHTNESS 50
-                DelayMS delayTime
-                Log_Info "Set brightness to 50"
-                    
-                SET_CONTRAST 50
-                DelayMS delayTime
-                Log_Info "Set contrast to 50"
     
                 adjustGainAgainWarm1Flag = adjustGainAgainWarm1Flag + 1
                 GoTo ADJUST_GAIN_AGAIN_WARM1
@@ -820,7 +767,11 @@ CHECK_WARM1:
     DelayMS delayTime
     Log_Info "Set contrast to 100"
     
-    SET_COLORTEMP valColorTempCool1
+    SET_BACKLIGHT 100
+    DelayMS delayTime
+    Log_Info "Set backlight to 100"
+    
+    Call SET_COLORTEMP(valColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
     DelayMS delayTime
     Log_Info "Set color temp to cool1"
 
@@ -1034,7 +985,7 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
   
     For j = 1 To 2
-        SET_COLORTEMP ColorTemp
+        Call SET_COLORTEMP(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
         DelayMS delayTime
   
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
@@ -1140,7 +1091,7 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
   
     For j = 1 To 2
-        SET_COLORTEMP ColorTemp
+        Call SET_COLORTEMP(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
         DelayMS delayTime
 
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
@@ -1229,7 +1180,7 @@ Private Function checkColorAgain(ColorTemp As Long, adjustVal As Long, HighLowMo
     Log_Info "========Check " + Str$(ColorTemp) + "K========"
   
     For j = 1 To 2
-        SET_COLORTEMP ColorTemp
+        Call SET_COLORTEMP(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
   
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
         DelayMS delayTime
@@ -1382,7 +1333,7 @@ Private Sub Form_Load()
     
     Label8 = strCurrentModelName
     
-    RES = initColorTemp(Calibrate, MinBrightness, strCurrentModelName, App.path)      'InitLPT in dll.
+    RES = initColorTemp(Calibrate, MinBrightness, strCurrentModelName, App.Path)      'InitLPT in dll.
 
     If isAdjustCool1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
     If isAdjustCool2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0
