@@ -258,11 +258,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 			{
 				if (ca_x < PrimaryData.sx - PrimaryData.xt)
 				{
-					if (PrimaryData.sx - ca_x > 50)
+					if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
 					{
 						CalcRGB.cRR = PrimaryData.PriRR + 5;
 					}
-					else if (PrimaryData.sx - ca_x > 25)
+					else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
 					{
 						CalcRGB.cRR = PrimaryData.PriRR + 3;
 					}
@@ -279,11 +279,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 				}
 				else if (ca_x > PrimaryData.sx + PrimaryData.xt)
 				{
-					if (ca_x - PrimaryData.sx > 50)
+					if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
 					{
 						CalcRGB.cRR = PrimaryData.PriRR - 5;
 					}
-					else if (ca_x - PrimaryData.sx > 25)
+					else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
 					{
 						CalcRGB.cRR = PrimaryData.PriRR - 3;
 					}
@@ -317,11 +317,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 				// Now x is OK, then adjust G Gain to match y.
 				if (ca_y < PrimaryData.sy - PrimaryData.yt)
 				{
-					if (PrimaryData.sy - ca_y > 100)
+					if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep5)
 					{
 						CalcRGB.cGG = CalcRGB.cGG + 5;
 					}
-					else if (PrimaryData.sy - ca_y > 50)
+					else if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep3)
 					{
 						CalcRGB.cGG = CalcRGB.cGG + 3;
 					}
@@ -332,11 +332,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 				}
 				else if (ca_y > PrimaryData.sy + PrimaryData.yt)
 				{
-					if (ca_y - PrimaryData.sy > 100)
+					if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep5)
 					{
 						CalcRGB.cGG = CalcRGB.cGG - 5;
 					}
-					else if (ca_y - PrimaryData.sy > 50)
+					else if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep3)
 					{
 						CalcRGB.cGG = CalcRGB.cGG - 3;
 					}
@@ -348,11 +348,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 
 				if (ca_x > PrimaryData.sx + PrimaryData.xt)
 				{
-					if (ca_x - PrimaryData.sx > 50)
+					if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
 					{
 						CalcRGB.cRR = CalcRGB.cRR - 5;
 					}
-					else if (ca_x - PrimaryData.sx > 25)
+					else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
 					{
 						CalcRGB.cRR = CalcRGB.cRR - 3;
 					}
@@ -363,11 +363,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 				}
 				else if (ca_x < PrimaryData.sx - PrimaryData.xt)
 				{
-					if (PrimaryData.sx - ca_x > 50)
+					if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
 					{
 						CalcRGB.cRR = CalcRGB.cRR + 5;
 					}
-					else if (PrimaryData.sx - ca_x > 25)
+					else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
 					{
 						CalcRGB.cRR = CalcRGB.cRR + 3;
 					}
@@ -392,11 +392,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 			{
 				if (ca_y < PrimaryData.sy - PrimaryData.yt)
 				{
-					if (PrimaryData.sy - ca_y > 100)
+					if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep5)
 					{
 						CalcRGB.cBB = PrimaryData.PriBB - 5;
 					}
-					else if (PrimaryData.sy - ca_y > 50)
+					else if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep3)
 					{
 						CalcRGB.cBB = PrimaryData.PriBB - 3;
 					}
@@ -409,11 +409,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 				{
 					if (ca_y > PrimaryData.sy + PrimaryData.yt)
 					{
-						if (ca_y - PrimaryData.sy > 100)
+						if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep5)
 						{
 							CalcRGB.cBB = PrimaryData.PriBB + 5;
 						}
-						else if (ca_y - PrimaryData.sy > 50)
+						else if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep3)
 						{
 							CalcRGB.cBB = PrimaryData.PriBB + 3;
 						}
@@ -432,11 +432,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 					{
 						if (ca_x > PrimaryData.sx + PrimaryData.xt)
 						{
-							if (ca_x - PrimaryData.sx > 50)
+							if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
 							{
 								CalcRGB.cRR = PrimaryData.PriRR - 5;
 							}
-							else if (ca_x - PrimaryData.sx > 25)
+							else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
 							{
 								CalcRGB.cRR = PrimaryData.PriRR - 3;
 							}
@@ -449,11 +449,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 						{
 							if (ca_x < PrimaryData.sx - PrimaryData.xt)
 							{
-								if (PrimaryData.sx - ca_x > 50)
+								if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
 								{
 									CalcRGB.cRR = PrimaryData.PriRR + 5;
 								}
-								else if (PrimaryData.sx - ca_x > 25)
+								else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
 								{
 									CalcRGB.cRR = PrimaryData.PriRR + 3;
 								}
@@ -468,11 +468,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 									*pResultCode = 3;
 								}
 
-								if (PrimaryData.sx - ca_x > 60)
+								if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
 								{
 									CalcRGB.cBB = PrimaryData.PriBB - 5;
 								}
-								else if (PrimaryData.sx - ca_x > 30)
+								else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
 								{
 									CalcRGB.cBB = PrimaryData.PriBB - 3;
 								}
@@ -489,11 +489,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 		case 4:
 			if (ca_x < PrimaryData.sx - PrimaryData.xt)
 			{
-				if (PrimaryData.sx - ca_x > 60)
+				if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
 				{
 					CalcRGB.cBB = PrimaryData.PriBB - 5;
 				}
-				else if (PrimaryData.sx - ca_x > 30)
+				else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
 				{
 					CalcRGB.cBB = PrimaryData.PriBB - 3;
 				}
@@ -504,11 +504,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 			}
 			else if (ca_x > PrimaryData.sx + PrimaryData.xt)
 			{
-				if (ca_x - PrimaryData.sx > 60)
+				if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
 				{
 					CalcRGB.cBB = PrimaryData.PriBB + 5;
 				}
-				else if (ca_x - PrimaryData.sx > 30)
+				else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
 				{
 					CalcRGB.cBB = PrimaryData.PriBB + 3;
 				}
@@ -521,11 +521,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 			{
 				if (ca_y < PrimaryData.sy - PrimaryData.yt)
 				{
-					if (PrimaryData.sy - ca_y > 100)
+					if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep5)
 					{
 						CalcRGB.cGG = CalcRGB.cGG + 5;
 					}
-					else if (PrimaryData.sy - ca_y > 50)
+					else if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep3)
 					{
 						CalcRGB.cGG = CalcRGB.cGG + 3;
 					}
@@ -536,11 +536,11 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 				}
 				else if (ca_y > PrimaryData.sy + PrimaryData.yt)
 				{
-					if (ca_y - PrimaryData.sy > 100)
+					if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep5)
 					{
 						CalcRGB.cGG = CalcRGB.cGG - 5;
 					}
-					else if (ca_y - PrimaryData.sy > 50)
+					else if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep3)
 					{
 						CalcRGB.cGG = CalcRGB.cGG - 3;
 					}
@@ -723,25 +723,31 @@ int getdata(pCOLORSPEC pColorST,char* CT)
     char tol[32]="TOL_";
 	char chk[32]="CHK_";
 	char lowset[32]="PRESET_OFF_";
+	char magicValX[32]="MAGIC_VAL_X";
+	char magicValY[32]="MAGIC_VAL_Y";
 
     strcat(spec,CT);
     strcat(preset,CT);
 	strcat(tol,CT);
 	strcat(chk,CT);
     strcat(lowset,CT);
-    pColorST->sx=GetPrivateProfileInt(spec,"##x",nDefault,buf);
-    pColorST->sy=GetPrivateProfileInt(spec,"##y",nDefault,buf);
-    pColorST->LimLV=GetPrivateProfileInt(spec,"##Lv",nDefault,buf);
-	pColorST->PriRR=GetPrivateProfileInt(preset,"###R",nDefault,buf);
-    pColorST->PriGG=GetPrivateProfileInt(preset,"###G",nDefault,buf);
-    pColorST->PriBB=GetPrivateProfileInt(preset,"###B",nDefault,buf);
-	pColorST->xt=GetPrivateProfileInt(tol,"###x",nDefault,buf);
-    pColorST->yt=GetPrivateProfileInt(tol,"###y",nDefault,buf);
-	pColorST->cxt=GetPrivateProfileInt(chk,"###x",nDefault,buf);
-    pColorST->cyt=GetPrivateProfileInt(chk,"###y",nDefault,buf);
-	pColorST->LowRR=GetPrivateProfileInt(lowset,"###R",nDefault,buf);
-    pColorST->LowGG=GetPrivateProfileInt(lowset,"###G",nDefault,buf);
-    pColorST->LowBB=GetPrivateProfileInt(lowset,"###B",nDefault,buf);
+    pColorST->sx = GetPrivateProfileInt(spec, "##x", nDefault,buf);
+    pColorST->sy = GetPrivateProfileInt(spec, "##y", nDefault, buf);
+    pColorST->LimLV = GetPrivateProfileInt(spec, "##Lv", nDefault, buf);
+	pColorST->PriRR = GetPrivateProfileInt(preset, "###R", nDefault, buf);
+    pColorST->PriGG = GetPrivateProfileInt(preset, "###G", nDefault, buf);
+    pColorST->PriBB = GetPrivateProfileInt(preset, "###B", nDefault, buf);
+	pColorST->xt = GetPrivateProfileInt(tol, "###x", nDefault, buf);
+    pColorST->yt = GetPrivateProfileInt(tol, "###y", nDefault, buf);
+	pColorST->cxt = GetPrivateProfileInt(chk, "###x", nDefault, buf);
+    pColorST->cyt = GetPrivateProfileInt(chk, "###y", nDefault, buf);
+	pColorST->LowRR = GetPrivateProfileInt(lowset, "###R", nDefault, buf);
+    pColorST->LowGG = GetPrivateProfileInt(lowset, "###G", nDefault, buf);
+    pColorST->LowBB = GetPrivateProfileInt(lowset, "###B", nDefault, buf);
+	pColorST->MagicValXStep3 = GetPrivateProfileInt(magicValX, "#####STEP3", nDefault, buf);
+	pColorST->MagicValXStep5 = GetPrivateProfileInt(magicValX, "#####STEP5", nDefault, buf);
+	pColorST->MagicValYStep3 = GetPrivateProfileInt(magicValY, "#####STEP3", nDefault, buf);
+	pColorST->MagicValYStep5 = GetPrivateProfileInt(magicValY, "#####STEP5", nDefault, buf);
 
 	return true;
 }

@@ -39,6 +39,10 @@ typedef struct COLORSPEC
 	unsigned int LowRR;
 	unsigned int LowGG;
 	unsigned int LowBB;
+	unsigned int MagicValXStep3;
+	unsigned int MagicValXStep5;
+	unsigned int MagicValYStep3;
+	unsigned int MagicValYStep5;
 }COLORSPEC, *pCOLORSPEC;
 
 typedef struct REALCOLOR
