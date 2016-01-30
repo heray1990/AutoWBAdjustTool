@@ -93,17 +93,38 @@ Begin VB.Form Form1
       Appearance      =   0  'Flat
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   15.75
+         Size            =   12
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   520
+      Height          =   375
       Left            =   120
       TabIndex        =   1
       Text            =   "123456789"
+      Top             =   600
+      Width           =   2535
+   End
+   Begin VB.Label lbCommMode 
+      Alignment       =   2  'Center
+      Appearance      =   0  'Flat
+      BorderStyle     =   1  'Fixed Single
+      Caption         =   "UART"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   21.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   525
+      Left            =   120
+      TabIndex        =   21
       Top             =   960
       Width           =   2535
    End
@@ -132,7 +153,7 @@ Begin VB.Form Form1
       Caption         =   "Sampl1"
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   27.75
+         Size            =   24
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -140,7 +161,7 @@ Begin VB.Form Form1
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H80000008&
-      Height          =   975
+      Height          =   615
       Left            =   120
       TabIndex        =   19
       Top             =   0
@@ -1343,9 +1364,11 @@ Private Sub Form_Load()
     
     If isUartMode Then
         vbSetComPort.Enabled = True
+        lbCommMode.Caption = "UART"
         subInitComPort
     Else
         vbSetComPort.Enabled = False
+        lbCommMode.Caption = "Network"
         subInitNetwork
     End If
 
