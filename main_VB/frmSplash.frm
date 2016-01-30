@@ -16,7 +16,7 @@ Begin VB.Form frmSplash
    ScaleHeight     =   2730
    ScaleWidth      =   5610
    ShowInTaskbar   =   0   'False
-   StartUpPosition =   2  'ÆÁÄ»ÖÐÐÄ
+   StartUpPosition =   2  'CenterScreen
    Begin VB.ComboBox cmbModelName 
       BackColor       =   &H00E0E0E0&
       BeginProperty Font 
@@ -226,6 +226,16 @@ On Error GoTo ErrExit
     isSaveData = rs("SaveData")
     isCheckColorTemp = rs("CheckColor")
     isAdjustOffset = rs("AdjustOFF")
+    
+    If rs("CommMode") = "UART" Then
+        isUartMode = True
+        frmSetData.optUart.Value = True
+        frmSetData.optNetwork.Value = False
+    Else
+        isUartMode = False
+        frmSetData.optUart.Value = False
+        frmSetData.optNetwork.Value = True
+    End If
 
     Set rs = Nothing
     Set cn = Nothing

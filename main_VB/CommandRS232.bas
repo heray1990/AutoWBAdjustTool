@@ -17,7 +17,11 @@ Public Sub ENTER_FAC_MODE()
     SendDataBuf(8) = &H1
     SendDataBuf(9) = &H4
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub EXIT_FAC_MODE()
@@ -36,7 +40,11 @@ Public Sub EXIT_FAC_MODE()
     SendDataBuf(8) = &H0
     SendDataBuf(9) = &H5
 
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SEL_INPUT_SOURCE_FOR_WB(inputSource As String, portNum As Integer)
@@ -89,7 +97,11 @@ Public Sub SEL_INPUT_SOURCE_FOR_WB(inputSource As String, portNum As Integer)
     SendDataBuf(8) = &H2
     SendDataBuf(9) = chksumSend(SendDataBuf)
 
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SET_BRIGHTNESS(Brightness As Long)
@@ -107,7 +119,11 @@ Public Sub SET_BRIGHTNESS(Brightness As Long)
     SendDataBuf(8) = CByte(Brightness Mod 256)
     SendDataBuf(9) = chksumSend(SendDataBuf)
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SET_CONTRAST(Contrast As Long)
@@ -125,7 +141,11 @@ Public Sub SET_CONTRAST(Contrast As Long)
     SendDataBuf(8) = CByte(Contrast Mod 256)
     SendDataBuf(9) = chksumSend(SendDataBuf)
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SET_BACKLIGHT(Backlight As Long)
@@ -143,7 +163,11 @@ Public Sub SET_BACKLIGHT(Backlight As Long)
     SendDataBuf(8) = CByte(Backlight Mod 256)
     SendDataBuf(9) = chksumSend(SendDataBuf)
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SET_COLORTEMP(colorT As Long, inputSource As String, portNum As Integer)
@@ -210,7 +234,11 @@ Public Sub SEL_TEMP_COOL(inputSource As String, portNum As Integer)
     SendDataBuf(8) = &H1
     SendDataBuf(9) = chksumSend(SendDataBuf)
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SEL_TEMP_NORMAL(inputSource As String, portNum As Integer)
@@ -264,7 +292,11 @@ Public Sub SEL_TEMP_NORMAL(inputSource As String, portNum As Integer)
     SendDataBuf(8) = &H1
     SendDataBuf(9) = chksumSend(SendDataBuf)
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SEL_TEMP_WARM(inputSource As String, portNum As Integer)
@@ -318,7 +350,11 @@ Public Sub SEL_TEMP_WARM(inputSource As String, portNum As Integer)
     SendDataBuf(8) = &H1
     SendDataBuf(9) = chksumSend(SendDataBuf)
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SET_R_GAN(R_GAN As Long)
@@ -337,7 +373,11 @@ Public Sub SET_R_GAN(R_GAN As Long)
     SendDataBuf(8) = CByte(R_GAN Mod 256)
     SendDataBuf(9) = chksumSend(SendDataBuf)
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SET_G_GAN(G_GAN As Long)
@@ -356,7 +396,11 @@ Public Sub SET_G_GAN(G_GAN As Long)
     SendDataBuf(8) = CByte(G_GAN Mod 256)
     SendDataBuf(9) = chksumSend(SendDataBuf)
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SET_B_GAN(B_GAN As Long)
@@ -375,7 +419,11 @@ Public Sub SET_B_GAN(B_GAN As Long)
     SendDataBuf(8) = CByte(B_GAN Mod 256)
     SendDataBuf(9) = chksumSend(SendDataBuf)
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SET_R_OFF(R_OFF As Long)
@@ -394,7 +442,11 @@ Public Sub SET_R_OFF(R_OFF As Long)
     SendDataBuf(8) = CByte(R_OFF Mod 256)
     SendDataBuf(9) = chksumSend(SendDataBuf)
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SET_G_OFF(G_OFF As Long)
@@ -413,7 +465,11 @@ Public Sub SET_G_OFF(G_OFF As Long)
     SendDataBuf(8) = CByte(G_OFF Mod 256)
     SendDataBuf(9) = chksumSend(SendDataBuf)
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SET_B_OFF(B_OFF As Long)
@@ -432,7 +488,11 @@ Public Sub SET_B_OFF(B_OFF As Long)
     SendDataBuf(8) = CByte(B_OFF Mod 256)
     SendDataBuf(9) = chksumSend(SendDataBuf)
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Public Sub SAVE_WB_DATA_TO_ALL_SRC(inputSource As String, portNum As Integer)
@@ -485,7 +545,11 @@ Public Sub SAVE_WB_DATA_TO_ALL_SRC(inputSource As String, portNum As Integer)
     SendDataBuf(8) = &H0
     SendDataBuf(9) = chksumSend(SendDataBuf)
     
-    Form1.MSComm1.Output = SendDataBuf
+    If isUartMode Then
+        Form1.MSComm1.Output = SendDataBuf
+    Else
+        Form1.tcpClient.SendData SendDataBuf
+    End If
 End Sub
 
 Private Function chksumSend(ByRef data() As Byte) As Byte

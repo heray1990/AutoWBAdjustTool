@@ -1,9 +1,10 @@
 VERSION 5.00
-Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "mscomm32.ocx"
+Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
+Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
 Begin VB.Form Form1 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Auto Color Temp Adjust System"
-   ClientHeight    =   4635
+   ClientHeight    =   4620
    ClientLeft      =   5865
    ClientTop       =   2625
    ClientWidth     =   10335
@@ -20,9 +21,16 @@ Begin VB.Form Form1
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   4635
+   ScaleHeight     =   4620
    ScaleWidth      =   10335
-   StartUpPosition =   2  'ÆÁÄ»ÖÐÐÄ
+   StartUpPosition =   2  'CenterScreen
+   Begin MSWinsockLib.Winsock tcpClient 
+      Left            =   10560
+      Top             =   3000
+      _ExtentX        =   741
+      _ExtentY        =   741
+      _Version        =   393216
+   End
    Begin VB.PictureBox Picture1 
       Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
@@ -886,6 +894,11 @@ Private Sub subInitAfterRunning()
     txtInput.Text = ""
     txtInput.SetFocus
     txtInput.Locked = False
+    
+    If isUartMode = False Then
+        isNetworkConnected = False
+        tcpClient.Close
+    End If
 End Sub
 
 Private Function subJudgeTheSNIsAvailable() As Boolean
@@ -1328,7 +1341,14 @@ Private Sub Form_Load()
     IsStop = False
     txtInput.Locked = False
     
-    subInitComPort
+    If isUartMode Then
+        vbSetComPort.Enabled = True
+        subInitComPort
+    Else
+        vbSetComPort.Enabled = False
+        subInitNetwork
+    End If
+
     subInitInterface
     
     Label8 = strCurrentModelName
@@ -1364,13 +1384,41 @@ Private Sub subInitComPort()
     ComInit
 End Sub
 
+Private Sub subInitNetwork()
+    isNetworkConnected = False
+    With tcpClient
+        .Protocol = sckTCPProtocol
+        ' IMPORTANT: be sure to change the RemoteHost
+        ' value to the name of your computer.
+        .RemoteHost = strRemoteHost
+        .RemotePort = lngRemotePort
+    End With
+End Sub
 
 Private Sub txtInput_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
         IsStop = False
         
         If txtInput.Locked = False Then
-            Call subMainProcesser
+            If isUartMode = True Then
+                subMainProcesser
+            Else
+                isNetworkConnected = False
+                Do
+                    Log_Info "TCP Connect"
+                    tcpClient.Connect
+                    Call DelaySWithFlag(cmdReceiveWaitS * 2, isNetworkConnected)
+                
+                    If isNetworkConnected = True Then
+                        subMainProcesser
+                        Exit Do
+                    Else
+                        tcpClient.Close
+                        i = i + 1
+                    End If
+                    Log_Info "Re-connect to TV."
+                Loop While i <= 5
+            End If
         End If
         
         If IsStop = True Then
@@ -1546,3 +1594,7 @@ Private Sub saveALLcData()
     End If
 End Sub
 
+Private Sub tcpClient_Connect()
+    'Success to connect the TV.
+    isNetworkConnected = True
+End Sub

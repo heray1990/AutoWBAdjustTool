@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin VB.Form frmSetData 
    Caption         =   "SpecData"
-   ClientHeight    =   4110
+   ClientHeight    =   4920
    ClientLeft      =   6435
    ClientTop       =   3210
-   ClientWidth     =   4965
+   ClientWidth     =   4950
    BeginProperty Font 
       Name            =   "Arial Narrow"
       Size            =   18
@@ -16,13 +16,64 @@ Begin VB.Form frmSetData
    EndProperty
    Icon            =   "frmSetData.frx":0000
    LinkTopic       =   "Form4"
-   ScaleHeight     =   4110
-   ScaleWidth      =   4965
-   Begin VB.Frame Frame5 
-      Caption         =   "Common"
+   ScaleHeight     =   4920
+   ScaleWidth      =   4950
+   Begin VB.Frame Frame3 
+      Caption         =   "Communication Mode"
       BeginProperty Font 
-         Name            =   "宋体"
-         Size            =   10.5
+         Name            =   "Arial"
+         Size            =   9
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   795
+      Left            =   120
+      TabIndex        =   23
+      Top             =   4080
+      Width           =   2295
+      Begin VB.OptionButton optUart 
+         Caption         =   "UART"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   250
+         Left            =   120
+         TabIndex        =   25
+         Top             =   360
+         Width           =   800
+      End
+      Begin VB.OptionButton optNetwork 
+         Caption         =   "Network"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   250
+         Left            =   1100
+         TabIndex        =   24
+         Top             =   360
+         Width           =   1000
+      End
+   End
+   Begin VB.Frame Frame5 
+      Caption         =   "Common Setting"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   9
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -114,7 +165,7 @@ Begin VB.Form frmSetData
       Begin VB.Label Label6 
          Caption         =   "Lv Spec:"
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -126,13 +177,13 @@ Begin VB.Form frmSetData
          Index           =   1
          Left            =   200
          TabIndex        =   21
-         Top             =   1400
+         Top             =   1380
          Width           =   900
       End
       Begin VB.Label Label5 
          Caption         =   "TV Source:"
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -144,13 +195,13 @@ Begin VB.Form frmSetData
          Index           =   0
          Left            =   200
          TabIndex        =   19
-         Top             =   1050
+         Top             =   1030
          Width           =   900
       End
       Begin VB.Label Label4 
          Caption         =   "SN_Len:"
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -162,13 +213,13 @@ Begin VB.Form frmSetData
          Index           =   0
          Left            =   200
          TabIndex        =   14
-         Top             =   700
+         Top             =   680
          Width           =   900
       End
       Begin VB.Label Label3 
          Caption         =   "Delay(ms):"
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -180,15 +231,15 @@ Begin VB.Form frmSetData
          Index           =   0
          Left            =   200
          TabIndex        =   12
-         Top             =   350
+         Top             =   330
          Width           =   900
       End
    End
    Begin VB.Frame Frame5 
       Caption         =   "CA310/CA210"
       BeginProperty Font 
-         Name            =   "宋体"
-         Size            =   10.5
+         Name            =   "Arial"
+         Size            =   9
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -223,7 +274,7 @@ Begin VB.Form frmSetData
       Begin VB.Label Label2 
          Caption         =   "Channel:"
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -235,15 +286,15 @@ Begin VB.Form frmSetData
          Index           =   0
          Left            =   200
          TabIndex        =   8
-         Top             =   350
+         Top             =   330
          Width           =   900
       End
    End
    Begin VB.Frame Selection 
       Caption         =   "Selection"
       BeginProperty Font 
-         Name            =   "宋体"
-         Size            =   10.5
+         Name            =   "Arial"
+         Size            =   9
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -259,7 +310,7 @@ Begin VB.Form frmSetData
          Alignment       =   1  'Right Justify
          Caption         =   "AdjustOffset"
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -278,7 +329,7 @@ Begin VB.Form frmSetData
          Alignment       =   1  'Right Justify
          Caption         =   "CheckColor"
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -297,7 +348,7 @@ Begin VB.Form frmSetData
          Alignment       =   1  'Right Justify
          Caption         =   "Save Data"
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -316,7 +367,7 @@ Begin VB.Form frmSetData
          Alignment       =   1  'Right Justify
          Caption         =   "COOL_2"
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -334,7 +385,7 @@ Begin VB.Form frmSetData
          Alignment       =   1  'Right Justify
          Caption         =   "COOL_1"
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -353,7 +404,7 @@ Begin VB.Form frmSetData
          Alignment       =   1  'Right Justify
          Caption         =   "NORMAL"
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -372,7 +423,7 @@ Begin VB.Form frmSetData
          Alignment       =   1  'Right Justify
          Caption         =   "WARM_1"
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -391,7 +442,7 @@ Begin VB.Form frmSetData
          Alignment       =   1  'Right Justify
          Caption         =   "WARM_2"
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -409,8 +460,8 @@ Begin VB.Form frmSetData
    Begin VB.CommandButton Command1 
       Caption         =   "Save"
       BeginProperty Font 
-         Name            =   "宋体"
-         Size            =   12
+         Name            =   "Arial"
+         Size            =   10.5
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -420,7 +471,7 @@ Begin VB.Form frmSetData
       Height          =   435
       Left            =   3720
       TabIndex        =   5
-      Top             =   3600
+      Top             =   4320
       Width           =   1095
    End
    Begin VB.Label Label1 
@@ -538,6 +589,14 @@ Private Sub Command1_Click()
     
     rs.Fields(9) = Val(txtLvSpec.Text)
     rs.Fields(10) = Val(txtSNLen.Text)
+    
+    If optUart.Value = True Then
+        rs.Fields(11) = "UART"
+    ElseIf optNetwork.Value = True Then
+        rs.Fields(11) = "Network"
+    Else
+        rs.Fields(11) = "UART"
+    End If
 
     rs.Update
 

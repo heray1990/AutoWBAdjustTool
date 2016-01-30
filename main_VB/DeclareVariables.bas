@@ -1,28 +1,31 @@
 Attribute VB_Name = "Module3"
 Option Explicit
 
-Public Const FixR = 1
-Public Const FixG = 2
-Public Const FixB = 3
-Public Const adjustMode1 = 1
-Public Const adjustMode2 = 2
-Public Const adjustMode3 = 3
-Public Const adjustMode4 = 4
+Public Const FixR As Integer = 1
+Public Const FixG As Integer = 2
+Public Const FixB As Integer = 3
+Public Const adjustMode1 As Integer = 1
+Public Const adjustMode2 As Integer = 2
+Public Const adjustMode3 As Integer = 3
+Public Const adjustMode4 As Integer = 4
 
-Public Const AdjustSingle = 1
-Public Const AdjustDouble = 0
+Public Const AdjustSingle As Integer = 1
+Public Const AdjustDouble As Integer = 0
 
-Public Const SingleStep = 0
-Public Const ComplexStep = 1
+Public Const SingleStep As Integer = 0
+Public Const ComplexStep As Integer = 1
 
-Public Const HighBri = 1
-Public Const LowBri = 0
+Public Const HighBri As Integer = 1
+Public Const LowBri As Integer = 0
 
 Public Const valColorTempCool1 As Long = 12000
 Public Const valColorTempNormal As Long = 10000
 Public Const valColorTempWarm1 As Long = 6500
 
 Public Const lastChkShwDataStep As Integer = 6
+Public Const cmdReceiveWaitS As Integer = 5
+Public Const strRemoteHost As String = "192.168.1.11"
+Public Const lngRemotePort As Long = 8888
 
 Type ColorTemp
     x As Single
@@ -69,6 +72,8 @@ Public setTVInputSourcePortNum As Integer
 Public maxBrightnessSpec As Long
 
 Public IsCa210ok As Boolean
+Public isUartMode As Boolean
+Public isNetworkConnected As Boolean
 
 Public IsSNWriteSuccess As Boolean
 Public scanbarcode As String
