@@ -57,6 +57,8 @@ Begin VB.Form Form1
       End
    End
    Begin VB.Timer Timer1 
+      Enabled         =   0   'False
+      Interval        =   1000
       Left            =   10560
       Top             =   3480
    End
@@ -167,7 +169,7 @@ Begin VB.Form Form1
       Top             =   0
       Width           =   2535
    End
-   Begin VB.Label Label9 
+   Begin VB.Label lbTimer 
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       Caption         =   "0s"
@@ -892,8 +894,9 @@ Private Function funSNWrite() As Boolean
 End Function
 
 Private Sub subInitBeforeRunning()
-    countTime = Timer
-    Label9.Caption = "0s"
+    countTime = 0
+    lbTimer.Caption = "0s"
+    Timer1.Enabled = True
 
     IsSNWriteSuccess = True
     txtInput.Locked = True
@@ -904,8 +907,7 @@ Private Sub subInitBeforeRunning()
 End Sub
 
 Private Sub subInitAfterRunning()
-    countTime = CLng(Timer - countTime)
-    Label9.Caption = countTime & "s"
+    Timer1.Enabled = False
 
     IsSNWriteSuccess = False
     adjustGainAgainCool1Flag = 0
@@ -1328,6 +1330,11 @@ End Sub
 
 Private Sub tbSetComPort_Click()
     Form2.Show
+End Sub
+
+Private Sub Timer1_Timer()
+    countTime = countTime + 1
+    lbTimer.Caption = CStr(countTime) & "s"
 End Sub
 
 Private Sub vbConChroma_Click()
