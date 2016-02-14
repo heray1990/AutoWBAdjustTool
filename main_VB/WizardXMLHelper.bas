@@ -5,7 +5,7 @@ Attribute VB_Name = "WizardXMLHelper"
 
 Option Explicit
 
-' Return the name of current project.
+' Return current project's name.
 Public Function GetCurProjectName() As String
     Dim xmlDoc As New MSXML2.DOMDocument
     Dim success As Boolean
@@ -37,6 +37,26 @@ Private Function GetNodeValue(ByVal StartAtNode As IXMLDOMNode, _
     End If
 End Function
 
+' Save current project's name.
+Public Sub SetCurProjectName(strCurProjectName As String)
+    Dim xmlDoc As New MSXML2.DOMDocument
+    Dim success As Boolean
+    
+    success = xmlDoc.Load(App.Path & "\wizard.xml")
+    
+    If success = False Then
+        MsgBox xmlDoc.parseError.reason
+    Else
+        Dim objNode As MSXML2.IXMLDOMNode
+        
+        Set objNode = xmlDoc.selectSingleNode("/wizard/current_project")
+        objNode.Text = strCurProjectName
+        
+        xmlDoc.Save App.Path & "\wizard.xml"
+    End If
+End Sub
+
+' Return the list of projects' name.
 Public Function GetProjectList() As Collection
     Dim xmlDoc As New MSXML2.DOMDocument
     Dim success As Boolean

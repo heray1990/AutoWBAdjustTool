@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wizard>
 	<current_project>Letv-X65</current_project>
-	
 	<project_list>
-		<project brand="Letv" model="X65" />
-		<project brand="Letv" model="X50" />
-		<project brand="Letv" model="X43" />
-		<project brand="CIBN" model="C49S" />
+		<project brand="Letv" model="X65"/>
+		<project brand="Letv" model="X50"/>
+		<project brand="Letv" model="X43"/>
+		<project brand="CIBN" model="C49S"/>
 	</project_list>
 </wizard>

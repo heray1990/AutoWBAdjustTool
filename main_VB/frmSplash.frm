@@ -187,15 +187,10 @@ Private Sub Form_Unload(Cancel As Integer)
 
 On Error GoTo ErrExit
 
-    strCurrentModelName = cmbModelName
+    strCurrentModelName = cmbModelName.Text
     sqlstring = ""
 
-    sqlstring = "update CommonTable set CurrentModelName='" & strCurrentModelName & "' where Mark='ATS'"
-    Executesql (sqlstring)
-    
-    Set cn = Nothing
-    Set rs = Nothing
-    sqlstring = ""
+    SetCurProjectName strCurrentModelName
 
     sqlstring = "select * from CheckItem where Mark='" & strCurrentModelName & "'"
     Executesql (sqlstring)
