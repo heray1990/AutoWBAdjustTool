@@ -127,7 +127,6 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-Dim ss As Boolean
 
 Private Sub Form_Click()
     Unload Me
@@ -148,28 +147,15 @@ End Sub
 Private Sub Form_Load()
 
 On Error GoTo ErrExit
-    ss = False
-    lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision
- 
-    sqlstring = "select * from CheckItem"
-    Executesql (sqlstring)
-
-    If rs.EOF = False Then
-        rs.MoveFirst
-        cmbModelName.Clear
-
-        Do While Not rs.EOF
-            cmbModelName.AddItem rs.Fields("Mark")
-            rs.MoveNext
-        Loop
-    Else
-        MsgBox "Read Data Error,Please Check Your Database!", vbOKOnly + vbInformation, "Warning!"
-        End
-    End If
+    Dim strProjectName As Variant
     
-    Set cn = Nothing
-    Set rs = Nothing
-    sqlstring = ""
+    cmbModelName.Clear
+    
+    For Each strProjectName In GetProjectList
+        cmbModelName.AddItem strProjectName
+    Next strProjectName
+    
+    lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision
    
     sqlstring = "select * from CommonTable where Mark='ATS'"
     Executesql (sqlstring)

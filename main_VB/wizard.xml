@@ -3,9 +3,9 @@
 	<current_project>Letv-X65</current_project>
 	
 	<project_list>
-		<project name="Letv-X65" />
-		<project name="Letv-X50" />
-		<project name="Letv-X43" />
-		<project name="CIBN-C49S" />
+		<project brand="Letv" model="X65" />
+		<project brand="Letv" model="X50" />
+		<project brand="Letv" model="X43" />
+		<project brand="CIBN" model="C49S" />
 	</project_list>
 </wizard>
