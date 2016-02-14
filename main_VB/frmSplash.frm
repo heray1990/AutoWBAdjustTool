@@ -175,7 +175,6 @@ On Error GoTo ErrExit
     Executesql (sqlstring)
 
     If rs.EOF = False Then
-        strCurrentModelName = rs("CurrentModelName")
         setTVCurrentComBaud = rs("ComBaud")
         setTVCurrentComID = rs("ComID")
         Ca210ChannelNO = rs("Channel")
@@ -191,7 +190,7 @@ On Error GoTo ErrExit
     Set rs = Nothing
     sqlstring = ""
 
-    cmbModelName = strCurrentModelName
+    cmbModelName.Text = GetCurProjectName
     Exit Sub
 
 ErrExit:
