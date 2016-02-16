@@ -17,23 +17,14 @@ Public Function GetCurProjectName() As String
     Else
         Dim objNode As MSXML2.IXMLDOMNode
         
-        Set objNode = xmlDoc.selectSingleNode("wizard")
-        GetCurProjectName = GetNodeValue(objNode, "current_project", "???")
-    End If
-End Function
-
-' Return the node's value.
-Private Function GetNodeValue(ByVal StartAtNode As IXMLDOMNode, _
-    ByVal strNodeName As String, _
-    Optional ByVal strDefaultValue As String = "") As String
-
-    Dim ValueNode As MSXML2.IXMLDOMNode
-
-    Set ValueNode = StartAtNode.selectSingleNode(".//" & strNodeName)
-    If ValueNode Is Nothing Then
-        GetNodeValue = strDefaultValue
-    Else
-        GetNodeValue = ValueNode.Text
+        Set objNode = xmlDoc.selectSingleNode("/wizard/current_project")
+        
+        If objNode Is Nothing Then
+            MsgBox "There is not <current_project> node in wizard.xml."
+            GetCurProjectName = "???"
+        Else
+            GetCurProjectName = objNode.Text
+        End If
     End If
 End Function
 

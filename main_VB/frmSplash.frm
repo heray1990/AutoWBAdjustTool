@@ -148,6 +148,7 @@ Private Sub Form_Load()
 
 On Error GoTo ErrExit
     Dim strProjectName As Variant
+    Dim configData As ProjectConfig
     
     cmbModelName.Clear
     
@@ -157,26 +158,30 @@ On Error GoTo ErrExit
     
     lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision
    
-    sqlstring = "select * from CommonTable where Mark='ATS'"
-    Executesql (sqlstring)
+    'sqlstring = "select * from CommonTable where Mark='ATS'"
+    'Executesql (sqlstring)
 
-    If rs.EOF = False Then
-        setTVCurrentComBaud = rs("ComBaud")
-        setTVCurrentComID = rs("ComID")
-        Ca210ChannelNO = rs("Channel")
-        delayTime = rs("Delayms")
-        setTVInputSource = Trim(rs("TVInputSource"))
-        setTVInputSourcePortNum = CInt(Right(setTVInputSource, 1))
-        setTVInputSource = Left(setTVInputSource, Len(setTVInputSource) - 1)
-    Else
-        MsgBox "Read Data Error,Please Check Your Database!", vbOKOnly + vbInformation, "Warning!"
-    End If
+    'If rs.EOF = False Then
+    '    setTVCurrentComBaud = rs("ComBaud")
+    '    setTVCurrentComID = rs("ComID")
+    '    Ca210ChannelNO = rs("Channel")
+    '    delayTime = rs("Delayms")
+    '    setTVInputSource = Trim(rs("TVInputSource"))
+    '    setTVInputSourcePortNum = CInt(Right(setTVInputSource, 1))
+    '    setTVInputSource = Left(setTVInputSource, Len(setTVInputSource) - 1)
+    'Else
+    '    MsgBox "Read Data Error,Please Check Your Database!", vbOKOnly + vbInformation, "Warning!"
+    'End If
 
-    Set cn = Nothing
-    Set rs = Nothing
-    sqlstring = ""
+    'Set cn = Nothing
+    'Set rs = Nothing
+    'sqlstring = ""
 
     cmbModelName.Text = GetCurProjectName
+    
+    Set configData = New ProjectConfig
+    configData.LoadConfigData
+    
     Exit Sub
 
 ErrExit:
@@ -185,7 +190,7 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
 
-On Error GoTo ErrExit
+'On Error GoTo ErrExit
 
     strCurrentModelName = cmbModelName.Text
     sqlstring = ""
@@ -224,6 +229,6 @@ On Error GoTo ErrExit
     Form1.Show
     Exit Sub
 
-ErrExit:
-    MsgBox ("The Licence Key is Wrong.")
+'ErrExit:
+    'MsgBox ("The Licence Key is Wrong.")
 End Sub
