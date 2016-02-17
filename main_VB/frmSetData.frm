@@ -502,68 +502,70 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-    sqlstring = "select * from CheckItem where Mark='" & strCurrentModelName & "'"
-    Executesql (sqlstring)
+    Label1.Caption = strCurrentModelName
     
-    txtSNLen.Text = rs("SN_Len")
-    txtLvSpec.Text = rs("LvSpec")
+    txtChannel.Text = CStr(Ca210ChannelNO)
+    txtSNLen.Text = CStr(BarCodeLen)
+    txtLvSpec.Text = CStr(maxBrightnessSpec)
+    cmbInputSource.Text = setTVInputSource & CStr(setTVInputSourcePortNum)
+    txtDelay.Text = delayTime
 
-    If rs("COOL_2") Then
+    If isUartMode Then
+        optUart.Value = True
+        optNetwork.Value = False
+    Else
+        optUart.Value = False
+        optNetwork.Value = True
+    End If
+    
+    If isAdjustCool2 Then
         Check1.Value = 1
     Else
         Check1.Value = 0
     End If
 
-    If rs("COOL_1") Then
+    If isAdjustCool1 Then
         Check2.Value = 1
     Else
         Check2.Value = 0
     End If
 
-    If rs("NORMAL") Then
+    If isAdjustNormal Then
         Check3.Value = 1
     Else
         Check3.Value = 0
     End If
 
-    If rs("WARM_1") Then
+    If isAdjustWarm1 Then
         Check4.Value = 1
     Else
         Check4.Value = 0
     End If
 
-    If rs("WARM_2") Then
+    If isAdjustWarm2 Then
         Check5.Value = 1
     Else
         Check5.Value = 0
     End If
 
-    If rs("SaveData") Then
+    If isSaveData Then
         Check6.Value = 1
     Else
         Check6.Value = 0
     End If
 
-    If rs("CheckColor") Then
+    If isCheckColorTemp Then
         Check7.Value = 1
     Else
         Check7.Value = 0
     End If
 
-    If rs("AdjustOFF") Then
+    If isAdjustOffset Then
         Check8.Value = 1
     Else
         Check8.Value = 0
     End If
-
-    Set rs = Nothing
-    Set cn = Nothing
-    sqlstring = ""
-
-    Label1.Caption = strCurrentModelName
-    txtChannel.Text = Ca210ChannelNO
-    cmbInputSource.Text = setTVInputSource & CStr(setTVInputSourcePortNum)
-    txtDelay.Text = delayTime
+    
 End Sub
 
 Private Sub Command1_Click()

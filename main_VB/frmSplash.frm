@@ -180,14 +180,10 @@ Private Sub Form_Unload(Cancel As Integer)
     
     If clsConfigData.CommMode = modeUART Then
         isUartMode = True
-        frmSetData.optUart.Value = True
-        frmSetData.optNetwork.Value = False
         setTVCurrentComBaud = clsConfigData.ComBaud
         setTVCurrentComID = clsConfigData.ComID
     Else
         isUartMode = False
-        frmSetData.optUart.Value = False
-        frmSetData.optNetwork.Value = True
     End If
     
     setTVInputSource = clsConfigData.InputSource
@@ -205,6 +201,8 @@ Private Sub Form_Unload(Cancel As Integer)
     isCheckColorTemp = clsConfigData.EnableChkColor
     isAdjustOffset = clsConfigData.EnableAdjOffset
     isSaveData = True
+    
+    Set clsConfigData = Nothing
 
     Form1.Show
     Exit Sub

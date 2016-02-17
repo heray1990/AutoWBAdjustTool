@@ -1362,7 +1362,6 @@ End Sub
 
 Private Sub Form_Load()
     i = 0
-    delayTime = delayTime
     IsStop = False
     txtInput.Locked = False
     
