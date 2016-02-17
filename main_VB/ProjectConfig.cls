@@ -18,6 +18,8 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
+Private Declare Function PathFileExists Lib "shlwapi.dll" Alias "PathFileExistsA" (ByVal pszPath As String) As Long
+
 Private Type udtConfigData
     CommMode As CommunicationMode
     strComBaud As String
@@ -59,6 +61,12 @@ End Sub
 
 Public Sub LoadConfigData()
     mstrConfigFilePath = App.Path & "\" & strCurrentModelName & "\config.xml"
+    
+    If Not CBool(PathFileExists(mstrConfigFilePath)) Then
+        MsgBox "Cannot open " & mstrConfigFilePath & " file."
+        End
+    End If
+    
     LoadCommMode
 
     mConfigData.strInputSource = GetXmlNodeValue(mstrConfigFilePath, "/config/input_source")
