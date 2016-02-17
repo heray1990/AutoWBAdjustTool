@@ -62,109 +62,74 @@ Private Sub Class_Initialize()
 End Sub
 
 Public Sub LoadConfigData()
+    Dim xmlDoc As New MSXML2.DOMDocument
+    Dim success As Boolean
+
     If Not CBool(PathFileExists(mstrConfigFilePath)) Then
         MsgBox "Cannot open " & mstrConfigFilePath & " file."
         End
     End If
     
-    LoadCommMode
+    success = xmlDoc.Load(mstrConfigFilePath)
+    
+    If success = False Then
+        MsgBox xmlDoc.parseError.reason
+    Else
+        If xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "UART" Then
+            mConfigData.CommMode = modeUART
+            mConfigData.strComBaud = xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@baud").Text
+            mConfigData.intComID = Val(xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@id").Text)
+        Else
+            mConfigData.CommMode = modeNetwork
+        End If
 
-    mConfigData.strInputSource = GetXmlNodeValue(mstrConfigFilePath, "/config/input_source")
-    mConfigData.lngDelayMs = Val(GetXmlNodeValue(mstrConfigFilePath, "/config/delayms"))
-    mConfigData.intChannelNum = Val(GetXmlNodeValue(mstrConfigFilePath, "/config/channel_number"))
-    mConfigData.intBarCodeLen = Val(GetXmlNodeValue(mstrConfigFilePath, "/config/length_bar_code"))
-    mConfigData.intLvSpec = Val(GetXmlNodeValue(mstrConfigFilePath, "/config/Lv_spec"))
+        mConfigData.strInputSource = xmlDoc.selectSingleNode("/config/input_source").Text
+        mConfigData.lngDelayMs = Val(xmlDoc.selectSingleNode("/config/delayms").Text)
+        mConfigData.intChannelNum = Val(xmlDoc.selectSingleNode("/config/channel_number").Text)
+        mConfigData.intBarCodeLen = Val(xmlDoc.selectSingleNode("/config/length_bar_code").Text)
+        mConfigData.intLvSpec = Val(xmlDoc.selectSingleNode("/config/Lv_spec").Text)
+    End If
 
-    If GetXmlNodeValue(mstrConfigFilePath, "/config/cool_2") = "True" Then
+    If xmlDoc.selectSingleNode("/config/cool_2").Text = "True" Then
         mConfigData.bolEnableCool2 = True
     Else
         mConfigData.bolEnableCool2 = False
     End If
     
-    If GetXmlNodeValue(mstrConfigFilePath, "/config/cool_1") = "True" Then
+    If xmlDoc.selectSingleNode("/config/cool_1").Text = "True" Then
         mConfigData.bolEnableCool1 = True
     Else
         mConfigData.bolEnableCool1 = False
     End If
     
-    If GetXmlNodeValue(mstrConfigFilePath, "/config/normal") = "True" Then
+    If xmlDoc.selectSingleNode("/config/normal").Text = "True" Then
         mConfigData.bolEnableNormal = True
     Else
         mConfigData.bolEnableNormal = False
     End If
     
-    If GetXmlNodeValue(mstrConfigFilePath, "/config/warm_1") = "True" Then
+    If xmlDoc.selectSingleNode("/config/warm_1").Text = "True" Then
         mConfigData.bolEnableWarm1 = True
     Else
         mConfigData.bolEnableWarm1 = False
     End If
     
-    If GetXmlNodeValue(mstrConfigFilePath, "/config/warm_2") = "True" Then
+    If xmlDoc.selectSingleNode("/config/warm_2").Text = "True" Then
         mConfigData.bolEnableWarm2 = True
     Else
         mConfigData.bolEnableWarm2 = False
     End If
     
-    If GetXmlNodeValue(mstrConfigFilePath, "/config/check_color") = "True" Then
+    If xmlDoc.selectSingleNode("/config/check_color").Text = "True" Then
         mConfigData.bolEnableChkColor = True
     Else
         mConfigData.bolEnableChkColor = False
     End If
     
-    If GetXmlNodeValue(mstrConfigFilePath, "/config/adjust_offset") = "True" Then
+    If xmlDoc.selectSingleNode("/config/adjust_offset").Text = "True" Then
         mConfigData.bolEnableAdjOffset = True
     Else
         mConfigData.bolEnableAdjOffset = False
-    End If
-End Sub
-
-Private Sub LoadCommMode()
-    Dim xmlDoc As New MSXML2.DOMDocument
-    Dim success As Boolean
-    
-    success = xmlDoc.Load(mstrConfigFilePath)
-    
-    If success = False Then
-        MsgBox xmlDoc.parseError.reason
-    Else
-        Dim objNode As MSXML2.IXMLDOMNode
-        
-        Set objNode = xmlDoc.selectSingleNode("/config/communication")
-        
-        If objNode Is Nothing Then
-            MsgBox "There is not <communication> node in config.xml."
-            End
-        Else
-            If objNode.selectSingleNode("@mode").Text = "UART" Then
-                mConfigData.CommMode = modeUART
-                LoadComSetting
-            Else
-                mConfigData.CommMode = modeNetwork
-            End If
-        End If
-    End If
-End Sub
-
-Private Sub LoadComSetting()
-    Dim xmlDoc As New MSXML2.DOMDocument
-    Dim success As Boolean
-    
-    success = xmlDoc.Load(mstrConfigFilePath)
-    
-    If success = False Then
-        MsgBox xmlDoc.parseError.reason
-    Else
-        Dim objNode As MSXML2.IXMLDOMNode
-        
-        Set objNode = xmlDoc.selectSingleNode("/config/communication/common")
-        
-        If objNode Is Nothing Then
-            MsgBox "There is not <common> node in config.xml."
-            End
-        Else
-            mConfigData.strComBaud = objNode.selectSingleNode("@baud").Text
-            mConfigData.intComID = Val(objNode.selectSingleNode("@id").Text)
-        End If
     End If
 End Sub
 
