@@ -505,7 +505,7 @@ Private Sub Form_Load()
     Label1.Caption = strCurrentModelName
     
     txtChannel.Text = CStr(Ca210ChannelNO)
-    txtSNLen.Text = CStr(BarCodeLen)
+    txtSNLen.Text = CStr(barCodeLen)
     txtLvSpec.Text = CStr(maxBrightnessSpec)
     cmbInputSource.Text = setTVInputSource & CStr(setTVInputSourcePortNum)
     txtDelay.Text = delayTime
@@ -569,55 +569,47 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub Command1_Click()
-    sqlstring = "select * from CheckItem where Mark='" & strCurrentModelName & "'"
-    Executesql (sqlstring)
-
-    If Check1.Value = 1 Then rs.Fields(1) = True
-    If Check1.Value = 0 Then rs.Fields(1) = False
-    If Check2.Value = 1 Then rs.Fields(2) = True
-    If Check2.Value = 0 Then rs.Fields(2) = False
-    If Check3.Value = 1 Then rs.Fields(3) = True
-    If Check3.Value = 0 Then rs.Fields(3) = False
-    If Check4.Value = 1 Then rs.Fields(4) = True
-    If Check4.Value = 0 Then rs.Fields(4) = False
-    If Check5.Value = 1 Then rs.Fields(5) = True
-    If Check5.Value = 0 Then rs.Fields(5) = False
-    If Check6.Value = 1 Then rs.Fields(6) = True
-    If Check6.Value = 0 Then rs.Fields(6) = False
-    If Check7.Value = 1 Then rs.Fields(7) = True
-    If Check7.Value = 0 Then rs.Fields(7) = False
-    If Check8.Value = 1 Then rs.Fields(8) = True
-    If Check8.Value = 0 Then rs.Fields(8) = False
+    Dim clsSaveConfigData As ProjectConfig
     
-    rs.Fields(9) = Val(txtLvSpec.Text)
-    rs.Fields(10) = Val(txtSNLen.Text)
+    Set clsSaveConfigData = New ProjectConfig
+    
+    If Check1.Value = 1 Then clsSaveConfigData.EnableCool2 = True
+    If Check1.Value = 0 Then clsSaveConfigData.EnableCool2 = False
+    If Check2.Value = 1 Then clsSaveConfigData.EnableCool1 = True
+    If Check2.Value = 0 Then clsSaveConfigData.EnableCool1 = False
+    If Check3.Value = 1 Then clsSaveConfigData.EnableNormal = True
+    If Check3.Value = 0 Then clsSaveConfigData.EnableNormal = False
+    If Check4.Value = 1 Then clsSaveConfigData.EnableWarm1 = True
+    If Check4.Value = 0 Then clsSaveConfigData.EnableWarm1 = False
+    If Check5.Value = 1 Then clsSaveConfigData.EnableWarm2 = True
+    If Check5.Value = 0 Then clsSaveConfigData.EnableWarm2 = False
+    If Check7.Value = 1 Then clsSaveConfigData.EnableChkColor = True
+    If Check7.Value = 0 Then clsSaveConfigData.EnableChkColor = False
+    If Check8.Value = 1 Then clsSaveConfigData.EnableAdjOffset = True
+    If Check8.Value = 0 Then clsSaveConfigData.EnableAdjOffset = False
+    
+    clsSaveConfigData.LvSpec = Val(txtLvSpec.Text)
+    clsSaveConfigData.barCodeLen = Val(txtSNLen.Text)
     
     If optUart.Value = True Then
-        rs.Fields(11) = "UART"
+        clsSaveConfigData.CommMode = modeUART
+        clsSaveConfigData.ComBaud = CStr(setTVCurrentComBaud)
+        clsSaveConfigData.ComID = setTVCurrentComID
     ElseIf optNetwork.Value = True Then
-        rs.Fields(11) = "Network"
+        clsSaveConfigData.CommMode = modeNetwork
     Else
-        rs.Fields(11) = "UART"
+        clsSaveConfigData.CommMode = modeUART
+        clsSaveConfigData.ComBaud = setTVCurrentComBaud
+        clsSaveConfigData.ComID = setTVCurrentComID
     End If
 
-    rs.Update
-
-    Set cn = Nothing
-    Set rs = Nothing
-    sqlstring = ""
-
-    sqlstring = "select * from CommonTable where Mark='ATS'"
-    Executesql (sqlstring)
-
-    rs.Fields(4) = Val(txtChannel.Text)
-    rs.Fields(5) = Val(txtDelay.Text)
-    rs.Fields(6) = cmbInputSource.Text
+    clsSaveConfigData.ChannelNum = Val(txtChannel.Text)
+    clsSaveConfigData.DelayMS = Val(txtDelay.Text)
+    clsSaveConfigData.inputSource = cmbInputSource.Text
     
-    rs.Update
+    clsSaveConfigData.SaveConfigData
     
-    Set cn = Nothing
-    Set rs = Nothing
-    sqlstring = ""
+    Set clsSaveConfigData = Nothing
 
     MsgBox "Save success!", vbOKOnly, "warning"
     Unload Me

@@ -42,6 +42,8 @@ Private mConfigData As udtConfigData
 Private mstrConfigFilePath As String
 
 Private Sub Class_Initialize()
+    mstrConfigFilePath = App.Path & "\" & strCurrentModelName & "\config.xml"
+
     mConfigData.CommMode = modeUART
     mConfigData.strComBaud = "115200"
     mConfigData.intComID = 1
@@ -60,8 +62,6 @@ Private Sub Class_Initialize()
 End Sub
 
 Public Sub LoadConfigData()
-    mstrConfigFilePath = App.Path & "\" & strCurrentModelName & "\config.xml"
-    
     If Not CBool(PathFileExists(mstrConfigFilePath)) Then
         MsgBox "Cannot open " & mstrConfigFilePath & " file."
         End
@@ -133,10 +133,11 @@ Private Sub LoadCommMode()
         
         If objNode Is Nothing Then
             MsgBox "There is not <communication> node in config.xml."
+            End
         Else
             If objNode.selectSingleNode("@mode").Text = "UART" Then
                 mConfigData.CommMode = modeUART
-                LoadCommSetting
+                LoadComSetting
             Else
                 mConfigData.CommMode = modeNetwork
             End If
@@ -144,7 +145,7 @@ Private Sub LoadCommMode()
     End If
 End Sub
 
-Private Sub LoadCommSetting()
+Private Sub LoadComSetting()
     Dim xmlDoc As New MSXML2.DOMDocument
     Dim success As Boolean
     
@@ -159,6 +160,7 @@ Private Sub LoadCommSetting()
         
         If objNode Is Nothing Then
             MsgBox "There is not <common> node in config.xml."
+            End
         Else
             mConfigData.strComBaud = objNode.selectSingleNode("@baud").Text
             mConfigData.intComID = Val(objNode.selectSingleNode("@id").Text)
@@ -166,62 +168,191 @@ Private Sub LoadCommSetting()
     End If
 End Sub
 
+Public Sub SaveConfigData()
+    Dim xmlDoc As New MSXML2.DOMDocument
+    Dim success As Boolean
+    
+    success = xmlDoc.Load(mstrConfigFilePath)
+    
+    If success = False Then
+        MsgBox xmlDoc.parseError.reason
+    Else
+        If mConfigData.CommMode = modeUART Then
+            xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "UART"
+            xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@baud").Text = mConfigData.strComBaud
+            xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@id").Text = CStr(mConfigData.intComID)
+        Else
+            xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "Network"
+        End If
+        
+        xmlDoc.selectSingleNode("/config/input_source").Text = mConfigData.strInputSource
+        xmlDoc.selectSingleNode("/config/delayms").Text = CStr(mConfigData.lngDelayMs)
+        xmlDoc.selectSingleNode("/config/channel_number").Text = CStr(mConfigData.intChannelNum)
+        xmlDoc.selectSingleNode("/config/length_bar_code").Text = CStr(mConfigData.intBarCodeLen)
+        xmlDoc.selectSingleNode("/config/Lv_spec").Text = CStr(mConfigData.intLvSpec)
+        
+        If mConfigData.bolEnableCool2 Then
+            xmlDoc.selectSingleNode("/config/cool_2").Text = "True"
+        Else
+            xmlDoc.selectSingleNode("/config/cool_2").Text = "False"
+        End If
+        
+        If mConfigData.bolEnableCool1 Then
+            xmlDoc.selectSingleNode("/config/cool_1").Text = "True"
+        Else
+            xmlDoc.selectSingleNode("/config/cool_1").Text = "False"
+        End If
+        
+        If mConfigData.bolEnableNormal Then
+            xmlDoc.selectSingleNode("/config/normal").Text = "True"
+        Else
+            xmlDoc.selectSingleNode("/config/normal").Text = "False"
+        End If
+        
+        If mConfigData.bolEnableWarm1 Then
+            xmlDoc.selectSingleNode("/config/warm_1").Text = "True"
+        Else
+            xmlDoc.selectSingleNode("/config/warm_1").Text = "False"
+        End If
+        
+        If mConfigData.bolEnableWarm2 Then
+            xmlDoc.selectSingleNode("/config/warm_2").Text = "True"
+        Else
+            xmlDoc.selectSingleNode("/config/warm_2").Text = "False"
+        End If
+        
+        If mConfigData.bolEnableChkColor Then
+            xmlDoc.selectSingleNode("/config/check_color").Text = "True"
+        Else
+            xmlDoc.selectSingleNode("/config/check_color").Text = "False"
+        End If
+        
+        If mConfigData.bolEnableAdjOffset Then
+            xmlDoc.selectSingleNode("/config/adjust_offset").Text = "True"
+        Else
+            xmlDoc.selectSingleNode("/config/adjust_offset").Text = "False"
+        End If
+        
+        xmlDoc.Save mstrConfigFilePath
+    End If
+End Sub
+
 Public Property Get CommMode() As CommunicationMode
-   CommMode = mConfigData.CommMode
+    CommMode = mConfigData.CommMode
+End Property
+
+Public Property Let CommMode(enuCommMode As CommunicationMode)
+    mConfigData.CommMode = enuCommMode
 End Property
 
 Public Property Get ComBaud() As String
-   ComBaud = mConfigData.strComBaud
+    ComBaud = mConfigData.strComBaud
+End Property
+
+Public Property Let ComBaud(strComBaud As String)
+    mConfigData.strComBaud = strComBaud
 End Property
 
 Public Property Get ComID() As Integer
-   ComID = mConfigData.intComID
+    ComID = mConfigData.intComID
 End Property
 
-Public Property Get InputSource() As String
-   InputSource = mConfigData.strInputSource
+Public Property Let ComID(intComID As Integer)
+    mConfigData.intComID = intComID
 End Property
 
-Public Property Get DelayMs() As Long
-   DelayMs = mConfigData.lngDelayMs
+Public Property Get inputSource() As String
+    inputSource = mConfigData.strInputSource
+End Property
+
+Public Property Let inputSource(strInputSource As String)
+    mConfigData.strInputSource = strInputSource
+End Property
+
+Public Property Get DelayMS() As Long
+    DelayMS = mConfigData.lngDelayMs
+End Property
+
+Public Property Let DelayMS(lngDelayMs As Long)
+    mConfigData.lngDelayMs = lngDelayMs
 End Property
 
 Public Property Get ChannelNum() As Integer
-   ChannelNum = mConfigData.intChannelNum
+    ChannelNum = mConfigData.intChannelNum
 End Property
 
-Public Property Get BarCodeLen() As Integer
-   BarCodeLen = mConfigData.intBarCodeLen
+Public Property Let ChannelNum(intChannelNum As Integer)
+    mConfigData.intChannelNum = intChannelNum
+End Property
+
+Public Property Get barCodeLen() As Integer
+    barCodeLen = mConfigData.intBarCodeLen
+End Property
+
+Public Property Let barCodeLen(intBarCodeLen As Integer)
+    mConfigData.intBarCodeLen = intBarCodeLen
 End Property
 
 Public Property Get LvSpec() As Integer
-   LvSpec = mConfigData.intLvSpec
+    LvSpec = mConfigData.intLvSpec
+End Property
+
+Public Property Let LvSpec(intLvSpec As Integer)
+    mConfigData.intLvSpec = intLvSpec
 End Property
 
 Public Property Get EnableCool2() As Boolean
-   EnableCool2 = mConfigData.bolEnableCool2
+    EnableCool2 = mConfigData.bolEnableCool2
+End Property
+
+Public Property Let EnableCool2(bolEnableCool2 As Boolean)
+    mConfigData.bolEnableCool2 = bolEnableCool2
 End Property
 
 Public Property Get EnableCool1() As Boolean
-   EnableCool1 = mConfigData.bolEnableCool1
+    EnableCool1 = mConfigData.bolEnableCool1
+End Property
+
+Public Property Let EnableCool1(bolEnableCool1 As Boolean)
+    mConfigData.bolEnableCool1 = bolEnableCool1
 End Property
 
 Public Property Get EnableNormal() As Boolean
-   EnableNormal = mConfigData.bolEnableNormal
+    EnableNormal = mConfigData.bolEnableNormal
+End Property
+
+Public Property Let EnableNormal(bolEnableNormal As Boolean)
+    mConfigData.bolEnableNormal = bolEnableNormal
 End Property
 
 Public Property Get EnableWarm1() As Boolean
-   EnableWarm1 = mConfigData.bolEnableWarm1
+    EnableWarm1 = mConfigData.bolEnableWarm1
+End Property
+
+Public Property Let EnableWarm1(bolEnableWarm1 As Boolean)
+    mConfigData.bolEnableWarm1 = bolEnableWarm1
 End Property
 
 Public Property Get EnableWarm2() As Boolean
-   EnableWarm2 = mConfigData.bolEnableWarm2
+    EnableWarm2 = mConfigData.bolEnableWarm2
+End Property
+
+Public Property Let EnableWarm2(bolEnableWarm2 As Boolean)
+    mConfigData.bolEnableWarm2 = bolEnableWarm2
 End Property
 
 Public Property Get EnableChkColor() As Boolean
-   EnableChkColor = mConfigData.bolEnableChkColor
+    EnableChkColor = mConfigData.bolEnableChkColor
+End Property
+
+Public Property Let EnableChkColor(bolEnableChkColor As Boolean)
+    mConfigData.bolEnableChkColor = bolEnableChkColor
 End Property
 
 Public Property Get EnableAdjOffset() As Boolean
-   EnableAdjOffset = mConfigData.bolEnableAdjOffset
+    EnableAdjOffset = mConfigData.bolEnableAdjOffset
+End Property
+
+Public Property Let EnableAdjOffset(bolEnableAdjOffset As Boolean)
+    mConfigData.bolEnableAdjOffset = bolEnableAdjOffset
 End Property
