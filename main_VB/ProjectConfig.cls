@@ -18,15 +18,10 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-Public Enum CommunicationMode
-    modeUART = 1
-    modeNetwork
-End Enum
-
-Public Type udtConfigData
+Private Type udtConfigData
     CommMode As CommunicationMode
-    strCommBaud As String
-    intCommID As Integer
+    strComBaud As String
+    intComID As Integer
     strInputSource As String
     lngDelayMs As Long
     intChannelNum As Integer
@@ -45,10 +40,9 @@ Private mConfigData As udtConfigData
 Private mstrConfigFilePath As String
 
 Private Sub Class_Initialize()
-    mstrConfigFilePath = strCurrentModelName & "\config.xml"
     mConfigData.CommMode = modeUART
-    mConfigData.strCommBaud = "115200"
-    mConfigData.intCommID = 1
+    mConfigData.strComBaud = "115200"
+    mConfigData.intComID = 1
     mConfigData.strInputSource = "HDMI1"
     mConfigData.lngDelayMs = 500
     mConfigData.intChannelNum = 1
@@ -64,6 +58,7 @@ Private Sub Class_Initialize()
 End Sub
 
 Public Sub LoadConfigData()
+    mstrConfigFilePath = App.Path & "\" & strCurrentModelName & "\config.xml"
     LoadCommMode
 
     mConfigData.strInputSource = GetXmlNodeValue(mstrConfigFilePath, "/config/input_source")
@@ -119,7 +114,7 @@ Private Sub LoadCommMode()
     Dim xmlDoc As New MSXML2.DOMDocument
     Dim success As Boolean
     
-    success = xmlDoc.Load(App.Path & "\" & strCurrentModelName & "\config.xml")
+    success = xmlDoc.Load(mstrConfigFilePath)
     
     If success = False Then
         MsgBox xmlDoc.parseError.reason
@@ -145,7 +140,7 @@ Private Sub LoadCommSetting()
     Dim xmlDoc As New MSXML2.DOMDocument
     Dim success As Boolean
     
-    success = xmlDoc.Load(App.Path & "\" & strCurrentModelName & "\config.xml")
+    success = xmlDoc.Load(mstrConfigFilePath)
     
     If success = False Then
         MsgBox xmlDoc.parseError.reason
@@ -157,9 +152,68 @@ Private Sub LoadCommSetting()
         If objNode Is Nothing Then
             MsgBox "There is not <common> node in config.xml."
         Else
-            mConfigData.strCommBaud = objNode.selectSingleNode("@baud").Text
-            mConfigData.intCommID = Val(objNode.selectSingleNode("@id").Text)
+            mConfigData.strComBaud = objNode.selectSingleNode("@baud").Text
+            mConfigData.intComID = Val(objNode.selectSingleNode("@id").Text)
         End If
     End If
 End Sub
 
+Public Property Get CommMode() As CommunicationMode
+   CommMode = mConfigData.CommMode
+End Property
+
+Public Property Get ComBaud() As String
+   ComBaud = mConfigData.strComBaud
+End Property
+
+Public Property Get ComID() As Integer
+   ComID = mConfigData.intComID
+End Property
+
+Public Property Get InputSource() As String
+   InputSource = mConfigData.strInputSource
+End Property
+
+Public Property Get DelayMs() As Long
+   DelayMs = mConfigData.lngDelayMs
+End Property
+
+Public Property Get ChannelNum() As Integer
+   ChannelNum = mConfigData.intChannelNum
+End Property
+
+Public Property Get BarCodeLen() As Integer
+   BarCodeLen = mConfigData.intBarCodeLen
+End Property
+
+Public Property Get LvSpec() As Integer
+   LvSpec = mConfigData.intLvSpec
+End Property
+
+Public Property Get EnableCool2() As Boolean
+   EnableCool2 = mConfigData.bolEnableCool2
+End Property
+
+Public Property Get EnableCool1() As Boolean
+   EnableCool1 = mConfigData.bolEnableCool1
+End Property
+
+Public Property Get EnableNormal() As Boolean
+   EnableNormal = mConfigData.bolEnableNormal
+End Property
+
+Public Property Get EnableWarm1() As Boolean
+   EnableWarm1 = mConfigData.bolEnableWarm1
+End Property
+
+Public Property Get EnableWarm2() As Boolean
+   EnableWarm2 = mConfigData.bolEnableWarm2
+End Property
+
+Public Property Get EnableChkColor() As Boolean
+   EnableChkColor = mConfigData.bolEnableChkColor
+End Property
+
+Public Property Get EnableAdjOffset() As Boolean
+   EnableAdjOffset = mConfigData.bolEnableAdjOffset
+End Property

@@ -9,7 +9,7 @@ Public Function GetXmlNodeValue(strXmlFilePath As String, strNodeName As String)
     Dim xmlDoc As New MSXML2.DOMDocument
     Dim success As Boolean
     
-    success = xmlDoc.Load(App.Path & "\" & strXmlFilePath)
+    success = xmlDoc.Load(strXmlFilePath)
     
     If success = False Then
         MsgBox xmlDoc.parseError.reason

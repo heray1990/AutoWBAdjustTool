@@ -148,7 +148,6 @@ Private Sub Form_Load()
 
 On Error GoTo ErrExit
     Dim strProjectName As Variant
-    Dim configData As ProjectConfig
     
     cmbModelName.Clear
     
@@ -157,30 +156,8 @@ On Error GoTo ErrExit
     Next strProjectName
     
     lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision
-   
-    'sqlstring = "select * from CommonTable where Mark='ATS'"
-    'Executesql (sqlstring)
-
-    'If rs.EOF = False Then
-    '    setTVCurrentComBaud = rs("ComBaud")
-    '    setTVCurrentComID = rs("ComID")
-    '    Ca210ChannelNO = rs("Channel")
-    '    delayTime = rs("Delayms")
-    '    setTVInputSource = Trim(rs("TVInputSource"))
-    '    setTVInputSourcePortNum = CInt(Right(setTVInputSource, 1))
-    '    setTVInputSource = Left(setTVInputSource, Len(setTVInputSource) - 1)
-    'Else
-    '    MsgBox "Read Data Error,Please Check Your Database!", vbOKOnly + vbInformation, "Warning!"
-    'End If
-
-    'Set cn = Nothing
-    'Set rs = Nothing
-    'sqlstring = ""
 
     cmbModelName.Text = GetCurProjectName
-    
-    Set configData = New ProjectConfig
-    configData.LoadConfigData
     
     Exit Sub
 
@@ -191,40 +168,43 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
 
 'On Error GoTo ErrExit
-
+    Dim clsConfigData As ProjectConfig
+    
     strCurrentModelName = cmbModelName.Text
     sqlstring = ""
 
     SetCurProjectName strCurrentModelName
-
-    sqlstring = "select * from CheckItem where Mark='" & strCurrentModelName & "'"
-    Executesql (sqlstring)
-
-    barCodeLen = rs("SN_Len")
-    maxBrightnessSpec = rs("LvSpec")
-
-    isAdjustCool2 = rs("COOL_2")
-    isAdjustCool1 = rs("COOL_1")
-    isAdjustNormal = rs("NORMAL")
-    isAdjustWarm1 = rs("WARM_1")
-    isAdjustWarm2 = rs("WARM_2")
-    isSaveData = rs("SaveData")
-    isCheckColorTemp = rs("CheckColor")
-    isAdjustOffset = rs("AdjustOFF")
     
-    If rs("CommMode") = "UART" Then
+    Set clsConfigData = New ProjectConfig
+    clsConfigData.LoadConfigData
+    
+    If clsConfigData.CommMode = modeUART Then
         isUartMode = True
         frmSetData.optUart.Value = True
         frmSetData.optNetwork.Value = False
+        setTVCurrentComBaud = clsConfigData.ComBaud
+        setTVCurrentComID = clsConfigData.ComID
     Else
         isUartMode = False
         frmSetData.optUart.Value = False
         frmSetData.optNetwork.Value = True
     End If
-
-    Set rs = Nothing
-    Set cn = Nothing
-    sqlstring = ""
+    
+    setTVInputSource = clsConfigData.InputSource
+    setTVInputSourcePortNum = CInt(Right(setTVInputSource, 1))
+    setTVInputSource = Left(setTVInputSource, Len(setTVInputSource) - 1)
+    delayTime = clsConfigData.DelayMs
+    Ca210ChannelNO = clsConfigData.ChannelNum
+    BarCodeLen = clsConfigData.BarCodeLen
+    maxBrightnessSpec = clsConfigData.LvSpec
+    isAdjustCool2 = clsConfigData.EnableCool2
+    isAdjustCool1 = clsConfigData.EnableCool1
+    isAdjustNormal = clsConfigData.EnableNormal
+    isAdjustWarm1 = clsConfigData.EnableWarm1
+    isAdjustWarm2 = clsConfigData.EnableWarm2
+    isCheckColorTemp = clsConfigData.EnableChkColor
+    isAdjustOffset = clsConfigData.EnableAdjOffset
+    isSaveData = True
 
     Form1.Show
     Exit Sub

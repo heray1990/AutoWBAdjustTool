@@ -593,23 +593,23 @@ On Error GoTo ErrExit
     Log_Info "###ADJUST COLORTEMP###"
 
     ENTER_FAC_MODE
-    DelayMS delayTime
+    DelayMs delayTime
     
     Call SEL_INPUT_SOURCE_FOR_WB(setTVInputSource, setTVInputSourcePortNum)
-    DelayMS delayTime
+    DelayMs delayTime
 
     If setTVInputSource = "HDMI" Then
         'Timing 69: HDMI-720P60
         'Timing 74: HDMI-1080P60
         Call frmCmbType.ChangeTiming("69")
-        DelayMS delayTime
+        DelayMs delayTime
     End If
 
     If isAdjustOffset Then
         Label6.Caption = "GREY"
 
         Call frmCmbType.ChangePattern("110")
-        DelayMS delayTime
+        DelayMs delayTime
 
         If isAdjustCool1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
@@ -620,7 +620,7 @@ On Error GoTo ErrExit
                 GoTo FAIL
             Else
                 Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
-                DelayMS delayTime
+                DelayMs delayTime
             End If
    
             lbAdjustCOOL_1.BackColor = &HC0FFC0
@@ -635,7 +635,7 @@ On Error GoTo ErrExit
                 GoTo FAIL
             Else
                 Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
-                DelayMS delayTime
+                DelayMs delayTime
             End If
     
             lbAdjustNormal.BackColor = &HC0FFC0
@@ -650,7 +650,7 @@ On Error GoTo ErrExit
                 GoTo FAIL
             Else
                 Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
-                DelayMS delayTime
+                DelayMs delayTime
             End If
 
             lbAdjustWARM_1.BackColor = &HC0FFC0
@@ -658,7 +658,7 @@ On Error GoTo ErrExit
     End If
 
     Call frmCmbType.ChangePattern("103")
-    DelayMS delayTime
+    DelayMs delayTime
     
     Label6.Caption = "WHITE"
 
@@ -672,7 +672,7 @@ ADJUST_GAIN_AGAIN_COOL1:
             GoTo FAIL
         Else
             Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
-            DelayMS delayTime
+            DelayMs delayTime
         End If
 
         lbAdjustCOOL_1.BackColor = &HC0FFC0
@@ -692,7 +692,7 @@ ADJUST_GAIN_AGAIN_NORMAL:
             GoTo FAIL
         Else
             Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
-            DelayMS delayTime
+            DelayMs delayTime
         End If
 
         lbAdjustNormal.BackColor = &HC0FFC0
@@ -712,7 +712,7 @@ ADJUST_GAIN_AGAIN_WARM1:
             GoTo FAIL
         Else
             Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
-            DelayMS delayTime
+            DelayMs delayTime
         End If
 
         lbAdjustWARM_1.BackColor = &HC0FFC0
@@ -788,25 +788,25 @@ CHECK_WARM1:
     'Cool, 100% white pattern, brightness = 100, contrast = 100
     'Check Lv and save x, y, lv
     Call frmCmbType.ChangePattern("101")
-    DelayMS delayTime
+    DelayMs delayTime
     
     SET_BRIGHTNESS 100
-    DelayMS delayTime
+    DelayMs delayTime
     Log_Info "Set brightness to 100"
     
     SET_CONTRAST 100
-    DelayMS delayTime
+    DelayMs delayTime
     Log_Info "Set contrast to 100"
     
     SET_BACKLIGHT 100
-    DelayMS delayTime
+    DelayMs delayTime
     Log_Info "Set backlight to 100"
     
     Call SET_COLORTEMP(valColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
-    DelayMS delayTime
+    DelayMs delayTime
     Log_Info "Set color temp to cool1"
 
-    DelayMS delayTime
+    DelayMs delayTime
     ObjCa.Measure
     rColorLastChk.xx = CLng(ObjProbe.sx * 10000)
     rColorLastChk.yy = CLng(ObjProbe.sy * 10000)
@@ -823,7 +823,7 @@ CHECK_WARM1:
 
 PASS:
     EXIT_FAC_MODE
-    DelayMS delayTime
+    DelayMs delayTime
 
     If isSaveData Then
         cmdMark = "PASS"
@@ -839,7 +839,7 @@ PASS:
     CheckStep.SetFocus
     checkResult.ForeColor = &HC000&
     checkResult.Caption = "PASS"
-    DelayMS delayTime
+    DelayMs delayTime
     checkResult.BackColor = &HFF00&
     checkResult.ForeColor = &HC00000
     
@@ -851,7 +851,7 @@ PASS:
 
 FAIL:
     EXIT_FAC_MODE
-    DelayMS delayTime
+    DelayMs delayTime
 
     If isSaveData Then
         If IsSNWriteSuccess = funSNWrite Then
@@ -866,7 +866,7 @@ FAIL:
     checkResult.BackColor = &HFF&
     checkResult.ForeColor = &H808080
     checkResult.Caption = "FAIL"
-    DelayMS delayTime
+    DelayMs delayTime
     checkResult.ForeColor = &H0&
     checkResult.ForeColor = &HFFFF&
     
@@ -925,7 +925,7 @@ Private Sub subInitAfterRunning()
 End Sub
 
 Private Function subJudgeTheSNIsAvailable() As Boolean
-    If strSerialNo = "" Or Len(strSerialNo) <> barCodeLen Then
+    If strSerialNo = "" Or Len(strSerialNo) <> BarCodeLen Then
         CheckStep.Text = ""
         CheckStep.Text = CheckStep.Text + "Please confirm the SN again?" + vbCrLf
 
@@ -956,7 +956,7 @@ Sub ShowError_Sys(t As Integer)
         Case 5
             s = "ColorTemp_WARM_2 is Wrong, Please Check Again."
         Case 6
-            s = "LAB_SN:" + strSerialNo + "(End)  Len:" + Str$(barCodeLen) + vbCrLf + "条形码长度不对，请确认！"
+            s = "LAB_SN:" + strSerialNo + "(End)  Len:" + Str$(BarCodeLen) + vbCrLf + "条形码长度不对，请确认！"
         Case 7
             s = "Can not Write DVI EDID."
         Case 8
@@ -1022,10 +1022,10 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
   
     For j = 1 To 2
         Call SET_COLORTEMP(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
-        DelayMS delayTime
+        DelayMs delayTime
   
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
-        DelayMS delayTime
+        DelayMs delayTime
         
         Log_Info "Init current colorTemp. RES:" + Str$(RES)
         rRGB.cRR = presetData.nColorRR
@@ -1036,13 +1036,13 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
         Label3 = Str$(presetData.yy)
 
         SET_R_GAN rRGB.cRR
-        DelayMS delayTime
+        DelayMs delayTime
         
         SET_G_GAN rRGB.cGG
-        DelayMS delayTime
+        DelayMs delayTime
         
         SET_B_GAN rRGB.cBB
-        DelayMS delayTime
+        DelayMs delayTime
 
         showData (1)
 
@@ -1069,45 +1069,42 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
                 Log_Info "SET_RGB_GAN: R = " + Str$(rRGB.cRR) + ", G = " + Str$(rRGB.cGG) + ", B = " + Str$(rRGB.cBB) + ", resultcode = " + Str$(resCodeForAdjustColorTemp)
  
                 SET_R_GAN rRGB.cRR
-                DelayMS delayTime
+                DelayMs delayTime
                 
                 SET_G_GAN rRGB.cGG
-                DelayMS delayTime
+                DelayMs delayTime
                 
                 SET_B_GAN rRGB.cBB
-                DelayMS delayTime
+                DelayMs delayTime
 
                 showData (2)
             End If
-  
-            'DelayMS StepTime
         Next k
   
         If isAdjustOffset Then
             Call LoadData(ColorTemp, False)
             
             SET_R_OFF rRGB1.cRR
-            DelayMS delayTime
+            DelayMs delayTime
                
             SET_G_OFF rRGB1.cGG
-            DelayMS delayTime
+            DelayMs delayTime
             
             SET_B_OFF rRGB1.cBB
-            DelayMS delayTime
+            DelayMs delayTime
         Else
             SET_R_OFF 128
-            DelayMS delayTime
+            DelayMs delayTime
            
             SET_G_OFF 128
-            DelayMS delayTime
+            DelayMs delayTime
         
             SET_B_OFF 128
-            DelayMS delayTime
+            DelayMs delayTime
         End If
         
         If RES Then Exit For
         
-        'DelayMS StepTime
     Next j
 
 Cancel:
@@ -1128,10 +1125,10 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
   
     For j = 1 To 2
         Call SET_COLORTEMP(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
-        DelayMS delayTime
+        DelayMs delayTime
 
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
-        DelayMS delayTime
+        DelayMs delayTime
         Log_Info "Init current colorTemp. RES:" + Str$(RES)
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
@@ -1143,22 +1140,22 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
         'Call LoadData(ColorTemp, True)
 
         'SET_R_GAN rRGB1.cRR
-        'DelayMS StepTime
+        'DelayMs StepTime
         
         'SET_G_GAN rRGB1.cGG
-        'DelayMS StepTime
+        'DelayMs StepTime
 
         'SET_B_GAN rRGB1.cBB
-        'DelayMS StepTime
+        'DelayMs StepTime
 
         SET_R_OFF rRGB.cRR
-        DelayMS delayTime
+        DelayMs delayTime
            
         SET_G_OFF rRGB.cGG
-        DelayMS delayTime
+        DelayMs delayTime
         
         SET_B_OFF rRGB.cBB
-        DelayMS delayTime
+        DelayMs delayTime
 
         If False Then
             showData (3)
@@ -1174,18 +1171,18 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
                     Call adjustColorTempOffset(FixValue, AdjustSingle, SingleStep, rRGB)
     
                     SET_R_OFF rRGB.cRR
-                    DelayMS delayTime
+                    DelayMs delayTime
                     
                     SET_G_OFF rRGB.cGG
-                    DelayMS delayTime
+                    DelayMs delayTime
     
                     SET_B_OFF rRGB.cBB
-                    DelayMS delayTime
+                    DelayMs delayTime
     
                     showData (4)
                 End If
     
-                DelayMS 200
+                DelayMs 200
             Next k
         Else
             Call saveData(ColorTemp, HighLowMode)
@@ -1196,7 +1193,7 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
 
         If RES Then Exit For
 
-        DelayMS delayTime
+        DelayMs delayTime
     Next j
  
 Cancel:
@@ -1219,7 +1216,7 @@ Private Function checkColorAgain(ColorTemp As Long, adjustVal As Long, HighLowMo
         Call SET_COLORTEMP(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
   
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
-        DelayMS delayTime
+        DelayMs delayTime
         Log_Info "Init current colorTemp. RES:" + Str$(RES)
 
         Label1 = Str$(presetData.xx)
@@ -1234,7 +1231,7 @@ Private Function checkColorAgain(ColorTemp As Long, adjustVal As Long, HighLowMo
 
         If RES Then Exit For
 
-        DelayMS delayTime
+        DelayMs delayTime
     Next j
   
 Cancel:
@@ -1252,7 +1249,7 @@ Private Sub showData(step As Integer)
 On Error Resume Next
     Dim xPos, yPos, vPos As Long
     
-    DelayMS delayTime
+    DelayMs delayTime
     ObjCa.Measure
     rColor.xx = CLng(ObjProbe.sx * 10000)
     rColor.yy = CLng(ObjProbe.sy * 10000)
@@ -1321,7 +1318,7 @@ On Error Resume Next
     Label_x = Str$(rColor.xx)
     Label_y = Str$(rColor.yy)
     Label_Lv = Str$(rColor.lv)
-    DelayMS 30
+    DelayMs 30
 End Sub
 
 Private Sub tbDisConnectastro_Click()

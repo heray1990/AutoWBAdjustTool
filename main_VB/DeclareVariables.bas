@@ -111,6 +111,10 @@ End Type
 Public rRGB As REALRGB
 Public rRGB1 As REALRGB
 
+Public Enum CommunicationMode
+    modeUART = 1
+    modeNetwork
+End Enum
 
 Public Sub Log_Info(strLog As String)
     Form1.CheckStep.Text = Form1.CheckStep.Text + strLog + vbCrLf
