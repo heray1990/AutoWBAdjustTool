@@ -591,8 +591,18 @@ Private Sub Form_Load()
     txtLvSpec.Text = CStr(maxBrightnessSpec)
     cmbInputSource.Text = setTVInputSource & CStr(setTVInputSourcePortNum)
     txtDelay.Text = delayTime
+
     cmbComBaud.Text = CStr(setTVCurrentComBaud)
-    cmbComID.Text = CStr(setTVCurrentComID)
+    cmbComID.Text = "COM" & CStr(setTVCurrentComID)
+    For i = 1 To 20
+        cmbComID.AddItem "COM" & i
+    Next i
+
+    cmbComBaud.AddItem "9600"
+    cmbComBaud.AddItem "19200"
+    cmbComBaud.AddItem "38400"
+    cmbComBaud.AddItem "57600"
+    cmbComBaud.AddItem "115200"
 
     If isUartMode Then
         optUart.Value = True
@@ -688,7 +698,7 @@ Private Sub Command1_Click()
     End If
 
     clsSaveConfigData.ComBaud = cmbComBaud.Text
-    clsSaveConfigData.ComID = cmbComID.Text
+    clsSaveConfigData.ComID = Val(cmbComID.Text)
     clsSaveConfigData.ChannelNum = Val(txtChannel.Text)
     clsSaveConfigData.DelayMS = Val(txtDelay.Text)
     clsSaveConfigData.inputSource = cmbInputSource.Text
