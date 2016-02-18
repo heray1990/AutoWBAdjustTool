@@ -18,7 +18,6 @@ Module=Module1; CaEvent.bas
 Module=Module2; ComInit.bas
 Module=Module3; DeclareVariables.bas
 Module=Module4; CommandRS232.bas
-Form=frmComPort.frm
 Module=Module5; AdjustDLL.bas
 Form=frmSplash.frm
 Module=Module6; DataBase.bas

@@ -147,7 +147,7 @@ Begin VB.Form Form1
       Top             =   4080
       Width           =   975
    End
-   Begin VB.Label Label8 
+   Begin VB.Label lbModelName 
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BackColor       =   &H00C0E0FF&
@@ -492,9 +492,6 @@ Begin VB.Form Form1
    End
    Begin VB.Menu vbSet 
       Caption         =   "Setting"
-      Begin VB.Menu vbSetComPort 
-         Caption         =   "Set ComPort"
-      End
       Begin VB.Menu vbSetSPEC 
          Caption         =   "Set Spec"
       End
@@ -1321,10 +1318,6 @@ Private Sub tbDisConnectastro_Click()
     ObjCa.RemoteMode = 0
 End Sub
 
-Private Sub tbSetComPort_Click()
-    Form2.Show
-End Sub
-
 Private Sub Timer1_Timer()
     countTime = countTime + 1
     lbTimer.Caption = CStr(countTime) & "s"
@@ -1332,10 +1325,6 @@ End Sub
 
 Private Sub vbConChroma_Click()
     frmCmbType.Show
-End Sub
-
-Private Sub vbSetComPort_Click()
-    Form2.Show
 End Sub
 
 Private Sub vbSetSPEC_Click()
@@ -1362,18 +1351,16 @@ Private Sub Form_Load()
     txtInput.Locked = False
     
     If isUartMode Then
-        vbSetComPort.Enabled = True
         lbCommMode.Caption = "UART"
-        ComInit
+        subInitComPort
     Else
-        vbSetComPort.Enabled = False
         lbCommMode.Caption = "Network"
         subInitNetwork
     End If
 
     subInitInterface
     
-    Label8 = strCurrentModelName
+    lbModelName = strCurrentModelName
     
     RES = initColorTemp(Calibrate, MinBrightness, strCurrentModelName, App.Path)      'InitLPT in dll.
 
@@ -1388,6 +1375,31 @@ Private Sub subInitInterface()
     txtInput.Text = ""
 End Sub
 
+Private Sub subInitComPort()
+    If MSComm1.PortOpen = True Then
+        MSComm1.PortOpen = False
+    End If
+    
+    MSComm1.CommPort = setTVCurrentComID
+    MSComm1.Settings = setTVCurrentComBaud & ",N,8,1"
+    MSComm1.InputLen = 0
+        
+    MSComm1.InBufferCount = 0
+    MSComm1.OutBufferCount = 0
+    MSComm1.InputMode = comInputModeBinary
+        
+    MSComm1.NullDiscard = False
+    MSComm1.DTREnable = False
+    MSComm1.EOFEnable = False
+    MSComm1.RTSEnable = False
+    MSComm1.SThreshold = 1
+    MSComm1.RThreshold = 1
+    MSComm1.InBufferSize = 1024
+    MSComm1.OutBufferSize = 512
+        
+    'MSComm1.PortOpen = True
+End Sub
+
 Private Sub subInitNetwork()
     isNetworkConnected = False
     With tcpClient
@@ -1400,11 +1412,14 @@ Private Sub subInitNetwork()
 End Sub
 
 Private Sub txtInput_KeyPress(KeyAscii As Integer)
+On Error GoTo ErrExit
+
     If KeyAscii = 13 Then
         IsStop = False
         
         If txtInput.Locked = False Then
             If isUartMode = True Then
+                MSComm1.PortOpen = True
                 subMainProcesser
             Else
                 isNetworkConnected = False
@@ -1428,6 +1443,13 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
         If IsStop = True Then
             Exit Sub
         End If
+    End If
+    Exit Sub
+
+ErrExit:
+    'Invalid Port Number
+    If Err.Number = 8002 Then
+        MsgBox Err.Description, vbCritical, Err.Source
     End If
 End Sub
 
