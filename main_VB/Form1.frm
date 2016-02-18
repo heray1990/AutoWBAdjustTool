@@ -574,12 +574,6 @@ On Error GoTo ErrExit
 
     Picture1.Cls
     lbColorTempWrong.Visible = False
-    
-    If isAdjustCool1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
-    If isAdjustCool2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0
-    If isAdjustNormal = False Then lbAdjustNormal.ForeColor = &HC0C0C0
-    If isAdjustWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
-    If isAdjustWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
 
     Set ObjMemory = ObjCa.Memory
     ObjMemory.ChannelNO = Ca210ChannelNO
@@ -1361,12 +1355,6 @@ Public Sub subInitInterface()
     Set clsConfigData = New ProjectConfig
     clsConfigData.LoadConfigData
     
-    If clsConfigData.CommMode = modeUART Then
-        isUartMode = True
-    Else
-        isUartMode = False
-    End If
-    
     setTVCurrentComBaud = clsConfigData.ComBaud
     setTVCurrentComID = clsConfigData.ComID
     setTVInputSource = clsConfigData.inputSource
@@ -1384,18 +1372,20 @@ Public Sub subInitInterface()
     isCheckColorTemp = clsConfigData.EnableChkColor
     isAdjustOffset = clsConfigData.EnableAdjOffset
     
-    Set clsConfigData = Nothing
-
-    txtInput.Text = ""
-    lbModelName = strCurrentModelName
-    
-    If isUartMode Then
+    If clsConfigData.CommMode = modeUART Then
+        isUartMode = True
         lbCommMode.Caption = "UART"
         subInitComPort
     Else
+        isUartMode = False
         lbCommMode.Caption = "Network"
         subInitNetwork
     End If
+    
+    Set clsConfigData = Nothing
+
+    txtInput.Text = ""
+    lbModelName.Caption = strCurrentModelName
     
     If isAdjustCool1 = True Then lbAdjustCOOL_1.ForeColor = &H80000008
     If isAdjustCool2 = True Then lbAdjustCOOL_2.ForeColor = &H80000008
@@ -1431,8 +1421,6 @@ Private Sub subInitComPort()
     MSComm1.RThreshold = 1
     MSComm1.InBufferSize = 1024
     MSComm1.OutBufferSize = 512
-        
-    'MSComm1.PortOpen = True
 End Sub
 
 Private Sub subInitNetwork()

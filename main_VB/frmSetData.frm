@@ -682,7 +682,6 @@ Private Sub Command1_Click()
     
     Set clsSaveConfigData = Nothing
 
-    MsgBox "Save success!", vbOKOnly, "warning"
     Unload Me
     
     Form1.subInitInterface
