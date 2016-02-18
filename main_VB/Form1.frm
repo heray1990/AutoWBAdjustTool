@@ -1349,6 +1349,45 @@ Private Sub Form_Load()
     i = 0
     IsStop = False
     txtInput.Locked = False
+
+    subInitInterface
+    
+    RES = initColorTemp(Calibrate, MinBrightness, strCurrentModelName, App.Path)      'InitLPT in dll.
+End Sub
+
+Public Sub subInitInterface()
+    Dim clsConfigData As ProjectConfig
+
+    Set clsConfigData = New ProjectConfig
+    clsConfigData.LoadConfigData
+    
+    If clsConfigData.CommMode = modeUART Then
+        isUartMode = True
+    Else
+        isUartMode = False
+    End If
+    
+    setTVCurrentComBaud = clsConfigData.ComBaud
+    setTVCurrentComID = clsConfigData.ComID
+    setTVInputSource = clsConfigData.inputSource
+    setTVInputSourcePortNum = CInt(Right(setTVInputSource, 1))
+    setTVInputSource = Left(setTVInputSource, Len(setTVInputSource) - 1)
+    delayTime = clsConfigData.DelayMS
+    Ca210ChannelNO = clsConfigData.ChannelNum
+    barCodeLen = clsConfigData.barCodeLen
+    maxBrightnessSpec = clsConfigData.LvSpec
+    isAdjustCool2 = clsConfigData.EnableCool2
+    isAdjustCool1 = clsConfigData.EnableCool1
+    isAdjustNormal = clsConfigData.EnableNormal
+    isAdjustWarm1 = clsConfigData.EnableWarm1
+    isAdjustWarm2 = clsConfigData.EnableWarm2
+    isCheckColorTemp = clsConfigData.EnableChkColor
+    isAdjustOffset = clsConfigData.EnableAdjOffset
+    
+    Set clsConfigData = Nothing
+
+    txtInput.Text = ""
+    lbModelName = strCurrentModelName
     
     If isUartMode Then
         lbCommMode.Caption = "UART"
@@ -1357,22 +1396,18 @@ Private Sub Form_Load()
         lbCommMode.Caption = "Network"
         subInitNetwork
     End If
-
-    subInitInterface
     
-    lbModelName = strCurrentModelName
-    
-    RES = initColorTemp(Calibrate, MinBrightness, strCurrentModelName, App.Path)      'InitLPT in dll.
+    If isAdjustCool1 = True Then lbAdjustCOOL_1.ForeColor = &H80000008
+    If isAdjustCool2 = True Then lbAdjustCOOL_2.ForeColor = &H80000008
+    If isAdjustNormal = True Then lbAdjustNormal.ForeColor = &H80000008
+    If isAdjustWarm1 = True Then lbAdjustWARM_1.ForeColor = &H80000008
+    If isAdjustWarm2 = True Then lbAdjustWARM_2.ForeColor = &H80000008
 
     If isAdjustCool1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
     If isAdjustCool2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0
     If isAdjustNormal = False Then lbAdjustNormal.ForeColor = &HC0C0C0
     If isAdjustWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
     If isAdjustWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
-End Sub
-
-Private Sub subInitInterface()
-    txtInput.Text = ""
 End Sub
 
 Private Sub subInitComPort()

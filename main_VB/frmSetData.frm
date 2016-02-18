@@ -684,7 +684,9 @@ Private Sub Command1_Click()
 
     MsgBox "Save success!", vbOKOnly, "warning"
     Unload Me
-    Unload Form1
+    
+    Form1.subInitInterface
+    Form1.Show
 End Sub
 
 Private Sub optNetwork_Click()

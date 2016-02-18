@@ -168,40 +168,10 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
 
 'On Error GoTo ErrExit
-    Dim clsConfigData As ProjectConfig
-    
     strCurrentModelName = cmbModelName.Text
     sqlstring = ""
 
     SetCurProjectName strCurrentModelName
-    
-    Set clsConfigData = New ProjectConfig
-    clsConfigData.LoadConfigData
-    
-    If clsConfigData.CommMode = modeUART Then
-        isUartMode = True
-    Else
-        isUartMode = False
-    End If
-    
-    setTVCurrentComBaud = clsConfigData.ComBaud
-    setTVCurrentComID = clsConfigData.ComID
-    setTVInputSource = clsConfigData.inputSource
-    setTVInputSourcePortNum = CInt(Right(setTVInputSource, 1))
-    setTVInputSource = Left(setTVInputSource, Len(setTVInputSource) - 1)
-    delayTime = clsConfigData.DelayMS
-    Ca210ChannelNO = clsConfigData.ChannelNum
-    barCodeLen = clsConfigData.barCodeLen
-    maxBrightnessSpec = clsConfigData.LvSpec
-    isAdjustCool2 = clsConfigData.EnableCool2
-    isAdjustCool1 = clsConfigData.EnableCool1
-    isAdjustNormal = clsConfigData.EnableNormal
-    isAdjustWarm1 = clsConfigData.EnableWarm1
-    isAdjustWarm2 = clsConfigData.EnableWarm2
-    isCheckColorTemp = clsConfigData.EnableChkColor
-    isAdjustOffset = clsConfigData.EnableAdjOffset
-    
-    Set clsConfigData = Nothing
 
     Form1.Show
     Exit Sub
