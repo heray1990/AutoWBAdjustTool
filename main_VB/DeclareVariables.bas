@@ -57,7 +57,6 @@ Public isAdjustWarm2  As Boolean
 
 Public barCodeLen As Integer
 Public IsFunctionAutoBri As Boolean
-Public isSaveData As Boolean
 Public isCheckColorTemp  As Boolean
 
 Public isAdjustOffset As Boolean

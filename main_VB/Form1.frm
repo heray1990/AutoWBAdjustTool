@@ -825,10 +825,8 @@ PASS:
     EXIT_FAC_MODE
     DelayMS delayTime
 
-    If isSaveData Then
-        cmdMark = "PASS"
-        Call saveALLcData
-    End If
+    cmdMark = "PASS"
+    Call saveALLcData
 
     CheckStep.ForeColor = &H80000008
     CheckStep.BackColor = &HC0FFC0
@@ -853,11 +851,9 @@ FAIL:
     EXIT_FAC_MODE
     DelayMS delayTime
 
-    If isSaveData Then
-        If IsSNWriteSuccess = funSNWrite Then
-            cmdMark = "FAIL"
-            Call saveALLcData
-        End If
+    If IsSNWriteSuccess = funSNWrite Then
+        cmdMark = "FAIL"
+        Call saveALLcData
     End If
 
     CheckStep.SelStart = Len(CheckStep)

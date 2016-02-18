@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin VB.Form frmSetData 
    Caption         =   "SpecData"
-   ClientHeight    =   6000
+   ClientHeight    =   5655
    ClientLeft      =   6435
    ClientTop       =   3210
    ClientWidth     =   5055
@@ -16,7 +16,7 @@ Begin VB.Form frmSetData
    EndProperty
    Icon            =   "frmSetData.frx":0000
    LinkTopic       =   "Form4"
-   ScaleHeight     =   6000
+   ScaleHeight     =   5655
    ScaleWidth      =   5055
    Begin VB.Frame Frame1 
       Caption         =   "Serial Port"
@@ -31,7 +31,7 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   1095
       Left            =   2550
-      TabIndex        =   26
+      TabIndex        =   25
       Top             =   2520
       Width           =   2400
       Begin VB.ComboBox cmbComID 
@@ -48,7 +48,7 @@ Begin VB.Form frmSetData
          ItemData        =   "frmSetData.frx":1DF72
          Left            =   1200
          List            =   "frmSetData.frx":1DF74
-         TabIndex        =   28
+         TabIndex        =   27
          Text            =   "COM1"
          Top             =   300
          Width           =   1000
@@ -65,7 +65,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   345
          Left            =   1200
-         TabIndex        =   27
+         TabIndex        =   26
          Text            =   "9600"
          Top             =   660
          Width           =   1000
@@ -83,7 +83,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   30
+         TabIndex        =   29
          Top             =   330
          Width           =   900
       End
@@ -100,7 +100,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   29
+         TabIndex        =   28
          Top             =   700
          Width           =   900
       End
@@ -118,7 +118,7 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   795
       Left            =   2550
-      TabIndex        =   23
+      TabIndex        =   22
       Top             =   1680
       Width           =   2400
       Begin VB.OptionButton optUart 
@@ -134,7 +134,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   250
          Left            =   120
-         TabIndex        =   25
+         TabIndex        =   24
          Top             =   360
          Width           =   800
       End
@@ -151,7 +151,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   250
          Left            =   1100
-         TabIndex        =   24
+         TabIndex        =   23
          Top             =   360
          Width           =   1000
       End
@@ -171,7 +171,7 @@ Begin VB.Form frmSetData
       Index           =   1
       Left            =   120
       TabIndex        =   10
-      Top             =   4080
+      Top             =   3720
       Width           =   2400
       Begin VB.TextBox txtLvSpec 
          Alignment       =   2  'Center
@@ -187,7 +187,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   300
          Left            =   1200
-         TabIndex        =   22
+         TabIndex        =   21
          Text            =   "280"
          Top             =   1350
          Width           =   1000
@@ -206,7 +206,7 @@ Begin VB.Form frmSetData
          ItemData        =   "frmSetData.frx":1DF76
          Left            =   1200
          List            =   "frmSetData.frx":1DF83
-         TabIndex        =   18
+         TabIndex        =   17
          Text            =   "HDMI1"
          Top             =   1000
          Width           =   1000
@@ -262,7 +262,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   21
+         TabIndex        =   20
          Top             =   1380
          Width           =   900
       End
@@ -279,7 +279,7 @@ Begin VB.Form frmSetData
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   19
+         TabIndex        =   18
          Top             =   1030
          Width           =   900
       End
@@ -383,33 +383,14 @@ Begin VB.Form frmSetData
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   3200
+      Height          =   2835
       Left            =   120
       TabIndex        =   6
       Top             =   840
       Width           =   2400
-      Begin VB.CheckBox Check8 
-         Alignment       =   1  'Right Justify
-         Caption         =   "AdjustOffset"
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   9
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Left            =   200
-         TabIndex        =   17
-         Top             =   2800
-         Value           =   1  'Checked
-         Width           =   1900
-      End
       Begin VB.CheckBox Check7 
          Alignment       =   1  'Right Justify
-         Caption         =   "CheckColor"
+         Caption         =   "Adjust Offset"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -428,7 +409,7 @@ Begin VB.Form frmSetData
       End
       Begin VB.CheckBox Check6 
          Alignment       =   1  'Right Justify
-         Caption         =   "Save Data"
+         Caption         =   "Check Color"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -553,7 +534,7 @@ Begin VB.Form frmSetData
       Height          =   435
       Left            =   3840
       TabIndex        =   5
-      Top             =   5400
+      Top             =   5040
       Width           =   1095
    End
    Begin VB.Label Label1 
@@ -570,7 +551,7 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   555
       Left            =   120
-      TabIndex        =   20
+      TabIndex        =   19
       Top             =   120
       Width           =   4695
    End
@@ -646,22 +627,16 @@ Private Sub Form_Load()
         Check5.Value = 0
     End If
 
-    If isSaveData Then
+    If isCheckColorTemp Then
         Check6.Value = 1
     Else
         Check6.Value = 0
     End If
 
-    If isCheckColorTemp Then
+    If isAdjustOffset Then
         Check7.Value = 1
     Else
         Check7.Value = 0
-    End If
-
-    If isAdjustOffset Then
-        Check8.Value = 1
-    Else
-        Check8.Value = 0
     End If
     
 End Sub
@@ -681,10 +656,10 @@ Private Sub Command1_Click()
     If Check4.Value = 0 Then clsSaveConfigData.EnableWarm1 = False
     If Check5.Value = 1 Then clsSaveConfigData.EnableWarm2 = True
     If Check5.Value = 0 Then clsSaveConfigData.EnableWarm2 = False
-    If Check7.Value = 1 Then clsSaveConfigData.EnableChkColor = True
-    If Check7.Value = 0 Then clsSaveConfigData.EnableChkColor = False
-    If Check8.Value = 1 Then clsSaveConfigData.EnableAdjOffset = True
-    If Check8.Value = 0 Then clsSaveConfigData.EnableAdjOffset = False
+    If Check6.Value = 1 Then clsSaveConfigData.EnableChkColor = True
+    If Check6.Value = 0 Then clsSaveConfigData.EnableChkColor = False
+    If Check7.Value = 1 Then clsSaveConfigData.EnableAdjOffset = True
+    If Check7.Value = 0 Then clsSaveConfigData.EnableAdjOffset = False
     
     clsSaveConfigData.LvSpec = Val(txtLvSpec.Text)
     clsSaveConfigData.barCodeLen = Val(txtSNLen.Text)

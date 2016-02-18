@@ -200,7 +200,6 @@ Private Sub Form_Unload(Cancel As Integer)
     isAdjustWarm2 = clsConfigData.EnableWarm2
     isCheckColorTemp = clsConfigData.EnableChkColor
     isAdjustOffset = clsConfigData.EnableAdjOffset
-    isSaveData = True
     
     Set clsConfigData = Nothing
 

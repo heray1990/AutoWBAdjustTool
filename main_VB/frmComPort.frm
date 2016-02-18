@@ -9,7 +9,7 @@ Begin VB.Form Form2
    LinkTopic       =   "Form2"
    ScaleHeight     =   1695
    ScaleWidth      =   3990
-   StartUpPosition =   3  '´°¿ÚÈ±Ê¡
+   StartUpPosition =   3  'Windows Default
    Begin VB.Frame Frame1 
       Caption         =   "ComSet"
       ForeColor       =   &H00FF0000&
