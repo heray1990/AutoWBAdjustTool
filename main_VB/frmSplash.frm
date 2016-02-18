@@ -180,18 +180,18 @@ Private Sub Form_Unload(Cancel As Integer)
     
     If clsConfigData.CommMode = modeUART Then
         isUartMode = True
-        setTVCurrentComBaud = clsConfigData.ComBaud
-        setTVCurrentComID = clsConfigData.ComID
     Else
         isUartMode = False
     End If
     
-    setTVInputSource = clsConfigData.InputSource
+    setTVCurrentComBaud = clsConfigData.ComBaud
+    setTVCurrentComID = clsConfigData.ComID
+    setTVInputSource = clsConfigData.inputSource
     setTVInputSourcePortNum = CInt(Right(setTVInputSource, 1))
     setTVInputSource = Left(setTVInputSource, Len(setTVInputSource) - 1)
-    delayTime = clsConfigData.DelayMs
+    delayTime = clsConfigData.DelayMS
     Ca210ChannelNO = clsConfigData.ChannelNum
-    BarCodeLen = clsConfigData.BarCodeLen
+    barCodeLen = clsConfigData.barCodeLen
     maxBrightnessSpec = clsConfigData.LvSpec
     isAdjustCool2 = clsConfigData.EnableCool2
     isAdjustCool1 = clsConfigData.EnableCool1

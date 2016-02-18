@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin VB.Form frmSetData 
    Caption         =   "SpecData"
-   ClientHeight    =   4920
+   ClientHeight    =   6000
    ClientLeft      =   6435
    ClientTop       =   3210
-   ClientWidth     =   4950
+   ClientWidth     =   5055
    BeginProperty Font 
       Name            =   "Arial Narrow"
       Size            =   18
@@ -16,8 +16,95 @@ Begin VB.Form frmSetData
    EndProperty
    Icon            =   "frmSetData.frx":0000
    LinkTopic       =   "Form4"
-   ScaleHeight     =   4920
-   ScaleWidth      =   4950
+   ScaleHeight     =   6000
+   ScaleWidth      =   5055
+   Begin VB.Frame Frame1 
+      Caption         =   "Serial Port"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   9
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   1095
+      Left            =   2550
+      TabIndex        =   26
+      Top             =   2520
+      Width           =   2400
+      Begin VB.ComboBox cmbComID 
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   345
+         ItemData        =   "frmSetData.frx":1DF72
+         Left            =   1200
+         List            =   "frmSetData.frx":1DF74
+         TabIndex        =   28
+         Text            =   "COM1"
+         Top             =   300
+         Width           =   1000
+      End
+      Begin VB.ComboBox cmbComBaud 
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   345
+         Left            =   1200
+         TabIndex        =   27
+         Text            =   "9600"
+         Top             =   660
+         Width           =   1000
+      End
+      Begin VB.Label lbComId 
+         Caption         =   "ComID:"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   200
+         TabIndex        =   30
+         Top             =   330
+         Width           =   900
+      End
+      Begin VB.Label lbComBaud 
+         Caption         =   "ComBaud:"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   200
+         TabIndex        =   29
+         Top             =   700
+         Width           =   900
+      End
+   End
    Begin VB.Frame Frame3 
       Caption         =   "Communication Mode"
       BeginProperty Font 
@@ -30,10 +117,10 @@ Begin VB.Form frmSetData
          Strikethrough   =   0   'False
       EndProperty
       Height          =   795
-      Left            =   120
+      Left            =   2550
       TabIndex        =   23
-      Top             =   4080
-      Width           =   2295
+      Top             =   1680
+      Width           =   2400
       Begin VB.OptionButton optUart 
          Caption         =   "UART"
          BeginProperty Font 
@@ -82,17 +169,17 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   1815
       Index           =   1
-      Left            =   2520
+      Left            =   120
       TabIndex        =   10
-      Top             =   1680
+      Top             =   4080
       Width           =   2400
       Begin VB.TextBox txtLvSpec 
          Alignment       =   2  'Center
          Appearance      =   0  'Flat
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
-            Charset         =   134
+            Charset         =   0
             Weight          =   400
             Underline       =   0   'False
             Italic          =   0   'False
@@ -107,7 +194,7 @@ Begin VB.Form frmSetData
       End
       Begin VB.ComboBox cmbInputSource 
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
             Charset         =   0
             Weight          =   400
@@ -115,10 +202,10 @@ Begin VB.Form frmSetData
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   300
-         ItemData        =   "frmSetData.frx":1DF72
+         Height          =   345
+         ItemData        =   "frmSetData.frx":1DF76
          Left            =   1200
-         List            =   "frmSetData.frx":1DF7F
+         List            =   "frmSetData.frx":1DF83
          TabIndex        =   18
          Text            =   "HDMI1"
          Top             =   1000
@@ -128,9 +215,9 @@ Begin VB.Form frmSetData
          Alignment       =   2  'Center
          Appearance      =   0  'Flat
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
-            Charset         =   134
+            Charset         =   0
             Weight          =   400
             Underline       =   0   'False
             Italic          =   0   'False
@@ -147,9 +234,9 @@ Begin VB.Form frmSetData
          Alignment       =   2  'Center
          Appearance      =   0  'Flat
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
-            Charset         =   134
+            Charset         =   0
             Weight          =   400
             Underline       =   0   'False
             Italic          =   0   'False
@@ -162,7 +249,7 @@ Begin VB.Form frmSetData
          Top             =   300
          Width           =   1000
       End
-      Begin VB.Label Label6 
+      Begin VB.Label lbLvSpec 
          Caption         =   "Lv Spec:"
          BeginProperty Font 
             Name            =   "Arial"
@@ -174,13 +261,12 @@ Begin VB.Form frmSetData
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Index           =   1
          Left            =   200
          TabIndex        =   21
          Top             =   1380
          Width           =   900
       End
-      Begin VB.Label Label5 
+      Begin VB.Label lbInputSrc 
          Caption         =   "TV Source:"
          BeginProperty Font 
             Name            =   "Arial"
@@ -192,13 +278,12 @@ Begin VB.Form frmSetData
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Index           =   0
          Left            =   200
          TabIndex        =   19
          Top             =   1030
          Width           =   900
       End
-      Begin VB.Label Label4 
+      Begin VB.Label lbSnLen 
          Caption         =   "SN_Len:"
          BeginProperty Font 
             Name            =   "Arial"
@@ -210,13 +295,12 @@ Begin VB.Form frmSetData
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Index           =   0
          Left            =   200
          TabIndex        =   14
          Top             =   680
          Width           =   900
       End
-      Begin VB.Label Label3 
+      Begin VB.Label lbDelayMs 
          Caption         =   "Delay(ms):"
          BeginProperty Font 
             Name            =   "Arial"
@@ -228,7 +312,6 @@ Begin VB.Form frmSetData
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Index           =   0
          Left            =   200
          TabIndex        =   12
          Top             =   330
@@ -248,7 +331,7 @@ Begin VB.Form frmSetData
       EndProperty
       Height          =   800
       Index           =   0
-      Left            =   2520
+      Left            =   2550
       TabIndex        =   7
       Top             =   840
       Width           =   2400
@@ -256,9 +339,9 @@ Begin VB.Form frmSetData
          Alignment       =   2  'Center
          Appearance      =   0  'Flat
          BeginProperty Font 
-            Name            =   "宋体"
+            Name            =   "Arial"
             Size            =   9
-            Charset         =   134
+            Charset         =   0
             Weight          =   400
             Underline       =   0   'False
             Italic          =   0   'False
@@ -271,7 +354,7 @@ Begin VB.Form frmSetData
          Top             =   300
          Width           =   1000
       End
-      Begin VB.Label Label2 
+      Begin VB.Label lbChannelNum 
          Caption         =   "Channel:"
          BeginProperty Font 
             Name            =   "Arial"
@@ -283,7 +366,6 @@ Begin VB.Form frmSetData
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Index           =   0
          Left            =   200
          TabIndex        =   8
          Top             =   330
@@ -305,7 +387,7 @@ Begin VB.Form frmSetData
       Left            =   120
       TabIndex        =   6
       Top             =   840
-      Width           =   2295
+      Width           =   2400
       Begin VB.CheckBox Check8 
          Alignment       =   1  'Right Justify
          Caption         =   "AdjustOffset"
@@ -323,7 +405,7 @@ Begin VB.Form frmSetData
          TabIndex        =   17
          Top             =   2800
          Value           =   1  'Checked
-         Width           =   1800
+         Width           =   1900
       End
       Begin VB.CheckBox Check7 
          Alignment       =   1  'Right Justify
@@ -342,7 +424,7 @@ Begin VB.Form frmSetData
          TabIndex        =   16
          Top             =   2450
          Value           =   1  'Checked
-         Width           =   1800
+         Width           =   1900
       End
       Begin VB.CheckBox Check6 
          Alignment       =   1  'Right Justify
@@ -361,7 +443,7 @@ Begin VB.Form frmSetData
          TabIndex        =   15
          Top             =   2100
          Value           =   1  'Checked
-         Width           =   1800
+         Width           =   1900
       End
       Begin VB.CheckBox Check1 
          Alignment       =   1  'Right Justify
@@ -379,7 +461,7 @@ Begin VB.Form frmSetData
          Left            =   200
          TabIndex        =   0
          Top             =   350
-         Width           =   1800
+         Width           =   1900
       End
       Begin VB.CheckBox Check2 
          Alignment       =   1  'Right Justify
@@ -398,7 +480,7 @@ Begin VB.Form frmSetData
          TabIndex        =   1
          Top             =   700
          Value           =   1  'Checked
-         Width           =   1800
+         Width           =   1900
       End
       Begin VB.CheckBox Check3 
          Alignment       =   1  'Right Justify
@@ -417,7 +499,7 @@ Begin VB.Form frmSetData
          TabIndex        =   2
          Top             =   1050
          Value           =   1  'Checked
-         Width           =   1800
+         Width           =   1900
       End
       Begin VB.CheckBox Check4 
          Alignment       =   1  'Right Justify
@@ -436,7 +518,7 @@ Begin VB.Form frmSetData
          TabIndex        =   3
          Top             =   1400
          Value           =   1  'Checked
-         Width           =   1800
+         Width           =   1900
       End
       Begin VB.CheckBox Check5 
          Alignment       =   1  'Right Justify
@@ -454,7 +536,7 @@ Begin VB.Form frmSetData
          Left            =   200
          TabIndex        =   4
          Top             =   1750
-         Width           =   1800
+         Width           =   1900
       End
    End
    Begin VB.CommandButton Command1 
@@ -469,9 +551,9 @@ Begin VB.Form frmSetData
          Strikethrough   =   0   'False
       EndProperty
       Height          =   435
-      Left            =   3720
+      Left            =   3840
       TabIndex        =   5
-      Top             =   4320
+      Top             =   5400
       Width           =   1095
    End
    Begin VB.Label Label1 
@@ -509,13 +591,19 @@ Private Sub Form_Load()
     txtLvSpec.Text = CStr(maxBrightnessSpec)
     cmbInputSource.Text = setTVInputSource & CStr(setTVInputSourcePortNum)
     txtDelay.Text = delayTime
+    cmbComBaud.Text = CStr(setTVCurrentComBaud)
+    cmbComID.Text = CStr(setTVCurrentComID)
 
     If isUartMode Then
         optUart.Value = True
         optNetwork.Value = False
+        cmbComBaud.Enabled = True
+        cmbComID.Enabled = True
     Else
         optUart.Value = False
         optNetwork.Value = True
+        cmbComBaud.Enabled = False
+        cmbComID.Enabled = False
     End If
     
     If isAdjustCool2 Then
@@ -593,16 +681,14 @@ Private Sub Command1_Click()
     
     If optUart.Value = True Then
         clsSaveConfigData.CommMode = modeUART
-        clsSaveConfigData.ComBaud = CStr(setTVCurrentComBaud)
-        clsSaveConfigData.ComID = setTVCurrentComID
     ElseIf optNetwork.Value = True Then
         clsSaveConfigData.CommMode = modeNetwork
     Else
         clsSaveConfigData.CommMode = modeUART
-        clsSaveConfigData.ComBaud = setTVCurrentComBaud
-        clsSaveConfigData.ComID = setTVCurrentComID
     End If
 
+    clsSaveConfigData.ComBaud = cmbComBaud.Text
+    clsSaveConfigData.ComID = cmbComID.Text
     clsSaveConfigData.ChannelNum = Val(txtChannel.Text)
     clsSaveConfigData.DelayMS = Val(txtDelay.Text)
     clsSaveConfigData.inputSource = cmbInputSource.Text
@@ -616,3 +702,12 @@ Private Sub Command1_Click()
     Unload Form1
 End Sub
 
+Private Sub optNetwork_Click()
+    cmbComBaud.Enabled = False
+    cmbComID.Enabled = False
+End Sub
+
+Private Sub optUart_Click()
+    cmbComBaud.Enabled = True
+    cmbComID.Enabled = True
+End Sub
