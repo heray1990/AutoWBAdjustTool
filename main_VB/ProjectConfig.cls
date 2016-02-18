@@ -77,12 +77,12 @@ Public Sub LoadConfigData()
     Else
         If xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "UART" Then
             mConfigData.CommMode = modeUART
-            mConfigData.strComBaud = xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@baud").Text
-            mConfigData.intComID = Val(xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@id").Text)
         Else
             mConfigData.CommMode = modeNetwork
         End If
 
+        mConfigData.strComBaud = xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@baud").Text
+        mConfigData.intComID = Val(xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@id").Text)
         mConfigData.strInputSource = xmlDoc.selectSingleNode("/config/input_source").Text
         mConfigData.lngDelayMs = Val(xmlDoc.selectSingleNode("/config/delayms").Text)
         mConfigData.intChannelNum = Val(xmlDoc.selectSingleNode("/config/channel_number").Text)

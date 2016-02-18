@@ -673,7 +673,7 @@ Private Sub Command1_Click()
     End If
 
     clsSaveConfigData.ComBaud = cmbComBaud.Text
-    clsSaveConfigData.ComID = Val(cmbComID.Text)
+    clsSaveConfigData.ComID = Val(Replace(cmbComID.Text, "COM", ""))
     clsSaveConfigData.ChannelNum = Val(txtChannel.Text)
     clsSaveConfigData.DelayMS = Val(txtDelay.Text)
     clsSaveConfigData.inputSource = cmbInputSource.Text
