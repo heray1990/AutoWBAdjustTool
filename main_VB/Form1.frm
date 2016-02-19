@@ -527,7 +527,7 @@ Dim Calibrate, MinBrightness As Long
 Dim resCodeForAdjustColorTemp As Long
 Dim cmdMark As String
 Dim clsCommProtocal As CommunicationProtocal
-Dim clsHaierProtocal As HaierProtocal
+Dim clsCIBNProtocal As CIBNProtocal
 Dim clsLetvProtocal As LetvProtocal
 
 Private Sub subMainProcesser()
@@ -1397,9 +1397,9 @@ Private Sub Form_Load()
     If gstrBrand = "Letv" Then
         Set clsLetvProtocal = New LetvProtocal
         Set clsCommProtocal = clsLetvProtocal
-    ElseIf gstrBrand = "Haier" Or gstrBrand = "CIBN" Then
-        Set clsHaierProtocal = New HaierProtocal
-        Set clsCommProtocal = clsHaierProtocal
+    ElseIf gstrBrand = "CIBN" Then
+        Set clsCIBNProtocal = New CIBNProtocal
+        Set clsCommProtocal = clsCIBNProtocal
     Else
         Set clsLetvProtocal = New LetvProtocal
         Set clsCommProtocal = clsLetvProtocal
@@ -1543,8 +1543,8 @@ On Error GoTo ErrExit
     If gstrBrand = "Letv" Then
         Set clsLetvProtocal = Nothing
         Set clsCommProtocal = Nothing
-    ElseIf gstrBrand = "Haier" Or gstrBrand = "CIBN" Then
-        Set clsHaierProtocal = Nothing
+    ElseIf gstrBrand = "CIBN" Then
+        Set clsCIBNProtocal = Nothing
         Set clsCommProtocal = Nothing
     Else
         Set clsLetvProtocal = Nothing

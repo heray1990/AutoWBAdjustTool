@@ -6,14 +6,13 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "HaierProtocal"
+Attribute VB_Name = "CIBNProtocal"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '**********************************************
-' Class module to handle protocal for Haier and
-' CIBN.
+' Class module to handle protocal for CIBN.
 '**********************************************
 
 Option Explicit
@@ -72,11 +71,11 @@ Private Function CalChkSum(ByRef data() As Byte) As Byte
 End Function
 
 Private Sub CommunicationProtocal_EnterFacMode()
-    'Empty cmd for Haier
+    'Empty cmd for CIBN
 End Sub
 
 Private Sub CommunicationProtocal_ExitFacMode()
-    'Empty cmd for Haier
+    'Empty cmd for CIBN
 End Sub
 
 Private Sub CommunicationProtocal_SwitchInputSource(strInputSrc As String, intSrcNum As Integer)
