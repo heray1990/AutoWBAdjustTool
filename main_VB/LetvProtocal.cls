@@ -18,7 +18,7 @@ Attribute VB_Exposed = False
 Option Explicit
 Implements CommunicationProtocal
 
-Private mmSendDataBuf(0 To 9) As Byte
+Private mSendDataBuf(0 To 9) As Byte
 
 Private Sub Class_Initialize()
     mSendDataBuf(0) = &H0
@@ -35,9 +35,9 @@ End Sub
 
 Private Sub SendCmd()
     If isUartMode Then
-        Form1.MSComm1.Output = mmSendDataBuf
+        Form1.MSComm1.Output = mSendDataBuf
     Else
-        Form1.tcpClient.SendData mmSendDataBuf
+        Form1.tcpClient.SendData mSendDataBuf
     End If
 End Sub
 
@@ -53,16 +53,16 @@ End Function
 
 Private Sub CommunicationProtocal_EnterFacMode()
     '6E 51 86 03 FE E1 A0 00 01 04
-    mmSendDataBuf(0) = &H6E
-    mmSendDataBuf(1) = &H51
-    mmSendDataBuf(2) = &H86
-    mmSendDataBuf(3) = &H3
-    mmSendDataBuf(4) = &HFE
-    mmSendDataBuf(5) = &HE1
-    mmSendDataBuf(6) = &HA0
-    mmSendDataBuf(7) = &H0
-    mmSendDataBuf(8) = &H1
-    mmSendDataBuf(9) = &H4
+    mSendDataBuf(0) = &H6E
+    mSendDataBuf(1) = &H51
+    mSendDataBuf(2) = &H86
+    mSendDataBuf(3) = &H3
+    mSendDataBuf(4) = &HFE
+    mSendDataBuf(5) = &HE1
+    mSendDataBuf(6) = &HA0
+    mSendDataBuf(7) = &H0
+    mSendDataBuf(8) = &H1
+    mSendDataBuf(9) = &H4
 
     SendCmd
 End Sub

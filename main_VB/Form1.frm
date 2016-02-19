@@ -526,9 +526,11 @@ Dim rColorLastChk As REALCOLOR
 Dim Calibrate, MinBrightness As Long
 Dim resCodeForAdjustColorTemp As Long
 Dim cmdMark As String
+Dim clsCommProtocal As CommunicationProtocal
+Dim clsHaierProtocal As HaierProtocal
+Dim clsLetvProtocal As LetvProtocal
 
 Private Sub subMainProcesser()
-
     Dim i, j As Integer
 
 On Error GoTo ErrExit
@@ -583,11 +585,24 @@ On Error GoTo ErrExit
     Log_Info "###INITIAL USER###"
     Log_Info "###ADJUST COLORTEMP###"
 
-    ENTER_FAC_MODE
+    'ENTER_FAC_MODE
+    clsCommProtocal.EnterFacMode
     DelayMS delayTime
     
-    Call SEL_INPUT_SOURCE_FOR_WB(setTVInputSource, setTVInputSourcePortNum)
+    'Call SEL_INPUT_SOURCE_FOR_WB(setTVInputSource, setTVInputSourcePortNum)
+    Call clsCommProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
     DelayMS delayTime
+    
+    If Not (gstrBrand = "Letv") Then
+        Call clsCommProtocal.SetBrightness(50)
+        DelayMS delayTime
+        
+        Call clsCommProtocal.SetContrast(50)
+        DelayMS delayTime
+        
+        Call clsCommProtocal.SetBacklight(100)
+        DelayMS delayTime
+    End If
 
     If setTVInputSource = "HDMI" Then
         'Timing 69: HDMI-720P60
@@ -610,7 +625,8 @@ On Error GoTo ErrExit
                 ShowError_Sys (11)
                 GoTo FAIL
             Else
-                Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
+                'Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
+                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
                 DelayMS delayTime
             End If
    
@@ -625,7 +641,8 @@ On Error GoTo ErrExit
                 ShowError_Sys (13)
                 GoTo FAIL
             Else
-                Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
+                'Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
+                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
                 DelayMS delayTime
             End If
     
@@ -640,7 +657,8 @@ On Error GoTo ErrExit
                 ShowError_Sys (14)
                 GoTo FAIL
             Else
-                Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
+                'Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
+                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
                 DelayMS delayTime
             End If
 
@@ -662,7 +680,8 @@ ADJUST_GAIN_AGAIN_COOL1:
             ShowError_Sys (1)
             GoTo FAIL
         Else
-            Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
+            'Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
+            Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             DelayMS delayTime
         End If
 
@@ -682,7 +701,8 @@ ADJUST_GAIN_AGAIN_NORMAL:
             ShowError_Sys (3)
             GoTo FAIL
         Else
-            Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
+            'Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
+            Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             DelayMS delayTime
         End If
 
@@ -702,7 +722,8 @@ ADJUST_GAIN_AGAIN_WARM1:
             ShowError_Sys (4)
             GoTo FAIL
         Else
-            Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
+            'Call SAVE_WB_DATA_TO_ALL_SRC(setTVInputSource, setTVInputSourcePortNum)
+            Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             DelayMS delayTime
         End If
 
@@ -781,19 +802,23 @@ CHECK_WARM1:
     Call frmCmbType.ChangePattern("101")
     DelayMS delayTime
     
-    SET_BRIGHTNESS 100
+    'SET_BRIGHTNESS 100
+    Call clsCommProtocal.SetBrightness(100)
     DelayMS delayTime
     Log_Info "Set brightness to 100"
     
-    SET_CONTRAST 100
+    'SET_CONTRAST 100
+    Call clsCommProtocal.SetContrast(100)
     DelayMS delayTime
     Log_Info "Set contrast to 100"
     
-    SET_BACKLIGHT 100
+    'SET_BACKLIGHT 100
+    Call clsCommProtocal.SetBacklight(100)
     DelayMS delayTime
     Log_Info "Set backlight to 100"
     
-    Call SET_COLORTEMP(valColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
+    'Call SET_COLORTEMP(valColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
+    Call clsCommProtocal.SetColorTemp(valColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
     DelayMS delayTime
     Log_Info "Set color temp to cool1"
 
@@ -813,7 +838,8 @@ CHECK_WARM1:
     End If
 
 PASS:
-    EXIT_FAC_MODE
+    'EXIT_FAC_MODE
+    clsCommProtocal.ExitFacMode
     DelayMS delayTime
 
     cmdMark = "PASS"
@@ -839,7 +865,8 @@ PASS:
     Exit Sub
 
 FAIL:
-    EXIT_FAC_MODE
+    'EXIT_FAC_MODE
+    clsCommProtocal.ExitFacMode
     DelayMS delayTime
 
     If IsSNWriteSuccess = funSNWrite Then
@@ -1008,7 +1035,8 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
   
     For j = 1 To 2
-        Call SET_COLORTEMP(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
+        'Call SET_COLORTEMP(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
+        Call clsCommProtocal.SetColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
         DelayMS delayTime
   
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
@@ -1022,13 +1050,16 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
         Label1 = Str$(presetData.xx)
         Label3 = Str$(presetData.yy)
 
-        SET_R_GAN rRGB.cRR
+        'SET_R_GAN rRGB.cRR
+        Call clsCommProtocal.SetRGain(rRGB.cRR)
         DelayMS delayTime
         
-        SET_G_GAN rRGB.cGG
+        'SET_G_GAN rRGB.cGG
+        Call clsCommProtocal.SetGGain(rRGB.cGG)
         DelayMS delayTime
         
-        SET_B_GAN rRGB.cBB
+        'SET_B_GAN rRGB.cBB
+        Call clsCommProtocal.SetBGain(rRGB.cBB)
         DelayMS delayTime
 
         showData (1)
@@ -1055,13 +1086,16 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
                 End If
                 Log_Info "SET_RGB_GAN: R = " + Str$(rRGB.cRR) + ", G = " + Str$(rRGB.cGG) + ", B = " + Str$(rRGB.cBB) + ", resultcode = " + Str$(resCodeForAdjustColorTemp)
  
-                SET_R_GAN rRGB.cRR
+                'SET_R_GAN rRGB.cRR
+                Call clsCommProtocal.SetRGain(rRGB.cRR)
                 DelayMS delayTime
                 
-                SET_G_GAN rRGB.cGG
+                'SET_G_GAN rRGB.cGG
+                Call clsCommProtocal.SetGGain(rRGB.cGG)
                 DelayMS delayTime
                 
-                SET_B_GAN rRGB.cBB
+                'SET_B_GAN rRGB.cBB
+                Call clsCommProtocal.SetBGain(rRGB.cBB)
                 DelayMS delayTime
 
                 showData (2)
@@ -1071,22 +1105,28 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
         If isAdjustOffset Then
             Call LoadData(ColorTemp, False)
             
-            SET_R_OFF rRGB1.cRR
+            'SET_R_OFF rRGB1.cRR
+            Call clsCommProtocal.SetROffset(rRGB1.cRR)
             DelayMS delayTime
                
-            SET_G_OFF rRGB1.cGG
+            'SET_G_OFF rRGB1.cGG
+            Call clsCommProtocal.SetGOffset(rRGB1.cGG)
             DelayMS delayTime
             
-            SET_B_OFF rRGB1.cBB
+            'SET_B_OFF rRGB1.cBB
+            Call clsCommProtocal.SetBOffset(rRGB1.cBB)
             DelayMS delayTime
         Else
-            SET_R_OFF 128
+            'SET_R_OFF 128
+            Call clsCommProtocal.SetROffset(128)
             DelayMS delayTime
            
-            SET_G_OFF 128
+            'SET_G_OFF 128
+            Call clsCommProtocal.SetGOffset(128)
             DelayMS delayTime
         
-            SET_B_OFF 128
+            'SET_B_OFF 128
+            Call clsCommProtocal.SetBOffset(128)
             DelayMS delayTime
         End If
         
@@ -1111,7 +1151,8 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
   
     For j = 1 To 2
-        Call SET_COLORTEMP(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
+        'Call SET_COLORTEMP(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
+        Call clsCommProtocal.SetColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
         DelayMS delayTime
 
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
@@ -1135,13 +1176,16 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
         'SET_B_GAN rRGB1.cBB
         'DelayMs StepTime
 
-        SET_R_OFF rRGB.cRR
+        'SET_R_OFF rRGB.cRR
+        Call clsCommProtocal.SetROffset(rRGB.cRR)
         DelayMS delayTime
-           
-        SET_G_OFF rRGB.cGG
+
+        'SET_G_OFF rRGB.cGG
+        Call clsCommProtocal.SetGOffset(rRGB.cGG)
         DelayMS delayTime
         
-        SET_B_OFF rRGB.cBB
+        'SET_B_OFF rRGB.cBB
+        Call clsCommProtocal.SetBOffset(rRGB.cBB)
         DelayMS delayTime
 
         If False Then
@@ -1157,13 +1201,16 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
                 If RES = False Then
                     Call adjustColorTempOffset(FixValue, AdjustSingle, SingleStep, rRGB)
     
-                    SET_R_OFF rRGB.cRR
+                    'SET_R_OFF rRGB.cRR
+                    Call clsCommProtocal.SetROffset(rRGB.cRR)
                     DelayMS delayTime
                     
-                    SET_G_OFF rRGB.cGG
+                    'SET_G_OFF rRGB.cGG
+                    Call clsCommProtocal.SetGOffset(rRGB.cGG)
                     DelayMS delayTime
     
-                    SET_B_OFF rRGB.cBB
+                    'SET_B_OFF rRGB.cBB
+                    Call clsCommProtocal.SetBOffset(rRGB.cBB)
                     DelayMS delayTime
     
                     showData (4)
@@ -1200,7 +1247,8 @@ Private Function checkColorAgain(ColorTemp As Long, adjustVal As Long, HighLowMo
     Log_Info "========Check " + Str$(ColorTemp) + "K========"
   
     For j = 1 To 2
-        Call SET_COLORTEMP(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
+        'Call SET_COLORTEMP(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
+        Call clsCommProtocal.SetColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
   
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
         DelayMS delayTime
@@ -1345,6 +1393,17 @@ Private Sub Form_Load()
     txtInput.Locked = False
     
     gstrBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
+    
+    If gstrBrand = "Letv" Then
+        Set clsLetvProtocal = New LetvProtocal
+        Set clsCommProtocal = clsLetvProtocal
+    ElseIf gstrBrand = "Haier" Or gstrBrand = "CIBN" Then
+        Set clsHaierProtocal = New HaierProtocal
+        Set clsCommProtocal = clsHaierProtocal
+    Else
+        Set clsLetvProtocal = New LetvProtocal
+        Set clsCommProtocal = clsLetvProtocal
+    End If
 
     subInitInterface
     
@@ -1480,6 +1539,17 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
 On Error GoTo ErrExit
+
+    If gstrBrand = "Letv" Then
+        Set clsLetvProtocal = Nothing
+        Set clsCommProtocal = Nothing
+    ElseIf gstrBrand = "Haier" Or gstrBrand = "CIBN" Then
+        Set clsHaierProtocal = Nothing
+        Set clsCommProtocal = Nothing
+    Else
+        Set clsLetvProtocal = Nothing
+        Set clsCommProtocal = Nothing
+    End If
 
     IsStop = True
     If (IsCa210ok = True) Then

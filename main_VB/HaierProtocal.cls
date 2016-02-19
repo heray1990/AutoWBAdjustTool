@@ -19,7 +19,7 @@ Attribute VB_Exposed = False
 Option Explicit
 Implements CommunicationProtocal
 
-Private mmSendDataBuf(0 To 11) As Byte
+Private mSendDataBuf(0 To 11) As Byte
 
 Private Sub Class_Initialize()
     mSendDataBuf(0) = &H0
@@ -38,9 +38,9 @@ End Sub
 
 Private Sub SendCmd()
     If isUartMode Then
-        Form1.MSComm1.Output = mmSendDataBuf
+        Form1.MSComm1.Output = mSendDataBuf
     Else
-        Form1.tcpClient.SendData mmSendDataBuf
+        Form1.tcpClient.SendData mSendDataBuf
     End If
 End Sub
 
