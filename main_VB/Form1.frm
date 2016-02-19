@@ -1343,10 +1343,12 @@ Private Sub Form_Load()
     i = 0
     IsStop = False
     txtInput.Locked = False
+    
+    gstrBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
 
     subInitInterface
     
-    RES = initColorTemp(Calibrate, MinBrightness, strCurrentModelName, App.Path)      'InitLPT in dll.
+    RES = initColorTemp(Calibrate, MinBrightness, gstrCurProjName, App.Path)      'InitLPT in dll.
 End Sub
 
 Public Sub subInitInterface()
@@ -1385,7 +1387,7 @@ Public Sub subInitInterface()
     Set clsConfigData = Nothing
 
     txtInput.Text = ""
-    lbModelName.Caption = strCurrentModelName
+    lbModelName.Caption = gstrCurProjName
     
     If isAdjustCool1 = True Then lbAdjustCOOL_1.ForeColor = &H80000008
     If isAdjustCool2 = True Then lbAdjustCOOL_2.ForeColor = &H80000008
@@ -1488,7 +1490,7 @@ On Error GoTo ErrExit
         MSComm1.PortOpen = False
     End If
   
-    Call DeinitColorTemp(strCurrentModelName)
+    Call DeinitColorTemp(gstrCurProjName)
     End
     Exit Sub
 
@@ -1599,7 +1601,7 @@ Private Sub saveALLcData()
         Executesql (sqlstring)
         rs.AddNew
 
-        rs.Fields(0) = strCurrentModelName
+        rs.Fields(0) = gstrCurProjName
         rs.Fields(1) = strSerialNo
 
         rs.Fields(2) = c12000K.xx

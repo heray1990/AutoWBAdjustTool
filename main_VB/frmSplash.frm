@@ -168,10 +168,10 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
 
 'On Error GoTo ErrExit
-    strCurrentModelName = cmbModelName.Text
+    gstrCurProjName = cmbModelName.Text
     sqlstring = ""
 
-    SetCurProjectName strCurrentModelName
+    SetCurProjectName gstrCurProjName
 
     Form1.Show
     Exit Sub

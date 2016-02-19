@@ -46,7 +46,7 @@ End Sub
 
 Private Function CalChkSum(ByRef data() As Byte) As Byte
     'byte10 is the checksum byte.
-    'byte10 = 0xFF - byte1 - byte2 - бн - byte9 + 1
+    'byte10 = 0xFF - byte1 - byte2 - ... - byte9 + 1
     'If it hits 0xFF, ignore 0xFF and plus 1 instead.
     Dim i As Integer
 
