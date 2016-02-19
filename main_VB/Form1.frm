@@ -586,21 +586,10 @@ On Error GoTo ErrExit
     Log_Info "###ADJUST COLORTEMP###"
 
     clsCommProtocal.EnterFacMode
-    DelayMS delayTime
 
     Call clsCommProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
-    DelayMS delayTime
     
-    If Not (gstrBrand = "Letv") Then
-        Call clsCommProtocal.SetBrightness(50)
-        DelayMS delayTime
-        
-        Call clsCommProtocal.SetContrast(50)
-        DelayMS delayTime
-        
-        Call clsCommProtocal.SetBacklight(100)
-        DelayMS delayTime
-    End If
+    Call clsCommProtocal.ResetPicMode
 
     If setTVInputSource = "HDMI" Then
         'Timing 69: HDMI-720P60
@@ -624,7 +613,6 @@ On Error GoTo ErrExit
                 GoTo FAIL
             Else
                 Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
-                DelayMS delayTime
             End If
    
             lbAdjustCOOL_1.BackColor = &HC0FFC0
@@ -639,7 +627,6 @@ On Error GoTo ErrExit
                 GoTo FAIL
             Else
                 Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
-                DelayMS delayTime
             End If
     
             lbAdjustNormal.BackColor = &HC0FFC0
@@ -654,7 +641,6 @@ On Error GoTo ErrExit
                 GoTo FAIL
             Else
                 Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
-                DelayMS delayTime
             End If
 
             lbAdjustWARM_1.BackColor = &HC0FFC0
@@ -676,7 +662,6 @@ ADJUST_GAIN_AGAIN_COOL1:
             GoTo FAIL
         Else
             Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
-            DelayMS delayTime
         End If
 
         lbAdjustCOOL_1.BackColor = &HC0FFC0
@@ -696,7 +681,6 @@ ADJUST_GAIN_AGAIN_NORMAL:
             GoTo FAIL
         Else
             Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
-            DelayMS delayTime
         End If
 
         lbAdjustNormal.BackColor = &HC0FFC0
@@ -716,7 +700,6 @@ ADJUST_GAIN_AGAIN_WARM1:
             GoTo FAIL
         Else
             Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
-            DelayMS delayTime
         End If
 
         lbAdjustWARM_1.BackColor = &HC0FFC0
@@ -795,19 +778,15 @@ CHECK_WARM1:
     DelayMS delayTime
 
     Call clsCommProtocal.SetBrightness(100)
-    DelayMS delayTime
     Log_Info "Set brightness to 100"
 
     Call clsCommProtocal.SetContrast(100)
-    DelayMS delayTime
     Log_Info "Set contrast to 100"
 
     Call clsCommProtocal.SetBacklight(100)
-    DelayMS delayTime
     Log_Info "Set backlight to 100"
 
-    Call clsCommProtocal.SetColorTemp(valColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
-    DelayMS delayTime
+    Call clsCommProtocal.SelColorTemp(valColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
     Log_Info "Set color temp to cool1"
 
     DelayMS delayTime
@@ -827,7 +806,6 @@ CHECK_WARM1:
 
 PASS:
     clsCommProtocal.ExitFacMode
-    DelayMS delayTime
 
     cmdMark = "PASS"
     Call saveALLcData
@@ -853,7 +831,6 @@ PASS:
 
 FAIL:
     clsCommProtocal.ExitFacMode
-    DelayMS delayTime
 
     If IsSNWriteSuccess = funSNWrite Then
         cmdMark = "FAIL"
@@ -1021,8 +998,7 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
   
     For j = 1 To 2
-        Call clsCommProtocal.SetColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
-        DelayMS delayTime
+        Call clsCommProtocal.SelColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
   
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
         DelayMS delayTime
@@ -1035,14 +1011,7 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
         Label1 = Str$(presetData.xx)
         Label3 = Str$(presetData.yy)
 
-        Call clsCommProtocal.SetRGain(rRGB.cRR)
-        DelayMS delayTime
-
-        Call clsCommProtocal.SetGGain(rRGB.cGG)
-        DelayMS delayTime
-
-        Call clsCommProtocal.SetBGain(rRGB.cBB)
-        DelayMS delayTime
+        Call clsCommProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
         showData (1)
 
@@ -1068,14 +1037,7 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
                 End If
                 Log_Info "SET_RGB_GAN: R = " + Str$(rRGB.cRR) + ", G = " + Str$(rRGB.cGG) + ", B = " + Str$(rRGB.cBB) + ", resultcode = " + Str$(resCodeForAdjustColorTemp)
  
-                Call clsCommProtocal.SetRGain(rRGB.cRR)
-                DelayMS delayTime
-
-                Call clsCommProtocal.SetGGain(rRGB.cGG)
-                DelayMS delayTime
-
-                Call clsCommProtocal.SetBGain(rRGB.cBB)
-                DelayMS delayTime
+                Call clsCommProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
                 showData (2)
             End If
@@ -1084,23 +1046,9 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
         If isAdjustOffset Then
             Call LoadData(ColorTemp, False)
 
-            Call clsCommProtocal.SetROffset(rRGB1.cRR)
-            DelayMS delayTime
-
-            Call clsCommProtocal.SetGOffset(rRGB1.cGG)
-            DelayMS delayTime
-
-            Call clsCommProtocal.SetBOffset(rRGB1.cBB)
-            DelayMS delayTime
+            Call clsCommProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
         Else
-            Call clsCommProtocal.SetROffset(128)
-            DelayMS delayTime
-
-            Call clsCommProtocal.SetGOffset(128)
-            DelayMS delayTime
-
-            Call clsCommProtocal.SetBOffset(128)
-            DelayMS delayTime
+            Call clsCommProtocal.SetRGBOffset(128, 128, 128)
         End If
         
         If RES Then Exit For
@@ -1124,8 +1072,7 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
   
     For j = 1 To 2
-        Call clsCommProtocal.SetColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
-        DelayMS delayTime
+        Call clsCommProtocal.SelColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
 
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
         DelayMS delayTime
@@ -1137,14 +1084,7 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
         'Label1 = Str$(presetData.xx)
         'Label3 = Str$(presetData.yy)
 
-        Call clsCommProtocal.SetROffset(rRGB.cRR)
-        DelayMS delayTime
-
-        Call clsCommProtocal.SetGOffset(rRGB.cGG)
-        DelayMS delayTime
-
-        Call clsCommProtocal.SetBOffset(rRGB.cBB)
-        DelayMS delayTime
+        Call clsCommProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
         If False Then
             showData (3)
@@ -1159,14 +1099,7 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
                 If RES = False Then
                     Call adjustColorTempOffset(FixValue, AdjustSingle, SingleStep, rRGB)
 
-                    Call clsCommProtocal.SetROffset(rRGB.cRR)
-                    DelayMS delayTime
-
-                    Call clsCommProtocal.SetGOffset(rRGB.cGG)
-                    DelayMS delayTime
-
-                    Call clsCommProtocal.SetBOffset(rRGB.cBB)
-                    DelayMS delayTime
+                    Call clsCommProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
     
                     showData (4)
                 End If
@@ -1202,7 +1135,7 @@ Private Function checkColorAgain(ColorTemp As Long, adjustVal As Long, HighLowMo
     Log_Info "========Check " + Str$(ColorTemp) + "K========"
   
     For j = 1 To 2
-        Call clsCommProtocal.SetColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
+        Call clsCommProtocal.SelColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
   
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
         DelayMS delayTime

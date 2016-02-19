@@ -41,6 +41,8 @@ Private Sub SendCmd()
     Else
         Form1.tcpClient.SendData mSendDataBuf
     End If
+    
+    DelayMS delayTime
 End Sub
 
 Private Function CalChkSum(ByRef data() As Byte) As Byte
@@ -115,6 +117,25 @@ Private Sub CommunicationProtocal_SwitchInputSource(strInputSrc As String, intSr
     SendCmd
 End Sub
 
+'Set picture mode to standard.
+Private Sub CommunicationProtocal_ResetPicMode()
+    '55 34 00 00 00 00 00 00 00 00 CC FE
+    mSendDataBuf(0) = &H55
+    mSendDataBuf(1) = &H34
+    mSendDataBuf(2) = &H0
+    mSendDataBuf(3) = &H0
+    mSendDataBuf(4) = &H0
+    mSendDataBuf(5) = &H0
+    mSendDataBuf(6) = &H0
+    mSendDataBuf(7) = &H0
+    mSendDataBuf(8) = &H0
+    mSendDataBuf(9) = &H0
+    mSendDataBuf(10) = &HCC
+    mSendDataBuf(11) = &HFE
+    
+    SendCmd
+End Sub
+
 Private Sub CommunicationProtocal_SetBrightness(intBrightness As Integer)
     '55 37 02 XX XX 00 00 00 00 00 CHK FE
     mSendDataBuf(0) = &H55
@@ -169,7 +190,7 @@ Private Sub CommunicationProtocal_SetBacklight(intBacklight As Integer)
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetColorTemp(lngColorT As Long, strInputSrc As String, intSrcNum As Integer)
+Private Sub CommunicationProtocal_SelColorTemp(lngColorT As Long, strInputSrc As String, intSrcNum As Integer)
     '55 02 01 XX 00 00 00 00 00 00 CHK FE
 
     mSendDataBuf(0) = &H55
@@ -197,17 +218,17 @@ Private Sub CommunicationProtocal_SetColorTemp(lngColorT As Long, strInputSrc As
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetRGain(lngRGain As Long)
-    '55 0A 02 XX XX 00 00 00 00 00 CHK FE
+Private Sub CommunicationProtocal_SetRGBGain(lngRGain As Long, lngGGain As Long, lngBGain As Long)
+    '55 0A 06 XX XX XX XX XX XX 00 CHK FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &HA
-    mSendDataBuf(2) = &H2
+    mSendDataBuf(2) = &H6
     mSendDataBuf(3) = CByte(lngRGain \ 256)
     mSendDataBuf(4) = CByte(lngRGain Mod 256)
-    mSendDataBuf(5) = &H0
-    mSendDataBuf(6) = &H0
-    mSendDataBuf(7) = &H0
-    mSendDataBuf(8) = &H0
+    mSendDataBuf(5) = CByte(lngGGain \ 256)
+    mSendDataBuf(6) = CByte(lngGGain Mod 256)
+    mSendDataBuf(7) = CByte(lngBGain \ 256)
+    mSendDataBuf(8) = CByte(lngBGain Mod 256)
     mSendDataBuf(9) = &H0
     mSendDataBuf(10) = CalChkSum(mSendDataBuf)
     mSendDataBuf(11) = &HFE
@@ -215,93 +236,21 @@ Private Sub CommunicationProtocal_SetRGain(lngRGain As Long)
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetGGain(lngGGain As Long)
-    '55 0B 02 XX XX 00 00 00 00 00 CHK FE
-    mSendDataBuf(0) = &H55
-    mSendDataBuf(1) = &HB
-    mSendDataBuf(2) = &H2
-    mSendDataBuf(3) = CByte(lngGGain \ 256)
-    mSendDataBuf(4) = CByte(lngGGain Mod 256)
-    mSendDataBuf(5) = &H0
-    mSendDataBuf(6) = &H0
-    mSendDataBuf(7) = &H0
-    mSendDataBuf(8) = &H0
-    mSendDataBuf(9) = &H0
-    mSendDataBuf(10) = CalChkSum(mSendDataBuf)
-    mSendDataBuf(11) = &HFE
-    
-    SendCmd
-End Sub
-
-Private Sub CommunicationProtocal_SetBGain(lngBGain As Long)
-    '55 0C 02 XX XX 00 00 00 00 00 CHK FE
-    mSendDataBuf(0) = &H55
-    mSendDataBuf(1) = &HC
-    mSendDataBuf(2) = &H2
-    mSendDataBuf(3) = CByte(lngBGain \ 256)
-    mSendDataBuf(4) = CByte(lngBGain Mod 256)
-    mSendDataBuf(5) = &H0
-    mSendDataBuf(6) = &H0
-    mSendDataBuf(7) = &H0
-    mSendDataBuf(8) = &H0
-    mSendDataBuf(9) = &H0
-    mSendDataBuf(10) = CalChkSum(mSendDataBuf)
-    mSendDataBuf(11) = &HFE
-    
-    SendCmd
-End Sub
-
-Private Sub CommunicationProtocal_SetROffset(lngROffset As Long)
-    '55 04 02 XX XX 00 00 00 00 00 CHK FE
+Private Sub CommunicationProtocal_SetRGBOffset(lngROffset As Long, lngGOffset As Long, lngBOffset As Long)
+    '55 04 06 XX XX XX XX XX XX 00 CHK FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H4
-    mSendDataBuf(2) = &H2
-    mSendDataBuf(3) = CByte(lngROffset \ 256)
-    mSendDataBuf(4) = CByte(lngROffset Mod 256)
-    mSendDataBuf(5) = &H0
-    mSendDataBuf(6) = &H0
-    mSendDataBuf(7) = &H0
-    mSendDataBuf(8) = &H0
+    mSendDataBuf(2) = &H6
+    mSendDataBuf(3) = CByte((lngROffset * 8) \ 256)
+    mSendDataBuf(4) = CByte((lngROffset * 8) Mod 256)
+    mSendDataBuf(5) = CByte((lngGOffset * 8) \ 256)
+    mSendDataBuf(6) = CByte((lngGOffset * 8) Mod 256)
+    mSendDataBuf(7) = CByte((lngBOffset * 8) \ 256)
+    mSendDataBuf(8) = CByte((lngBOffset * 8) Mod 256)
     mSendDataBuf(9) = &H0
     mSendDataBuf(10) = CalChkSum(mSendDataBuf)
     mSendDataBuf(11) = &HFE
-    
-    SendCmd
-End Sub
 
-Private Sub CommunicationProtocal_SetGOffset(lngGOffset As Long)
-    '55 05 02 XX XX 00 00 00 00 00 CHK FE
-    mSendDataBuf(0) = &H55
-    mSendDataBuf(1) = &H5
-    mSendDataBuf(2) = &H2
-    mSendDataBuf(3) = CByte(lngGOffset \ 256)
-    mSendDataBuf(4) = CByte(lngGOffset Mod 256)
-    mSendDataBuf(5) = &H0
-    mSendDataBuf(6) = &H0
-    mSendDataBuf(7) = &H0
-    mSendDataBuf(8) = &H0
-    mSendDataBuf(9) = &H0
-    mSendDataBuf(10) = CalChkSum(mSendDataBuf)
-    mSendDataBuf(11) = &HFE
-    
-    SendCmd
-End Sub
-
-Private Sub CommunicationProtocal_SetBOffset(lngBOffset As Long)
-    '55 06 02 XX XX 00 00 00 00 00 CHK FE
-    mSendDataBuf(0) = &H55
-    mSendDataBuf(1) = &H6
-    mSendDataBuf(2) = &H2
-    mSendDataBuf(3) = CByte(lngBOffset \ 256)
-    mSendDataBuf(4) = CByte(lngBOffset Mod 256)
-    mSendDataBuf(5) = &H0
-    mSendDataBuf(6) = &H0
-    mSendDataBuf(7) = &H0
-    mSendDataBuf(8) = &H0
-    mSendDataBuf(9) = &H0
-    mSendDataBuf(10) = CalChkSum(mSendDataBuf)
-    mSendDataBuf(11) = &HFE
-    
     SendCmd
 End Sub
 

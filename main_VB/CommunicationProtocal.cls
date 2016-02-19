@@ -29,6 +29,10 @@ Public Sub SwitchInputSource(strInputSrc As String, intSrcNum As Integer)
 
 End Sub
 
+Public Sub ResetPicMode()
+
+End Sub
+
 Public Sub SetBrightness(intBrightness As Integer)
 
 End Sub
@@ -41,31 +45,15 @@ Public Sub SetBacklight(intBacklight As Integer)
 
 End Sub
 
-Public Sub SetColorTemp(lngColorT As Long, strInputSrc As String, intSrcNum As Integer)
+Public Sub SelColorTemp(lngColorT As Long, strInputSrc As String, intSrcNum As Integer)
 
 End Sub
 
-Public Sub SetRGain(lngRGain As Long)
+Public Sub SetRGBGain(lngRGain As Long, lngGGain As Long, lngBGain As Long)
 
 End Sub
 
-Public Sub SetGGain(lngGGain As Long)
-
-End Sub
-
-Public Sub SetBGain(lngBGain As Long)
-
-End Sub
-
-Public Sub SetROffset(lngROffset As Long)
-
-End Sub
-
-Public Sub SetGOffset(lngGOffset As Long)
-
-End Sub
-
-Public Sub SetBOffset(lngBOffset As Long)
+Public Sub SetRGBOffset(lngROffset As Long, lngGOffset As Long, lngBOffset As Long)
 
 End Sub
 

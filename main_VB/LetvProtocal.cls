@@ -39,6 +39,8 @@ Private Sub SendCmd()
     Else
         Form1.tcpClient.SendData mSendDataBuf
     End If
+    
+    DelayMS delayTime
 End Sub
 
 Private Function CalChkSum(ByRef data() As Byte) As Byte
@@ -133,6 +135,10 @@ Private Sub CommunicationProtocal_SwitchInputSource(strInputSrc As String, intSr
     SendCmd
 End Sub
 
+Private Sub CommunicationProtocal_ResetPicMode()
+    'Empty cmd for Letv
+End Sub
+
 Private Sub CommunicationProtocal_SetBrightness(intBrightness As Integer)
     '6E 51 86 03 FE 10 00 XX XX CHK
     mSendDataBuf(0) = &H6E
@@ -181,7 +187,7 @@ Private Sub CommunicationProtocal_SetBacklight(intBacklight As Integer)
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetColorTemp(lngColorT As Long, strInputSrc As String, intSrcNum As Integer)
+Private Sub CommunicationProtocal_SelColorTemp(lngColorT As Long, strInputSrc As String, intSrcNum As Integer)
     Select Case lngColorT
       Case valColorTempCool1
          Call SetColorTempCool1(strInputSrc, intSrcNum)
@@ -345,7 +351,13 @@ Private Sub SetColorTempWarm1(strInputSrc As String, intSrcNum As Integer)
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetRGain(lngRGain As Long)
+Private Sub CommunicationProtocal_SetRGBGain(lngRGain As Long, lngGGain As Long, lngBGain As Long)
+    Call SetRGain(lngRGain)
+    Call SetRGain(lngGGain)
+    Call SetRGain(lngBGain)
+End Sub
+
+Private Sub SetRGain(lngRGain As Long)
     '6E 51 86 03 FE 16 00 XX XX CHK
     mSendDataBuf(0) = &H6E
     mSendDataBuf(1) = &H51
@@ -361,7 +373,7 @@ Private Sub CommunicationProtocal_SetRGain(lngRGain As Long)
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetGGain(lngGGain As Long)
+Private Sub SetGGain(lngGGain As Long)
     '6E 51 86 03 FE 18 00 XX XX CHK
     mSendDataBuf(0) = &H6E
     mSendDataBuf(1) = &H51
@@ -377,7 +389,7 @@ Private Sub CommunicationProtocal_SetGGain(lngGGain As Long)
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetBGain(lngBGain As Long)
+Private Sub SetBGain(lngBGain As Long)
     '6E 51 86 03 FE 1A 00 XX XX CHK
     mSendDataBuf(0) = &H6E
     mSendDataBuf(1) = &H51
@@ -393,7 +405,13 @@ Private Sub CommunicationProtocal_SetBGain(lngBGain As Long)
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetROffset(lngROffset As Long)
+Private Sub CommunicationProtocal_SetRGBOffset(lngROffset As Long, lngGOffset As Long, lngBOffset As Long)
+    Call SetROffset(lngROffset)
+    Call SetGOffset(lngGOffset)
+    Call SetBOffset(lngBOffset)
+End Sub
+
+Private Sub SetROffset(lngROffset As Long)
     '6E 51 86 03 FE 6C 00 XX XX CHK
     mSendDataBuf(0) = &H6E
     mSendDataBuf(1) = &H51
@@ -405,11 +423,11 @@ Private Sub CommunicationProtocal_SetROffset(lngROffset As Long)
     mSendDataBuf(7) = CByte(lngROffset \ 256)
     mSendDataBuf(8) = CByte(lngROffset Mod 256)
     mSendDataBuf(9) = CalChkSum(mSendDataBuf)
-    
+
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetGOffset(lngGOffset As Long)
+Private Sub SetGOffset(lngGOffset As Long)
     '6E 51 86 03 FE 6E 00 XX XX CHK
     mSendDataBuf(0) = &H6E
     mSendDataBuf(1) = &H51
@@ -425,7 +443,7 @@ Private Sub CommunicationProtocal_SetGOffset(lngGOffset As Long)
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetBOffset(lngBOffset As Long)
+Private Sub SetBOffset(lngBOffset As Long)
     '6E 51 86 03 FE 70 00 XX XX CHK
     mSendDataBuf(0) = &H6E
     mSendDataBuf(1) = &H51
