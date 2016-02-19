@@ -80,29 +80,27 @@ End Sub
 
 Private Sub CommunicationProtocal_SwitchInputSource(strInputSrc As String, intSrcNum As Integer)
     '55 2E 01 XX 00 00 00 00 00 00 CHK FE
-    'HDMI1: 55 2E 01 06 00 00 00 00 00 00 CB FE
+    'HDMI1: 55 2E 01 04 00 00 00 00 00 00 CD FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H2E
     mSendDataBuf(2) = &H1
 
     If strInputSrc = "HDMI" Then
         If intSrcNum = 1 Then
-            mSendDataBuf(3) = &H6
+            mSendDataBuf(3) = &H4
         ElseIf intSrcNum = 2 Then
-            mSendDataBuf(3) = &H7
-        Else
+            mSendDataBuf(3) = &H5
+        ElseIf intSrcNum = 3 Then
             mSendDataBuf(3) = &H6
+        Else
+            mSendDataBuf(3) = &H4
         End If
     ElseIf strInputSrc = "CVBS" Then
-        If intSrcNum = 1 Then
-            mSendDataBuf(3) = &H3
-        ElseIf intSrcNum = 2 Then
-            mSendDataBuf(3) = &H4
-        Else
-            mSendDataBuf(3) = &H3
-        End If
+        mSendDataBuf(3) = &H3
     ElseIf strInputSrc = "YPbPr" Then
-        mSendDataBuf(3) = &H5
+        mSendDataBuf(3) = &H7
+    Else
+        mSendDataBuf(3) = &H4
     End If
 
     mSendDataBuf(4) = &H0
@@ -172,22 +170,21 @@ Private Sub CommunicationProtocal_SetBacklight(intBacklight As Integer)
 End Sub
 
 Private Sub CommunicationProtocal_SetColorTemp(lngColorT As Long, strInputSrc As String, intSrcNum As Integer)
-    Dim value As Byte
-
     '55 02 01 XX 00 00 00 00 00 00 CHK FE
-    Select Case lngColorT
-        Case valColorTempCool1
-            value = CByte(3)
-        Case valColorTempNormal
-            value = CByte(1)
-        Case valColorTempWarm1
-            value = CByte(2)
-    End Select
 
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H2
     mSendDataBuf(2) = &H1
-    mSendDataBuf(3) = value
+
+    Select Case lngColorT
+        Case valColorTempCool1
+            mSendDataBuf(3) = &H0
+        Case valColorTempNormal
+            mSendDataBuf(3) = &H1
+        Case valColorTempWarm1
+            mSendDataBuf(3) = &H2
+    End Select
+
     mSendDataBuf(4) = &H0
     mSendDataBuf(5) = &H0
     mSendDataBuf(6) = &H0
@@ -309,39 +306,18 @@ Private Sub CommunicationProtocal_SetBOffset(lngBOffset As Long)
 End Sub
 
 Private Sub CommunicationProtocal_SaveWBDataToAllSrc(strInputSrc As String, intSrcNum As Integer)
-    '55 01 01 XX 00 00 00 00 00 00 CHK FE
-    'HDMI1: 55 01 01 06 00 00 00 00 00 00 F8 FE
+    '55 01 01 06 00 00 00 00 00 00 F8 FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H1
     mSendDataBuf(2) = &H1
-
-    If strInputSrc = "HDMI" Then
-        If intSrcNum = 1 Then
-            mSendDataBuf(3) = &H6
-        ElseIf intSrcNum = 2 Then
-            mSendDataBuf(3) = &H7
-        Else
-            mSendDataBuf(3) = &H6
-        End If
-    ElseIf strInputSrc = "CVBS" Then
-        If intSrcNum = 1 Then
-            mSendDataBuf(3) = &H3
-        ElseIf intSrcNum = 2 Then
-            mSendDataBuf(3) = &H4
-        Else
-            mSendDataBuf(3) = &H3
-        End If
-    ElseIf strInputSrc = "YPbPr" Then
-        mSendDataBuf(3) = &H5
-    End If
-    
+    mSendDataBuf(3) = &H6
     mSendDataBuf(4) = &H0
     mSendDataBuf(5) = &H0
     mSendDataBuf(6) = &H0
     mSendDataBuf(7) = &H0
     mSendDataBuf(8) = &H0
     mSendDataBuf(9) = &H0
-    mSendDataBuf(10) = CalChkSum(mSendDataBuf)
+    mSendDataBuf(10) = &HF8
     mSendDataBuf(11) = &HFE
     
     SendCmd
