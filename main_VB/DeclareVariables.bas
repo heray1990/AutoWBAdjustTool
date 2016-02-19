@@ -61,7 +61,7 @@ Public isCheckColorTemp  As Boolean
 
 Public isAdjustOffset As Boolean
 
-Public strCurrentModelName As String
+Public gstrCurProjName As String
 Public IsStop As Boolean
 Public IsACK As Boolean
 Public setTVCurrentComID As Integer
@@ -78,6 +78,7 @@ Public IsSNWriteSuccess As Boolean
 Public scanbarcode As String
 Public strSerialNo As String
 Public countTime As Long
+Public gstrBrand As String
 
 
 Public Type COLORTEMPSPEC

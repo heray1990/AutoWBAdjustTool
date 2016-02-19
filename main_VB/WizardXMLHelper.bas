@@ -5,6 +5,8 @@ Attribute VB_Name = "WizardXMLHelper"
 
 Option Explicit
 
+Public Const gstrDelimiterForProjName As String = "-"
+
 ' Return current project's name.
 Public Function GetCurProjectName() As String
     Dim xmlDoc As New MSXML2.DOMDocument
@@ -69,9 +71,9 @@ Public Function GetProjectList() As Collection
             Dim brand, model As String
             
             For Each objNode In objNodeList
-                brand = objNode.selectSingleNode("@brand").Text
-                model = objNode.selectSingleNode("@model").Text
-                colProjectList.Add brand & "-" & model
+                brand = Trim(objNode.selectSingleNode("@brand").Text)
+                model = Trim(objNode.selectSingleNode("@model").Text)
+                colProjectList.Add brand & gstrDelimiterForProjName & model
             Next objNode
         End If
     End If

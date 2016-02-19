@@ -565,7 +565,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-    Label1.Caption = strCurrentModelName
+    Label1.Caption = gstrCurProjName
     
     txtChannel.Text = CStr(Ca210ChannelNO)
     txtSNLen.Text = CStr(barCodeLen)

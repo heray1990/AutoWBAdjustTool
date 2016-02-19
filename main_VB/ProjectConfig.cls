@@ -42,7 +42,7 @@ Private mConfigData As udtConfigData
 Private mstrConfigFilePath As String
 
 Private Sub Class_Initialize()
-    mstrConfigFilePath = App.Path & "\" & strCurrentModelName & "\config.xml"
+    mstrConfigFilePath = App.Path & "\" & gstrCurProjName & "\config.xml"
 
     mConfigData.CommMode = modeUART
     mConfigData.strComBaud = "115200"
