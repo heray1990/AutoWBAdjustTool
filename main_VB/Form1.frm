@@ -799,6 +799,8 @@ CHECK_WARM1:
 
     showData (lastChkShwDataStep)
     
+    clsCommProtocal.ResetPicMode
+    
     If rColorLastChk.lv < maxBrightnessSpec Then
         ShowError_Sys (30)
         GoTo FAIL
@@ -1048,7 +1050,7 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
 
             Call clsCommProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
         Else
-            Call clsCommProtocal.SetRGBOffset(128, 128, 128)
+            Call clsCommProtocal.SetRGBOffset(1024, 1024, 1024)
         End If
         
         If RES Then Exit For
