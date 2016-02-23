@@ -997,6 +997,9 @@ End Sub
 Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
 
+    Call clsCommProtocal.SelColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
+    DelayMS delayTime
+
     ' Set Offset first
     If Not isAdjustOffset Then
         Call setColorTemp(ColorTemp, presetData, 0)
@@ -1015,8 +1018,6 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
 
     For j = 1 To 2
-        Call clsCommProtocal.SelColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
-  
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
         DelayMS delayTime
         

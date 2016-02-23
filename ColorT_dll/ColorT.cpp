@@ -195,7 +195,7 @@ void AverageData(pCOLORSPEC pColorST)
 	{
         pColorST->PriRR = (pColorST->PriRR + CalcRGB.cRR) / 2;
         //pColorST->PriGG = (pColorST->PriGG + CalcRGB.cGG) / 2;
-		pColorST->PriGG = 128;
+		//pColorST->PriGG = 128;
         pColorST->PriBB = (pColorST->PriBB + CalcRGB.cBB) / 2;
 	}
 	else
