@@ -996,9 +996,24 @@ End Sub
 
 Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
-  
+
+    ' Set Offset first
+    If Not isAdjustOffset Then
+        Call setColorTemp(ColorTemp, presetData, 0)
+        DelayMS delayTime
+        
+        rRGB.cRR = presetData.nColorRR
+        rRGB.cGG = presetData.nColorGG
+        rRGB.cBB = presetData.nColorBB
+        
+        Call saveData(ColorTemp, 0)
+    End If
+
+    Call LoadData(ColorTemp, 0)
+    Call clsCommProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
+    
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
-  
+
     For j = 1 To 2
         Call clsCommProtocal.SelColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
   
@@ -1051,20 +1066,6 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
                 showData (2)
             End If
         Next k
-  
-        If Not isAdjustOffset Then
-            Call setColorTemp(ColorTemp, presetData, 0)
-            DelayMS delayTime
-        
-            rRGB.cRR = presetData.nColorRR
-            rRGB.cGG = presetData.nColorGG
-            rRGB.cBB = presetData.nColorBB
-        
-            Call saveData(ColorTemp, 0)
-        End If
-
-        Call LoadData(ColorTemp, 0)
-        Call clsCommProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
         
         If RES Then Exit For
         
