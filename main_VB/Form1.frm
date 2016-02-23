@@ -1409,7 +1409,9 @@ On Error GoTo ErrExit
         
         If txtInput.Locked = False Then
             If isUartMode = True Then
-                MSComm1.PortOpen = True
+                If MSComm1.PortOpen = False Then
+                    MSComm1.PortOpen = True
+                End If
                 subMainProcesser
             Else
                 isNetworkConnected = False
