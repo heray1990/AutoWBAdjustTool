@@ -1028,16 +1028,23 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
             If RES Then Exit For
             
             If RES = False Then
-                If resCodeForAdjustColorTemp = 0 Then
-                    Call adjustColorTemp(adjustMode3, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
-                ElseIf resCodeForAdjustColorTemp = 1 Then
-                    Call adjustColorTemp(adjustMode1, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
-                ElseIf resCodeForAdjustColorTemp = 2 Then
-                    Call adjustColorTemp(adjustMode2, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
-                ElseIf resCodeForAdjustColorTemp = 3 Then
-                    Call adjustColorTemp(adjustMode4, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
+                If gstrBrand = "CIBN" Then
+                    Call adjustColorTempForCIBN(rRGB)
+                Else    ' Letv
+                    If resCodeForAdjustColorTemp = 0 Then
+                        Call adjustColorTemp(adjustMode3, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
+                    ElseIf resCodeForAdjustColorTemp = 1 Then
+                        Call adjustColorTemp(adjustMode1, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
+                    ElseIf resCodeForAdjustColorTemp = 2 Then
+                        Call adjustColorTemp(adjustMode2, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
+                    ElseIf resCodeForAdjustColorTemp = 3 Then
+                        Call adjustColorTemp(adjustMode4, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
+                    End If
                 End If
-                Log_Info "SET_RGB_GAN: R = " + Str$(rRGB.cRR) + ", G = " + Str$(rRGB.cGG) + ", B = " + Str$(rRGB.cBB) + ", resultcode = " + Str$(resCodeForAdjustColorTemp)
+
+                Log_Info "SET_RGB_GAN: R = " & CStr(rRGB.cRR) & _
+                    ", G = " & CStr(rRGB.cGG) & ", B = " & CStr(rRGB.cBB) & _
+                    ", resultcode = " & CStr(resCodeForAdjustColorTemp)
  
                 Call clsCommProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
@@ -1045,13 +1052,19 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
             End If
         Next k
   
-        If isAdjustOffset Then
-            Call LoadData(ColorTemp, False)
-
-            Call clsCommProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
-        Else
-            Call clsCommProtocal.SetRGBOffset(1024, 1024, 1024)
+        If Not isAdjustOffset Then
+            Call setColorTemp(ColorTemp, presetData, 0)
+            DelayMS delayTime
+        
+            rRGB.cRR = presetData.nColorRR
+            rRGB.cGG = presetData.nColorGG
+            rRGB.cBB = presetData.nColorBB
+        
+            Call saveData(ColorTemp, 0)
         End If
+
+        Call LoadData(ColorTemp, 0)
+        Call clsCommProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
         
         If RES Then Exit For
         
@@ -1099,7 +1112,14 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
     
                 If RES Then Exit For
                 If RES = False Then
-                    Call adjustColorTempOffset(FixValue, AdjustSingle, SingleStep, rRGB)
+                    If gstrBrand = "CIBN" Then
+                        Call adjustColorTempForCIBN(rRGB)
+                    Else
+                        Call adjustColorTempOffset(FixValue, AdjustSingle, SingleStep, rRGB)
+                    End If
+                    
+                    Log_Info "SET_RGB_OFFSET: R = " & CStr(rRGB.cRR) & _
+                    ", G = " & CStr(rRGB.cGG) & ", B = " & CStr(rRGB.cBB)
 
                     Call clsCommProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
     
@@ -1283,10 +1303,7 @@ Private Sub Form_Load()
     
     gstrBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
     
-    If gstrBrand = "Letv" Then
-        Set clsLetvProtocal = New LetvProtocal
-        Set clsCommProtocal = clsLetvProtocal
-    ElseIf gstrBrand = "CIBN" Then
+    If gstrBrand = "CIBN" Then
         Set clsCIBNProtocal = New CIBNProtocal
         Set clsCommProtocal = clsCIBNProtocal
     Else
@@ -1429,16 +1446,20 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
 On Error GoTo ErrExit
 
-    If gstrBrand = "Letv" Then
-        Set clsLetvProtocal = Nothing
-        Set clsCommProtocal = Nothing
-    ElseIf gstrBrand = "CIBN" Then
-        Set clsCIBNProtocal = Nothing
-        Set clsCommProtocal = Nothing
+    If gstrBrand = "CIBN" Then
+        If Not (clsCIBNProtocal Is Nothing) Then
+            Set clsCIBNProtocal = Nothing
+        End If
     Else
-        Set clsLetvProtocal = Nothing
+        If Not (clsLetvProtocal Is Nothing) Then
+            Set clsLetvProtocal = Nothing
+        End If
+    End If
+    
+    If Not (clsCommProtocal Is Nothing) Then
         Set clsCommProtocal = Nothing
     End If
+    
 
     IsStop = True
     If (IsCa210ok = True) Then
@@ -1454,7 +1475,7 @@ On Error GoTo ErrExit
     Exit Sub
 
 ErrExit:
-        MsgBox Err.Description, vbCritical, Err.Source
+    MsgBox Err.Description, vbCritical, Err.Source
 End Sub
 
 

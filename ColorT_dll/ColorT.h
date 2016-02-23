@@ -89,6 +89,7 @@ COLORT_API int _stdcall  checkColorTemp(pREALCOLOR PGetColor,int colorTemp);
 COLORT_API int _stdcall  checkColorTempOffset(pREALCOLOR pGetColor,int colorTemp);
 COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjStep, pREALRGB pAdjRGB, int *pResultCode);
 COLORT_API int _stdcall  adjustColorTempOffset(int FixValue, BOOL xyAdjMode, BOOL AdjStep, pREALRGB pAdjRGB);
+COLORT_API int _stdcall  adjustColorTempForCIBN(pREALRGB pAdjRGB);
 
 void  delay(unsigned milliseconds);
 int   savedata(pCOLORSPEC pColorST,char* CT);

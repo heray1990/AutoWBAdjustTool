@@ -230,6 +230,87 @@ void ReLoadRGB(int colorTemp)
 	}
 }
 
+COLORT_API int _stdcall  adjustColorTempForCIBN(pREALRGB pAdjRGB)
+{
+	if (ca_y < PrimaryData.sy - PrimaryData.yt)
+	{
+		if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep5)
+		{
+			CalcRGB.cBB = PrimaryData.PriBB - 5;
+		}
+		else if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep3)
+		{
+			CalcRGB.cBB = PrimaryData.PriBB - 3;
+		}
+		else
+		{
+			CalcRGB.cBB = PrimaryData.PriBB - 1;
+		}
+	}
+	else
+	{
+		if (ca_y > PrimaryData.sy + PrimaryData.yt)
+		{
+			if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep5)
+			{
+				CalcRGB.cBB = PrimaryData.PriBB + 5;
+			}
+			else if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep3)
+			{
+				CalcRGB.cBB = PrimaryData.PriBB + 3;
+			}
+			else
+			{
+				CalcRGB.cBB = PrimaryData.PriBB + 1;
+			}
+		}
+		else
+		{
+			if (ca_x > PrimaryData.sx + PrimaryData.xt)
+			{
+				if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
+				{
+					CalcRGB.cRR = PrimaryData.PriRR - 5;
+				}
+				else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
+				{
+					CalcRGB.cRR = PrimaryData.PriRR - 3;
+				}
+				else
+				{
+					CalcRGB.cRR = PrimaryData.PriRR - 1;
+				}
+			}
+			else
+			{
+				if (ca_x < PrimaryData.sx - PrimaryData.xt)
+				{
+					if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
+					{
+						CalcRGB.cRR = PrimaryData.PriRR + 5;
+					}
+					else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
+					{
+						CalcRGB.cRR = PrimaryData.PriRR + 3;
+					}
+					else
+					{
+						CalcRGB.cRR = PrimaryData.PriRR + 1;
+					}
+				}
+			}
+		}
+	}
+
+    VerifyRGB(CalcRGB.cRR);
+    VerifyRGB(CalcRGB.cBB);
+	pAdjRGB->cRR=CalcRGB.cRR;
+    pAdjRGB->cGG=CalcRGB.cGG;
+	pAdjRGB->cBB=CalcRGB.cBB;
+    return true;
+
+}
+
 /////////////////////////////////////////////////////////////////////////////
 ////////////////////////Add for Colortemperature App.////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -699,19 +780,19 @@ BOOL CheckRGBisInRangeOkorNO(COLORSPEC rgb)
 
 void VerifyRGB(unsigned int& RGB)
 {
-	if (AdjustGAN==1)
+	if (AdjustGAN == 1)
 	{
-	    if (RGB<=minColorRGB_GAN)
-    		RGB=minColorRGB_GAN;
+	    if (RGB <= minColorRGB_GAN)
+    		RGB = minColorRGB_GAN;
     	else
-			if (RGB>135) RGB=135;
+			if (RGB > maxColorRGB_GAN) RGB = maxColorRGB_GAN;
 	}
 	else
 	{
-	    if (RGB<=minColorRGB_OFF)
-			RGB=minColorRGB_OFF;
+	    if (RGB <= minColorRGB_OFF)
+			RGB = minColorRGB_OFF;
 	    else
-			if (RGB>maxColorRGB_OFF) RGB=maxColorRGB_OFF;
+			if (RGB > maxColorRGB_OFF) RGB = maxColorRGB_OFF;
 	}
 }
 
