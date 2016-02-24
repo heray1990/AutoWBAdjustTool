@@ -1416,19 +1416,25 @@ On Error GoTo ErrExit
             Else
                 isNetworkConnected = False
                 Do
-                    Log_Info "TCP Connect"
-                    tcpClient.Connect
+                    If tcpClient.State = sckClosed Then
+                        Log_Info "TCP Connect"
+                        tcpClient.Connect
+                        txtInput.Locked = True
+                    End If
                     Call DelaySWithFlag(cmdReceiveWaitS * 2, isNetworkConnected)
                 
-                    If isNetworkConnected = True Then
+                    If tcpClient.State = sckConnected Then
                         subMainProcesser
                         Exit Do
                     Else
-                        tcpClient.Close
+                        If tcpClient.State <> sckClosed Then
+                            tcpClient.Close
+                        End If
                         i = i + 1
                     End If
                     Log_Info "Re-connect to TV."
                 Loop While i <= 5
+                txtInput.Locked = False
             End If
         End If
         
