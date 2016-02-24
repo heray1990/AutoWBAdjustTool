@@ -45,7 +45,7 @@ Public Sub SetBacklight(intBacklight As Integer)
 
 End Sub
 
-Public Sub SelColorTemp(lngColorT As Long, strInputSrc As String, intSrcNum As Integer)
+Public Sub SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)
 
 End Sub
 

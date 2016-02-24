@@ -6,10 +6,9 @@ initColorTemp         @1
 DeinitColorTemp       @2
 setColorTemp          @3
 checkColorTemp        @4
-checkColorTempOffset  @5
-adjustColorTemp       @6
-adjustColorTempOffset @7
-adjustColorTempForCIBN @8
+adjustColorTemp       @5
+adjustColorTempOffset @6
+adjustColorTempForCIBN @7
 
 
 

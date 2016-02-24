@@ -18,9 +18,9 @@ Public Const ComplexStep As Integer = 1
 Public Const HighBri As Integer = 1
 Public Const LowBri As Integer = 0
 
-Public Const valColorTempCool1 As Long = 12000
-Public Const valColorTempNormal As Long = 10000
-Public Const valColorTempWarm1 As Long = 6500
+Public Const cstrColorTempCool1 As String = "COOL1"
+Public Const cstrColorTempNormal As String = "NORMAL"
+Public Const cstrColorTempWarm1 As String = "WARM1"
 
 Public Const lastChkShwDataStep As Integer = 6
 Public Const cmdReceiveWaitS As Integer = 5

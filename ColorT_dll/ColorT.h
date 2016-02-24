@@ -64,9 +64,9 @@ unsigned int minColorRGB_OFF;
 unsigned int maxColorRGB_GAN;
 unsigned int minColorRGB_GAN;
 
-COLORSPEC Spec12000K;
-COLORSPEC Spec10000K;
-COLORSPEC Spec6500K;
+COLORSPEC SpecCool1;
+COLORSPEC SpecNormal;
+COLORSPEC SpecWarm1;
 COLORSPEC PrimaryData;
 //REALCOLOR CurrentData;
 REALRGB CalcRGB;
@@ -84,9 +84,8 @@ int AdjustGAN=0;
 
 COLORT_API int _stdcall  initColorTemp(BOOL *pCalibraEN, BOOL *pMiniBriEN, char* ModelFile, char* pCurDir);
 COLORT_API int _stdcall  DeinitColorTemp(char* ModelFile);
-COLORT_API int _stdcall  setColorTemp(int colorTemp, pCOLORSPEC pSpecData,int GANref);
-COLORT_API int _stdcall  checkColorTemp(pREALCOLOR PGetColor,int colorTemp);
-COLORT_API int _stdcall  checkColorTempOffset(pREALCOLOR pGetColor,int colorTemp);
+COLORT_API int _stdcall  setColorTemp(char* colorTemp, pCOLORSPEC pSpecData,int GANref);
+COLORT_API int _stdcall  checkColorTemp(pREALCOLOR PGetColor,char* colorTemp);
 COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjStep, pREALRGB pAdjRGB, int *pResultCode);
 COLORT_API int _stdcall  adjustColorTempOffset(pREALRGB pAdjRGB);
 COLORT_API int _stdcall  adjustColorTempForCIBN(pREALRGB pAdjRGB);
@@ -98,6 +97,6 @@ BOOL  CheckRGBisInRangeOkorNO(COLORSPEC rgb);
 void  VerifyRGB(unsigned int& RGB);
 
 void  AverageData(pCOLORSPEC pColorST);
-void  ReLoadRGB(int colorTemp);
+void  ReLoadRGB(char* colorTemp);
 
 //COLORT_API
