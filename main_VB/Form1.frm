@@ -710,6 +710,10 @@ ADJUST_GAIN_AGAIN_WARM1:
     End If
 
     If isCheckColorTemp Then
+        If isAdjustOffset Then
+            Call frmCmbType.ChangePattern("103")
+            DelayMS delayTime
+        End If
 CHECK_COOL1:
         If isAdjustCool1 Then
             Label6.Caption = "CHECK"
