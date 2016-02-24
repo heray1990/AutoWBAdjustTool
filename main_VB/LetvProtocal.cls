@@ -353,8 +353,8 @@ End Sub
 
 Private Sub CommunicationProtocal_SetRGBGain(lngRGain As Long, lngGGain As Long, lngBGain As Long)
     Call SetRGain(lngRGain)
-    Call SetRGain(lngGGain)
-    Call SetRGain(lngBGain)
+    Call SetGGain(lngGGain)
+    Call SetBGain(lngBGain)
 End Sub
 
 Private Sub SetRGain(lngRGain As Long)
