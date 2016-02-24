@@ -1133,11 +1133,7 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
     
             If RES Then Exit For
             If RES = False Then
-                If gstrBrand = "CIBN" Then
-                    Call adjustColorTempForCIBN(rRGB)
-                Else
-                    Call adjustColorTempOffset(FixValue, AdjustSingle, SingleStep, rRGB)
-                End If
+                Call adjustColorTempOffset(rRGB)
                     
                 Log_Info "SET_RGB_OFFSET: R = " & CStr(rRGB.cRR) & _
                     ", G = " & CStr(rRGB.cGG) & ", B = " & CStr(rRGB.cBB)

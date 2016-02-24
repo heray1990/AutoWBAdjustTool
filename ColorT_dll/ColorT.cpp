@@ -153,10 +153,10 @@ COLORT_API int _stdcall checkColorTemp(pREALCOLOR pGetColor,int colorTemp)
     PrimaryData.PriBB = CalcRGB.cBB;
 	ReLoadRGB(colorTemp);
 
-	if (AdjustGAN == 1)
-	{
-	    if (ca_lv < PrimaryData.LimLV) return false;
-	}
+	//if (AdjustGAN == 1)
+	//{
+	    //if (ca_lv < PrimaryData.LimLV) return false;
+	//}
 	return true;
 }
 
@@ -646,77 +646,40 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 
 }
 
-COLORT_API int _stdcall  adjustColorTempOffset(int FixValue, BOOL xyAdjMode, BOOL AdjStep, pREALRGB pAdjRGB)
+COLORT_API int _stdcall  adjustColorTempOffset(pREALRGB pAdjRGB)
 {
-	switch (FixValue)
+	if (ca_y < PrimaryData.sy - PrimaryData.yt)
 	{
-		case 3:   //  "FixBB"
-			if (AdjStep)    //microStep
-			{
-				if (xyAdjMode)    //yf
-				{
-				}
-				else    //xf&yf
-				{
-				}
-			}
-			else            //StepbyStep
-			{
-			}
-			break;
-		case 1:   //  "FixRR"
-			//TODO
-			return false;
-			break;
-		case 2:   //  "FixGG"
-			if (AdjStep)    //microStep
-			{
-				if (xyAdjMode)    //yf
-				{
-				}
-				else    //xf&yf
-				{
-				}
-			}
-			else            //StepbyStep
-			{
-				if (ca_y < PrimaryData.sy - 100)
-				{
-					CalcRGB.cBB = PrimaryData.PriBB - 1; 
-				}
-				else
-				{
-					if (ca_y > PrimaryData.sy + 100)
-					{
-						CalcRGB.cBB = PrimaryData.PriBB + 1;
-					}
-					else
-					{
-						if (ca_x > PrimaryData.sx + 100)
-						{
-							CalcRGB.cRR = PrimaryData.PriRR - 1;
-						}
-						else
-						{
-							if (ca_x < PrimaryData.sx - 100)
-							{
-								CalcRGB.cRR = PrimaryData.PriRR + 1;
-							}
-						}
-					}
-				}
-			}
-			break;
-		default:
-			break;
+		CalcRGB.cBB = PrimaryData.PriBB - 1;
 	}
+	else
+	{
+		if (ca_y > PrimaryData.sy + PrimaryData.yt)
+		{
+			CalcRGB.cBB = PrimaryData.PriBB + 1;
+		}
+		else
+		{
+			if (ca_x > PrimaryData.sx + PrimaryData.xt)
+			{
+				CalcRGB.cRR = PrimaryData.PriRR - 1;
+			}
+			else
+			{
+				if (ca_x < PrimaryData.sx - PrimaryData.xt)
+				{
+					CalcRGB.cRR = PrimaryData.PriRR + 1;
+				}
+			}
+		}
+	}
+
     VerifyRGB(CalcRGB.cRR);
     VerifyRGB(CalcRGB.cBB);
 	pAdjRGB->cRR=CalcRGB.cRR;
-	pAdjRGB->cGG=CalcRGB.cGG;
+    pAdjRGB->cGG=CalcRGB.cGG;
 	pAdjRGB->cBB=CalcRGB.cBB;
-	
-	return true;
+    return true;
 }
 
 /*
