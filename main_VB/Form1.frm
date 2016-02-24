@@ -714,7 +714,7 @@ CHECK_COOL1:
         If isAdjustCool1 Then
             Label6.Caption = "CHECK"
             lbAdjustCOOL_1.BackColor = &H80FFFF
-            Result = checkColorAgain(valColorTempCool1, adjustMode3, HighBri)
+            Result = checkColorAgain(valColorTempCool1, HighBri)
 
             If Result = False Then
                 ShowError_Sys (1)
@@ -740,7 +740,7 @@ CHECK_NORMAL:
         If isAdjustNormal Then
             Label6.Caption = "CHECK"
             lbAdjustNormal.BackColor = &H80FFFF
-            Result = checkColorAgain(valColorTempNormal, adjustMode3, HighBri)
+            Result = checkColorAgain(valColorTempNormal, HighBri)
       
             If Result = False Then
                 ShowError_Sys (3)
@@ -751,7 +751,7 @@ CHECK_NORMAL:
     
                 adjustGainAgainNormalFlag = adjustGainAgainNormalFlag + 1
                 
-                If isAdjustOffset Then
+                If isAdjustOffset And adjustGainAgainCool1Flag = 0 Then
                     Call frmCmbType.ChangePattern("103")
                     DelayMS delayTime
                 End If
@@ -766,7 +766,7 @@ CHECK_WARM1:
         If isAdjustWarm1 Then
             Label6.Caption = "CHECK"
             lbAdjustWARM_1.BackColor = &H80FFFF
-            Result = checkColorAgain(valColorTempWarm1, adjustMode3, HighBri)
+            Result = checkColorAgain(valColorTempWarm1, HighBri)
 
             If Result = False Then
                 ShowError_Sys (4)
@@ -777,7 +777,8 @@ CHECK_WARM1:
     
                 adjustGainAgainWarm1Flag = adjustGainAgainWarm1Flag + 1
                 
-                If isAdjustOffset Then
+                If isAdjustOffset And adjustGainAgainCool1Flag = 0 _
+                And adjustGainAgainNormalFlag = 0 Then
                     Call frmCmbType.ChangePattern("103")
                     DelayMS delayTime
                 End If
@@ -1127,7 +1128,7 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
         For k = 1 To 50
             If IsStop = True Then GoTo Cancel
                 
-            RES = checkColorTempOffset(rColor, ColorTemp)
+            RES = checkColorTemp(rColor, ColorTemp)
             Log_Info "Check colorTemp. RES:" + Str$(RES)
     
             If RES Then Exit For
@@ -1165,14 +1166,15 @@ Cancel:
 
 End Function
 
-Private Function checkColorAgain(ColorTemp As Long, adjustVal As Long, HighLowMode As Long) As Boolean
+Private Function checkColorAgain(ColorTemp As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
-  
+
+    Call clsCommProtocal.SelColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
+    DelayMS delayTime
+
     Log_Info "========Check " + Str$(ColorTemp) + "K========"
   
     For j = 1 To 2
-        Call clsCommProtocal.SelColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
-  
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
         DelayMS delayTime
         Log_Info "Init current colorTemp. RES:" + Str$(RES)
