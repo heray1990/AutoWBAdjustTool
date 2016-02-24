@@ -729,11 +729,6 @@ CHECK_COOL1:
                 
                 adjustGainAgainCool1Flag = adjustGainAgainCool1Flag + 1
                 
-                If isAdjustOffset Then
-                    Call frmCmbType.ChangePattern("103")
-                    DelayMS delayTime
-                End If
-                
                 GoTo ADJUST_GAIN_AGAIN_COOL1
             End If
       
@@ -754,11 +749,6 @@ CHECK_NORMAL:
                 End If
     
                 adjustGainAgainNormalFlag = adjustGainAgainNormalFlag + 1
-                
-                If isAdjustOffset And adjustGainAgainCool1Flag = 0 Then
-                    Call frmCmbType.ChangePattern("103")
-                    DelayMS delayTime
-                End If
 
                 GoTo ADJUST_GAIN_AGAIN_NORMAL
             End If
@@ -780,12 +770,6 @@ CHECK_WARM1:
                 End If
     
                 adjustGainAgainWarm1Flag = adjustGainAgainWarm1Flag + 1
-                
-                If isAdjustOffset And adjustGainAgainCool1Flag = 0 _
-                And adjustGainAgainNormalFlag = 0 Then
-                    Call frmCmbType.ChangePattern("103")
-                    DelayMS delayTime
-                End If
                 
                 GoTo ADJUST_GAIN_AGAIN_WARM1
             End If
