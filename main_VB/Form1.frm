@@ -598,55 +598,6 @@ On Error GoTo ErrExit
         DelayMS delayTime
     End If
 
-    If isAdjustOffset Then
-        Label6.Caption = "GREY"
-
-        Call frmCmbType.ChangePattern("110")
-        DelayMS delayTime
-
-        If isAdjustCool1 Then
-            lbAdjustCOOL_1.BackColor = &H80FFFF
-            Result = autoAdjustColorTemperature_Offset(valColorTempCool1, FixG, LowBri)
-                
-            If Result = False Then
-                ShowError_Sys (11)
-                GoTo FAIL
-            Else
-                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
-            End If
-   
-            lbAdjustCOOL_1.BackColor = &HC0FFC0
-        End If
-   
-        If isAdjustNormal Then
-            lbAdjustNormal.BackColor = &H80FFFF
-            Result = autoAdjustColorTemperature_Offset(valColorTempNormal, FixG, LowBri)
-
-            If Result = False Then
-                ShowError_Sys (13)
-                GoTo FAIL
-            Else
-                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
-            End If
-    
-            lbAdjustNormal.BackColor = &HC0FFC0
-        End If
-   
-        If isAdjustWarm1 Then
-            lbAdjustWARM_1.BackColor = &H80FFFF
-            Result = autoAdjustColorTemperature_Offset(valColorTempWarm1, FixG, LowBri)
-                
-            If Result = False Then
-                ShowError_Sys (14)
-                GoTo FAIL
-            Else
-                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
-            End If
-
-            lbAdjustWARM_1.BackColor = &HC0FFC0
-        End If
-    End If
-
     Call frmCmbType.ChangePattern("103")
     DelayMS delayTime
     
@@ -709,6 +660,55 @@ ADJUST_GAIN_AGAIN_WARM1:
         End If
     End If
 
+    If isAdjustOffset Then
+        Label6.Caption = "GREY"
+
+        Call frmCmbType.ChangePattern("109")
+        DelayMS delayTime
+
+        If isAdjustCool1 Then
+            lbAdjustCOOL_1.BackColor = &H80FFFF
+            Result = autoAdjustColorTemperature_Offset(valColorTempCool1, FixG, LowBri)
+                
+            If Result = False Then
+                ShowError_Sys (11)
+                GoTo FAIL
+            Else
+                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+            End If
+   
+            lbAdjustCOOL_1.BackColor = &HC0FFC0
+        End If
+   
+        If isAdjustNormal Then
+            lbAdjustNormal.BackColor = &H80FFFF
+            Result = autoAdjustColorTemperature_Offset(valColorTempNormal, FixG, LowBri)
+
+            If Result = False Then
+                ShowError_Sys (13)
+                GoTo FAIL
+            Else
+                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+            End If
+    
+            lbAdjustNormal.BackColor = &HC0FFC0
+        End If
+   
+        If isAdjustWarm1 Then
+            lbAdjustWARM_1.BackColor = &H80FFFF
+            Result = autoAdjustColorTemperature_Offset(valColorTempWarm1, FixG, LowBri)
+                
+            If Result = False Then
+                ShowError_Sys (14)
+                GoTo FAIL
+            Else
+                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+            End If
+
+            lbAdjustWARM_1.BackColor = &HC0FFC0
+        End If
+    End If
+
     If isCheckColorTemp Then
 CHECK_COOL1:
         If isAdjustCool1 Then
@@ -724,6 +724,12 @@ CHECK_COOL1:
                 End If
                 
                 adjustGainAgainCool1Flag = adjustGainAgainCool1Flag + 1
+                
+                If isAdjustOffset Then
+                    Call frmCmbType.ChangePattern("103")
+                    DelayMS delayTime
+                End If
+                
                 GoTo ADJUST_GAIN_AGAIN_COOL1
             End If
       
@@ -744,6 +750,12 @@ CHECK_NORMAL:
                 End If
     
                 adjustGainAgainNormalFlag = adjustGainAgainNormalFlag + 1
+                
+                If isAdjustOffset Then
+                    Call frmCmbType.ChangePattern("103")
+                    DelayMS delayTime
+                End If
+
                 GoTo ADJUST_GAIN_AGAIN_NORMAL
             End If
     
@@ -764,6 +776,12 @@ CHECK_WARM1:
                 End If
     
                 adjustGainAgainWarm1Flag = adjustGainAgainWarm1Flag + 1
+                
+                If isAdjustOffset Then
+                    Call frmCmbType.ChangePattern("103")
+                    DelayMS delayTime
+                End If
+                
                 GoTo ADJUST_GAIN_AGAIN_WARM1
             End If
 
@@ -1001,7 +1019,7 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
     DelayMS delayTime
 
     ' Set Offset first
-    If Not isAdjustOffset Then
+    If adjustGainAgainCool1Flag = 0 Then
         Call setColorTemp(ColorTemp, presetData, 0)
         DelayMS delayTime
         
@@ -1085,12 +1103,13 @@ End Function
 
 Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
-  
+
+    Call clsCommProtocal.SelColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
+    DelayMS delayTime
+
     Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
   
     For j = 1 To 2
-        Call clsCommProtocal.SelColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
-
         Call setColorTemp(ColorTemp, presetData, HighLowMode)
         DelayMS delayTime
         Log_Info "Init current colorTemp. RES:" + Str$(RES)
@@ -1103,45 +1122,38 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
 
         Call clsCommProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
-        If False Then
-            showData (3)
+        showData (3)
 
-            For k = 1 To 50
-                If IsStop = True Then GoTo Cancel
+        For k = 1 To 50
+            If IsStop = True Then GoTo Cancel
                 
-                RES = checkColorTempOffset(rColor, ColorTemp)
-                Log_Info "Check colorTemp. RES:" + Str$(RES)
+            RES = checkColorTempOffset(rColor, ColorTemp)
+            Log_Info "Check colorTemp. RES:" + Str$(RES)
     
-                If RES Then Exit For
-                If RES = False Then
-                    If gstrBrand = "CIBN" Then
-                        Call adjustColorTempForCIBN(rRGB)
-                    Else
-                        Call adjustColorTempOffset(FixValue, AdjustSingle, SingleStep, rRGB)
-                    End If
+            If RES Then Exit For
+            If RES = False Then
+                If gstrBrand = "CIBN" Then
+                    Call adjustColorTempForCIBN(rRGB)
+                Else
+                    Call adjustColorTempOffset(FixValue, AdjustSingle, SingleStep, rRGB)
+                End If
                     
-                    Log_Info "SET_RGB_OFFSET: R = " & CStr(rRGB.cRR) & _
+                Log_Info "SET_RGB_OFFSET: R = " & CStr(rRGB.cRR) & _
                     ", G = " & CStr(rRGB.cGG) & ", B = " & CStr(rRGB.cBB)
 
-                    Call clsCommProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
+                Call clsCommProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
     
-                    showData (4)
-                End If
+                showData (4)
+            End If
     
-                DelayMS 200
-            Next k
-        Else
-            Call saveData(ColorTemp, HighLowMode)
-            autoAdjustColorTemperature_Offset = True
-            
-            Exit Function
-        End If
+            DelayMS 200
+        Next k
 
         If RES Then Exit For
 
         DelayMS delayTime
     Next j
- 
+
 Cancel:
     If RES Then
         Call saveData(ColorTemp, HighLowMode)
