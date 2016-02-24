@@ -515,12 +515,12 @@ Option Explicit
 Dim RES As Long
 Dim Result As Boolean
 Dim presetData As COLORTEMPSPEC
-Dim c12000K As COLORTEMPSPEC
-Dim c10000K As COLORTEMPSPEC
-Dim c6500K As COLORTEMPSPEC
-Dim cFF12000K As COLORTEMPSPEC
-Dim cFF10000K As COLORTEMPSPEC
-Dim cFF6500K As COLORTEMPSPEC
+Dim cCOOL1 As COLORTEMPSPEC
+Dim cNORMAL As COLORTEMPSPEC
+Dim cWARM1 As COLORTEMPSPEC
+Dim cFFCOOL1 As COLORTEMPSPEC
+Dim cFFNORMAL As COLORTEMPSPEC
+Dim cFFWARM1 As COLORTEMPSPEC
 Dim rColor As REALCOLOR
 Dim rColorLastChk As REALCOLOR
 Dim Calibrate, MinBrightness As Long
@@ -1486,53 +1486,53 @@ Private Sub saveData(strColorTemp As String, HL As Long)
     Select Case strColorTemp
         Case cstrColorTempCool1
             If HL Then
-                c12000K.xx = rColor.xx
-                c12000K.yy = rColor.yy
-                c12000K.lv = rColor.lv
-                c12000K.nColorRR = rRGB.cRR
-                c12000K.nColorGG = rRGB.cGG
-                c12000K.nColorBB = rRGB.cBB
+                cCOOL1.xx = rColor.xx
+                cCOOL1.yy = rColor.yy
+                cCOOL1.lv = rColor.lv
+                cCOOL1.nColorRR = rRGB.cRR
+                cCOOL1.nColorGG = rRGB.cGG
+                cCOOL1.nColorBB = rRGB.cBB
             Else
-                cFF12000K.xx = rColor.xx
-                cFF12000K.yy = rColor.yy
-                cFF12000K.lv = rColor.lv
-                cFF12000K.nColorRR = rRGB.cRR
-                cFF12000K.nColorGG = rRGB.cGG
-                cFF12000K.nColorBB = rRGB.cBB
+                cFFCOOL1.xx = rColor.xx
+                cFFCOOL1.yy = rColor.yy
+                cFFCOOL1.lv = rColor.lv
+                cFFCOOL1.nColorRR = rRGB.cRR
+                cFFCOOL1.nColorGG = rRGB.cGG
+                cFFCOOL1.nColorBB = rRGB.cBB
             End If
 
         Case cstrColorTempNormal
             If HL Then
-                c10000K.xx = rColor.xx
-                c10000K.yy = rColor.yy
-                c10000K.lv = rColor.lv
-                c10000K.nColorRR = rRGB.cRR
-                c10000K.nColorGG = rRGB.cGG
-                c10000K.nColorBB = rRGB.cBB
+                cNORMAL.xx = rColor.xx
+                cNORMAL.yy = rColor.yy
+                cNORMAL.lv = rColor.lv
+                cNORMAL.nColorRR = rRGB.cRR
+                cNORMAL.nColorGG = rRGB.cGG
+                cNORMAL.nColorBB = rRGB.cBB
             Else
-                cFF10000K.xx = rColor.xx
-                cFF10000K.yy = rColor.yy
-                cFF10000K.lv = rColor.lv
-                cFF10000K.nColorRR = rRGB.cRR
-                cFF10000K.nColorGG = rRGB.cGG
-                cFF10000K.nColorBB = rRGB.cBB
+                cFFNORMAL.xx = rColor.xx
+                cFFNORMAL.yy = rColor.yy
+                cFFNORMAL.lv = rColor.lv
+                cFFNORMAL.nColorRR = rRGB.cRR
+                cFFNORMAL.nColorGG = rRGB.cGG
+                cFFNORMAL.nColorBB = rRGB.cBB
             End If
 
         Case cstrColorTempWarm1
             If HL Then
-                c6500K.xx = rColor.xx
-                c6500K.yy = rColor.yy
-                c6500K.lv = rColor.lv
-                c6500K.nColorRR = rRGB.cRR
-                c6500K.nColorGG = rRGB.cGG
-                c6500K.nColorBB = rRGB.cBB
+                cWARM1.xx = rColor.xx
+                cWARM1.yy = rColor.yy
+                cWARM1.lv = rColor.lv
+                cWARM1.nColorRR = rRGB.cRR
+                cWARM1.nColorGG = rRGB.cGG
+                cWARM1.nColorBB = rRGB.cBB
             Else
-                cFF6500K.xx = rColor.xx
-                cFF6500K.yy = rColor.yy
-                cFF6500K.lv = rColor.lv
-                cFF6500K.nColorRR = rRGB.cRR
-                cFF6500K.nColorGG = rRGB.cGG
-                cFF6500K.nColorBB = rRGB.cBB
+                cFFWARM1.xx = rColor.xx
+                cFFWARM1.yy = rColor.yy
+                cFFWARM1.lv = rColor.lv
+                cFFWARM1.nColorRR = rRGB.cRR
+                cFFWARM1.nColorGG = rRGB.cGG
+                cFFWARM1.nColorBB = rRGB.cBB
             End If
     End Select
   
@@ -1542,35 +1542,35 @@ Private Sub LoadData(strColorTemp As String, isGain As Boolean)
     Select Case strColorTemp
         Case cstrColorTempCool1
             If isGain Then
-                rRGB1.cRR = c12000K.nColorRR
-                rRGB1.cGG = c12000K.nColorGG
-                rRGB1.cBB = c12000K.nColorBB
+                rRGB1.cRR = cCOOL1.nColorRR
+                rRGB1.cGG = cCOOL1.nColorGG
+                rRGB1.cBB = cCOOL1.nColorBB
             Else
-                rRGB1.cRR = cFF12000K.nColorRR
-                rRGB1.cGG = cFF12000K.nColorGG
-                rRGB1.cBB = cFF12000K.nColorBB
+                rRGB1.cRR = cFFCOOL1.nColorRR
+                rRGB1.cGG = cFFCOOL1.nColorGG
+                rRGB1.cBB = cFFCOOL1.nColorBB
             End If
             
         Case cstrColorTempNormal
             If isGain Then
-                rRGB1.cRR = c10000K.nColorRR
-                rRGB1.cGG = c10000K.nColorGG
-                rRGB1.cBB = c10000K.nColorBB
+                rRGB1.cRR = cNORMAL.nColorRR
+                rRGB1.cGG = cNORMAL.nColorGG
+                rRGB1.cBB = cNORMAL.nColorBB
             Else
-                rRGB1.cRR = cFF10000K.nColorRR
-                rRGB1.cGG = cFF10000K.nColorGG
-                rRGB1.cBB = cFF10000K.nColorBB
+                rRGB1.cRR = cFFNORMAL.nColorRR
+                rRGB1.cGG = cFFNORMAL.nColorGG
+                rRGB1.cBB = cFFNORMAL.nColorBB
             End If
             
         Case cstrColorTempWarm1
             If isGain Then
-                rRGB1.cRR = c6500K.nColorRR
-                rRGB1.cGG = c6500K.nColorGG
-                rRGB1.cBB = c6500K.nColorBB
+                rRGB1.cRR = cWARM1.nColorRR
+                rRGB1.cGG = cWARM1.nColorGG
+                rRGB1.cBB = cWARM1.nColorBB
             Else
-                rRGB1.cRR = cFF6500K.nColorRR
-                rRGB1.cGG = cFF6500K.nColorGG
-                rRGB1.cBB = cFF6500K.nColorBB
+                rRGB1.cRR = cFFWARM1.nColorRR
+                rRGB1.cGG = cFFWARM1.nColorGG
+                rRGB1.cBB = cFFWARM1.nColorBB
             End If
     End Select
 End Sub
@@ -1586,31 +1586,31 @@ Private Sub saveALLcData()
         rs.Fields(0) = gstrCurProjName
         rs.Fields(1) = strSerialNo
 
-        rs.Fields(2) = c12000K.xx
-        rs.Fields(3) = c12000K.yy
-        rs.Fields(4) = c12000K.nColorRR
-        rs.Fields(5) = c12000K.nColorGG
-        rs.Fields(6) = c12000K.nColorBB
-        rs.Fields(7) = c10000K.xx
-        rs.Fields(8) = c10000K.yy
-        rs.Fields(9) = c10000K.nColorRR
-        rs.Fields(10) = c10000K.nColorGG
-        rs.Fields(11) = c10000K.nColorBB
-        rs.Fields(12) = c6500K.xx
-        rs.Fields(13) = c6500K.yy
-        rs.Fields(14) = c6500K.nColorRR
-        rs.Fields(15) = c6500K.nColorGG
-        rs.Fields(16) = c6500K.nColorBB
+        rs.Fields(2) = cCOOL1.xx
+        rs.Fields(3) = cCOOL1.yy
+        rs.Fields(4) = cCOOL1.nColorRR
+        rs.Fields(5) = cCOOL1.nColorGG
+        rs.Fields(6) = cCOOL1.nColorBB
+        rs.Fields(7) = cNORMAL.xx
+        rs.Fields(8) = cNORMAL.yy
+        rs.Fields(9) = cNORMAL.nColorRR
+        rs.Fields(10) = cNORMAL.nColorGG
+        rs.Fields(11) = cNORMAL.nColorBB
+        rs.Fields(12) = cWARM1.xx
+        rs.Fields(13) = cWARM1.yy
+        rs.Fields(14) = cWARM1.nColorRR
+        rs.Fields(15) = cWARM1.nColorGG
+        rs.Fields(16) = cWARM1.nColorBB
         
-        rs.Fields(17) = cFF12000K.nColorRR
-        rs.Fields(18) = cFF12000K.nColorGG
-        rs.Fields(19) = cFF12000K.nColorBB
-        rs.Fields(20) = cFF10000K.nColorRR
-        rs.Fields(21) = cFF10000K.nColorGG
-        rs.Fields(22) = cFF10000K.nColorBB
-        rs.Fields(23) = cFF6500K.nColorRR
-        rs.Fields(24) = cFF6500K.nColorGG
-        rs.Fields(25) = cFF6500K.nColorBB
+        rs.Fields(17) = cFFCOOL1.nColorRR
+        rs.Fields(18) = cFFCOOL1.nColorGG
+        rs.Fields(19) = cFFCOOL1.nColorBB
+        rs.Fields(20) = cFFNORMAL.nColorRR
+        rs.Fields(21) = cFFNORMAL.nColorGG
+        rs.Fields(22) = cFFNORMAL.nColorBB
+        rs.Fields(23) = cFFWARM1.nColorRR
+        rs.Fields(24) = cFFWARM1.nColorGG
+        rs.Fields(25) = cFFWARM1.nColorBB
 
         rs.Fields(26) = rColorLastChk.lv
         rs.Fields(27) = maxBrightnessSpec
