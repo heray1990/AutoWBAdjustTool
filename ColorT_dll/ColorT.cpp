@@ -43,75 +43,75 @@ COLORT_API int _stdcall initColorTemp(BOOL *pCalibraEN,
 									  char* ModelFile,
 									  char* pCurDir)
 {
-	int tempRx=0,tempRy=0,tempGx=0,tempGy=0,tempBx=0,tempBy=0;
+	int tempRx = 0, tempRy = 0, tempGx = 0, tempGy = 0, tempBx = 0, tempBy = 0;
 
 	//::GetCurrentDirectory(512,buf);
-	strcpy(buf,pCurDir);
-	strcat(buf,"\\");
-	strcat(buf,ModelFile);
-	strcat(buf,"\\CONFIG.ini");
+	strcpy(buf, pCurDir);
+	strcat(buf, "\\");
+	strcat(buf, ModelFile);
+	strcat(buf, "\\CONFIG.ini");
   
-	maxColorRGB_OFF=GetPrivateProfileInt("Color_Level_RGB_OFF","####max",nDefault,buf);
-	minColorRGB_OFF=GetPrivateProfileInt("Color_Level_RGB_OFF","####min",nDefault,buf);	
-	maxColorRGB_GAN=GetPrivateProfileInt("Color_Level_RGB_GAN","####max",nDefault,buf);
-	minColorRGB_GAN=GetPrivateProfileInt("Color_Level_RGB_GAN","####min",nDefault,buf);
+	maxColorRGB_OFF = GetPrivateProfileInt("Color_Level_RGB_OFF", "####max", nDefault, buf);
+	minColorRGB_OFF = GetPrivateProfileInt("Color_Level_RGB_OFF", "####min", nDefault, buf);	
+	maxColorRGB_GAN = GetPrivateProfileInt("Color_Level_RGB_GAN", "####max", nDefault, buf);
+	minColorRGB_GAN = GetPrivateProfileInt("Color_Level_RGB_GAN", "####min", nDefault, buf);
 	
-	*pCalibraEN=GetPrivateProfileInt("AutoColor_Enable","####",nDefault,buf);
-	*pMiniBriEN=GetPrivateProfileInt("MiniBrightness_Enable","####",nDefault,buf);
+	*pCalibraEN = GetPrivateProfileInt("AutoColor_Enable", "####", nDefault, buf);
+	*pMiniBriEN = GetPrivateProfileInt("MiniBrightness_Enable", "####", nDefault, buf);
 
-	//12000K
-	getdata(&Spec12000K,"COOL1");
-	//10000K
-    getdata(&Spec10000K,"NORMAL");
-	//6500K
-    getdata(&Spec6500K,"WARM1");
+	// COOL1
+	getdata(&SpecCool1, "COOL1");
+	// NORMAL
+    getdata(&SpecNormal, "NORMAL");
+	// WARM1
+    getdata(&SpecWarm1, "WARM1");
 
     return true;
 }
 
 COLORT_API int _stdcall DeinitColorTemp(char* ModelFile)
 {
-	savedata(&Spec12000K,"COOL1");
-	savedata(&Spec10000K,"NORMAL");
-	savedata(&Spec6500K,"WARM1");
+	savedata(&SpecCool1, "COOL1");
+	savedata(&SpecNormal, "NORMAL");
+	savedata(&SpecWarm1, "WARM1");
 
     return true;
 }
 
-COLORT_API int _stdcall setColorTemp(int colorTemp, pCOLORSPEC pSpecData,int GANref)
+COLORT_API int _stdcall setColorTemp(char* colorTemp, pCOLORSPEC pSpecData,int GANref)
 {
-	switch (colorTemp)
+	if (strcmp(colorTemp, "COOL1") == 0)
 	{
-       case 12000: 
-           PrimaryData=Spec12000K;
-		   break;
-	   case 10000: 
-           PrimaryData=Spec10000K;
-		   break;  
-	   case 6500:
-		   PrimaryData=Spec6500K; 
-		   break;
-       default:
-		   break;
+		PrimaryData = SpecCool1;
 	}
-    AdjustGAN=GANref;    
-    pSpecData->sx=PrimaryData.sx;
-    pSpecData->sy=PrimaryData.sy;
-	pSpecData->LimLV=PrimaryData.LimLV;
-	if (AdjustGAN==1)
+	else if (strcmp(colorTemp, "NORMAL") == 0)
 	{
-		pSpecData->PriRR=CalcRGB.cRR=PrimaryData.PriRR;
-		pSpecData->PriGG=CalcRGB.cGG=PrimaryData.PriGG;
-		pSpecData->PriBB=CalcRGB.cBB=PrimaryData.PriBB;
+		PrimaryData = SpecNormal;
+	}
+	else if (strcmp(colorTemp, "WARM1") == 0)
+	{
+		PrimaryData = SpecWarm1; 
+	}
+
+	AdjustGAN = GANref;    
+	pSpecData->sx = PrimaryData.sx;
+	pSpecData->sy = PrimaryData.sy;
+	pSpecData->LimLV = PrimaryData.LimLV;
+
+	if (AdjustGAN == 1)
+	{
+		pSpecData->PriRR = CalcRGB.cRR = PrimaryData.PriRR;
+		pSpecData->PriGG = CalcRGB.cGG = PrimaryData.PriGG;
+		pSpecData->PriBB = CalcRGB.cBB = PrimaryData.PriBB;
 	}
 	else
 	{
-        pSpecData->PriRR=CalcRGB.cRR=PrimaryData.LowRR;
-	    pSpecData->PriGG=CalcRGB.cGG=PrimaryData.LowGG;
-        pSpecData->PriBB=CalcRGB.cBB=PrimaryData.LowBB;
+        pSpecData->PriRR = CalcRGB.cRR = PrimaryData.LowRR;
+	    pSpecData->PriGG = CalcRGB.cGG = PrimaryData.LowGG;
+        pSpecData->PriBB = CalcRGB.cBB = PrimaryData.LowBB;
 	}
-	pSpecData->xt=PrimaryData.xt;
-    pSpecData->yt=PrimaryData.yt;
+	pSpecData->xt = PrimaryData.xt;
+    pSpecData->yt = PrimaryData.yt;
 //	CalcGainRx=GainRx;
 //	CalcGainRy=GainRy;
 //	CalcGainGx=GainGx;
@@ -122,14 +122,14 @@ COLORT_API int _stdcall setColorTemp(int colorTemp, pCOLORSPEC pSpecData,int GAN
 
 //    delay(tolTime);
 
-	if (TRUE==CheckRGBisInRangeOkorNO(PrimaryData))
+	if (TRUE == CheckRGBisInRangeOkorNO(PrimaryData))
 	{
         return true;
     }
     return CalcRGB.cRR;
 }
 
-COLORT_API int _stdcall checkColorTemp(pREALCOLOR pGetColor,int colorTemp)
+COLORT_API int _stdcall checkColorTemp(pREALCOLOR pGetColor,char* colorTemp)
 {
 	ca_x = pGetColor->sx;
 	ca_y = pGetColor->sy;
@@ -153,39 +153,10 @@ COLORT_API int _stdcall checkColorTemp(pREALCOLOR pGetColor,int colorTemp)
     PrimaryData.PriBB = CalcRGB.cBB;
 	ReLoadRGB(colorTemp);
 
-	if (AdjustGAN == 1)
-	{
-	    if (ca_lv < PrimaryData.LimLV) return false;
-	}
-	return true;
-}
-
-COLORT_API int _stdcall checkColorTempOffset(pREALCOLOR pGetColor,int colorTemp)
-{
-	ca_x = pGetColor->sx;
-	ca_y = pGetColor->sy;
-	ca_lv = pGetColor->Lv;
-
-    if ((ca_x < PrimaryData.sx - 100) ||
-		(ca_x > PrimaryData.sx + 100) ||
-		(ca_y < PrimaryData.sy - 100) ||
-		(ca_y > PrimaryData.sy + 100))
-	{
-	   PrimaryData.PriRR = CalcRGB.cRR;
-	   PrimaryData.PriGG = CalcRGB.cGG;
-	   PrimaryData.PriBB = CalcRGB.cBB;
-       return false;
-	}
-
-    PrimaryData.PriRR = CalcRGB.cRR;           //For stepbystep adjust.
-    PrimaryData.PriGG = CalcRGB.cGG;
-    PrimaryData.PriBB = CalcRGB.cBB;
-	//ReLoadRGB(colorTemp);
-
-	if (AdjustGAN == 1)
-	{
-	    if (ca_lv < PrimaryData.LimLV) return false;
-	}
+	//if (AdjustGAN == 1)
+	//{
+	    //if (ca_lv < PrimaryData.LimLV) return false;
+	//}
 	return true;
 }
 
@@ -212,21 +183,19 @@ void AverageData(pCOLORSPEC pColorST)
 	GainBy=(GainBy+CalcGainBy)/2;*/
 }
 
-void ReLoadRGB(int colorTemp)
+void ReLoadRGB(char* colorTemp)
 {
-	switch (colorTemp)
+	if (strcmp(colorTemp, "COOL1") == 0)
 	{
-	   case 12000:  
-           AverageData(&Spec12000K);
-		   break;
-	   case 10000:  
-           AverageData(&Spec10000K);
-		   break;
-	   case 6500: 
-           AverageData(&Spec6500K);
-		   break;
-       default:
-		   break;
+		AverageData(&SpecCool1);
+	}
+	else if (strcmp(colorTemp, "NORMAL") == 0)
+	{
+		AverageData(&SpecNormal);
+	}
+	else if (strcmp(colorTemp, "WARM1") == 0)
+	{
+		AverageData(&SpecWarm1); 
 	}
 }
 
@@ -304,11 +273,11 @@ COLORT_API int _stdcall  adjustColorTempForCIBN(pREALRGB pAdjRGB)
 
     VerifyRGB(CalcRGB.cRR);
     VerifyRGB(CalcRGB.cBB);
-	pAdjRGB->cRR=CalcRGB.cRR;
-    pAdjRGB->cGG=CalcRGB.cGG;
-	pAdjRGB->cBB=CalcRGB.cBB;
-    return true;
+	pAdjRGB->cRR = CalcRGB.cRR;
+    pAdjRGB->cGG = CalcRGB.cGG;
+	pAdjRGB->cBB = CalcRGB.cBB;
 
+    return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -642,81 +611,45 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 	pAdjRGB->cRR = CalcRGB.cRR;
     pAdjRGB->cGG = CalcRGB.cGG;
 	pAdjRGB->cBB = CalcRGB.cBB;
-    return true;
 
+    return true;
 }
 
-COLORT_API int _stdcall  adjustColorTempOffset(int FixValue, BOOL xyAdjMode, BOOL AdjStep, pREALRGB pAdjRGB)
+COLORT_API int _stdcall  adjustColorTempOffset(pREALRGB pAdjRGB)
 {
-	switch (FixValue)
+	if (ca_y < PrimaryData.sy - PrimaryData.yt)
 	{
-		case 3:   //  "FixBB"
-			if (AdjStep)    //microStep
-			{
-				if (xyAdjMode)    //yf
-				{
-				}
-				else    //xf&yf
-				{
-				}
-			}
-			else            //StepbyStep
-			{
-			}
-			break;
-		case 1:   //  "FixRR"
-			//TODO
-			return false;
-			break;
-		case 2:   //  "FixGG"
-			if (AdjStep)    //microStep
-			{
-				if (xyAdjMode)    //yf
-				{
-				}
-				else    //xf&yf
-				{
-				}
-			}
-			else            //StepbyStep
-			{
-				if (ca_y < PrimaryData.sy - 100)
-				{
-					CalcRGB.cBB = PrimaryData.PriBB - 1; 
-				}
-				else
-				{
-					if (ca_y > PrimaryData.sy + 100)
-					{
-						CalcRGB.cBB = PrimaryData.PriBB + 1;
-					}
-					else
-					{
-						if (ca_x > PrimaryData.sx + 100)
-						{
-							CalcRGB.cRR = PrimaryData.PriRR - 1;
-						}
-						else
-						{
-							if (ca_x < PrimaryData.sx - 100)
-							{
-								CalcRGB.cRR = PrimaryData.PriRR + 1;
-							}
-						}
-					}
-				}
-			}
-			break;
-		default:
-			break;
+		CalcRGB.cBB = PrimaryData.PriBB - 1;
 	}
+	else
+	{
+		if (ca_y > PrimaryData.sy + PrimaryData.yt)
+		{
+			CalcRGB.cBB = PrimaryData.PriBB + 1;
+		}
+		else
+		{
+			if (ca_x > PrimaryData.sx + PrimaryData.xt)
+			{
+				CalcRGB.cRR = PrimaryData.PriRR - 1;
+			}
+			else
+			{
+				if (ca_x < PrimaryData.sx - PrimaryData.xt)
+				{
+					CalcRGB.cRR = PrimaryData.PriRR + 1;
+				}
+			}
+		}
+	}
+
     VerifyRGB(CalcRGB.cRR);
     VerifyRGB(CalcRGB.cBB);
-	pAdjRGB->cRR=CalcRGB.cRR;
-	pAdjRGB->cGG=CalcRGB.cGG;
-	pAdjRGB->cBB=CalcRGB.cBB;
-	
-	return true;
+	pAdjRGB->cRR = CalcRGB.cRR;
+    pAdjRGB->cGG = CalcRGB.cGG;
+	pAdjRGB->cBB = CalcRGB.cBB;
+
+    return true;
 }
 
 /*
@@ -750,28 +683,37 @@ void delay(unsigned milliseconds)
 		}
 		else
 		{
-	        WritePrivateProfileString(lowset,"###R",_itoa(pColorST->LowRR,strTemp,10),buf);
-     	    WritePrivateProfileString(lowset,"###G",_itoa(pColorST->LowGG,strTemp,10),buf);
-	        WritePrivateProfileString(lowset,"###B",_itoa(pColorST->LowBB,strTemp,10),buf);	
+	        WritePrivateProfileString(lowset, "###R", _itoa(pColorST->LowRR, strTemp, 10), buf);
+     	    WritePrivateProfileString(lowset, "###G", _itoa(pColorST->LowGG, strTemp, 10), buf);
+	        WritePrivateProfileString(lowset, "###B", _itoa(pColorST->LowBB, strTemp, 10), buf);	
 		}
-	
 	}
-return true;
+	return true;
 }
 
 
 BOOL CheckRGBisInRangeOkorNO(COLORSPEC rgb)
 {
-	if (AdjustGAN==1)
+	if (AdjustGAN == 1)
 	{
-		if (rgb.PriRR<=minColorRGB_GAN||rgb.PriRR>maxColorRGB_GAN||rgb.PriGG<=minColorRGB_GAN||rgb.PriGG>maxColorRGB_GAN||rgb.PriBB<=minColorRGB_GAN||rgb.PriBB>maxColorRGB_GAN)
+		if (rgb.PriRR <= minColorRGB_GAN
+			|| rgb.PriRR > maxColorRGB_GAN
+			|| rgb.PriGG <= minColorRGB_GAN
+			|| rgb.PriGG > maxColorRGB_GAN
+			|| rgb.PriBB <= minColorRGB_GAN
+			|| rgb.PriBB > maxColorRGB_GAN)
 			return false;
 	    else
 			return TRUE;
 	}
 	else
 	{
-	    if (rgb.LowRR<=minColorRGB_OFF||rgb.LowRR>maxColorRGB_OFF||rgb.LowGG<=minColorRGB_OFF||rgb.LowGG>maxColorRGB_OFF||rgb.LowBB<=minColorRGB_OFF||rgb.LowBB>maxColorRGB_OFF)
+	    if (rgb.LowRR <= minColorRGB_OFF
+			|| rgb.LowRR > maxColorRGB_OFF
+			|| rgb.LowGG <= minColorRGB_OFF
+			|| rgb.LowGG > maxColorRGB_OFF
+			|| rgb.LowBB <= minColorRGB_OFF
+			|| rgb.LowBB > maxColorRGB_OFF)
 			return false;
 	    else
 			return TRUE;
@@ -796,22 +738,22 @@ void VerifyRGB(unsigned int& RGB)
 	}
 }
 
-int getdata(pCOLORSPEC pColorST,char* CT)
+int getdata(pCOLORSPEC pColorST, char* CT)
 {
 //	char strTemp[16];
-	char spec[32]="SPEC_";
-	char preset[32]="PRESET_GAN_";
-    char tol[32]="TOL_";
-	char chk[32]="CHK_";
-	char lowset[32]="PRESET_OFF_";
-	char magicValX[32]="MAGIC_VAL_X";
-	char magicValY[32]="MAGIC_VAL_Y";
+	char spec[32] = "SPEC_";
+	char preset[32] = "PRESET_GAN_";
+    char tol[32] = "TOL_";
+	char chk[32] = "CHK_";
+	char lowset[32] = "PRESET_OFF_";
+	char magicValX[32] = "MAGIC_VAL_X";
+	char magicValY[32] = "MAGIC_VAL_Y";
 
-    strcat(spec,CT);
-    strcat(preset,CT);
-	strcat(tol,CT);
-	strcat(chk,CT);
-    strcat(lowset,CT);
+    strcat(spec, CT);
+    strcat(preset, CT);
+	strcat(tol, CT);
+	strcat(chk, CT);
+    strcat(lowset, CT);
     pColorST->sx = GetPrivateProfileInt(spec, "##x", nDefault,buf);
     pColorST->sy = GetPrivateProfileInt(spec, "##y", nDefault, buf);
     pColorST->LimLV = GetPrivateProfileInt(spec, "##Lv", nDefault, buf);

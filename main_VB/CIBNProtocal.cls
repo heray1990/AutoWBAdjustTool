@@ -190,19 +190,19 @@ Private Sub CommunicationProtocal_SetBacklight(intBacklight As Integer)
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SelColorTemp(lngColorT As Long, strInputSrc As String, intSrcNum As Integer)
+Private Sub CommunicationProtocal_SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)
     '55 02 01 XX 00 00 00 00 00 00 CHK FE
 
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H2
     mSendDataBuf(2) = &H1
 
-    Select Case lngColorT
-        Case valColorTempCool1
+    Select Case strColorT
+        Case cstrColorTempCool1
             mSendDataBuf(3) = &H0
-        Case valColorTempNormal
+        Case cstrColorTempNormal
             mSendDataBuf(3) = &H1
-        Case valColorTempWarm1
+        Case cstrColorTempWarm1
             mSendDataBuf(3) = &H2
     End Select
 

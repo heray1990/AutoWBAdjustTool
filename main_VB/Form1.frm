@@ -515,12 +515,12 @@ Option Explicit
 Dim RES As Long
 Dim Result As Boolean
 Dim presetData As COLORTEMPSPEC
-Dim c12000K As COLORTEMPSPEC
-Dim c10000K As COLORTEMPSPEC
-Dim c6500K As COLORTEMPSPEC
-Dim cFF12000K As COLORTEMPSPEC
-Dim cFF10000K As COLORTEMPSPEC
-Dim cFF6500K As COLORTEMPSPEC
+Dim cCOOL1 As COLORTEMPSPEC
+Dim cNORMAL As COLORTEMPSPEC
+Dim cWARM1 As COLORTEMPSPEC
+Dim cFFCOOL1 As COLORTEMPSPEC
+Dim cFFNORMAL As COLORTEMPSPEC
+Dim cFFWARM1 As COLORTEMPSPEC
 Dim rColor As REALCOLOR
 Dim rColorLastChk As REALCOLOR
 Dim Calibrate, MinBrightness As Long
@@ -598,55 +598,6 @@ On Error GoTo ErrExit
         DelayMS delayTime
     End If
 
-    If isAdjustOffset Then
-        Label6.Caption = "GREY"
-
-        Call frmCmbType.ChangePattern("110")
-        DelayMS delayTime
-
-        If isAdjustCool1 Then
-            lbAdjustCOOL_1.BackColor = &H80FFFF
-            Result = autoAdjustColorTemperature_Offset(valColorTempCool1, FixG, LowBri)
-                
-            If Result = False Then
-                ShowError_Sys (11)
-                GoTo FAIL
-            Else
-                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
-            End If
-   
-            lbAdjustCOOL_1.BackColor = &HC0FFC0
-        End If
-   
-        If isAdjustNormal Then
-            lbAdjustNormal.BackColor = &H80FFFF
-            Result = autoAdjustColorTemperature_Offset(valColorTempNormal, FixG, LowBri)
-
-            If Result = False Then
-                ShowError_Sys (13)
-                GoTo FAIL
-            Else
-                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
-            End If
-    
-            lbAdjustNormal.BackColor = &HC0FFC0
-        End If
-   
-        If isAdjustWarm1 Then
-            lbAdjustWARM_1.BackColor = &H80FFFF
-            Result = autoAdjustColorTemperature_Offset(valColorTempWarm1, FixG, LowBri)
-                
-            If Result = False Then
-                ShowError_Sys (14)
-                GoTo FAIL
-            Else
-                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
-            End If
-
-            lbAdjustWARM_1.BackColor = &HC0FFC0
-        End If
-    End If
-
     Call frmCmbType.ChangePattern("103")
     DelayMS delayTime
     
@@ -655,7 +606,7 @@ On Error GoTo ErrExit
 ADJUST_GAIN_AGAIN_COOL1:
     If isAdjustCool1 Then
         lbAdjustCOOL_1.BackColor = &H80FFFF
-        Result = autoAdjustColorTemperature_Gain(valColorTempCool1, adjustMode3, HighBri)
+        Result = autoAdjustColorTemperature_Gain(cstrColorTempCool1, adjustMode3, HighBri)
   
         If Result = False Then
             ShowError_Sys (1)
@@ -674,7 +625,7 @@ ADJUST_GAIN_AGAIN_COOL1:
 ADJUST_GAIN_AGAIN_NORMAL:
     If isAdjustNormal Then
         lbAdjustNormal.BackColor = &H80FFFF
-        Result = autoAdjustColorTemperature_Gain(valColorTempNormal, adjustMode3, HighBri)
+        Result = autoAdjustColorTemperature_Gain(cstrColorTempNormal, adjustMode3, HighBri)
 
         If Result = False Then
             ShowError_Sys (3)
@@ -693,7 +644,7 @@ ADJUST_GAIN_AGAIN_NORMAL:
 ADJUST_GAIN_AGAIN_WARM1:
     If isAdjustWarm1 Then
         lbAdjustWARM_1.BackColor = &H80FFFF
-        Result = autoAdjustColorTemperature_Gain(valColorTempWarm1, adjustMode3, HighBri)
+        Result = autoAdjustColorTemperature_Gain(cstrColorTempWarm1, adjustMode3, HighBri)
 
         If Result = False Then
             ShowError_Sys (4)
@@ -709,12 +660,65 @@ ADJUST_GAIN_AGAIN_WARM1:
         End If
     End If
 
+    If isAdjustOffset Then
+        Label6.Caption = "GREY"
+
+        Call frmCmbType.ChangePattern("109")
+        DelayMS delayTime
+
+        If isAdjustCool1 Then
+            lbAdjustCOOL_1.BackColor = &H80FFFF
+            Result = autoAdjustColorTemperature_Offset(cstrColorTempCool1, FixG, LowBri)
+                
+            If Result = False Then
+                ShowError_Sys (11)
+                GoTo FAIL
+            Else
+                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+            End If
+   
+            lbAdjustCOOL_1.BackColor = &HC0FFC0
+        End If
+   
+        If isAdjustNormal Then
+            lbAdjustNormal.BackColor = &H80FFFF
+            Result = autoAdjustColorTemperature_Offset(cstrColorTempNormal, FixG, LowBri)
+
+            If Result = False Then
+                ShowError_Sys (13)
+                GoTo FAIL
+            Else
+                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+            End If
+    
+            lbAdjustNormal.BackColor = &HC0FFC0
+        End If
+   
+        If isAdjustWarm1 Then
+            lbAdjustWARM_1.BackColor = &H80FFFF
+            Result = autoAdjustColorTemperature_Offset(cstrColorTempWarm1, FixG, LowBri)
+                
+            If Result = False Then
+                ShowError_Sys (14)
+                GoTo FAIL
+            Else
+                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+            End If
+
+            lbAdjustWARM_1.BackColor = &HC0FFC0
+        End If
+    End If
+
     If isCheckColorTemp Then
+        If isAdjustOffset Then
+            Call frmCmbType.ChangePattern("103")
+            DelayMS delayTime
+        End If
 CHECK_COOL1:
         If isAdjustCool1 Then
             Label6.Caption = "CHECK"
             lbAdjustCOOL_1.BackColor = &H80FFFF
-            Result = checkColorAgain(valColorTempCool1, adjustMode3, HighBri)
+            Result = checkColorAgain(cstrColorTempCool1, HighBri)
 
             If Result = False Then
                 ShowError_Sys (1)
@@ -724,6 +728,7 @@ CHECK_COOL1:
                 End If
                 
                 adjustGainAgainCool1Flag = adjustGainAgainCool1Flag + 1
+                
                 GoTo ADJUST_GAIN_AGAIN_COOL1
             End If
       
@@ -734,7 +739,7 @@ CHECK_NORMAL:
         If isAdjustNormal Then
             Label6.Caption = "CHECK"
             lbAdjustNormal.BackColor = &H80FFFF
-            Result = checkColorAgain(valColorTempNormal, adjustMode3, HighBri)
+            Result = checkColorAgain(cstrColorTempNormal, HighBri)
       
             If Result = False Then
                 ShowError_Sys (3)
@@ -744,6 +749,7 @@ CHECK_NORMAL:
                 End If
     
                 adjustGainAgainNormalFlag = adjustGainAgainNormalFlag + 1
+
                 GoTo ADJUST_GAIN_AGAIN_NORMAL
             End If
     
@@ -754,7 +760,7 @@ CHECK_WARM1:
         If isAdjustWarm1 Then
             Label6.Caption = "CHECK"
             lbAdjustWARM_1.BackColor = &H80FFFF
-            Result = checkColorAgain(valColorTempWarm1, adjustMode3, HighBri)
+            Result = checkColorAgain(cstrColorTempWarm1, HighBri)
 
             If Result = False Then
                 ShowError_Sys (4)
@@ -764,6 +770,7 @@ CHECK_WARM1:
                 End If
     
                 adjustGainAgainWarm1Flag = adjustGainAgainWarm1Flag + 1
+                
                 GoTo ADJUST_GAIN_AGAIN_WARM1
             End If
 
@@ -786,7 +793,7 @@ CHECK_WARM1:
     Call clsCommProtocal.SetBacklight(100)
     Log_Info "Set backlight to 100"
 
-    Call clsCommProtocal.SelColorTemp(valColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
+    Call clsCommProtocal.SelColorTemp(cstrColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
     Log_Info "Set color temp to cool1"
 
     DelayMS delayTime
@@ -994,31 +1001,31 @@ Sub ShowError_Sys(t As Integer)
     CheckStep.SetFocus
 End Sub
 
-Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As Long, HighLowMode As Long) As Boolean
+Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustVal As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
 
-    Call clsCommProtocal.SelColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
+    Call clsCommProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
     DelayMS delayTime
 
     ' Set Offset first
-    If Not isAdjustOffset Then
-        Call setColorTemp(ColorTemp, presetData, 0)
+    If adjustGainAgainCool1Flag = 0 Then
+        Call setColorTemp(strColorTemp, presetData, 0)
         DelayMS delayTime
         
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
         rRGB.cBB = presetData.nColorBB
         
-        Call saveData(ColorTemp, 0)
+        Call saveData(strColorTemp, 0)
     End If
 
-    Call LoadData(ColorTemp, 0)
+    Call LoadData(strColorTemp, 0)
     Call clsCommProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
     
-    Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
+    Log_Info "========Adjust " & strColorTemp & "========"
 
     For j = 1 To 2
-        Call setColorTemp(ColorTemp, presetData, HighLowMode)
+        Call setColorTemp(strColorTemp, presetData, HighLowMode)
         DelayMS delayTime
         
         Log_Info "Init current colorTemp. RES:" + Str$(RES)
@@ -1038,7 +1045,7 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
         For k = 1 To 50
             If IsStop = True Then GoTo Cancel
             
-            RES = checkColorTemp(rColor, ColorTemp)
+            RES = checkColorTemp(rColor, strColorTemp)
             Log_Info "Check colorTemp. RES:" + Str$(RES)
             
             If RES Then Exit For
@@ -1074,8 +1081,8 @@ Private Function autoAdjustColorTemperature_Gain(ColorTemp As Long, adjustVal As
 
 Cancel:
     If RES Then
-        Call saveData(ColorTemp, HighLowMode)
-        Log_Info "Save current data of colorTemp."
+        Call saveData(strColorTemp, HighLowMode)
+        Log_Info "Save current data of " & strColorTemp & "."
         autoAdjustColorTemperature_Gain = True
     Else
         autoAdjustColorTemperature_Gain = False
@@ -1083,15 +1090,16 @@ Cancel:
 
 End Function
 
-Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue As Long, HighLowMode As Long) As Boolean
+Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixValue As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
-  
-    Log_Info "========Adjust " + Str$(ColorTemp) + "K========"
+
+    Call clsCommProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
+    DelayMS delayTime
+
+    Log_Info "========Adjust " & strColorTemp & "========"
   
     For j = 1 To 2
-        Call clsCommProtocal.SelColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
-
-        Call setColorTemp(ColorTemp, presetData, HighLowMode)
+        Call setColorTemp(strColorTemp, presetData, HighLowMode)
         DelayMS delayTime
         Log_Info "Init current colorTemp. RES:" + Str$(RES)
         rRGB.cRR = presetData.nColorRR
@@ -1103,49 +1111,38 @@ Private Function autoAdjustColorTemperature_Offset(ColorTemp As Long, FixValue A
 
         Call clsCommProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
-        If False Then
-            showData (3)
+        showData (3)
 
-            For k = 1 To 50
-                If IsStop = True Then GoTo Cancel
+        For k = 1 To 50
+            If IsStop = True Then GoTo Cancel
                 
-                RES = checkColorTempOffset(rColor, ColorTemp)
-                Log_Info "Check colorTemp. RES:" + Str$(RES)
+            RES = checkColorTemp(rColor, strColorTemp)
+            Log_Info "Check colorTemp. RES:" + Str$(RES)
     
-                If RES Then Exit For
-                If RES = False Then
-                    If gstrBrand = "CIBN" Then
-                        Call adjustColorTempForCIBN(rRGB)
-                    Else
-                        Call adjustColorTempOffset(FixValue, AdjustSingle, SingleStep, rRGB)
-                    End If
+            If RES Then Exit For
+            If RES = False Then
+                Call adjustColorTempOffset(rRGB)
                     
-                    Log_Info "SET_RGB_OFFSET: R = " & CStr(rRGB.cRR) & _
+                Log_Info "SET_RGB_OFFSET: R = " & CStr(rRGB.cRR) & _
                     ", G = " & CStr(rRGB.cGG) & ", B = " & CStr(rRGB.cBB)
 
-                    Call clsCommProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
+                Call clsCommProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
     
-                    showData (4)
-                End If
+                showData (4)
+            End If
     
-                DelayMS 200
-            Next k
-        Else
-            Call saveData(ColorTemp, HighLowMode)
-            autoAdjustColorTemperature_Offset = True
-            
-            Exit Function
-        End If
+            DelayMS 200
+        Next k
 
         If RES Then Exit For
 
         DelayMS delayTime
     Next j
- 
+
 Cancel:
     If RES Then
-        Call saveData(ColorTemp, HighLowMode)
-        Log_Info "Save current data of colorTemp."
+        Call saveData(strColorTemp, HighLowMode)
+        Log_Info "Save current data of " & strColorTemp & "."
         autoAdjustColorTemperature_Offset = True
     Else
         autoAdjustColorTemperature_Offset = False
@@ -1153,15 +1150,16 @@ Cancel:
 
 End Function
 
-Private Function checkColorAgain(ColorTemp As Long, adjustVal As Long, HighLowMode As Long) As Boolean
+Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
-  
-    Log_Info "========Check " + Str$(ColorTemp) + "K========"
+
+    Call clsCommProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
+    DelayMS delayTime
+
+    Log_Info "========Check " & strColorTemp & "========"
   
     For j = 1 To 2
-        Call clsCommProtocal.SelColorTemp(ColorTemp, setTVInputSource, setTVInputSourcePortNum)
-  
-        Call setColorTemp(ColorTemp, presetData, HighLowMode)
+        Call setColorTemp(strColorTemp, presetData, HighLowMode)
         DelayMS delayTime
         Log_Info "Init current colorTemp. RES:" + Str$(RES)
 
@@ -1172,7 +1170,7 @@ Private Function checkColorAgain(ColorTemp As Long, adjustVal As Long, HighLowMo
 
         If IsStop = True Then GoTo Cancel
 
-        RES = checkColorTemp(rColor, ColorTemp)
+        RES = checkColorTemp(rColor, strColorTemp)
         Log_Info "Check colorTemp. RES:" + Str$(RES)
 
         If RES Then Exit For
@@ -1418,19 +1416,25 @@ On Error GoTo ErrExit
             Else
                 isNetworkConnected = False
                 Do
-                    Log_Info "TCP Connect"
-                    tcpClient.Connect
+                    If tcpClient.State = sckClosed Then
+                        Log_Info "TCP Connect"
+                        tcpClient.Connect
+                        txtInput.Locked = True
+                    End If
                     Call DelaySWithFlag(cmdReceiveWaitS * 2, isNetworkConnected)
                 
-                    If isNetworkConnected = True Then
+                    If tcpClient.State = sckConnected Then
                         subMainProcesser
                         Exit Do
                     Else
-                        tcpClient.Close
+                        If tcpClient.State <> sckClosed Then
+                            tcpClient.Close
+                        End If
                         i = i + 1
                     End If
                     Log_Info "Re-connect to TV."
                 Loop While i <= 5
+                txtInput.Locked = False
             End If
         End If
         
@@ -1483,96 +1487,96 @@ ErrExit:
 End Sub
 
 
-Private Sub saveData(ColorTemp As Long, HL As Long)
+Private Sub saveData(strColorTemp As String, HL As Long)
 
-    Select Case ColorTemp
-        Case valColorTempCool1
+    Select Case strColorTemp
+        Case cstrColorTempCool1
             If HL Then
-                c12000K.xx = rColor.xx
-                c12000K.yy = rColor.yy
-                c12000K.lv = rColor.lv
-                c12000K.nColorRR = rRGB.cRR
-                c12000K.nColorGG = rRGB.cGG
-                c12000K.nColorBB = rRGB.cBB
+                cCOOL1.xx = rColor.xx
+                cCOOL1.yy = rColor.yy
+                cCOOL1.lv = rColor.lv
+                cCOOL1.nColorRR = rRGB.cRR
+                cCOOL1.nColorGG = rRGB.cGG
+                cCOOL1.nColorBB = rRGB.cBB
             Else
-                cFF12000K.xx = rColor.xx
-                cFF12000K.yy = rColor.yy
-                cFF12000K.lv = rColor.lv
-                cFF12000K.nColorRR = rRGB.cRR
-                cFF12000K.nColorGG = rRGB.cGG
-                cFF12000K.nColorBB = rRGB.cBB
+                cFFCOOL1.xx = rColor.xx
+                cFFCOOL1.yy = rColor.yy
+                cFFCOOL1.lv = rColor.lv
+                cFFCOOL1.nColorRR = rRGB.cRR
+                cFFCOOL1.nColorGG = rRGB.cGG
+                cFFCOOL1.nColorBB = rRGB.cBB
             End If
 
-        Case valColorTempNormal
+        Case cstrColorTempNormal
             If HL Then
-                c10000K.xx = rColor.xx
-                c10000K.yy = rColor.yy
-                c10000K.lv = rColor.lv
-                c10000K.nColorRR = rRGB.cRR
-                c10000K.nColorGG = rRGB.cGG
-                c10000K.nColorBB = rRGB.cBB
+                cNORMAL.xx = rColor.xx
+                cNORMAL.yy = rColor.yy
+                cNORMAL.lv = rColor.lv
+                cNORMAL.nColorRR = rRGB.cRR
+                cNORMAL.nColorGG = rRGB.cGG
+                cNORMAL.nColorBB = rRGB.cBB
             Else
-                cFF10000K.xx = rColor.xx
-                cFF10000K.yy = rColor.yy
-                cFF10000K.lv = rColor.lv
-                cFF10000K.nColorRR = rRGB.cRR
-                cFF10000K.nColorGG = rRGB.cGG
-                cFF10000K.nColorBB = rRGB.cBB
+                cFFNORMAL.xx = rColor.xx
+                cFFNORMAL.yy = rColor.yy
+                cFFNORMAL.lv = rColor.lv
+                cFFNORMAL.nColorRR = rRGB.cRR
+                cFFNORMAL.nColorGG = rRGB.cGG
+                cFFNORMAL.nColorBB = rRGB.cBB
             End If
 
-        Case valColorTempWarm1
+        Case cstrColorTempWarm1
             If HL Then
-                c6500K.xx = rColor.xx
-                c6500K.yy = rColor.yy
-                c6500K.lv = rColor.lv
-                c6500K.nColorRR = rRGB.cRR
-                c6500K.nColorGG = rRGB.cGG
-                c6500K.nColorBB = rRGB.cBB
+                cWARM1.xx = rColor.xx
+                cWARM1.yy = rColor.yy
+                cWARM1.lv = rColor.lv
+                cWARM1.nColorRR = rRGB.cRR
+                cWARM1.nColorGG = rRGB.cGG
+                cWARM1.nColorBB = rRGB.cBB
             Else
-                cFF6500K.xx = rColor.xx
-                cFF6500K.yy = rColor.yy
-                cFF6500K.lv = rColor.lv
-                cFF6500K.nColorRR = rRGB.cRR
-                cFF6500K.nColorGG = rRGB.cGG
-                cFF6500K.nColorBB = rRGB.cBB
+                cFFWARM1.xx = rColor.xx
+                cFFWARM1.yy = rColor.yy
+                cFFWARM1.lv = rColor.lv
+                cFFWARM1.nColorRR = rRGB.cRR
+                cFFWARM1.nColorGG = rRGB.cGG
+                cFFWARM1.nColorBB = rRGB.cBB
             End If
     End Select
   
 End Sub
 
-Private Sub LoadData(ColorTemp As Long, isGain As Boolean)
-    Select Case ColorTemp
-        Case valColorTempCool1
+Private Sub LoadData(strColorTemp As String, isGain As Boolean)
+    Select Case strColorTemp
+        Case cstrColorTempCool1
             If isGain Then
-                rRGB1.cRR = c12000K.nColorRR
-                rRGB1.cGG = c12000K.nColorGG
-                rRGB1.cBB = c12000K.nColorBB
+                rRGB1.cRR = cCOOL1.nColorRR
+                rRGB1.cGG = cCOOL1.nColorGG
+                rRGB1.cBB = cCOOL1.nColorBB
             Else
-                rRGB1.cRR = cFF12000K.nColorRR
-                rRGB1.cGG = cFF12000K.nColorGG
-                rRGB1.cBB = cFF12000K.nColorBB
+                rRGB1.cRR = cFFCOOL1.nColorRR
+                rRGB1.cGG = cFFCOOL1.nColorGG
+                rRGB1.cBB = cFFCOOL1.nColorBB
             End If
             
-        Case valColorTempNormal
+        Case cstrColorTempNormal
             If isGain Then
-                rRGB1.cRR = c10000K.nColorRR
-                rRGB1.cGG = c10000K.nColorGG
-                rRGB1.cBB = c10000K.nColorBB
+                rRGB1.cRR = cNORMAL.nColorRR
+                rRGB1.cGG = cNORMAL.nColorGG
+                rRGB1.cBB = cNORMAL.nColorBB
             Else
-                rRGB1.cRR = cFF10000K.nColorRR
-                rRGB1.cGG = cFF10000K.nColorGG
-                rRGB1.cBB = cFF10000K.nColorBB
+                rRGB1.cRR = cFFNORMAL.nColorRR
+                rRGB1.cGG = cFFNORMAL.nColorGG
+                rRGB1.cBB = cFFNORMAL.nColorBB
             End If
             
-        Case valColorTempWarm1
+        Case cstrColorTempWarm1
             If isGain Then
-                rRGB1.cRR = c6500K.nColorRR
-                rRGB1.cGG = c6500K.nColorGG
-                rRGB1.cBB = c6500K.nColorBB
+                rRGB1.cRR = cWARM1.nColorRR
+                rRGB1.cGG = cWARM1.nColorGG
+                rRGB1.cBB = cWARM1.nColorBB
             Else
-                rRGB1.cRR = cFF6500K.nColorRR
-                rRGB1.cGG = cFF6500K.nColorGG
-                rRGB1.cBB = cFF6500K.nColorBB
+                rRGB1.cRR = cFFWARM1.nColorRR
+                rRGB1.cGG = cFFWARM1.nColorGG
+                rRGB1.cBB = cFFWARM1.nColorBB
             End If
     End Select
 End Sub
@@ -1588,31 +1592,31 @@ Private Sub saveALLcData()
         rs.Fields(0) = gstrCurProjName
         rs.Fields(1) = strSerialNo
 
-        rs.Fields(2) = c12000K.xx
-        rs.Fields(3) = c12000K.yy
-        rs.Fields(4) = c12000K.nColorRR
-        rs.Fields(5) = c12000K.nColorGG
-        rs.Fields(6) = c12000K.nColorBB
-        rs.Fields(7) = c10000K.xx
-        rs.Fields(8) = c10000K.yy
-        rs.Fields(9) = c10000K.nColorRR
-        rs.Fields(10) = c10000K.nColorGG
-        rs.Fields(11) = c10000K.nColorBB
-        rs.Fields(12) = c6500K.xx
-        rs.Fields(13) = c6500K.yy
-        rs.Fields(14) = c6500K.nColorRR
-        rs.Fields(15) = c6500K.nColorGG
-        rs.Fields(16) = c6500K.nColorBB
+        rs.Fields(2) = cCOOL1.xx
+        rs.Fields(3) = cCOOL1.yy
+        rs.Fields(4) = cCOOL1.nColorRR
+        rs.Fields(5) = cCOOL1.nColorGG
+        rs.Fields(6) = cCOOL1.nColorBB
+        rs.Fields(7) = cNORMAL.xx
+        rs.Fields(8) = cNORMAL.yy
+        rs.Fields(9) = cNORMAL.nColorRR
+        rs.Fields(10) = cNORMAL.nColorGG
+        rs.Fields(11) = cNORMAL.nColorBB
+        rs.Fields(12) = cWARM1.xx
+        rs.Fields(13) = cWARM1.yy
+        rs.Fields(14) = cWARM1.nColorRR
+        rs.Fields(15) = cWARM1.nColorGG
+        rs.Fields(16) = cWARM1.nColorBB
         
-        rs.Fields(17) = cFF12000K.nColorRR
-        rs.Fields(18) = cFF12000K.nColorGG
-        rs.Fields(19) = cFF12000K.nColorBB
-        rs.Fields(20) = cFF10000K.nColorRR
-        rs.Fields(21) = cFF10000K.nColorGG
-        rs.Fields(22) = cFF10000K.nColorBB
-        rs.Fields(23) = cFF6500K.nColorRR
-        rs.Fields(24) = cFF6500K.nColorGG
-        rs.Fields(25) = cFF6500K.nColorBB
+        rs.Fields(17) = cFFCOOL1.nColorRR
+        rs.Fields(18) = cFFCOOL1.nColorGG
+        rs.Fields(19) = cFFCOOL1.nColorBB
+        rs.Fields(20) = cFFNORMAL.nColorRR
+        rs.Fields(21) = cFFNORMAL.nColorGG
+        rs.Fields(22) = cFFNORMAL.nColorBB
+        rs.Fields(23) = cFFWARM1.nColorRR
+        rs.Fields(24) = cFFWARM1.nColorGG
+        rs.Fields(25) = cFFWARM1.nColorBB
 
         rs.Fields(26) = rColorLastChk.lv
         rs.Fields(27) = maxBrightnessSpec

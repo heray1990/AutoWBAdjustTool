@@ -187,13 +187,13 @@ Private Sub CommunicationProtocal_SetBacklight(intBacklight As Integer)
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SelColorTemp(lngColorT As Long, strInputSrc As String, intSrcNum As Integer)
-    Select Case lngColorT
-      Case valColorTempCool1
+Private Sub CommunicationProtocal_SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)
+    Select Case strColorT
+      Case cstrColorTempCool1
          Call SetColorTempCool1(strInputSrc, intSrcNum)
-      Case valColorTempNormal
+      Case cstrColorTempNormal
          Call SetColorTempNormal(strInputSrc, intSrcNum)
-      Case valColorTempWarm1
+      Case cstrColorTempWarm1
          Call SetColorTempWarm1(strInputSrc, intSrcNum)
     End Select
 End Sub
@@ -353,8 +353,8 @@ End Sub
 
 Private Sub CommunicationProtocal_SetRGBGain(lngRGain As Long, lngGGain As Long, lngBGain As Long)
     Call SetRGain(lngRGain)
-    Call SetRGain(lngGGain)
-    Call SetRGain(lngBGain)
+    Call SetGGain(lngGGain)
+    Call SetBGain(lngBGain)
 End Sub
 
 Private Sub SetRGain(lngRGain As Long)
