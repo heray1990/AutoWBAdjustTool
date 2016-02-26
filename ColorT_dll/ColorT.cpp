@@ -290,246 +290,210 @@ COLORT_API int _stdcall  adjustColorTempForCIBN(pREALRGB pAdjRGB)
 //                   Then adjust R Gain to match x next time.
 // *pResultCode = 2: Only y is out of range. B Gain equals to 135. Then adjust
 //                   G Gain to match y. 
-COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjStep, pREALRGB pAdjRGB, int *pResultCode)
+COLORT_API int _stdcall  adjustColorTemp(int FixValue, pREALRGB pAdjRGB, int *pResultCode)
 {
 	switch (FixValue)
 	{
-		case 1:   //  "adjust R"
-			if (AdjStep)    //microStep
+		case 1:
+			if (ca_x < PrimaryData.sx - PrimaryData.xt)
 			{
-				if (xyAdjMode)    //yf
+				if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
 				{
+					CalcRGB.cRR = PrimaryData.PriRR + 5;
 				}
-				else    //xf&yf
+				else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
 				{
+					CalcRGB.cRR = PrimaryData.PriRR + 3;
 				}
-			}
-			else            //StepbyStep
-			{
-				if (ca_x < PrimaryData.sx - PrimaryData.xt)
+				else
 				{
-					if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
-					{
-						CalcRGB.cRR = PrimaryData.PriRR + 5;
-					}
-					else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
-					{
-						CalcRGB.cRR = PrimaryData.PriRR + 3;
-					}
-					else
-					{
-						CalcRGB.cRR = PrimaryData.PriRR + 1;
-					}
+					CalcRGB.cRR = PrimaryData.PriRR + 1;
+				}
 
-					if (CalcRGB.cRR >= 135)
-					{
-						CalcRGB.cRR = 135;
-						*pResultCode = 2;
-					}
-				}
-				else if (ca_x > PrimaryData.sx + PrimaryData.xt)
+				if (CalcRGB.cRR >= 135)
 				{
-					if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
-					{
-						CalcRGB.cRR = PrimaryData.PriRR - 5;
-					}
-					else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
-					{
-						CalcRGB.cRR = PrimaryData.PriRR - 3;
-					}
-					else
-					{
-						CalcRGB.cRR = PrimaryData.PriRR - 1;
-					}
-				}
-				else    // x is OK
-				{
+					CalcRGB.cRR = 135;
 					*pResultCode = 2;
 				}
 			}
-			break;
-		case 2:   //  "adjust G"
-			if (AdjStep)    //microStep
+			else if (ca_x > PrimaryData.sx + PrimaryData.xt)
 			{
-				if (xyAdjMode)    //yf
+				if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
 				{
+					CalcRGB.cRR = PrimaryData.PriRR - 5;
 				}
-				else    //xf&yf
+				else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
 				{
+					CalcRGB.cRR = PrimaryData.PriRR - 3;
+				}
+				else
+				{
+					CalcRGB.cRR = PrimaryData.PriRR - 1;
 				}
 			}
-			else            //StepbyStep
+			else    // x is OK
 			{
-				if (CalcRGB.cGG > 128)
+				*pResultCode = 2;
+			}
+			break;
+		case 2:
+			if (CalcRGB.cGG > 128)
+			{
+				CalcRGB.cGG = 128;
+			}
+			// Now x is OK, then adjust G Gain to match y.
+			if (ca_y < PrimaryData.sy - PrimaryData.yt)
+			{
+				if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep5)
 				{
-					CalcRGB.cGG = 128;
+					CalcRGB.cGG = CalcRGB.cGG + 5;
 				}
-				// Now x is OK, then adjust G Gain to match y.
-				if (ca_y < PrimaryData.sy - PrimaryData.yt)
+				else if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep3)
 				{
-					if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep5)
-					{
-						CalcRGB.cGG = CalcRGB.cGG + 5;
-					}
-					else if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep3)
-					{
-						CalcRGB.cGG = CalcRGB.cGG + 3;
-					}
-					else
-					{
-						CalcRGB.cGG = CalcRGB.cGG + 1;
-					}
+					CalcRGB.cGG = CalcRGB.cGG + 3;
 				}
-				else if (ca_y > PrimaryData.sy + PrimaryData.yt)
+				else
 				{
-					if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep5)
-					{
-						CalcRGB.cGG = CalcRGB.cGG - 5;
-					}
-					else if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep3)
-					{
-						CalcRGB.cGG = CalcRGB.cGG - 3;
-					}
-					else
-					{
-						CalcRGB.cGG = CalcRGB.cGG - 1;
-					}
+					CalcRGB.cGG = CalcRGB.cGG + 1;
 				}
+			}
+			else if (ca_y > PrimaryData.sy + PrimaryData.yt)
+			{
+				if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep5)
+				{
+					CalcRGB.cGG = CalcRGB.cGG - 5;
+				}
+				else if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep3)
+				{
+					CalcRGB.cGG = CalcRGB.cGG - 3;
+				}
+				else
+				{
+					CalcRGB.cGG = CalcRGB.cGG - 1;
+				}
+			}
 
-				if (ca_x > PrimaryData.sx + PrimaryData.xt)
+			if (ca_x > PrimaryData.sx + PrimaryData.xt)
+			{
+				if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
 				{
-					if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
-					{
-						CalcRGB.cRR = CalcRGB.cRR - 5;
-					}
-					else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
-					{
-						CalcRGB.cRR = CalcRGB.cRR - 3;
-					}
-					else
-					{
-						CalcRGB.cRR = CalcRGB.cRR - 1;
-					}
+					CalcRGB.cRR = CalcRGB.cRR - 5;
 				}
-				else if (ca_x < PrimaryData.sx - PrimaryData.xt)
+				else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
 				{
-					if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
-					{
-						CalcRGB.cRR = CalcRGB.cRR + 5;
-					}
-					else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
-					{
-						CalcRGB.cRR = CalcRGB.cRR + 3;
-					}
-					else
-					{
-						CalcRGB.cRR = CalcRGB.cRR + 1;
-					}
+					CalcRGB.cRR = CalcRGB.cRR - 3;
+				}
+				else
+				{
+					CalcRGB.cRR = CalcRGB.cRR - 1;
+				}
+			}
+			else if (ca_x < PrimaryData.sx - PrimaryData.xt)
+			{
+				if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
+				{
+					CalcRGB.cRR = CalcRGB.cRR + 5;
+				}
+				else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
+				{
+					CalcRGB.cRR = CalcRGB.cRR + 3;
+				}
+				else
+				{
+					CalcRGB.cRR = CalcRGB.cRR + 1;
 				}
 			}
 			break;
 		case 3:   //  "normal adjust" 
-			if (AdjStep)    //microStep
+			if (ca_y < PrimaryData.sy - PrimaryData.yt)
 			{
-				if (xyAdjMode)    //yf
+				if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep5)
 				{
+					CalcRGB.cBB = PrimaryData.PriBB - 5;
 				}
-				else    //xf&yf
+				else if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep3)
 				{
+					CalcRGB.cBB = PrimaryData.PriBB - 3;
+				}
+				else
+				{
+					CalcRGB.cBB = PrimaryData.PriBB - 1;
 				}
 			}
-			else            //StepbyStep
+			else
 			{
-				if (ca_y < PrimaryData.sy - PrimaryData.yt)
+				if (ca_y > PrimaryData.sy + PrimaryData.yt)
 				{
-					if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep5)
+					if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep5)
 					{
-						CalcRGB.cBB = PrimaryData.PriBB - 5;
+						CalcRGB.cBB = PrimaryData.PriBB + 5;
 					}
-					else if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep3)
+					else if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep3)
 					{
-						CalcRGB.cBB = PrimaryData.PriBB - 3;
+						CalcRGB.cBB = PrimaryData.PriBB + 3;
 					}
 					else
 					{
-						CalcRGB.cBB = PrimaryData.PriBB - 1;
+						CalcRGB.cBB = PrimaryData.PriBB + 1;
+					}
+				
+					if (CalcRGB.cBB >= 135)
+					{
+						CalcRGB.cBB = 135;
+						*pResultCode = 1;
 					}
 				}
 				else
 				{
-					if (ca_y > PrimaryData.sy + PrimaryData.yt)
+					if (ca_x > PrimaryData.sx + PrimaryData.xt)
 					{
-						if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep5)
+						if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
 						{
-							CalcRGB.cBB = PrimaryData.PriBB + 5;
+							CalcRGB.cRR = PrimaryData.PriRR - 5;
 						}
-						else if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep3)
+						else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
 						{
-							CalcRGB.cBB = PrimaryData.PriBB + 3;
+							CalcRGB.cRR = PrimaryData.PriRR - 3;
 						}
 						else
 						{
-							CalcRGB.cBB = PrimaryData.PriBB + 1;
-						}
-					
-						if (CalcRGB.cBB >= 135)
-						{
-							CalcRGB.cBB = 135;
-							*pResultCode = 1;
+							CalcRGB.cRR = PrimaryData.PriRR - 1;
 						}
 					}
 					else
 					{
-						if (ca_x > PrimaryData.sx + PrimaryData.xt)
+						if (ca_x < PrimaryData.sx - PrimaryData.xt)
 						{
-							if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
+							if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
 							{
-								CalcRGB.cRR = PrimaryData.PriRR - 5;
+								CalcRGB.cRR = PrimaryData.PriRR + 5;
 							}
-							else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
+							else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
 							{
-								CalcRGB.cRR = PrimaryData.PriRR - 3;
+								CalcRGB.cRR = PrimaryData.PriRR + 3;
 							}
 							else
 							{
-								CalcRGB.cRR = PrimaryData.PriRR - 1;
+								CalcRGB.cRR = PrimaryData.PriRR + 1;
 							}
-						}
-						else
-						{
-							if (ca_x < PrimaryData.sx - PrimaryData.xt)
+						
+							if (CalcRGB.cRR >= 135)
 							{
-								if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
-								{
-									CalcRGB.cRR = PrimaryData.PriRR + 5;
-								}
-								else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
-								{
-									CalcRGB.cRR = PrimaryData.PriRR + 3;
-								}
-								else
-								{
-									CalcRGB.cRR = PrimaryData.PriRR + 1;
-								}
-							
-								if (CalcRGB.cRR >= 135)
-								{
-									CalcRGB.cRR = 135;
-									*pResultCode = 3;
-								}
+								CalcRGB.cRR = 135;
+								*pResultCode = 3;
+							}
 
-								if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
-								{
-									CalcRGB.cBB = PrimaryData.PriBB - 5;
-								}
-								else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
-								{
-									CalcRGB.cBB = PrimaryData.PriBB - 3;
-								}
-								else
-								{
-									CalcRGB.cBB = PrimaryData.PriBB - 1;
-								}
+							if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
+							{
+								CalcRGB.cBB = PrimaryData.PriBB - 5;
+							}
+							else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
+							{
+								CalcRGB.cBB = PrimaryData.PriBB - 3;
+							}
+							else
+							{
+								CalcRGB.cBB = PrimaryData.PriBB - 1;
 							}
 						}
 					}
@@ -606,6 +570,7 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjS
 		default:
 			break;
 	}
+
     VerifyRGB(CalcRGB.cRR);
     VerifyRGB(CalcRGB.cBB);
 	pAdjRGB->cRR = CalcRGB.cRR;

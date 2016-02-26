@@ -1,4 +1,4 @@
-Attribute VB_Name = "Module3"
+Attribute VB_Name = "DeclareVariables"
 Option Explicit
 
 Public Const FixR As Integer = 1

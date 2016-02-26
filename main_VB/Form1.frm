@@ -1055,13 +1055,13 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
                     Call adjustColorTempForCIBN(rRGB)
                 Else    ' Letv
                     If resCodeForAdjustColorTemp = 0 Then
-                        Call adjustColorTemp(adjustMode3, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
+                        Call adjustColorTemp(adjustMode3, rRGB, resCodeForAdjustColorTemp)
                     ElseIf resCodeForAdjustColorTemp = 1 Then
-                        Call adjustColorTemp(adjustMode1, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
+                        Call adjustColorTemp(adjustMode1, rRGB, resCodeForAdjustColorTemp)
                     ElseIf resCodeForAdjustColorTemp = 2 Then
-                        Call adjustColorTemp(adjustMode2, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
+                        Call adjustColorTemp(adjustMode2, rRGB, resCodeForAdjustColorTemp)
                     ElseIf resCodeForAdjustColorTemp = 3 Then
-                        Call adjustColorTemp(adjustMode4, AdjustSingle, SingleStep, rRGB, resCodeForAdjustColorTemp)
+                        Call adjustColorTemp(adjustMode4, rRGB, resCodeForAdjustColorTemp)
                     End If
                 End If
 

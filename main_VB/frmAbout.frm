@@ -35,7 +35,7 @@ Begin VB.Form frmAbout
       Width           =   3015
    End
    Begin VB.Label lblDescription 
-      Caption         =   "Auto White Balance adjustment for Letv."
+      Caption         =   "Auto White Balance adjustment by Echom."
       BeginProperty Font 
          Name            =   "PMingLiU"
          Size            =   9.75

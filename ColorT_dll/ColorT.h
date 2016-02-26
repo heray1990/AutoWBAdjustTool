@@ -86,7 +86,7 @@ COLORT_API int _stdcall  initColorTemp(BOOL *pCalibraEN, BOOL *pMiniBriEN, char*
 COLORT_API int _stdcall  DeinitColorTemp(char* ModelFile);
 COLORT_API int _stdcall  setColorTemp(char* colorTemp, pCOLORSPEC pSpecData,int GANref);
 COLORT_API int _stdcall  checkColorTemp(pREALCOLOR PGetColor,char* colorTemp);
-COLORT_API int _stdcall  adjustColorTemp(int FixValue, BOOL xyAdjMode, BOOL AdjStep, pREALRGB pAdjRGB, int *pResultCode);
+COLORT_API int _stdcall  adjustColorTemp(int FixValue, pREALRGB pAdjRGB, int *pResultCode);
 COLORT_API int _stdcall  adjustColorTempOffset(pREALRGB pAdjRGB);
 COLORT_API int _stdcall  adjustColorTempForCIBN(pREALRGB pAdjRGB);
 

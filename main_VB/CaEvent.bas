@@ -1,4 +1,4 @@
-Attribute VB_Name = "Module1"
+Attribute VB_Name = "CaEvent"
 Public ObjCa210 As Ca200
 Public ObjCa As Ca
 Public ObjProbe As Probe
