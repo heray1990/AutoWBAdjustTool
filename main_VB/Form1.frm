@@ -539,19 +539,6 @@ On Error GoTo ErrExit
     If IsStop = True Then
         Exit Sub
     End If
-    
-    If IsSNWriteSuccess = funSNWrite Then
-        If IsStop = True Then
-            Exit Sub
-        End If
-        
-        txtInput = scanbarcode
-    Else
-        ShowError_Sys (6)
-        GoTo FAIL
-    End If
-    
-On Error GoTo ErrExit
 
     If IsCa210ok = False Then
         MsgBox "CA210 disconnected,Please click'Connect'->'Connect CA210'to do operation!", vbOKOnly + vbInformation, "warning"
@@ -821,8 +808,6 @@ PASS:
 
     CheckStep.ForeColor = &H80000008
     CheckStep.BackColor = &HC0FFC0
-    CheckStep = CheckStep + strSerialNo + vbCrLf
-    CheckStep = CheckStep + strSerialNo + vbCrLf
     CheckStep = CheckStep + "TEST ALL PASS"
     CheckStep.SelStart = Len(CheckStep)
     CheckStep.SetFocus
@@ -841,10 +826,8 @@ PASS:
 FAIL:
     clsCommProtocal.ExitFacMode
 
-    If IsSNWriteSuccess = funSNWrite Then
-        cmdMark = "FAIL"
-        Call saveALLcData
-    End If
+    cmdMark = "FAIL"
+    Call saveALLcData
 
     CheckStep.SelStart = Len(CheckStep)
     CheckStep.SetFocus
@@ -866,19 +849,6 @@ ErrExit:
         MsgBox Err.Description, vbCritical, Err.Source
 End Sub
 
-Private Function funSNWrite() As Boolean
-    strSerialNo = ""
-    scanbarcode = ""
-    strSerialNo = UCase$(txtInput.Text)
-
-    If subJudgeTheSNIsAvailable = True Then
-        funSNWrite = True
-        scanbarcode = strSerialNo
-    Else
-        funSNWrite = False
-    End If
-End Function
-
 Private Sub subInitBeforeRunning()
     countTime = 0
     lbTimer.Caption = "0s"
@@ -886,7 +856,7 @@ Private Sub subInitBeforeRunning()
 
     IsSNWriteSuccess = True
     txtInput.Locked = True
-    strSerialNo = ""
+    'gstrBarCode = ""
     adjustGainAgainCool1Flag = 0
     adjustGainAgainNormalFlag = 0
     adjustGainAgainWarm1Flag = 0
@@ -910,21 +880,6 @@ Private Sub subInitAfterRunning()
     End If
 End Sub
 
-Private Function subJudgeTheSNIsAvailable() As Boolean
-    If strSerialNo = "" Or Len(strSerialNo) <> barCodeLen Then
-        CheckStep.Text = ""
-        CheckStep.Text = CheckStep.Text + "Please confirm the SN again?" + vbCrLf
-
-        subJudgeTheSNIsAvailable = False
-    Else
-        subJudgeTheSNIsAvailable = True
-        
-        Set cn = Nothing
-        Set rs = Nothing
-        sqlstring = ""
-    End If
-End Function
-
 Sub ShowError_Sys(t As Integer)
     Dim s As String
     
@@ -942,7 +897,7 @@ Sub ShowError_Sys(t As Integer)
         Case 5
             s = "ColorTemp_WARM_2 is Wrong, Please Check Again."
         Case 6
-            s = "LAB_SN:" + strSerialNo + "(End)  Len:" + Str$(barCodeLen) + vbCrLf + "条形码长度不对，请确认！"
+            s = "LAB_SN:" + gstrBarCode + "(End)  Len:" + Str$(gintBarCodeLen) + vbCrLf + "条形码长度不对，请确认！"
         Case 7
             s = "Can not Write DVI EDID."
         Case 8
@@ -1329,7 +1284,7 @@ Public Sub subInitInterface()
     setTVInputSource = Left(setTVInputSource, Len(setTVInputSource) - 1)
     delayTime = clsConfigData.DelayMS
     Ca210ChannelNO = clsConfigData.ChannelNum
-    barCodeLen = clsConfigData.barCodeLen
+    gintBarCodeLen = clsConfigData.BarCodeLen
     maxBrightnessSpec = clsConfigData.LvSpec
     isAdjustCool2 = clsConfigData.EnableCool2
     isAdjustCool1 = clsConfigData.EnableCool1
@@ -1408,6 +1363,13 @@ On Error GoTo ErrExit
         IsStop = False
         
         If txtInput.Locked = False Then
+            If txtInput.Text = "" Or Len(txtInput.Text) <> gintBarCodeLen Then
+                MsgBox "条形码不对，请确认！(要求长度为：" & CStr(gintBarCodeLen) & ")"
+                Exit Sub
+            Else
+                gstrBarCode = txtInput.Text
+            End If
+
             If isUartMode = True Then
                 If MSComm1.PortOpen = False Then
                     MSComm1.PortOpen = True
@@ -1582,7 +1544,7 @@ Private Sub LoadData(strColorTemp As String, isGain As Boolean)
 End Sub
 
 Private Sub saveALLcData()
-    If strSerialNo = "" Then
+    If gstrBarCode = "" Then
         Exit Sub
     Else
         sqlstring = "select * from DataRecord"
@@ -1590,7 +1552,7 @@ Private Sub saveALLcData()
         rs.AddNew
 
         rs.Fields(0) = gstrCurProjName
-        rs.Fields(1) = strSerialNo
+        rs.Fields(1) = gstrBarCode
 
         rs.Fields(2) = cCOOL1.xx
         rs.Fields(3) = cCOOL1.yy

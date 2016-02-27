@@ -250,11 +250,11 @@ Public Property Let ChannelNum(intChannelNum As Integer)
     mConfigData.intChannelNum = intChannelNum
 End Property
 
-Public Property Get barCodeLen() As Integer
-    barCodeLen = mConfigData.intBarCodeLen
+Public Property Get BarCodeLen() As Integer
+    BarCodeLen = mConfigData.intBarCodeLen
 End Property
 
-Public Property Let barCodeLen(intBarCodeLen As Integer)
+Public Property Let BarCodeLen(intBarCodeLen As Integer)
     mConfigData.intBarCodeLen = intBarCodeLen
 End Property
 

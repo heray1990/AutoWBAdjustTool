@@ -169,8 +169,6 @@ Private Sub Form_Unload(Cancel As Integer)
 
 'On Error GoTo ErrExit
     gstrCurProjName = cmbModelName.Text
-    sqlstring = ""
-
     SetCurProjectName gstrCurProjName
 
     Form1.Show

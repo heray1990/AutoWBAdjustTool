@@ -568,7 +568,7 @@ Private Sub Form_Load()
     Label1.Caption = gstrCurProjName
     
     txtChannel.Text = CStr(Ca210ChannelNO)
-    txtSNLen.Text = CStr(barCodeLen)
+    txtSNLen.Text = CStr(gintBarCodeLen)
     txtLvSpec.Text = CStr(maxBrightnessSpec)
     cmbInputSource.Text = setTVInputSource & CStr(setTVInputSourcePortNum)
     txtDelay.Text = delayTime
@@ -662,7 +662,7 @@ Private Sub Command1_Click()
     If Check7.Value = 0 Then clsSaveConfigData.EnableAdjOffset = False
     
     clsSaveConfigData.LvSpec = Val(txtLvSpec.Text)
-    clsSaveConfigData.barCodeLen = Val(txtSNLen.Text)
+    clsSaveConfigData.BarCodeLen = Val(txtSNLen.Text)
     
     If optUart.Value = True Then
         clsSaveConfigData.CommMode = modeUART
