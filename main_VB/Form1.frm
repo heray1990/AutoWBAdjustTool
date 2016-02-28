@@ -854,7 +854,6 @@ Private Sub subInitBeforeRunning()
     lbTimer.Caption = "0s"
     Timer1.Enabled = True
 
-    IsSNWriteSuccess = True
     txtInput.Locked = True
     'gstrBarCode = ""
     adjustGainAgainCool1Flag = 0
@@ -865,7 +864,6 @@ End Sub
 Private Sub subInitAfterRunning()
     Timer1.Enabled = False
 
-    IsSNWriteSuccess = False
     adjustGainAgainCool1Flag = 0
     adjustGainAgainNormalFlag = 0
     adjustGainAgainWarm1Flag = 0

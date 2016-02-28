@@ -74,7 +74,6 @@ Public IsCa210ok As Boolean
 Public isUartMode As Boolean
 Public isNetworkConnected As Boolean
 
-Public IsSNWriteSuccess As Boolean
 Public gstrBarCode As String
 Public countTime As Long
 Public gstrBrand As String

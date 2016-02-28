@@ -175,12 +175,6 @@ void AverageData(pCOLORSPEC pColorST)
         pColorST->LowGG = (pColorST->LowGG + CalcRGB.cGG) / 2;
         pColorST->LowBB = (pColorST->LowBB + CalcRGB.cBB) / 2;
 	}
-/*	GainRx=(GainRx+CalcGainRx)/2;
-	GainRy=(GainRy+CalcGainRy)/2;
-	GainGx=(GainGx+CalcGainGx)/2;
-	GainGy=(GainGy+CalcGainGy)/2;
-	GainBx=(GainBx+CalcGainBx)/2;
-	GainBy=(GainBy+CalcGainBy)/2;*/
 }
 
 void ReLoadRGB(char* colorTemp)
@@ -617,15 +611,6 @@ COLORT_API int _stdcall  adjustColorTempOffset(pREALRGB pAdjRGB)
     return true;
 }
 
-/*
-void VerifyRGB(unsigned int& RGB)
-{
-	if (RGB<=minColorRGB)
-	RGB=minColorRGB;
-	else
-	if (RGB>maxColorRGB) RGB=maxColorRGB;
-}*/
-
 void delay(unsigned milliseconds)
 {
 	Sleep(milliseconds);
@@ -636,8 +621,10 @@ void delay(unsigned milliseconds)
 	char strTemp[18];
 	char preset[32] = "PRESET_GAN_";
 	char lowset[32] = "PRESET_OFF_";
+
     strcat(preset, CT);
     strcat(lowset, CT);
+
     if (0 != pColorST->PriRR)
 	{
 		if (AdjustGAN == 1)
