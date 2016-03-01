@@ -1363,6 +1363,7 @@ On Error GoTo ErrExit
         If txtInput.Locked = False Then
             If txtInput.Text = "" Or Len(txtInput.Text) <> gintBarCodeLen Then
                 MsgBox "条形码不对，请确认！(要求长度为：" & CStr(gintBarCodeLen) & ")"
+                txtInput.Text = ""
                 Exit Sub
             Else
                 gstrBarCode = txtInput.Text
@@ -1405,6 +1406,7 @@ On Error GoTo ErrExit
     Exit Sub
 
 ErrExit:
+    txtInput.Text = ""
     'Invalid Port Number
     If Err.Number = 8002 Then
         MsgBox Err.Description, vbCritical, Err.Source
