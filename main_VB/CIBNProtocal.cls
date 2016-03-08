@@ -97,7 +97,7 @@ Private Sub CommunicationProtocal_SwitchInputSource(strInputSrc As String, intSr
         Else
             mSendDataBuf(3) = &H4
         End If
-    ElseIf strInputSrc = "CVBS" Then
+    ElseIf strInputSrc = "AV" Then
         mSendDataBuf(3) = &H3
     ElseIf strInputSrc = "YPbPr" Then
         mSendDataBuf(3) = &H7

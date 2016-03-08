@@ -105,7 +105,7 @@ Private Sub CommunicationProtocal_SwitchInputSource(strInputSrc As String, intSr
         Else
             mSendDataBuf(7) = &H23
         End If
-    ElseIf strInputSrc = "CVBS" Then
+    ElseIf strInputSrc = "AV" Then
         If intSrcNum = 1 Then
             mSendDataBuf(7) = &H25
         ElseIf intSrcNum = 2 Then
@@ -219,7 +219,7 @@ Private Sub SetColorTempCool1(strInputSrc As String, intSrcNum As Integer)
         Else
             mSendDataBuf(7) = &H23
         End If
-    ElseIf strInputSrc = "CVBS" Then
+    ElseIf strInputSrc = "AV" Then
         If intSrcNum = 1 Then
             mSendDataBuf(7) = &H25
         ElseIf intSrcNum = 2 Then
@@ -270,7 +270,7 @@ Private Sub SetColorTempNormal(strInputSrc As String, intSrcNum As Integer)
         Else
             mSendDataBuf(7) = &H23
         End If
-    ElseIf strInputSrc = "CVBS" Then
+    ElseIf strInputSrc = "AV" Then
         If intSrcNum = 1 Then
             mSendDataBuf(7) = &H25
         ElseIf intSrcNum = 2 Then
@@ -321,7 +321,7 @@ Private Sub SetColorTempWarm1(strInputSrc As String, intSrcNum As Integer)
         Else
             mSendDataBuf(7) = &H23
         End If
-    ElseIf strInputSrc = "CVBS" Then
+    ElseIf strInputSrc = "AV" Then
         If intSrcNum = 1 Then
             mSendDataBuf(7) = &H25
         ElseIf intSrcNum = 2 Then
@@ -479,7 +479,7 @@ Private Sub CommunicationProtocal_SaveWBDataToAllSrc(strInputSrc As String, intS
         Else
             mSendDataBuf(7) = &H23
         End If
-    ElseIf strInputSrc = "CVBS" Then
+    ElseIf strInputSrc = "AV" Then
         If intSrcNum = 1 Then
             mSendDataBuf(7) = &H25
         ElseIf intSrcNum = 2 Then

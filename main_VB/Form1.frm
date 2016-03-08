@@ -582,8 +582,11 @@ On Error GoTo ErrExit
         'Timing 69: HDMI-720P60
         'Timing 74: HDMI-1080P60
         Call frmCmbType.ChangeTiming("69")
-        DelayMS delayTime
+    ElseIf setTVInputSource = "AV" Then
+        'Timing 38: PAL-BDGHI
+        Call frmCmbType.ChangeTiming("38")
     End If
+    DelayMS delayTime
 
     Call frmCmbType.ChangePattern("103")
     DelayMS delayTime
