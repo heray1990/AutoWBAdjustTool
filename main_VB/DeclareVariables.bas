@@ -78,6 +78,8 @@ Public gstrBarCode As String
 Public countTime As Long
 Public gstrBrand As String
 
+Public gstrVPGModel As String
+
 
 Public Type COLORTEMPSPEC
     xx                         As Long

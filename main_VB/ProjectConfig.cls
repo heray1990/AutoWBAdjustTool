@@ -29,6 +29,7 @@ Private Type udtConfigData
     intChannelNum As Integer
     intBarCodeLen As Integer
     intLvSpec As Integer
+    strVPGModel As String
     bolEnableCool2 As Boolean
     bolEnableCool1 As Boolean
     bolEnableNormal As Boolean
@@ -52,6 +53,7 @@ Private Sub Class_Initialize()
     mConfigData.intChannelNum = 1
     mConfigData.intBarCodeLen = 1
     mConfigData.intLvSpec = 280
+    mConfigData.strVPGModel = "22294"
     mConfigData.bolEnableCool2 = False
     mConfigData.bolEnableCool1 = True
     mConfigData.bolEnableNormal = True
@@ -88,6 +90,7 @@ Public Sub LoadConfigData()
         mConfigData.intChannelNum = Val(xmlDoc.selectSingleNode("/config/channel_number").Text)
         mConfigData.intBarCodeLen = Val(xmlDoc.selectSingleNode("/config/length_bar_code").Text)
         mConfigData.intLvSpec = Val(xmlDoc.selectSingleNode("/config/Lv_spec").Text)
+        mConfigData.strVPGModel = xmlDoc.selectSingleNode("/config/VPG_model").Text
     End If
 
     If xmlDoc.selectSingleNode("/config/cool_2").Text = "True" Then
@@ -155,6 +158,7 @@ Public Sub SaveConfigData()
         xmlDoc.selectSingleNode("/config/channel_number").Text = CStr(mConfigData.intChannelNum)
         xmlDoc.selectSingleNode("/config/length_bar_code").Text = CStr(mConfigData.intBarCodeLen)
         xmlDoc.selectSingleNode("/config/Lv_spec").Text = CStr(mConfigData.intLvSpec)
+        xmlDoc.selectSingleNode("/config/VPG_model").Text = mConfigData.strVPGModel
         
         If mConfigData.bolEnableCool2 Then
             xmlDoc.selectSingleNode("/config/cool_2").Text = "True"
@@ -264,6 +268,14 @@ End Property
 
 Public Property Let LvSpec(intLvSpec As Integer)
     mConfigData.intLvSpec = intLvSpec
+End Property
+
+Public Property Get VPGModel() As String
+    VPGModel = mConfigData.strVPGModel
+End Property
+
+Public Property Let VPGModel(strVPGModel As String)
+    mConfigData.strVPGModel = strVPGModel
 End Property
 
 Public Property Get EnableCool2() As Boolean

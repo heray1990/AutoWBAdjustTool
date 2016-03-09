@@ -486,9 +486,6 @@ Begin VB.Form Form1
       Begin VB.Menu tbDisConnectastro 
          Caption         =   "DisConnectCA210(&D)"
       End
-      Begin VB.Menu vbConChroma 
-         Caption         =   "ConnectChroma"
-      End
    End
    Begin VB.Menu vbSet 
       Caption         =   "Setting"
@@ -509,7 +506,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
 Option Explicit
 
 Dim RES As Long
@@ -529,6 +525,13 @@ Dim cmdMark As String
 Dim clsCommProtocal As CommunicationProtocal
 Dim clsCIBNProtocal As CIBNProtocal
 Dim clsLetvProtocal As LetvProtocal
+
+Dim ivpg As IVPGCtrl
+Private mTitle As String
+Dim m_Title As String
+
+Private WithEvents Obj As VPGCtrl.VPGCtrl
+Attribute Obj.VB_VarHelpID = -1
 
 Private Sub subMainProcesser()
     Dim i, j As Integer
@@ -581,14 +584,14 @@ On Error GoTo ErrExit
     If setTVInputSource = "HDMI" Then
         'Timing 69: HDMI-720P60
         'Timing 74: HDMI-1080P60
-        Call frmCmbType.ChangeTiming("69")
+        Call ChangeTiming("69")
     ElseIf setTVInputSource = "AV" Then
         'Timing 38: PAL-BDGHI
-        Call frmCmbType.ChangeTiming("38")
+        Call ChangeTiming("38")
     End If
     DelayMS delayTime
 
-    Call frmCmbType.ChangePattern("103")
+    Call ChangePattern("103")
     DelayMS delayTime
     
     Label6.Caption = "WHITE"
@@ -653,7 +656,7 @@ ADJUST_GAIN_AGAIN_WARM1:
     If isAdjustOffset Then
         Label6.Caption = "GREY"
 
-        Call frmCmbType.ChangePattern("109")
+        Call ChangePattern("109")
         DelayMS delayTime
 
         If isAdjustCool1 Then
@@ -701,7 +704,7 @@ ADJUST_GAIN_AGAIN_WARM1:
 
     If isCheckColorTemp Then
         If isAdjustOffset Then
-            Call frmCmbType.ChangePattern("103")
+            Call ChangePattern("103")
             DelayMS delayTime
         End If
 CHECK_COOL1:
@@ -771,7 +774,7 @@ CHECK_WARM1:
     'Last check:
     'Cool, 100% white pattern, brightness = 100, contrast = 100
     'Check Lv and save x, y, lv
-    Call frmCmbType.ChangePattern("101")
+    Call ChangePattern("101")
     DelayMS delayTime
 
     Call clsCommProtocal.SetBrightness(100)
@@ -1230,10 +1233,6 @@ Private Sub Timer1_Timer()
     lbTimer.Caption = CStr(countTime) & "s"
 End Sub
 
-Private Sub vbConChroma_Click()
-    frmCmbType.Show
-End Sub
-
 Private Sub vbSetSPEC_Click()
     frmSetData.Show
 End Sub
@@ -1267,6 +1266,7 @@ Private Sub Form_Load()
         Set clsCommProtocal = clsLetvProtocal
     End If
 
+    mTitle = Me.Caption
     subInitInterface
     
     RES = initColorTemp(Calibrate, MinBrightness, gstrCurProjName, App.Path)      'InitLPT in dll.
@@ -1287,6 +1287,7 @@ Public Sub subInitInterface()
     Ca210ChannelNO = clsConfigData.ChannelNum
     gintBarCodeLen = clsConfigData.BarCodeLen
     maxBrightnessSpec = clsConfigData.LvSpec
+    gstrVPGModel = clsConfigData.VPGModel
     isAdjustCool2 = clsConfigData.EnableCool2
     isAdjustCool1 = clsConfigData.EnableCool1
     isAdjustNormal = clsConfigData.EnableNormal
@@ -1321,6 +1322,8 @@ Public Sub subInitInterface()
     If isAdjustNormal = False Then lbAdjustNormal.ForeColor = &HC0C0C0
     If isAdjustWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
     If isAdjustWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
+    
+    InitVPGDevice
 End Sub
 
 Private Sub subInitComPort()
@@ -1601,4 +1604,101 @@ End Sub
 Private Sub tcpClient_Connect()
     'Success to connect the TV.
     isNetworkConnected = True
+End Sub
+
+Private Sub InitVPGDevice()
+
+    Select Case gstrVPGModel
+        Case "2401"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2401)
+        Case "2402"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2402)
+        Case "2333_B"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2333_B)
+        Case "23293_B"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG23293_B)
+        Case "23294"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG23294)
+        Case "22293"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22293)
+        Case "22293_A"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22293_A)
+        Case "22293_B"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22293_B)
+        Case "2233"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2233)
+        Case "2233_A"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2233_A)
+        Case "2233_B"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2233_B)
+        Case "2234"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2234)
+        Case "22294"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22294)
+        Case "22294_A"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22294_A)
+    End Select
+
+End Sub
+
+Private Sub Obj_OnChangedConnectState(ByVal bIsConnected As Boolean)
+    If bIsConnected = True Then
+            Me.Caption = mTitle & " [Chroma " & gstrVPGModel & _
+                "Connected " & IIf(ivpg.IsHighSpeed, "USB2.0", "USB1.1") & "]"
+        Else
+            Me.Caption = mTitle & " [Chroma " & gstrVPGModel & " [Disconnected]"
+    End If
+End Sub
+
+Private Sub ChangeTiming(Tim As String)
+    Dim bNo(1) As Byte
+
+    cmbType.Text = "Timing"
+    txtRunNum.Text = Tim
+    
+    bNo(0) = (CInt(txtRunNum.Text) And &HFF00) \ 256
+    bNo(1) = CInt(txtRunNum.Text) And &HFF
+
+    ivpg.ExecuteCmd VPG_CMD_CM_DOWNLOAD, VPG_SCMD_SCM_CTL_RUNTIM, bNo, False
+End Sub
+
+Private Sub ChangePattern(Ptn As String)
+    Dim bNo(1) As Byte
+
+    cmbType.Text = "Pattern"
+    txtRunNum.Text = Ptn
+    
+    bNo(0) = (CInt(txtRunNum.Text) And &HFF00) \ 256
+    bNo(1) = CInt(txtRunNum.Text) And &HFF
+
+    ivpg.RunKey (VPG_KEY_CKEY_OUT)
+    ivpg.ExecuteCmd VPG_CMD_CM_DOWNLOAD, VPG_SCMD_SCM_CTL_RUNPTN, bNo, False
 End Sub

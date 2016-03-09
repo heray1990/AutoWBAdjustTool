@@ -18,7 +18,60 @@ Begin VB.Form frmSetData
    LinkTopic       =   "Form4"
    ScaleHeight     =   5655
    ScaleWidth      =   5055
-   Begin VB.Frame Frame1 
+   Begin VB.Frame Frame6 
+      Caption         =   "Chroma"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   9
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   800
+      Left            =   2550
+      TabIndex        =   30
+      Top             =   3720
+      Width           =   2400
+      Begin VB.ComboBox cmbChromaModel 
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   345
+         ItemData        =   "frmSetData.frx":1DF72
+         Left            =   1200
+         List            =   "frmSetData.frx":1DFA0
+         TabIndex        =   32
+         Text            =   "22294"
+         Top             =   300
+         Width           =   1000
+      End
+      Begin VB.Label lbChromaModel 
+         Caption         =   "Model:"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   200
+         TabIndex        =   31
+         Top             =   330
+         Width           =   900
+      End
+   End
+   Begin VB.Frame Frame5 
       Caption         =   "Serial Port"
       BeginProperty Font 
          Name            =   "Arial"
@@ -45,9 +98,9 @@ Begin VB.Form frmSetData
             Strikethrough   =   0   'False
          EndProperty
          Height          =   345
-         ItemData        =   "frmSetData.frx":1DF72
+         ItemData        =   "frmSetData.frx":1E00D
          Left            =   1200
-         List            =   "frmSetData.frx":1DF74
+         List            =   "frmSetData.frx":1E00F
          TabIndex        =   27
          Text            =   "COM1"
          Top             =   300
@@ -105,7 +158,7 @@ Begin VB.Form frmSetData
          Width           =   900
       End
    End
-   Begin VB.Frame Frame3 
+   Begin VB.Frame Frame4 
       Caption         =   "Communication Mode"
       BeginProperty Font 
          Name            =   "Arial"
@@ -156,7 +209,7 @@ Begin VB.Form frmSetData
          Width           =   1000
       End
    End
-   Begin VB.Frame Frame5 
+   Begin VB.Frame Frame2 
       Caption         =   "Common Setting"
       BeginProperty Font 
          Name            =   "Arial"
@@ -168,7 +221,6 @@ Begin VB.Form frmSetData
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1815
-      Index           =   1
       Left            =   120
       TabIndex        =   10
       Top             =   3720
@@ -203,9 +255,9 @@ Begin VB.Form frmSetData
             Strikethrough   =   0   'False
          EndProperty
          Height          =   345
-         ItemData        =   "frmSetData.frx":1DF76
+         ItemData        =   "frmSetData.frx":1E011
          Left            =   1200
-         List            =   "frmSetData.frx":1DF86
+         List            =   "frmSetData.frx":1E021
          TabIndex        =   17
          Text            =   "HDMI1"
          Top             =   1000
@@ -318,7 +370,7 @@ Begin VB.Form frmSetData
          Width           =   900
       End
    End
-   Begin VB.Frame Frame5 
+   Begin VB.Frame Frame3 
       Caption         =   "CA310/CA210"
       BeginProperty Font 
          Name            =   "Arial"
@@ -330,7 +382,6 @@ Begin VB.Form frmSetData
          Strikethrough   =   0   'False
       EndProperty
       Height          =   800
-      Index           =   0
       Left            =   2550
       TabIndex        =   7
       Top             =   840
@@ -372,7 +423,7 @@ Begin VB.Form frmSetData
          Width           =   900
       End
    End
-   Begin VB.Frame Selection 
+   Begin VB.Frame Frame1 
       Caption         =   "Selection"
       BeginProperty Font 
          Name            =   "Arial"
@@ -584,6 +635,8 @@ Private Sub Form_Load()
     cmbComBaud.AddItem "38400"
     cmbComBaud.AddItem "57600"
     cmbComBaud.AddItem "115200"
+    
+    cmbChromaModel.Text = gstrVPGModel
 
     If isUartMode Then
         optUart.Value = True
@@ -677,6 +730,7 @@ Private Sub Command1_Click()
     clsSaveConfigData.ChannelNum = Val(txtChannel.Text)
     clsSaveConfigData.DelayMS = Val(txtDelay.Text)
     clsSaveConfigData.inputSource = cmbInputSource.Text
+    clsSaveConfigData.VPGModel = cmbChromaModel.Text
     
     clsSaveConfigData.SaveConfigData
     

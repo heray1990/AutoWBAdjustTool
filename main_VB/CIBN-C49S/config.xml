@@ -8,6 +8,7 @@
 	<channel_number>1</channel_number>
 	<length_bar_code>1</length_bar_code>
 	<Lv_spec>250</Lv_spec>
+	<VPG_model>22294</VPG_model>
 	<cool_2>False</cool_2>
 	<cool_1>True</cool_1>
 	<normal>True</normal>

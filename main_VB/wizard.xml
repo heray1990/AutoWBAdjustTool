@@ -3,9 +3,9 @@
 	<current_project>Letv-X50</current_project>
 	<project_list>
 		<project brand="Letv" model="X65"/>
-		<project brand="Letv" model="X65-AU玻璃"/>
+		<project brand="Letv" model="X65-AUO"/>
 		<project brand="Letv" model="X50"/>
 		<project brand="CIBN" model="C49S"/>
-		<project brand="CIBN" model="C43S"/>
+		<project brand="CIBN" model="C43C"/>
 	</project_list>
 </wizard>

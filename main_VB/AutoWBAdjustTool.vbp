@@ -20,7 +20,6 @@ Module=AdjustDLL; AdjustDLL.bas
 Form=frmSplash.frm
 Module=DataBase; DataBase.bas
 Form=frmSetData.frm
-Form=VPGDemo.frm
 Class=ProjectConfig; ProjectConfig.cls
 Module=WizardXMLHelper; WizardXMLHelper.bas
 Class=CommunicationProtocal; CommunicationProtocal.cls
