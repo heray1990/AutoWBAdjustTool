@@ -1670,34 +1670,25 @@ Private Sub InitVPGDevice()
 End Sub
 
 Private Sub Obj_OnChangedConnectState(ByVal bIsConnected As Boolean)
-    If bIsConnected = True Then
-            Me.Caption = mTitle & " [Chroma " & gstrVPGModel & _
-                "Connected " & IIf(ivpg.IsHighSpeed, "USB2.0", "USB1.1") & "]"
-        Else
-            Me.Caption = mTitle & " [Chroma " & gstrVPGModel & " [Disconnected]"
+    If bIsConnected = False Then
+        Me.Caption = mTitle & " [Chroma " & gstrVPGModel & " Disconnected]"
     End If
 End Sub
 
 Private Sub ChangeTiming(Tim As String)
     Dim bNo(1) As Byte
-
-    cmbType.Text = "Timing"
-    txtRunNum.Text = Tim
     
-    bNo(0) = (CInt(txtRunNum.Text) And &HFF00) \ 256
-    bNo(1) = CInt(txtRunNum.Text) And &HFF
+    bNo(0) = (CInt(Tim) And &HFF00) \ 256
+    bNo(1) = CInt(Tim) And &HFF
 
     ivpg.ExecuteCmd VPG_CMD_CM_DOWNLOAD, VPG_SCMD_SCM_CTL_RUNTIM, bNo, False
 End Sub
 
 Private Sub ChangePattern(Ptn As String)
     Dim bNo(1) As Byte
-
-    cmbType.Text = "Pattern"
-    txtRunNum.Text = Ptn
     
-    bNo(0) = (CInt(txtRunNum.Text) And &HFF00) \ 256
-    bNo(1) = CInt(txtRunNum.Text) And &HFF
+    bNo(0) = (CInt(Ptn) And &HFF00) \ 256
+    bNo(1) = CInt(Ptn) And &HFF
 
     ivpg.RunKey (VPG_KEY_CKEY_OUT)
     ivpg.ExecuteCmd VPG_CMD_CM_DOWNLOAD, VPG_SCMD_SCM_CTL_RUNPTN, bNo, False
