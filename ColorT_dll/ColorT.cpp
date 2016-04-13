@@ -197,69 +197,25 @@ COLORT_API int _stdcall  adjustColorTempForCIBN(pREALRGB pAdjRGB)
 {
 	if (ca_y < PrimaryData.sy - PrimaryData.yt)
 	{
-		if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep5)
-		{
-			CalcRGB.cBB = PrimaryData.PriBB - 5;
-		}
-		else if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep3)
-		{
-			CalcRGB.cBB = PrimaryData.PriBB - 3;
-		}
-		else
-		{
-			CalcRGB.cBB = PrimaryData.PriBB - 1;
-		}
+		CalcRGB.cBB = PrimaryData.PriBB - (PrimaryData.sy - ca_y) / PrimaryData.MagicValYStepGain;
 	}
 	else
 	{
 		if (ca_y > PrimaryData.sy + PrimaryData.yt)
 		{
-			if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep5)
-			{
-				CalcRGB.cBB = PrimaryData.PriBB + 5;
-			}
-			else if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep3)
-			{
-				CalcRGB.cBB = PrimaryData.PriBB + 3;
-			}
-			else
-			{
-				CalcRGB.cBB = PrimaryData.PriBB + 1;
-			}
+			CalcRGB.cBB = PrimaryData.PriBB + (ca_y - PrimaryData.sy) / PrimaryData.MagicValYStepGain;
 		}
 		else
 		{
 			if (ca_x > PrimaryData.sx + PrimaryData.xt)
 			{
-				if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
-				{
-					CalcRGB.cRR = PrimaryData.PriRR - 5;
-				}
-				else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
-				{
-					CalcRGB.cRR = PrimaryData.PriRR - 3;
-				}
-				else
-				{
-					CalcRGB.cRR = PrimaryData.PriRR - 1;
-				}
+				CalcRGB.cRR = PrimaryData.PriRR - (ca_x - PrimaryData.sx) / PrimaryData.MagicValXStepGain;
 			}
 			else
 			{
 				if (ca_x < PrimaryData.sx - PrimaryData.xt)
 				{
-					if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
-					{
-						CalcRGB.cRR = PrimaryData.PriRR + 5;
-					}
-					else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
-					{
-						CalcRGB.cRR = PrimaryData.PriRR + 3;
-					}
-					else
-					{
-						CalcRGB.cRR = PrimaryData.PriRR + 1;
-					}
+					CalcRGB.cRR = PrimaryData.PriRR + (PrimaryData.sx - ca_x) / PrimaryData.MagicValXStepGain;
 				}
 			}
 		}
@@ -291,39 +247,20 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, pREALRGB pAdjRGB, int *pR
 		case 1:
 			if (ca_x < PrimaryData.sx - PrimaryData.xt)
 			{
-				if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
-				{
-					CalcRGB.cRR = PrimaryData.PriRR + 5;
-				}
-				else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
-				{
-					CalcRGB.cRR = PrimaryData.PriRR + 3;
-				}
-				else
-				{
-					CalcRGB.cRR = PrimaryData.PriRR + 1;
-				}
+				CalcRGB.cRR = PrimaryData.PriRR + (PrimaryData.sx - ca_x) / PrimaryData.MagicValXStepGain;
 
 				if (CalcRGB.cRR >= 135)
 				{
+					/* No matter x is OK or not, go to case 2, 
+					   so be careful about x when adjusting G 
+					   gain in case 2. */
 					CalcRGB.cRR = 135;
 					*pResultCode = 2;
 				}
 			}
 			else if (ca_x > PrimaryData.sx + PrimaryData.xt)
 			{
-				if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
-				{
-					CalcRGB.cRR = PrimaryData.PriRR - 5;
-				}
-				else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
-				{
-					CalcRGB.cRR = PrimaryData.PriRR - 3;
-				}
-				else
-				{
-					CalcRGB.cRR = PrimaryData.PriRR - 1;
-				}
+				CalcRGB.cRR = PrimaryData.PriRR - (ca_x - PrimaryData.sx) / PrimaryData.MagicValXStepGain;
 			}
 			else    // x is OK
 			{
@@ -335,101 +272,45 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, pREALRGB pAdjRGB, int *pR
 			{
 				CalcRGB.cGG = 128;
 			}
-			// Now x is OK, then adjust G Gain to match y.
+			// Adjust G Gain to match y.
 			if (ca_y < PrimaryData.sy - PrimaryData.yt)
 			{
-				if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep5)
-				{
-					CalcRGB.cGG = CalcRGB.cGG + 5;
-				}
-				else if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep3)
-				{
-					CalcRGB.cGG = CalcRGB.cGG + 3;
-				}
-				else
-				{
-					CalcRGB.cGG = CalcRGB.cGG + 1;
-				}
+				CalcRGB.cGG = CalcRGB.cGG + (PrimaryData.sy - ca_y) / PrimaryData.MagicValYStepGain;
 			}
 			else if (ca_y > PrimaryData.sy + PrimaryData.yt)
 			{
-				if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep5)
-				{
-					CalcRGB.cGG = CalcRGB.cGG - 5;
-				}
-				else if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep3)
-				{
-					CalcRGB.cGG = CalcRGB.cGG - 3;
-				}
-				else
-				{
-					CalcRGB.cGG = CalcRGB.cGG - 1;
-				}
+				CalcRGB.cGG = CalcRGB.cGG - (ca_y - PrimaryData.sy) / PrimaryData.MagicValYStepGain;
 			}
 
 			if (ca_x > PrimaryData.sx + PrimaryData.xt)
 			{
-				if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
-				{
-					CalcRGB.cRR = CalcRGB.cRR - 5;
-				}
-				else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
-				{
-					CalcRGB.cRR = CalcRGB.cRR - 3;
-				}
-				else
-				{
-					CalcRGB.cRR = CalcRGB.cRR - 1;
-				}
+				CalcRGB.cRR = CalcRGB.cRR - (ca_x - PrimaryData.sx) / PrimaryData.MagicValXStepGain;
 			}
 			else if (ca_x < PrimaryData.sx - PrimaryData.xt)
 			{
-				if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
+				CalcRGB.cRR = CalcRGB.cRR + (PrimaryData.sx - ca_x) / PrimaryData.MagicValXStepGain;
+
+				if (CalcRGB.cRR >= 135)
 				{
-					CalcRGB.cRR = CalcRGB.cRR + 5;
-				}
-				else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
-				{
-					CalcRGB.cRR = CalcRGB.cRR + 3;
-				}
-				else
-				{
-					CalcRGB.cRR = CalcRGB.cRR + 1;
+					/* R gain is saturated, but x is too small. 
+					   Go to case 4 to fix it (decrease B gain). */
+					CalcRGB.cRR = 135;
+					*pResultCode = 4;
+
+					CalcRGB.cBB = PrimaryData.PriBB - (PrimaryData.sx - ca_x) / PrimaryData.MagicValXStepGain;
 				}
 			}
 			break;
 		case 3:   //  "normal adjust" 
 			if (ca_y < PrimaryData.sy - PrimaryData.yt)
 			{
-				if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep5)
-				{
-					CalcRGB.cBB = PrimaryData.PriBB - 5;
-				}
-				else if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep3)
-				{
-					CalcRGB.cBB = PrimaryData.PriBB - 3;
-				}
-				else
-				{
-					CalcRGB.cBB = PrimaryData.PriBB - 1;
-				}
+				CalcRGB.cBB = PrimaryData.PriBB - (PrimaryData.sy - ca_y) / PrimaryData.MagicValYStepGain;
 			}
 			else
 			{
 				if (ca_y > PrimaryData.sy + PrimaryData.yt)
 				{
-					if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep5)
-					{
-						CalcRGB.cBB = PrimaryData.PriBB + 5;
-					}
-					else if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep3)
-					{
-						CalcRGB.cBB = PrimaryData.PriBB + 3;
-					}
-					else
-					{
-						CalcRGB.cBB = PrimaryData.PriBB + 1;
-					}
+					CalcRGB.cBB = PrimaryData.PriBB + (ca_y - PrimaryData.sy) / PrimaryData.MagicValYStepGain;
 				
 					if (CalcRGB.cBB >= 135)
 					{
@@ -441,53 +322,22 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, pREALRGB pAdjRGB, int *pR
 				{
 					if (ca_x > PrimaryData.sx + PrimaryData.xt)
 					{
-						if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
-						{
-							CalcRGB.cRR = PrimaryData.PriRR - 5;
-						}
-						else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
-						{
-							CalcRGB.cRR = PrimaryData.PriRR - 3;
-						}
-						else
-						{
-							CalcRGB.cRR = PrimaryData.PriRR - 1;
-						}
+						CalcRGB.cRR = PrimaryData.PriRR - (ca_x - PrimaryData.sx) / PrimaryData.MagicValXStepGain;
 					}
 					else
 					{
 						if (ca_x < PrimaryData.sx - PrimaryData.xt)
 						{
-							if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
-							{
-								CalcRGB.cRR = PrimaryData.PriRR + 5;
-							}
-							else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
-							{
-								CalcRGB.cRR = PrimaryData.PriRR + 3;
-							}
-							else
-							{
-								CalcRGB.cRR = PrimaryData.PriRR + 1;
-							}
+							CalcRGB.cRR = PrimaryData.PriRR + (PrimaryData.sx - ca_x) / PrimaryData.MagicValXStepGain;
 						
 							if (CalcRGB.cRR >= 135)
 							{
+								/* R gain is saturated, but x is too small. 
+								   Go to case 4 to fix it (decrease B gain). */
 								CalcRGB.cRR = 135;
-								*pResultCode = 3;
-							}
+								*pResultCode = 4;
 
-							if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
-							{
-								CalcRGB.cBB = PrimaryData.PriBB - 5;
-							}
-							else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
-							{
-								CalcRGB.cBB = PrimaryData.PriBB - 3;
-							}
-							else
-							{
-								CalcRGB.cBB = PrimaryData.PriBB - 1;
+								CalcRGB.cBB = PrimaryData.PriBB - (PrimaryData.sx - ca_x) / PrimaryData.MagicValXStepGain;
 							}
 						}
 					}
@@ -497,65 +347,26 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, pREALRGB pAdjRGB, int *pR
 		case 4:
 			if (ca_x < PrimaryData.sx - PrimaryData.xt)
 			{
-				if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep5)
-				{
-					CalcRGB.cBB = PrimaryData.PriBB - 5;
-				}
-				else if (PrimaryData.sx - ca_x > PrimaryData.MagicValXStep3)
-				{
-					CalcRGB.cBB = PrimaryData.PriBB - 3;
-				}
-				else
-				{
-					CalcRGB.cBB = PrimaryData.PriBB - 1;
-				}
+				CalcRGB.cBB = PrimaryData.PriBB - (PrimaryData.sx - ca_x) / PrimaryData.MagicValXStepGain;
 			}
 			else if (ca_x > PrimaryData.sx + PrimaryData.xt)
 			{
-				if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep5)
-				{
-					CalcRGB.cBB = PrimaryData.PriBB + 5;
-				}
-				else if (ca_x - PrimaryData.sx > PrimaryData.MagicValXStep3)
-				{
-					CalcRGB.cBB = PrimaryData.PriBB + 3;
-				}
-				else
-				{
-					CalcRGB.cBB = PrimaryData.PriBB + 1;
-				}
+				CalcRGB.cBB = PrimaryData.PriBB + (ca_x - PrimaryData.sx) / PrimaryData.MagicValXStepGain;
 			}
 			else
 			{
 				if (ca_y < PrimaryData.sy - PrimaryData.yt)
 				{
-					if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep5)
+					CalcRGB.cGG = CalcRGB.cGG + (PrimaryData.sy - ca_y) / PrimaryData.MagicValYStepGain;
+
+					if (CalcRGB.cGG > 128)
 					{
-						CalcRGB.cGG = CalcRGB.cGG + 5;
-					}
-					else if (PrimaryData.sy - ca_y > PrimaryData.MagicValYStep3)
-					{
-						CalcRGB.cGG = CalcRGB.cGG + 3;
-					}
-					else
-					{
-						CalcRGB.cGG = CalcRGB.cGG + 1;
+						CalcRGB.cGG = 128;
 					}
 				}
 				else if (ca_y > PrimaryData.sy + PrimaryData.yt)
 				{
-					if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep5)
-					{
-						CalcRGB.cGG = CalcRGB.cGG - 5;
-					}
-					else if (ca_y - PrimaryData.sy > PrimaryData.MagicValYStep3)
-					{
-						CalcRGB.cGG = CalcRGB.cGG - 3;
-					}
-					else
-					{
-						CalcRGB.cGG = CalcRGB.cGG - 1;
-					}
+					CalcRGB.cGG = CalcRGB.cGG - (ca_y - PrimaryData.sy) / PrimaryData.MagicValYStepGain;
 				}
 
 				*pResultCode = 2;
@@ -578,25 +389,25 @@ COLORT_API int _stdcall  adjustColorTempOffset(pREALRGB pAdjRGB)
 {
 	if (ca_y < PrimaryData.sy - PrimaryData.yt)
 	{
-		CalcRGB.cBB = PrimaryData.PriBB - 1;
+		CalcRGB.cBB = PrimaryData.PriBB - (PrimaryData.sy - ca_y) / PrimaryData.MagicValYStepOffset;
 	}
 	else
 	{
 		if (ca_y > PrimaryData.sy + PrimaryData.yt)
 		{
-			CalcRGB.cBB = PrimaryData.PriBB + 1;
+			CalcRGB.cBB = PrimaryData.PriBB + (ca_y - PrimaryData.sy) / PrimaryData.MagicValYStepOffset;
 		}
 		else
 		{
 			if (ca_x > PrimaryData.sx + PrimaryData.xt)
 			{
-				CalcRGB.cRR = PrimaryData.PriRR - 1;
+				CalcRGB.cRR = PrimaryData.PriRR - (ca_x - PrimaryData.sx) / PrimaryData.MagicValXStepOffset;
 			}
 			else
 			{
 				if (ca_x < PrimaryData.sx - PrimaryData.xt)
 				{
-					CalcRGB.cRR = PrimaryData.PriRR + 1;
+					CalcRGB.cRR = PrimaryData.PriRR + (PrimaryData.sx - ca_x) / PrimaryData.MagicValXStepOffset;
 				}
 			}
 		}
@@ -719,10 +530,10 @@ int getdata(pCOLORSPEC pColorST, char* CT)
 	pColorST->LowRR = GetPrivateProfileInt(lowset, "###R", nDefault, buf);
     pColorST->LowGG = GetPrivateProfileInt(lowset, "###G", nDefault, buf);
     pColorST->LowBB = GetPrivateProfileInt(lowset, "###B", nDefault, buf);
-	pColorST->MagicValXStep3 = GetPrivateProfileInt(magicValX, "#####STEP3", nDefault, buf);
-	pColorST->MagicValXStep5 = GetPrivateProfileInt(magicValX, "#####STEP5", nDefault, buf);
-	pColorST->MagicValYStep3 = GetPrivateProfileInt(magicValY, "#####STEP3", nDefault, buf);
-	pColorST->MagicValYStep5 = GetPrivateProfileInt(magicValY, "#####STEP5", nDefault, buf);
+	pColorST->MagicValXStepGain = GetPrivateProfileInt(magicValX, "#####STEP_GAIN", nDefault, buf);
+	pColorST->MagicValXStepOffset = GetPrivateProfileInt(magicValX, "#####STEP_OFFSET", nDefault, buf);
+	pColorST->MagicValYStepGain = GetPrivateProfileInt(magicValY, "#####STEP_GAIN", nDefault, buf);
+	pColorST->MagicValYStepOffset = GetPrivateProfileInt(magicValY, "#####STEP_OFFSET", nDefault, buf);
 
 	return true;
 }

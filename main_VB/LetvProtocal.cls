@@ -135,8 +135,21 @@ Private Sub CommunicationProtocal_SwitchInputSource(strInputSrc As String, intSr
     SendCmd
 End Sub
 
+'Set picture mode to standard.
 Private Sub CommunicationProtocal_ResetPicMode()
-    'Empty cmd for Letv
+    '6E 51 86 03 FE E1 A7 05 01 CHK
+    mSendDataBuf(0) = &H6E
+    mSendDataBuf(1) = &H51
+    mSendDataBuf(2) = &H86
+    mSendDataBuf(3) = &H3
+    mSendDataBuf(4) = &HFE
+    mSendDataBuf(5) = &HE1
+    mSendDataBuf(6) = &HA7
+    mSendDataBuf(7) = &H5
+    mSendDataBuf(8) = &H1
+    mSendDataBuf(9) = CalChkSum(mSendDataBuf)
+    
+    SendCmd
 End Sub
 
 Private Sub CommunicationProtocal_SetBrightness(intBrightness As Integer)

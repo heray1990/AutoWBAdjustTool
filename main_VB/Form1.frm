@@ -131,6 +131,7 @@ Begin VB.Form Form1
       Width           =   2535
    End
    Begin VB.Label Label3 
+      Alignment       =   2  'Center
       Caption         =   "2970"
       BeginProperty Font 
          Name            =   "Arial"
@@ -142,10 +143,10 @@ Begin VB.Form Form1
          Strikethrough   =   0   'False
       EndProperty
       Height          =   405
-      Left            =   4480
+      Left            =   4560
       TabIndex        =   20
       Top             =   4080
-      Width           =   975
+      Width           =   900
    End
    Begin VB.Label lbModelName 
       Alignment       =   2  'Center
@@ -190,6 +191,7 @@ Begin VB.Form Form1
       Width           =   750
    End
    Begin VB.Label Label1 
+      Alignment       =   2  'Center
       Caption         =   "2670"
       BeginProperty Font 
          Name            =   "Arial"
@@ -204,7 +206,7 @@ Begin VB.Form Form1
       Left            =   3120
       TabIndex        =   17
       Top             =   4080
-      Width           =   975
+      Width           =   900
    End
    Begin VB.Label Label7 
       Appearance      =   0  'Flat
@@ -224,7 +226,7 @@ Begin VB.Form Form1
       Left            =   2640
       TabIndex        =   16
       Top             =   4020
-      Width           =   3805
+      Width           =   3810
    End
    Begin VB.Label Label6 
       Alignment       =   2  'Center
@@ -306,12 +308,13 @@ Begin VB.Form Form1
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   510
-      Left            =   5520
+      Left            =   5490
       TabIndex        =   12
       Top             =   3525
-      Width           =   930
+      Width           =   960
    End
    Begin VB.Label Label_y 
+      Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
       Caption         =   "2800"
@@ -325,13 +328,14 @@ Begin VB.Form Form1
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00000080&
-      Height          =   525
-      Left            =   4500
+      Height          =   405
+      Left            =   4560
       TabIndex        =   11
       Top             =   3555
-      Width           =   975
+      Width           =   900
    End
    Begin VB.Label Label_x 
+      Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
       Caption         =   "2700"
@@ -345,11 +349,11 @@ Begin VB.Form Form1
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00404000&
-      Height          =   525
+      Height          =   405
       Left            =   3120
       TabIndex        =   10
       Top             =   3555
-      Width           =   975
+      Width           =   900
    End
    Begin VB.Label lbAdjustWARM_1 
       Alignment       =   2  'Center
@@ -440,7 +444,7 @@ Begin VB.Form Form1
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "   x:"
+      Caption         =   " x:"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   18
@@ -455,7 +459,7 @@ Begin VB.Form Form1
       Left            =   2640
       TabIndex        =   8
       Top             =   3525
-      Width           =   1545
+      Width           =   1440
    End
    Begin VB.Label Label4 
       Appearance      =   0  'Flat
@@ -473,10 +477,10 @@ Begin VB.Form Form1
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   510
-      Left            =   4170
+      Left            =   4070
       TabIndex        =   9
       Top             =   3525
-      Width           =   1425
+      Width           =   1440
    End
    Begin VB.Menu vbFunc 
       Caption         =   "Function"
@@ -580,16 +584,6 @@ On Error GoTo ErrExit
     Call clsCommProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
     
     Call clsCommProtocal.ResetPicMode
-
-    If setTVInputSource = "HDMI" Then
-        'Timing 69: HDMI-720P60
-        'Timing 74: HDMI-1080P60
-        Call ChangeTiming("69")
-    ElseIf setTVInputSource = "AV" Then
-        'Timing 38: PAL-BDGHI
-        Call ChangeTiming("38")
-    End If
-    DelayMS delayTime
 
     Call ChangePattern("103")
     DelayMS delayTime
@@ -799,7 +793,16 @@ CHECK_WARM1:
 
     showData (lastChkShwDataStep)
     
+    Call clsCommProtocal.SetBrightness(50)
+    Log_Info "Set brightness to 50"
+
+    Call clsCommProtocal.SetContrast(50)
+    Log_Info "Set contrast to 50"
+    
+    DelayMS delayTime
+    
     clsCommProtocal.ResetPicMode
+    DelayMS delayTime
     
     If rColorLastChk.lv < maxBrightnessSpec Then
         ShowError_Sys (30)
@@ -1010,7 +1013,10 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
             If RES Then Exit For
             
             If RES = False Then
-                If gstrBrand = "CIBN" Then
+                If UCase(gstrBrand) = "CIBN" Or _
+                    UCase(gstrBrand) = "CAN" Or _
+                    UCase(gstrBrand) = "CANTV" Or _
+                    UCase(gstrBrand) = "HAIER" Then
                     Call adjustColorTempForCIBN(rRGB)
                 Else    ' Letv
                     If resCodeForAdjustColorTemp = 0 Then
@@ -1020,6 +1026,8 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
                     ElseIf resCodeForAdjustColorTemp = 2 Then
                         Call adjustColorTemp(adjustMode2, rRGB, resCodeForAdjustColorTemp)
                     ElseIf resCodeForAdjustColorTemp = 3 Then
+                        Call adjustColorTemp(adjustMode3, rRGB, resCodeForAdjustColorTemp)
+                    ElseIf resCodeForAdjustColorTemp = 4 Then
                         Call adjustColorTemp(adjustMode4, rRGB, resCodeForAdjustColorTemp)
                     End If
                 End If
@@ -1258,7 +1266,10 @@ Private Sub Form_Load()
     
     gstrBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
     
-    If gstrBrand = "CIBN" Then
+    If UCase(gstrBrand) = "CIBN" Or _
+        UCase(gstrBrand) = "CAN" Or _
+        UCase(gstrBrand) = "CANTV" Or _
+        UCase(gstrBrand) = "HAIER" Then
         Set clsCIBNProtocal = New CIBNProtocal
         Set clsCommProtocal = clsCIBNProtocal
     Else
@@ -1269,7 +1280,7 @@ Private Sub Form_Load()
     mTitle = Me.Caption
     subInitInterface
     
-    RES = initColorTemp(Calibrate, MinBrightness, gstrCurProjName, App.Path)      'InitLPT in dll.
+    RES = initColorTemp(Calibrate, MinBrightness, gstrCurProjName, App.Path)
 End Sub
 
 Public Sub subInitInterface()
@@ -1324,6 +1335,16 @@ Public Sub subInitInterface()
     If isAdjustWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
     
     InitVPGDevice
+    DelayMS delayTime
+    
+    If setTVInputSource = "HDMI" Then
+        'Timing 69: HDMI-720P60
+        'Timing 74: HDMI-1080P60
+        Call ChangeTiming("69")
+    ElseIf setTVInputSource = "AV" Then
+        'Timing 38: PAL-BDGHI
+        Call ChangeTiming("38")
+    End If
 End Sub
 
 Private Sub subInitComPort()
@@ -1422,7 +1443,10 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
 On Error GoTo ErrExit
 
-    If gstrBrand = "CIBN" Then
+    If UCase(gstrBrand) = "CIBN" Or _
+        UCase(gstrBrand) = "CAN" Or _
+        UCase(gstrBrand) = "CANTV" Or _
+        UCase(gstrBrand) = "HAIER" Then
         If Not (clsCIBNProtocal Is Nothing) Then
             Set clsCIBNProtocal = Nothing
         End If
