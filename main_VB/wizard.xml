@@ -5,8 +5,8 @@
 		<project brand="Letv" model="X65"/>
 		<project brand="Letv" model="X65-AUO"/>
 		<project brand="Letv" model="X50"/>
-		<project brand="CIBN" model="C49S"/>
-		<project brand="CIBN" model="C43C"/>
+		<project brand="CAN" model="C49S"/>
+		<project brand="CAN" model="C43C"/>
 		<project brand="Haier" model="75P3"/>
 	</project_list>
 </wizard>

@@ -527,7 +527,7 @@ Dim Calibrate, MinBrightness As Long
 Dim resCodeForAdjustColorTemp As Long
 Dim cmdMark As String
 Dim clsProtocal As Protocal
-Dim clsCIBNProtocal As CIBNProtocal
+Dim clsCANTVProtocal As CANTVProtocal
 Dim clsLetvProtocal As LetvProtocal
 Dim clsHaierProtocal As HaierProtocal
 
@@ -1270,8 +1270,8 @@ Private Sub Form_Load()
     If UCase(gstrBrand) = "CIBN" Or _
         UCase(gstrBrand) = "CAN" Or _
         UCase(gstrBrand) = "CANTV" Then
-        Set clsCIBNProtocal = New CIBNProtocal
-        Set clsProtocal = clsCIBNProtocal
+        Set clsCANTVProtocal = New CANTVProtocal
+        Set clsProtocal = clsCANTVProtocal
     ElseIf UCase(gstrBrand) = "HAIER" Then
         Set clsHaierProtocal = New HaierProtocal
         Set clsProtocal = clsHaierProtocal
@@ -1449,8 +1449,8 @@ On Error GoTo ErrExit
     If UCase(gstrBrand) = "CIBN" Or _
         UCase(gstrBrand) = "CAN" Or _
         UCase(gstrBrand) = "CANTV" Then
-        If Not (clsCIBNProtocal Is Nothing) Then
-            Set clsCIBNProtocal = Nothing
+        If Not (clsCANTVProtocal Is Nothing) Then
+            Set clsCANTVProtocal = Nothing
         End If
     ElseIf UCase(gstrBrand) = "HAIER" Then
         If Not (clsHaierProtocal Is Nothing) Then
