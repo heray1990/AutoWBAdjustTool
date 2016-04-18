@@ -16,7 +16,7 @@ Attribute VB_Exposed = False
 '**********************************************
 
 Option Explicit
-Implements CommunicationProtocal
+Implements Protocal
 
 Private mSendDataBuf(0 To 11) As Byte
 
@@ -72,15 +72,15 @@ Private Function CalChkSum(ByRef data() As Byte) As Byte
     End If
 End Function
 
-Private Sub CommunicationProtocal_EnterFacMode()
+Private Sub Protocal_EnterFacMode()
     'Empty cmd for CIBN
 End Sub
 
-Private Sub CommunicationProtocal_ExitFacMode()
+Private Sub Protocal_ExitFacMode()
     'Empty cmd for CIBN
 End Sub
 
-Private Sub CommunicationProtocal_SwitchInputSource(strInputSrc As String, intSrcNum As Integer)
+Private Sub Protocal_SwitchInputSource(strInputSrc As String, intSrcNum As Integer)
     '55 2E 01 XX 00 00 00 00 00 00 CHK FE
     'HDMI1: 55 2E 01 07 00 00 00 00 00 00 CA FE
     mSendDataBuf(0) = &H55
@@ -118,7 +118,7 @@ Private Sub CommunicationProtocal_SwitchInputSource(strInputSrc As String, intSr
 End Sub
 
 'Set picture mode to standard.
-Private Sub CommunicationProtocal_ResetPicMode()
+Private Sub Protocal_ResetPicMode()
     '55 34 00 00 00 00 00 00 00 00 CC FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H34
@@ -136,7 +136,7 @@ Private Sub CommunicationProtocal_ResetPicMode()
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetBrightness(intBrightness As Integer)
+Private Sub Protocal_SetBrightness(intBrightness As Integer)
     '55 37 02 XX XX 00 00 00 00 00 CHK FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H37
@@ -154,7 +154,7 @@ Private Sub CommunicationProtocal_SetBrightness(intBrightness As Integer)
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetContrast(intContrast As Integer)
+Private Sub Protocal_SetContrast(intContrast As Integer)
     '55 39 02 XX XX 00 00 00 00 00 CHK FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H39
@@ -172,7 +172,7 @@ Private Sub CommunicationProtocal_SetContrast(intContrast As Integer)
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetBacklight(intBacklight As Integer)
+Private Sub Protocal_SetBacklight(intBacklight As Integer)
     '55 3B 02 XX XX 00 00 00 00 00 CHK FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H3B
@@ -190,7 +190,7 @@ Private Sub CommunicationProtocal_SetBacklight(intBacklight As Integer)
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)
+Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)
     '55 02 01 XX 00 00 00 00 00 00 CHK FE
 
     mSendDataBuf(0) = &H55
@@ -218,7 +218,7 @@ Private Sub CommunicationProtocal_SelColorTemp(strColorT As String, strInputSrc 
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetRGBGain(lngRGain As Long, lngGGain As Long, lngBGain As Long)
+Private Sub Protocal_SetRGBGain(lngRGain As Long, lngGGain As Long, lngBGain As Long)
     '55 0A 06 XX XX XX XX XX XX 00 CHK FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &HA
@@ -236,7 +236,7 @@ Private Sub CommunicationProtocal_SetRGBGain(lngRGain As Long, lngGGain As Long,
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SetRGBOffset(lngROffset As Long, lngGOffset As Long, lngBOffset As Long)
+Private Sub Protocal_SetRGBOffset(lngROffset As Long, lngGOffset As Long, lngBOffset As Long)
     '55 04 06 XX XX XX XX XX XX 00 CHK FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H4
@@ -254,7 +254,7 @@ Private Sub CommunicationProtocal_SetRGBOffset(lngROffset As Long, lngGOffset As
     SendCmd
 End Sub
 
-Private Sub CommunicationProtocal_SaveWBDataToAllSrc(strInputSrc As String, intSrcNum As Integer)
+Private Sub Protocal_SaveWBDataToAllSrc(strInputSrc As String, intSrcNum As Integer)
     '55 01 01 06 00 00 00 00 00 00 F8 FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H1

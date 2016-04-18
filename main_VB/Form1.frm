@@ -526,7 +526,7 @@ Dim rColorLastChk As REALCOLOR
 Dim Calibrate, MinBrightness As Long
 Dim resCodeForAdjustColorTemp As Long
 Dim cmdMark As String
-Dim clsCommProtocal As CommunicationProtocal
+Dim clsProtocal As Protocal
 Dim clsCIBNProtocal As CIBNProtocal
 Dim clsLetvProtocal As LetvProtocal
 Dim clsHaierProtocal As HaierProtocal
@@ -580,11 +580,11 @@ On Error GoTo ErrExit
     Log_Info "###INITIAL USER###"
     Log_Info "###ADJUST COLORTEMP###"
 
-    clsCommProtocal.EnterFacMode
+    clsProtocal.EnterFacMode
 
-    Call clsCommProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
+    Call clsProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
     
-    Call clsCommProtocal.ResetPicMode
+    Call clsProtocal.ResetPicMode
 
     Call ChangePattern("103")
     DelayMS delayTime
@@ -600,7 +600,7 @@ ADJUST_GAIN_AGAIN_COOL1:
             ShowError_Sys (1)
             GoTo FAIL
         Else
-            Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+            Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
         lbAdjustCOOL_1.BackColor = &HC0FFC0
@@ -619,7 +619,7 @@ ADJUST_GAIN_AGAIN_NORMAL:
             ShowError_Sys (3)
             GoTo FAIL
         Else
-            Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+            Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
         lbAdjustNormal.BackColor = &HC0FFC0
@@ -638,7 +638,7 @@ ADJUST_GAIN_AGAIN_WARM1:
             ShowError_Sys (4)
             GoTo FAIL
         Else
-            Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+            Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
         lbAdjustWARM_1.BackColor = &HC0FFC0
@@ -662,7 +662,7 @@ ADJUST_GAIN_AGAIN_WARM1:
                 ShowError_Sys (11)
                 GoTo FAIL
             Else
-                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+                Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
    
             lbAdjustCOOL_1.BackColor = &HC0FFC0
@@ -676,7 +676,7 @@ ADJUST_GAIN_AGAIN_WARM1:
                 ShowError_Sys (13)
                 GoTo FAIL
             Else
-                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+                Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
     
             lbAdjustNormal.BackColor = &HC0FFC0
@@ -690,7 +690,7 @@ ADJUST_GAIN_AGAIN_WARM1:
                 ShowError_Sys (14)
                 GoTo FAIL
             Else
-                Call clsCommProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+                Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
 
             lbAdjustWARM_1.BackColor = &HC0FFC0
@@ -772,16 +772,16 @@ CHECK_WARM1:
     Call ChangePattern("101")
     DelayMS delayTime
 
-    Call clsCommProtocal.SetBrightness(100)
+    Call clsProtocal.SetBrightness(100)
     Log_Info "Set brightness to 100"
 
-    Call clsCommProtocal.SetContrast(100)
+    Call clsProtocal.SetContrast(100)
     Log_Info "Set contrast to 100"
 
-    Call clsCommProtocal.SetBacklight(100)
+    Call clsProtocal.SetBacklight(100)
     Log_Info "Set backlight to 100"
 
-    Call clsCommProtocal.SelColorTemp(cstrColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
+    Call clsProtocal.SelColorTemp(cstrColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
     Log_Info "Set color temp to cool1"
 
     DelayMS delayTime
@@ -794,15 +794,15 @@ CHECK_WARM1:
 
     showData (lastChkShwDataStep)
     
-    Call clsCommProtocal.SetBrightness(50)
+    Call clsProtocal.SetBrightness(50)
     Log_Info "Set brightness to 50"
 
-    Call clsCommProtocal.SetContrast(50)
+    Call clsProtocal.SetContrast(50)
     Log_Info "Set contrast to 50"
     
     DelayMS delayTime
     
-    clsCommProtocal.ResetPicMode
+    clsProtocal.ResetPicMode
     DelayMS delayTime
     
     If rColorLastChk.lv < maxBrightnessSpec Then
@@ -811,7 +811,7 @@ CHECK_WARM1:
     End If
 
 PASS:
-    clsCommProtocal.ExitFacMode
+    clsProtocal.ExitFacMode
 
     cmdMark = "PASS"
     Call saveALLcData
@@ -834,7 +834,7 @@ PASS:
     Exit Sub
 
 FAIL:
-    clsCommProtocal.ExitFacMode
+    clsProtocal.ExitFacMode
 
     cmdMark = "FAIL"
     Call saveALLcData
@@ -967,7 +967,7 @@ End Sub
 Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustVal As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
 
-    Call clsCommProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
+    Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
     DelayMS delayTime
 
     ' Set Offset first
@@ -983,7 +983,7 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
     End If
 
     Call LoadData(strColorTemp, 0)
-    Call clsCommProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
+    Call clsProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
     
     Log_Info "========Adjust " & strColorTemp & "========"
 
@@ -999,7 +999,7 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
         Label1 = Str$(presetData.xx)
         Label3 = Str$(presetData.yy)
 
-        Call clsCommProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
+        Call clsProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
         showData (1)
 
@@ -1037,7 +1037,7 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
                     ", G = " & CStr(rRGB.cGG) & ", B = " & CStr(rRGB.cBB) & _
                     ", resultcode = " & CStr(resCodeForAdjustColorTemp)
  
-                Call clsCommProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
+                Call clsProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
                 showData (2)
             End If
@@ -1061,7 +1061,7 @@ End Function
 Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixValue As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
 
-    Call clsCommProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
+    Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
     DelayMS delayTime
 
     Log_Info "========Adjust " & strColorTemp & "========"
@@ -1077,7 +1077,7 @@ Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixVa
         'Label1 = Str$(presetData.xx)
         'Label3 = Str$(presetData.yy)
 
-        Call clsCommProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
+        Call clsProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
         showData (3)
 
@@ -1094,7 +1094,7 @@ Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixVa
                 Log_Info "SET_RGB_OFFSET: R = " & CStr(rRGB.cRR) & _
                     ", G = " & CStr(rRGB.cGG) & ", B = " & CStr(rRGB.cBB)
 
-                Call clsCommProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
+                Call clsProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
     
                 showData (4)
             End If
@@ -1121,7 +1121,7 @@ End Function
 Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
 
-    Call clsCommProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
+    Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
     DelayMS delayTime
 
     Log_Info "========Check " & strColorTemp & "========"
@@ -1271,13 +1271,13 @@ Private Sub Form_Load()
         UCase(gstrBrand) = "CAN" Or _
         UCase(gstrBrand) = "CANTV" Then
         Set clsCIBNProtocal = New CIBNProtocal
-        Set clsCommProtocal = clsCIBNProtocal
+        Set clsProtocal = clsCIBNProtocal
     ElseIf UCase(gstrBrand) = "HAIER" Then
         Set clsHaierProtocal = New HaierProtocal
-        Set clsCommProtocal = clsHaierProtocal
+        Set clsProtocal = clsHaierProtocal
     Else
         Set clsLetvProtocal = New LetvProtocal
-        Set clsCommProtocal = clsLetvProtocal
+        Set clsProtocal = clsLetvProtocal
     End If
 
     mTitle = Me.Caption
@@ -1462,8 +1462,8 @@ On Error GoTo ErrExit
         End If
     End If
     
-    If Not (clsCommProtocal Is Nothing) Then
-        Set clsCommProtocal = Nothing
+    If Not (clsProtocal Is Nothing) Then
+        Set clsProtocal = Nothing
     End If
     
 
