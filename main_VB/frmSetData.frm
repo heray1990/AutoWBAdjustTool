@@ -604,7 +604,7 @@ Begin VB.Form frmSetData
       Left            =   120
       TabIndex        =   19
       Top             =   120
-      Width           =   4695
+      Width           =   4815
    End
 End
 Attribute VB_Name = "frmSetData"

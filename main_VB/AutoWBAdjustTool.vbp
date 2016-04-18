@@ -26,6 +26,7 @@ Class=CommunicationProtocal; CommunicationProtocal.cls
 Class=LetvProtocal; LetvProtocal.cls
 Class=CIBNProtocal; CIBNProtocal.cls
 Module=DelayHelper; DelayHelper.bas
+Class=HaierProtocal; HaierProtocal.cls
 IconForm="Form1"
 Startup="frmSplash"
 HelpFile=""

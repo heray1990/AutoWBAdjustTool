@@ -12,8 +12,7 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '**********************************************
-' Class module to handle protocal for CIBN and
-' Haier.
+' Class module to handle protocal for CIBN.
 '**********************************************
 
 Option Explicit

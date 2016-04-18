@@ -529,6 +529,7 @@ Dim cmdMark As String
 Dim clsCommProtocal As CommunicationProtocal
 Dim clsCIBNProtocal As CIBNProtocal
 Dim clsLetvProtocal As LetvProtocal
+Dim clsHaierProtocal As HaierProtocal
 
 Dim ivpg As IVPGCtrl
 Private mTitle As String
@@ -1268,10 +1269,12 @@ Private Sub Form_Load()
     
     If UCase(gstrBrand) = "CIBN" Or _
         UCase(gstrBrand) = "CAN" Or _
-        UCase(gstrBrand) = "CANTV" Or _
-        UCase(gstrBrand) = "HAIER" Then
+        UCase(gstrBrand) = "CANTV" Then
         Set clsCIBNProtocal = New CIBNProtocal
         Set clsCommProtocal = clsCIBNProtocal
+    ElseIf UCase(gstrBrand) = "HAIER" Then
+        Set clsHaierProtocal = New HaierProtocal
+        Set clsCommProtocal = clsHaierProtocal
     Else
         Set clsLetvProtocal = New LetvProtocal
         Set clsCommProtocal = clsLetvProtocal
@@ -1445,10 +1448,13 @@ On Error GoTo ErrExit
 
     If UCase(gstrBrand) = "CIBN" Or _
         UCase(gstrBrand) = "CAN" Or _
-        UCase(gstrBrand) = "CANTV" Or _
-        UCase(gstrBrand) = "HAIER" Then
+        UCase(gstrBrand) = "CANTV" Then
         If Not (clsCIBNProtocal Is Nothing) Then
             Set clsCIBNProtocal = Nothing
+        End If
+    ElseIf UCase(gstrBrand) = "HAIER" Then
+        If Not (clsHaierProtocal Is Nothing) Then
+            Set clsHaierProtocal = Nothing
         End If
     Else
         If Not (clsLetvProtocal Is Nothing) Then
