@@ -581,13 +581,11 @@ On Error GoTo ErrExit
     Log_Info "###ADJUST COLORTEMP###"
 
     clsProtocal.EnterFacMode
-
     Call clsProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
-    
     Call clsProtocal.ResetPicMode
 
     Call ChangePattern("103")
-    DelayMS delayTime
+    DelayMS 200
     
     Label6.Caption = "WHITE"
 
@@ -652,7 +650,7 @@ ADJUST_GAIN_AGAIN_WARM1:
         Label6.Caption = "GREY"
 
         Call ChangePattern("109")
-        DelayMS delayTime
+        DelayMS 200
 
         If isAdjustCool1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
@@ -700,7 +698,7 @@ ADJUST_GAIN_AGAIN_WARM1:
     If isCheckColorTemp Then
         If isAdjustOffset Then
             Call ChangePattern("103")
-            DelayMS delayTime
+            DelayMS 200
         End If
 CHECK_COOL1:
         If isAdjustCool1 Then
@@ -770,7 +768,7 @@ CHECK_WARM1:
     'Cool, 100% white pattern, brightness = 100, contrast = 100
     'Check Lv and save x, y, lv
     Call ChangePattern("101")
-    DelayMS delayTime
+    DelayMS 200
 
     Call clsProtocal.SetBrightness(100)
     Log_Info "Set brightness to 100"
@@ -784,7 +782,6 @@ CHECK_WARM1:
     Call clsProtocal.SelColorTemp(cstrColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
     Log_Info "Set color temp to cool1"
 
-    DelayMS delayTime
     ObjCa.Measure
     rColorLastChk.xx = CLng(ObjProbe.sx * 10000)
     rColorLastChk.yy = CLng(ObjProbe.sy * 10000)
@@ -794,16 +791,13 @@ CHECK_WARM1:
 
     showData (lastChkShwDataStep)
     
-    Call clsProtocal.SetBrightness(50)
-    Log_Info "Set brightness to 50"
+    'Call clsProtocal.SetBrightness(50)
+    'Log_Info "Set brightness to 50"
 
-    Call clsProtocal.SetContrast(50)
-    Log_Info "Set contrast to 50"
-    
-    DelayMS delayTime
+    'Call clsProtocal.SetContrast(50)
+    'Log_Info "Set contrast to 50"
     
     clsProtocal.ResetPicMode
-    DelayMS delayTime
     
     If rColorLastChk.lv < maxBrightnessSpec Then
         ShowError_Sys (30)
@@ -823,7 +817,6 @@ PASS:
     CheckStep.SetFocus
     checkResult.ForeColor = &HC000&
     checkResult.Caption = "PASS"
-    DelayMS delayTime
     checkResult.BackColor = &HFF00&
     checkResult.ForeColor = &HC00000
     
@@ -845,7 +838,6 @@ FAIL:
     checkResult.BackColor = &HFF&
     checkResult.ForeColor = &H808080
     checkResult.Caption = "FAIL"
-    DelayMS delayTime
     checkResult.ForeColor = &H0&
     checkResult.ForeColor = &HFFFF&
     
@@ -968,12 +960,11 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
     Dim i, j, k As Integer
 
     Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
-    DelayMS delayTime
 
     ' Set Offset first
     If adjustGainAgainCool1Flag = 0 Then
         Call setColorTemp(strColorTemp, presetData, 0)
-        DelayMS delayTime
+        DelayMS 200
         
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
@@ -989,7 +980,7 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
 
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
-        DelayMS delayTime
+        DelayMS 200
         
         Log_Info "Init current colorTemp. RES:" + Str$(RES)
         rRGB.cRR = presetData.nColorRR
@@ -1062,13 +1053,12 @@ Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixVa
     Dim i, j, k As Integer
 
     Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
-    DelayMS delayTime
 
     Log_Info "========Adjust " & strColorTemp & "========"
   
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
-        DelayMS delayTime
+        DelayMS 200
         Log_Info "Init current colorTemp. RES:" + Str$(RES)
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
@@ -1098,13 +1088,9 @@ Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixVa
     
                 showData (4)
             End If
-    
-            DelayMS 200
         Next k
 
         If RES Then Exit For
-
-        DelayMS delayTime
     Next j
 
 Cancel:
@@ -1160,8 +1146,7 @@ End Function
 Private Sub showData(step As Integer)
 On Error Resume Next
     Dim xPos, yPos, vPos As Long
-    
-    DelayMS delayTime
+
     ObjCa.Measure
     rColor.xx = CLng(ObjProbe.sx * 10000)
     rColor.yy = CLng(ObjProbe.sy * 10000)
@@ -1230,7 +1215,6 @@ On Error Resume Next
     Label_x = Str$(rColor.xx)
     Label_y = Str$(rColor.yy)
     Label_Lv = Str$(rColor.lv)
-    DelayMS 30
 End Sub
 
 Private Sub tbDisConnectastro_Click()
@@ -1338,7 +1322,7 @@ Public Sub subInitInterface()
     If isAdjustWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
     
     InitVPGDevice
-    DelayMS delayTime
+    DelayMS 200
     
     If setTVInputSource = "HDMI" Then
         'Timing 69: HDMI-720P60
