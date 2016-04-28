@@ -121,3 +121,18 @@ Public Sub Log_Info(strLog As String)
     Form1.CheckStep.SelStart = Len(Form1.CheckStep)
     Form1.CheckStep.SetFocus
 End Sub
+
+Public Sub SaveLogInFile(strLog As String)
+    Dim logPath As String
+
+    logPath = App.Path & "\" & "Logs\"
+    If Right(logPath, 1) <> "\" Then logPath = logPath & "\"
+    
+    If Dir(logPath, vbDirectory) = "" Then
+        MkDir logPath
+    End If
+    
+    Open (logPath & CStr(Date) & ".log") For Append As #1
+    Write #1, strLog
+    Close #1
+End Sub

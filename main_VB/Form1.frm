@@ -1231,6 +1231,7 @@ Private Sub vbSetSPEC_Click()
 End Sub
 
 Private Sub vbAbout_Click()
+    SaveLogInFile "Hello World!"
     frmAbout.Show
 End Sub
 
