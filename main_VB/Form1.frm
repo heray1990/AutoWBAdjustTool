@@ -1686,6 +1686,8 @@ End Sub
 Private Sub Obj_OnChangedConnectState(ByVal bIsConnected As Boolean)
     If bIsConnected = False Then
         Me.Caption = mTitle & " [Chroma " & gstrVPGModel & " Disconnected]"
+    Else
+        Me.Caption = mTitle
     End If
 End Sub
 
