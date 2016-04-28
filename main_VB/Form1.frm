@@ -791,11 +791,11 @@ CHECK_WARM1:
 
     showData (lastChkShwDataStep)
     
-    'Call clsProtocal.SetBrightness(50)
-    'Log_Info "Set brightness to 50"
+    Call clsProtocal.SetBrightness(50)
+    Log_Info "Set brightness to 50"
 
-    'Call clsProtocal.SetContrast(50)
-    'Log_Info "Set contrast to 50"
+    Call clsProtocal.SetContrast(50)
+    Log_Info "Set contrast to 50"
     
     clsProtocal.ResetPicMode
     

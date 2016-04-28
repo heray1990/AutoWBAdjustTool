@@ -29,16 +29,16 @@ typedef struct COLORSPEC
 	unsigned int sx;
 	unsigned int sy;
 	unsigned int LimLV;
-	unsigned int PriRR;
-	unsigned int PriGG;
-	unsigned int PriBB;
+	int PriRR;
+	int PriGG;
+	int PriBB;
 	unsigned int xt;
 	unsigned int yt;
 	unsigned int cxt;
 	unsigned int cyt;
-	unsigned int LowRR;
-	unsigned int LowGG;
-	unsigned int LowBB;
+	int LowRR;
+	int LowGG;
+	int LowBB;
 	unsigned int MagicValXStepGain;
 	unsigned int MagicValXStepOffset;
 	unsigned int MagicValYStepGain;
@@ -54,15 +54,15 @@ typedef struct REALCOLOR
 
 typedef struct REALRGB
 {
-	unsigned int cRR;
-	unsigned int cGG;
-	unsigned int cBB;
+	int cRR;
+	int cGG;
+	int cBB;
 }REALRGB, *pREALRGB;
 
-unsigned int maxColorRGB_OFF;
-unsigned int minColorRGB_OFF;
-unsigned int maxColorRGB_GAN;
-unsigned int minColorRGB_GAN;
+int maxColorRGB_OFF;
+int minColorRGB_OFF;
+int maxColorRGB_GAN;
+int minColorRGB_GAN;
 
 COLORSPEC SpecCool1;
 COLORSPEC SpecNormal;
@@ -94,7 +94,7 @@ void  delay(unsigned milliseconds);
 int   savedata(pCOLORSPEC pColorST,char* CT);
 int   getdata(pCOLORSPEC pColorST,char* CT);
 BOOL  CheckRGBisInRangeOkorNO(COLORSPEC rgb);
-void  VerifyRGB(unsigned int& RGB);
+void  VerifyRGB(int& RGB);
 
 void  AverageData(pCOLORSPEC pColorST);
 void  ReLoadRGB(char* colorTemp);

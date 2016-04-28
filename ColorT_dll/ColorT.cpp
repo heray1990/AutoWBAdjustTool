@@ -459,11 +459,11 @@ BOOL CheckRGBisInRangeOkorNO(COLORSPEC rgb)
 {
 	if (AdjustGAN == 1)
 	{
-		if (rgb.PriRR <= minColorRGB_GAN
+		if (rgb.PriRR < minColorRGB_GAN
 			|| rgb.PriRR > maxColorRGB_GAN
-			|| rgb.PriGG <= minColorRGB_GAN
+			|| rgb.PriGG < minColorRGB_GAN
 			|| rgb.PriGG > maxColorRGB_GAN
-			|| rgb.PriBB <= minColorRGB_GAN
+			|| rgb.PriBB < minColorRGB_GAN
 			|| rgb.PriBB > maxColorRGB_GAN)
 			return false;
 	    else
@@ -471,11 +471,11 @@ BOOL CheckRGBisInRangeOkorNO(COLORSPEC rgb)
 	}
 	else
 	{
-	    if (rgb.LowRR <= minColorRGB_OFF
+	    if (rgb.LowRR < minColorRGB_OFF
 			|| rgb.LowRR > maxColorRGB_OFF
-			|| rgb.LowGG <= minColorRGB_OFF
+			|| rgb.LowGG < minColorRGB_OFF
 			|| rgb.LowGG > maxColorRGB_OFF
-			|| rgb.LowBB <= minColorRGB_OFF
+			|| rgb.LowBB < minColorRGB_OFF
 			|| rgb.LowBB > maxColorRGB_OFF)
 			return false;
 	    else
@@ -483,18 +483,18 @@ BOOL CheckRGBisInRangeOkorNO(COLORSPEC rgb)
 	}
 }
 
-void VerifyRGB(unsigned int& RGB)
+void VerifyRGB(int& RGB)
 {
 	if (AdjustGAN == 1)
 	{
-	    if (RGB <= minColorRGB_GAN)
+	    if (RGB < minColorRGB_GAN)
     		RGB = minColorRGB_GAN;
     	else
 			if (RGB > maxColorRGB_GAN) RGB = maxColorRGB_GAN;
 	}
 	else
 	{
-	    if (RGB <= minColorRGB_OFF)
+	    if (RGB < minColorRGB_OFF)
 			RGB = minColorRGB_OFF;
 	    else
 			if (RGB > maxColorRGB_OFF) RGB = maxColorRGB_OFF;
