@@ -585,7 +585,7 @@ On Error GoTo ErrExit
     Call clsProtocal.ResetPicMode
 
     Call ChangePattern("103")
-    DelayMS 200
+    'DelayMS 200
     
     Label6.Caption = "WHITE"
 
@@ -601,6 +601,7 @@ ADJUST_GAIN_AGAIN_COOL1:
             Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
+        SaveLogInFile "[Time]White Cool1: " & lbTimer.Caption
         lbAdjustCOOL_1.BackColor = &HC0FFC0
         
         If adjustGainAgainCool1Flag > 0 Then
@@ -620,6 +621,7 @@ ADJUST_GAIN_AGAIN_NORMAL:
             Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
+        SaveLogInFile "[Time]White Normal: " & lbTimer.Caption
         lbAdjustNormal.BackColor = &HC0FFC0
         
         If adjustGainAgainNormalFlag > 0 Then
@@ -639,6 +641,7 @@ ADJUST_GAIN_AGAIN_WARM1:
             Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
+        SaveLogInFile "[Time]White Warm1: " & lbTimer.Caption
         lbAdjustWARM_1.BackColor = &HC0FFC0
         
         If adjustGainAgainWarm1Flag > 0 Then
@@ -650,7 +653,7 @@ ADJUST_GAIN_AGAIN_WARM1:
         Label6.Caption = "GREY"
 
         Call ChangePattern("109")
-        DelayMS 200
+        'DelayMS 200
 
         If isAdjustCool1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
@@ -662,7 +665,8 @@ ADJUST_GAIN_AGAIN_WARM1:
             Else
                 Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
-   
+            
+            SaveLogInFile "[Time]Grey Cool1: " & lbTimer.Caption
             lbAdjustCOOL_1.BackColor = &HC0FFC0
         End If
    
@@ -676,7 +680,8 @@ ADJUST_GAIN_AGAIN_WARM1:
             Else
                 Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
-    
+
+            SaveLogInFile "[Time]Grey Normal: " & lbTimer.Caption
             lbAdjustNormal.BackColor = &HC0FFC0
         End If
    
@@ -691,6 +696,7 @@ ADJUST_GAIN_AGAIN_WARM1:
                 Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
 
+            SaveLogInFile "[Time]Grey Warm1: " & lbTimer.Caption
             lbAdjustWARM_1.BackColor = &HC0FFC0
         End If
     End If
@@ -698,7 +704,7 @@ ADJUST_GAIN_AGAIN_WARM1:
     If isCheckColorTemp Then
         If isAdjustOffset Then
             Call ChangePattern("103")
-            DelayMS 200
+            'DelayMS 200
         End If
 CHECK_COOL1:
         If isAdjustCool1 Then
@@ -768,7 +774,7 @@ CHECK_WARM1:
     'Cool, 100% white pattern, brightness = 100, contrast = 100
     'Check Lv and save x, y, lv
     Call ChangePattern("101")
-    DelayMS 200
+    'DelayMS 200
 
     Call clsProtocal.SetBrightness(100)
     Log_Info "Set brightness to 100"
@@ -865,7 +871,9 @@ End Sub
 
 Private Sub subInitAfterRunning()
     Timer1.Enabled = False
-
+    
+    SaveLogInFile "[Time]Total: " & lbTimer.Caption & vbCrLf
+    
     adjustGainAgainCool1Flag = 0
     adjustGainAgainNormalFlag = 0
     adjustGainAgainWarm1Flag = 0
@@ -1231,7 +1239,6 @@ Private Sub vbSetSPEC_Click()
 End Sub
 
 Private Sub vbAbout_Click()
-    SaveLogInFile "Hello World!"
     frmAbout.Show
 End Sub
 
@@ -1330,8 +1337,12 @@ Public Sub subInitInterface()
         'Timing 74: HDMI-1080P60
         Call ChangeTiming("69")
     ElseIf setTVInputSource = "AV" Then
-        'Timing 38: PAL-BDGHI
-        Call ChangeTiming("38")
+        If gstrVPGModel = "2401" Then
+            Call ChangeTiming("104")
+        Else
+            'Timing 38: PAL-BDGHI
+            Call ChangeTiming("38")
+        End If
     End If
 End Sub
 
@@ -1383,6 +1394,8 @@ On Error GoTo ErrExit
             Else
                 gstrBarCode = txtInput.Text
             End If
+
+            SaveLogInFile "================[" & gstrBarCode & "]================"
 
             If isUartMode = True Then
                 If MSComm1.PortOpen = False Then
