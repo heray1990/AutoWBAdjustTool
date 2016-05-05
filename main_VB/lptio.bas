@@ -62,7 +62,6 @@ Global Const M2REG_DEVICE_DDCCI = 1
 Global Const M2REG_DEVICE_DDCCI_STANDBY = 2
 Global Const M2REG_DEVICE_I2C_INDIRECT = 3
 Global Const M2REG_DEVICE_I2C_DIRECT = 4
-Global M2RegDevice As Byte
 
 
 ' ASIC Type Constant

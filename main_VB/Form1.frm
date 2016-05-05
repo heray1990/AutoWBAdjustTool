@@ -1328,6 +1328,8 @@ Public Sub subInitInterface()
     If isAdjustWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
     If isAdjustWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
     
+    DEVICE_USED = 0
+    
     InitVPGDevice
     DelayMS 200
     
@@ -1425,23 +1427,25 @@ On Error GoTo ErrExit
                 txtInput.Enabled = True
             ElseIf utdCommMode = modeI2c Then
                 Dim SetDeviceSts As Integer
+
+                If DEVICE_USED = 0 Then
+                    ' =====================================
+                    '   I2C tool initialization
+                    ' =====================================
+                    SetDeviceSts = LptioSetDevice(DEVICE_FTDI)
     
-                ' =====================================
-                '   I2C tool initialization
-                ' =====================================
-                M2RegDevice = M2REG_DEVICE_I2C
-                
-                SetDeviceSts = LptioSetDevice(DEVICE_FTDI)
-            
-                '=====================================
-                '  Set I2C Clock Rate
-                '=====================================
-                Call I2cSetClockRate(glngI2cClockRate)
-                
-                '==========================================
-                '  Cypress / FTDI Select HDMI Output
-                '==========================================
-                Call SetPortVal(&H3, &H1)
+                    '=====================================
+                    '  Set I2C Clock Rate
+                    '=====================================
+                    Call I2cSetClockRate(glngI2cClockRate)
+                    
+                    '==========================================
+                    '  Cypress / FTDI Select HDMI Output
+                    '==========================================
+                    Call SetPortVal(&H3, &H1)
+                    
+                    DEVICE_USED = 1
+                End If
                 
                 subMainProcesser
             End If
