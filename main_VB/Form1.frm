@@ -817,7 +817,6 @@ PASS:
     CheckStep.BackColor = &HC0FFC0
     CheckStep = CheckStep + "TEST ALL PASS"
     CheckStep.SelStart = Len(CheckStep)
-    CheckStep.SetFocus
     checkResult.ForeColor = &HC000&
     checkResult.Caption = "PASS"
     checkResult.BackColor = &HFF00&
@@ -836,7 +835,6 @@ FAIL:
     Call saveALLcData
 
     CheckStep.SelStart = Len(CheckStep)
-    CheckStep.SetFocus
     CheckStep.BackColor = &HFFFF&
     checkResult.BackColor = &HFF&
     checkResult.ForeColor = &H808080
@@ -875,9 +873,9 @@ Private Sub subInitAfterRunning()
     adjustGainAgainNormalFlag = 0
     adjustGainAgainWarm1Flag = 0
 
+    txtInput.Enabled = True
     txtInput.Text = ""
     txtInput.SetFocus
-    txtInput.Enabled = True
     
     If utdCommMode = modeNetwork Then
         isNetworkConnected = False
@@ -958,7 +956,6 @@ Sub ShowError_Sys(t As Integer)
     CheckStep.ForeColor = &HFF&
     CheckStep.Text = CheckStep.Text + "Error Code:" + Str$(t) + vbCrLf + s + vbCrLf
     CheckStep.SelStart = Len(CheckStep)
-    CheckStep.SetFocus
 End Sub
 
 Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustVal As Long, HighLowMode As Long) As Boolean
