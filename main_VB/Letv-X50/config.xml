@@ -2,6 +2,7 @@
 <config>
 	<communication mode="Network">
 		<common baud="115200" id="6"/>
+		<i2c clockrate="50"/>
 	</communication>
 	<input_source>AV1</input_source>
 	<delayms>500</delayms>

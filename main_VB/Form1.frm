@@ -529,6 +529,7 @@ Dim cmdMark As String
 Dim clsProtocal As Protocal
 Dim clsCANTVProtocal As CANTVProtocal
 Dim clsLetvProtocal As LetvProtocal
+Dim clsLetvCurvedProtocal As LetvCurvedProtocal
 Dim clsHaierProtocal As HaierProtocal
 
 Dim ivpg As IVPGCtrl
@@ -579,14 +580,12 @@ On Error GoTo ErrExit
 
     Log_Info "###INITIAL USER###"
     Log_Info "###ADJUST COLORTEMP###"
+    Call ChangePattern("103")
 
     clsProtocal.EnterFacMode
     Call clsProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
     Call clsProtocal.ResetPicMode
 
-    Call ChangePattern("103")
-    'DelayMS 200
-    
     Label6.Caption = "WHITE"
 
 ADJUST_GAIN_AGAIN_COOL1:
@@ -862,7 +861,7 @@ Private Sub subInitBeforeRunning()
     lbTimer.Caption = "0s"
     Timer1.Enabled = True
 
-    txtInput.Locked = True
+    txtInput.Enabled = False
     'gstrBarCode = ""
     adjustGainAgainCool1Flag = 0
     adjustGainAgainNormalFlag = 0
@@ -880,9 +879,9 @@ Private Sub subInitAfterRunning()
 
     txtInput.Text = ""
     txtInput.SetFocus
-    txtInput.Locked = False
+    txtInput.Enabled = True
     
-    If isUartMode = False Then
+    If utdCommMode = modeNetwork Then
         isNetworkConnected = False
         tcpClient.Close
     End If
@@ -1255,7 +1254,7 @@ End Sub
 Private Sub Form_Load()
     i = 0
     IsStop = False
-    txtInput.Locked = False
+    txtInput.Enabled = True
     
     gstrBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
     
@@ -1267,6 +1266,9 @@ Private Sub Form_Load()
     ElseIf UCase(gstrBrand) = "HAIER" Then
         Set clsHaierProtocal = New HaierProtocal
         Set clsProtocal = clsHaierProtocal
+    ElseIf gstrCurProjName = "Letv-Max4_65_Curved" Then
+        Set clsLetvCurvedProtocal = New LetvCurvedProtocal
+        Set clsProtocal = clsLetvCurvedProtocal
     Else
         Set clsLetvProtocal = New LetvProtocal
         Set clsProtocal = clsLetvProtocal
@@ -1286,6 +1288,7 @@ Public Sub subInitInterface()
     
     setTVCurrentComBaud = clsConfigData.ComBaud
     setTVCurrentComID = clsConfigData.ComID
+    glngI2cClockRate = clsConfigData.I2cClockRate
     setTVInputSource = clsConfigData.inputSource
     setTVInputSourcePortNum = CInt(Right(setTVInputSource, 1))
     setTVInputSource = Left(setTVInputSource, Len(setTVInputSource) - 1)
@@ -1302,14 +1305,15 @@ Public Sub subInitInterface()
     isCheckColorTemp = clsConfigData.EnableChkColor
     isAdjustOffset = clsConfigData.EnableAdjOffset
     
-    If clsConfigData.CommMode = modeUART Then
-        isUartMode = True
+    utdCommMode = clsConfigData.CommMode
+    If utdCommMode = modeUART Then
         lbCommMode.Caption = "UART"
         subInitComPort
-    Else
-        isUartMode = False
+    ElseIf utdCommMode = modeNetwork Then
         lbCommMode.Caption = "Network"
         subInitNetwork
+    ElseIf utdCommMode = modeI2c Then
+        lbCommMode.Caption = "I2C"
     End If
     
     Set clsConfigData = Nothing
@@ -1386,7 +1390,7 @@ On Error GoTo ErrExit
     If KeyAscii = 13 Then
         IsStop = False
         
-        If txtInput.Locked = False Then
+        If txtInput.Enabled = True Then
             If txtInput.Text = "" Or Len(txtInput.Text) <> gintBarCodeLen Then
                 MsgBox "条形码不对，请确认！(要求长度为：" & CStr(gintBarCodeLen) & ")"
                 txtInput.Text = ""
@@ -1397,18 +1401,18 @@ On Error GoTo ErrExit
 
             SaveLogInFile "================[" & gstrBarCode & "]================"
 
-            If isUartMode = True Then
+            If utdCommMode = modeUART Then
                 If MSComm1.PortOpen = False Then
                     MSComm1.PortOpen = True
                 End If
                 subMainProcesser
-            Else
+            ElseIf utdCommMode = modeNetwork Then
                 isNetworkConnected = False
                 Do
                     If tcpClient.State = sckClosed Then
                         Log_Info "TCP Connect"
                         tcpClient.Connect
-                        txtInput.Locked = True
+                        txtInput.Enabled = False
                     End If
                     Call DelaySWithFlag(cmdReceiveWaitS * 2, isNetworkConnected)
                 
@@ -1423,7 +1427,29 @@ On Error GoTo ErrExit
                     End If
                     Log_Info "Re-connect to TV."
                 Loop While i <= 5
-                txtInput.Locked = False
+                txtInput.Enabled = True
+            ElseIf utdCommMode = modeI2c Then
+                Dim SetDeviceSts As Integer
+    
+                ' =====================================
+                '   I2C tool initialization
+                ' =====================================
+                M2RegDevice = M2REG_DEVICE_I2C
+                
+                SetDeviceSts = LptioSetDevice(DEVICE_FTDI)
+                I2C.device = DEVICE_FTDI
+            
+                '=====================================
+                '  Set I2C Clock Rate
+                '=====================================
+                Call I2C.SetClockRateKHz(glngI2cClockRate)
+                
+                '==========================================
+                '  Cypress / FTDI Select HDMI Output
+                '==========================================
+                Call SetPortVal(&H3, &H1)
+                
+                subMainProcesser
             End If
         End If
         
