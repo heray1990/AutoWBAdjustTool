@@ -1437,12 +1437,11 @@ On Error GoTo ErrExit
                 M2RegDevice = M2REG_DEVICE_I2C
                 
                 SetDeviceSts = LptioSetDevice(DEVICE_FTDI)
-                I2C.device = DEVICE_FTDI
             
                 '=====================================
                 '  Set I2C Clock Rate
                 '=====================================
-                Call I2C.SetClockRateKHz(glngI2cClockRate)
+                Call I2cSetClockRate(glngI2cClockRate)
                 
                 '==========================================
                 '  Cypress / FTDI Select HDMI Output

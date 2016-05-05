@@ -115,6 +115,9 @@ End Sub
 
 'Set picture mode to standard.
 Private Sub Protocal_ResetPicMode()
+    Protocal_SetBrightness 50
+    Protocal_SetContrast 50
+    Protocal_SetBacklight 100
 End Sub
 
 Private Sub Protocal_SetBrightness(intBrightness As Integer)
@@ -214,7 +217,7 @@ Private Sub SetColorTempWarm1()
     mSendDataBuf(3) = &H14
     mSendDataBuf(4) = &H0
     mSendDataBuf(5) = &H0
-    mSendDataBuf(6) = &HA9
+    mSendDataBuf(6) = &HAC
     
     If Not SendCmd(mSendDataBuf) Then
         SaveLogInFile "SetColorTempWarm1 Fail!"
