@@ -703,7 +703,6 @@ ADJUST_GAIN_AGAIN_WARM1:
     If isCheckColorTemp Then
         If isAdjustOffset Then
             Call ChangePattern("103")
-            'DelayMS 200
         End If
 CHECK_COOL1:
         If isAdjustCool1 Then
@@ -773,7 +772,6 @@ CHECK_WARM1:
     'Cool, 100% white pattern, brightness = 100, contrast = 100
     'Check Lv and save x, y, lv
     Call ChangePattern("101")
-    'DelayMS 200
 
     Call clsProtocal.SetBrightness(100)
     Log_Info "Set brightness to 100"
@@ -853,7 +851,7 @@ FAIL:
     Exit Sub
 
 ErrExit:
-        MsgBox Err.Description, vbCritical, Err.Source
+    MsgBox Err.Description, vbCritical, Err.Source
 End Sub
 
 Private Sub subInitBeforeRunning()
@@ -1460,10 +1458,11 @@ On Error GoTo ErrExit
 
 ErrExit:
     txtInput.Text = ""
+    MsgBox Err.Description, vbCritical, Err.Source
     'Invalid Port Number
-    If Err.Number = 8002 Then
-        MsgBox Err.Description, vbCritical, Err.Source
-    End If
+    'If Err.Number = 8002 Then
+    '    MsgBox Err.Description, vbCritical, Err.Source
+    'End If
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

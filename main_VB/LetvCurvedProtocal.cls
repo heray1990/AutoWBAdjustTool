@@ -327,4 +327,16 @@ Private Sub SetBOffset(lngBOffset As Long)
 End Sub
 
 Private Sub Protocal_SaveWBDataToAllSrc(strInputSrc As String, intSrcNum As Integer)
+    '6E 51 84 03 BC 00 01 05
+    mSendDataBuf(0) = &H51
+    mSendDataBuf(1) = &H84
+    mSendDataBuf(2) = &H3
+    mSendDataBuf(3) = &HBC
+    mSendDataBuf(4) = &H0
+    mSendDataBuf(5) = &H1
+    mSendDataBuf(6) = &H5
+    
+    If Not SendCmd(mSendDataBuf) Then
+        SaveLogInFile "SaveWBDataToAllSrc Fail!"
+    End If
 End Sub
