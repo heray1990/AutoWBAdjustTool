@@ -1429,20 +1429,15 @@ On Error GoTo ErrExit
                 Dim SetDeviceSts As Integer
 
                 If DEVICE_USED = 0 Then
-                    ' =====================================
-                    '   I2C tool initialization
-                    ' =====================================
+                    '=====================================
+                    '  I2C tool initialization
+                    '=====================================
                     SetDeviceSts = LptioSetDevice(DEVICE_FTDI)
     
                     '=====================================
                     '  Set I2C Clock Rate
                     '=====================================
                     Call I2cSetClockRate(glngI2cClockRate)
-                    
-                    '==========================================
-                    '  Cypress / FTDI Select HDMI Output
-                    '==========================================
-                    Call SetPortVal(&H3, &H1)
                     
                     DEVICE_USED = 1
                 End If
@@ -1488,7 +1483,6 @@ On Error GoTo ErrExit
     If Not (clsProtocal Is Nothing) Then
         Set clsProtocal = Nothing
     End If
-    
 
     IsStop = True
     If (IsCa210ok = True) Then

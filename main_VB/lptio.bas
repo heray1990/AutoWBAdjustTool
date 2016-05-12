@@ -16,7 +16,6 @@ Declare Function Pll_Nandu Lib "LPTIO.dll" (ByVal f As Long, ByVal base_f As Lon
 Declare Function Pll_Write Lib "LPTIO.dll" (ByVal dev As Byte, ByVal addr As Byte, ByVal m As Long, ByVal r As Long, ByVal n As Long) As Long
 Declare Function uart_connect Lib "LPTIO.dll" (ByVal port As Byte, ByVal baudrate As Long) As Byte
 Declare Sub uart_disconnect Lib "LPTIO.dll" ()
-Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
 Declare Function I2cWriteData Lib "LPTIO.dll" (ByVal device As Byte, ByRef cmd As Byte, ByVal cmdlen As Long, ByRef wdat As Byte, ByVal wdatlen As Long) As Byte 'Boolean
 Declare Function I2cReadData Lib "LPTIO.dll" (ByVal device As Byte, ByRef cmd As Byte, ByVal cmdlen As Long, ByRef rdat As Byte, ByVal rdatlen As Long) As Byte 'Boolean
 Declare Sub I2cSetClockRate Lib "LPTIO.dll" (ByVal rate As Long)
