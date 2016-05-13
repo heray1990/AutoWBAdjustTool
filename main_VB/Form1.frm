@@ -600,7 +600,7 @@ ADJUST_GAIN_AGAIN_COOL1:
             Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
-        SaveLogInFile "[Time]White Cool1: " & lbTimer.Caption
+        'SaveLogInFile "[Time]White Cool1: " & lbTimer.Caption
         lbAdjustCOOL_1.BackColor = &HC0FFC0
         
         If adjustGainAgainCool1Flag > 0 Then
@@ -620,7 +620,7 @@ ADJUST_GAIN_AGAIN_NORMAL:
             Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
-        SaveLogInFile "[Time]White Normal: " & lbTimer.Caption
+        'SaveLogInFile "[Time]White Normal: " & lbTimer.Caption
         lbAdjustNormal.BackColor = &HC0FFC0
         
         If adjustGainAgainNormalFlag > 0 Then
@@ -640,7 +640,7 @@ ADJUST_GAIN_AGAIN_WARM1:
             Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
-        SaveLogInFile "[Time]White Warm1: " & lbTimer.Caption
+        'SaveLogInFile "[Time]White Warm1: " & lbTimer.Caption
         lbAdjustWARM_1.BackColor = &HC0FFC0
         
         If adjustGainAgainWarm1Flag > 0 Then
@@ -665,7 +665,7 @@ ADJUST_GAIN_AGAIN_WARM1:
                 Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
             
-            SaveLogInFile "[Time]Grey Cool1: " & lbTimer.Caption
+            'SaveLogInFile "[Time]Grey Cool1: " & lbTimer.Caption
             lbAdjustCOOL_1.BackColor = &HC0FFC0
         End If
    
@@ -680,7 +680,7 @@ ADJUST_GAIN_AGAIN_WARM1:
                 Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
 
-            SaveLogInFile "[Time]Grey Normal: " & lbTimer.Caption
+            'SaveLogInFile "[Time]Grey Normal: " & lbTimer.Caption
             lbAdjustNormal.BackColor = &HC0FFC0
         End If
    
@@ -695,7 +695,7 @@ ADJUST_GAIN_AGAIN_WARM1:
                 Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
 
-            SaveLogInFile "[Time]Grey Warm1: " & lbTimer.Caption
+            'SaveLogInFile "[Time]Grey Warm1: " & lbTimer.Caption
             lbAdjustWARM_1.BackColor = &HC0FFC0
         End If
     End If
@@ -790,7 +790,7 @@ CHECK_WARM1:
     rColorLastChk.yy = CLng(ObjProbe.sy * 10000)
     rColorLastChk.lv = CLng(ObjProbe.lv)
     
-    Log_Info "x = " + Str$(rColorLastChk.xx) + ", y = " + Str$(rColorLastChk.yy) + ", lv = " + Str$(rColorLastChk.lv)
+    Log_Info "x = " + str$(rColorLastChk.xx) + ", y = " + str$(rColorLastChk.yy) + ", lv = " + str$(rColorLastChk.lv)
 
     showData (lastChkShwDataStep)
     
@@ -867,7 +867,7 @@ End Sub
 Private Sub subInitAfterRunning()
     Timer1.Enabled = False
     
-    SaveLogInFile "[Time]Total: " & lbTimer.Caption & vbCrLf
+    'SaveLogInFile "[Time]Total: " & lbTimer.Caption & vbCrLf
     
     adjustGainAgainCool1Flag = 0
     adjustGainAgainNormalFlag = 0
@@ -900,7 +900,7 @@ Sub ShowError_Sys(t As Integer)
         Case 5
             s = "ColorTemp_WARM_2 is Wrong, Please Check Again."
         Case 6
-            s = "LAB_SN:" + gstrBarCode + "(End)  Len:" + Str$(gintBarCodeLen) + vbCrLf + "条形码长度不对，请确认！"
+            s = "LAB_SN:" + gstrBarCode + "(End)  Len:" + str$(gintBarCodeLen) + vbCrLf + "条形码长度不对，请确认！"
         Case 7
             s = "Can not Write DVI EDID."
         Case 8
@@ -954,7 +954,7 @@ Sub ShowError_Sys(t As Integer)
     End Select
 
     CheckStep.ForeColor = &HFF&
-    CheckStep.Text = CheckStep.Text + "Error Code:" + Str$(t) + vbCrLf + s + vbCrLf
+    CheckStep.Text = CheckStep.Text + "Error Code:" + str$(t) + vbCrLf + s + vbCrLf
     CheckStep.SelStart = Len(CheckStep)
 End Sub
 
@@ -984,13 +984,13 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
         DelayMS 200
         
-        Log_Info "Init current colorTemp. RES:" + Str$(RES)
+        Log_Info "Init current colorTemp. RES:" + str$(RES)
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
         rRGB.cBB = presetData.nColorBB
         
-        Label1 = Str$(presetData.xx)
-        Label3 = Str$(presetData.yy)
+        Label1 = str$(presetData.xx)
+        Label3 = str$(presetData.yy)
 
         Call clsProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
@@ -1002,7 +1002,7 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
             If IsStop = True Then GoTo Cancel
             
             RES = checkColorTemp(rColor, strColorTemp)
-            Log_Info "Check colorTemp. RES:" + Str$(RES)
+            Log_Info "Check colorTemp. RES:" + str$(RES)
             
             If RES Then Exit For
             
@@ -1061,7 +1061,7 @@ Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixVa
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
         DelayMS 200
-        Log_Info "Init current colorTemp. RES:" + Str$(RES)
+        Log_Info "Init current colorTemp. RES:" + str$(RES)
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
         rRGB.cBB = presetData.nColorBB
@@ -1077,7 +1077,7 @@ Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixVa
             If IsStop = True Then GoTo Cancel
                 
             RES = checkColorTemp(rColor, strColorTemp)
-            Log_Info "Check colorTemp. RES:" + Str$(RES)
+            Log_Info "Check colorTemp. RES:" + str$(RES)
     
             If RES Then Exit For
             If RES = False Then
@@ -1117,17 +1117,17 @@ Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
         DelayMS delayTime
-        Log_Info "Init current colorTemp. RES:" + Str$(RES)
+        Log_Info "Init current colorTemp. RES:" + str$(RES)
 
-        Label1 = Str$(presetData.xx)
-        Label3 = Str$(presetData.yy)
+        Label1 = str$(presetData.xx)
+        Label3 = str$(presetData.yy)
 
         showData (5)
 
         If IsStop = True Then GoTo Cancel
 
         RES = checkColorTemp(rColor, strColorTemp)
-        Log_Info "Check colorTemp. RES:" + Str$(RES)
+        Log_Info "Check colorTemp. RES:" + str$(RES)
 
         If RES Then Exit For
 
@@ -1210,13 +1210,13 @@ On Error Resume Next
         End If
     End If
  
-    Log_Info "_x/y/Lv: " + Str$(rColor.xx) + " / " + Str$(rColor.yy) + " / " + Str$(rColor.lv)
+    Log_Info "_x/y/Lv: " + str$(rColor.xx) + " / " + str$(rColor.yy) + " / " + str$(rColor.lv)
 
-    If Label6 <> "CHECK" Then Log_Info "_R/G/B:  " + Str$(rRGB.cRR) + " / " + Str$(rRGB.cGG) + " / " + Str$(rRGB.cBB)
+    If Label6 <> "CHECK" Then Log_Info "_R/G/B:  " + str$(rRGB.cRR) + " / " + str$(rRGB.cGG) + " / " + str$(rRGB.cBB)
 
-    Label_x = Str$(rColor.xx)
-    Label_y = Str$(rColor.yy)
-    Label_Lv = Str$(rColor.lv)
+    Label_x = str$(rColor.xx)
+    Label_y = str$(rColor.yy)
+    Label_Lv = str$(rColor.lv)
 End Sub
 
 Private Sub tbDisConnectastro_Click()
@@ -1396,7 +1396,7 @@ On Error GoTo ErrExit
                 gstrBarCode = txtInput.Text
             End If
 
-            SaveLogInFile "================[" & gstrBarCode & "]================"
+            'SaveLogInFile "================[" & gstrBarCode & "]================"
 
             If utdCommMode = modeUART Then
                 If MSComm1.PortOpen = False Then
@@ -1654,7 +1654,6 @@ Private Sub tcpClient_Connect()
 End Sub
 
 Private Sub InitVPGDevice()
-
     Select Case gstrVPGModel
         Case "2401"
             Set ivpg = New VPGCtrl.VPGCtrl_24xx

@@ -81,7 +81,7 @@ Private Sub Protocal_EnterFacMode()
     mSendDataBuf(6) = &H46
 
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "EnterFacMode Fail!"
+        'SaveLogInFile "EnterFacMode Fail!"
     End If
 End Sub
 
@@ -96,7 +96,7 @@ Private Sub Protocal_ExitFacMode()
     mSendDataBuf(6) = &H47
 
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "ExitFacMode Fail!"
+        'SaveLogInFile "ExitFacMode Fail!"
     End If
 End Sub
 
@@ -121,7 +121,7 @@ Private Sub Protocal_SwitchInputSource(strInputSrc As String, intSrcNum As Integ
     mSendDataBuf(6) = CalChkSum(mSendDataBuf) Xor &H6E
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SwitchInputSource Fail!"
+        'SaveLogInFile "SwitchInputSource Fail!"
     End If
 End Sub
 
@@ -143,7 +143,7 @@ Private Sub Protocal_SetBrightness(intBrightness As Integer)
     mSendDataBuf(6) = CalChkSum(mSendDataBuf) Xor &H6E
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SetBrightness" & CStr(intBrightness) & "Fail!"
+        'SaveLogInFile "SetBrightness" & CStr(intBrightness) & "Fail!"
     End If
 End Sub
 
@@ -158,7 +158,7 @@ Private Sub Protocal_SetContrast(intContrast As Integer)
     mSendDataBuf(6) = CalChkSum(mSendDataBuf) Xor &H6E
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SetContrast" & CStr(intContrast) & "Fail!"
+        'SaveLogInFile "SetContrast" & CStr(intContrast) & "Fail!"
     End If
 End Sub
 
@@ -173,7 +173,7 @@ Private Sub Protocal_SetBacklight(intBacklight As Integer)
     mSendDataBuf(6) = CalChkSum(mSendDataBuf) Xor &H6E
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SetBacklight" & CStr(intBacklight) & "Fail!"
+        'SaveLogInFile "SetBacklight" & CStr(intBacklight) & "Fail!"
     End If
 End Sub
 
@@ -200,7 +200,7 @@ Private Sub SetColorTempCool1()
     mSendDataBuf(6) = &HAE
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SetColorTempCool1 Fail!"
+        'SaveLogInFile "SetColorTempCool1 Fail!"
     End If
 End Sub
 
@@ -216,7 +216,7 @@ Private Sub SetColorTempNormal()
     mSendDataBuf(6) = &HAD
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SetColorTempNormal Fail!"
+        'SaveLogInFile "SetColorTempNormal Fail!"
     End If
 End Sub
 
@@ -232,7 +232,7 @@ Private Sub SetColorTempWarm1()
     mSendDataBuf(6) = &HAC
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SetColorTempWarm1 Fail!"
+        'SaveLogInFile "SetColorTempWarm1 Fail!"
     End If
 End Sub
 
@@ -253,7 +253,7 @@ Private Sub SetRGain(lngRGain As Long)
     mSendDataBuf(6) = CalChkSum(mSendDataBuf) Xor &H6E
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SetRGain" & CStr(lngRGain) & "Fail!"
+        'SaveLogInFile "SetRGain" & CStr(lngRGain) & "Fail!"
     End If
 End Sub
 
@@ -268,7 +268,7 @@ Private Sub SetGGain(lngGGain As Long)
     mSendDataBuf(6) = CalChkSum(mSendDataBuf) Xor &H6E
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SetGGain" & CStr(lngGGain) & "Fail!"
+        'SaveLogInFile "SetGGain" & CStr(lngGGain) & "Fail!"
     End If
 End Sub
 
@@ -283,7 +283,7 @@ Private Sub SetBGain(lngBGain As Long)
     mSendDataBuf(6) = CalChkSum(mSendDataBuf) Xor &H6E
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SetBGain" & CStr(lngBGain) & "Fail!"
+        'SaveLogInFile "SetBGain" & CStr(lngBGain) & "Fail!"
     End If
 End Sub
 
@@ -304,7 +304,7 @@ Private Sub SetROffset(lngROffset As Long)
     mSendDataBuf(6) = CalChkSum(mSendDataBuf) Xor &H6E
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SetROffset" & CStr(lngROffset) & "Fail!"
+        'SaveLogInFile "SetROffset" & CStr(lngROffset) & "Fail!"
     End If
 End Sub
 
@@ -319,7 +319,7 @@ Private Sub SetGOffset(lngGOffset As Long)
     mSendDataBuf(6) = CalChkSum(mSendDataBuf) Xor &H6E
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SetGOffset" & CStr(lngGOffset) & "Fail!"
+        'SaveLogInFile "SetGOffset" & CStr(lngGOffset) & "Fail!"
     End If
 End Sub
 
@@ -334,7 +334,7 @@ Private Sub SetBOffset(lngBOffset As Long)
     mSendDataBuf(6) = CalChkSum(mSendDataBuf) Xor &H6E
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SetBOffset" & CStr(lngBOffset) & "Fail!"
+        'SaveLogInFile "SetBOffset" & CStr(lngBOffset) & "Fail!"
     End If
 End Sub
 
@@ -349,6 +349,6 @@ Private Sub Protocal_SaveWBDataToAllSrc(strInputSrc As String, intSrcNum As Inte
     mSendDataBuf(6) = &H5
     
     If Not SendCmd(mSendDataBuf) Then
-        SaveLogInFile "SaveWBDataToAllSrc Fail!"
+        'SaveLogInFile "SaveWBDataToAllSrc Fail!"
     End If
 End Sub

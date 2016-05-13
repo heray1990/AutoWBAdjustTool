@@ -122,7 +122,7 @@ Public Sub Log_Info(strLog As String)
     Form1.CheckStep.Text = Form1.CheckStep.Text + strLog + vbCrLf
     Form1.CheckStep.SelStart = Len(Form1.CheckStep)
 
-    SaveLogInFile strLog
+    'SaveLogInFile strLog
 End Sub
 
 Public Sub SaveLogInFile(strLog As String)

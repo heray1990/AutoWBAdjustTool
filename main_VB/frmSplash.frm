@@ -167,13 +167,13 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
 
-'On Error GoTo ErrExit
+On Error GoTo ErrExit
     gstrCurProjName = cmbModelName.Text
     SetCurProjectName gstrCurProjName
 
     Form1.Show
     Exit Sub
 
-'ErrExit:
-    'MsgBox ("The Licence Key is Wrong.")
+ErrExit:
+    MsgBox Err.Description, vbCritical, Err.Source
 End Sub
