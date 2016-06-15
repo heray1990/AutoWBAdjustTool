@@ -34,9 +34,9 @@ Private Sub Class_Initialize()
 End Sub
 
 Private Sub SendCmd()
-    If utdCommMode = modeUART Then
+    If isUartMode Then
         Form1.MSComm1.Output = mSendDataBuf
-    ElseIf utdCommMode = modeNetwork Then
+    Else
         Form1.tcpClient.SendData mSendDataBuf
     End If
     

@@ -71,15 +71,14 @@ Public setTVInputSourcePortNum As Integer
 Public maxBrightnessSpec As Long
 
 Public IsCa210ok As Boolean
+Public isUartMode As Boolean
 Public isNetworkConnected As Boolean
-Public utdCommMode As CommunicationMode
 
 Public gstrBarCode As String
 Public countTime As Long
 Public gstrBrand As String
 
 Public gstrVPGModel As String
-Public glngI2cClockRate As Long
 
 
 Public Type COLORTEMPSPEC
@@ -115,14 +114,14 @@ Public rRGB1 As REALRGB
 Public Enum CommunicationMode
     modeUART = 1
     modeNetwork
-    modeI2c
 End Enum
 
 Public Sub Log_Info(strLog As String)
     Form1.CheckStep.Text = Form1.CheckStep.Text + strLog + vbCrLf
     Form1.CheckStep.SelStart = Len(Form1.CheckStep)
+    Form1.CheckStep.SetFocus
 
-    'SaveLogInFile strLog
+    SaveLogInFile strLog
 End Sub
 
 Public Sub SaveLogInFile(strLog As String)
