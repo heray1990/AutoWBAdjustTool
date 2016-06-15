@@ -601,7 +601,7 @@ ADJUST_GAIN_AGAIN_COOL1:
             Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
-        SaveLogInFile "[Time]White Cool1: " & lbTimer.Caption
+        'SaveLogInFile "[Time]White Cool1: " & lbTimer.Caption
         lbAdjustCOOL_1.BackColor = &HC0FFC0
         
         If adjustGainAgainCool1Flag > 0 Then
@@ -621,7 +621,7 @@ ADJUST_GAIN_AGAIN_NORMAL:
             Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
-        SaveLogInFile "[Time]White Normal: " & lbTimer.Caption
+        'SaveLogInFile "[Time]White Normal: " & lbTimer.Caption
         lbAdjustNormal.BackColor = &HC0FFC0
         
         If adjustGainAgainNormalFlag > 0 Then
@@ -641,7 +641,7 @@ ADJUST_GAIN_AGAIN_WARM1:
             Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
-        SaveLogInFile "[Time]White Warm1: " & lbTimer.Caption
+        'SaveLogInFile "[Time]White Warm1: " & lbTimer.Caption
         lbAdjustWARM_1.BackColor = &HC0FFC0
         
         If adjustGainAgainWarm1Flag > 0 Then
@@ -666,7 +666,7 @@ ADJUST_GAIN_AGAIN_WARM1:
                 Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
             
-            SaveLogInFile "[Time]Grey Cool1: " & lbTimer.Caption
+            'SaveLogInFile "[Time]Grey Cool1: " & lbTimer.Caption
             lbAdjustCOOL_1.BackColor = &HC0FFC0
         End If
    
@@ -681,7 +681,7 @@ ADJUST_GAIN_AGAIN_WARM1:
                 Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
 
-            SaveLogInFile "[Time]Grey Normal: " & lbTimer.Caption
+            'SaveLogInFile "[Time]Grey Normal: " & lbTimer.Caption
             lbAdjustNormal.BackColor = &HC0FFC0
         End If
    
@@ -696,7 +696,7 @@ ADJUST_GAIN_AGAIN_WARM1:
                 Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
 
-            SaveLogInFile "[Time]Grey Warm1: " & lbTimer.Caption
+            'SaveLogInFile "[Time]Grey Warm1: " & lbTimer.Caption
             lbAdjustWARM_1.BackColor = &HC0FFC0
         End If
     End If
@@ -820,7 +820,6 @@ PASS:
     CheckStep.BackColor = &HC0FFC0
     CheckStep = CheckStep + "TEST ALL PASS"
     CheckStep.SelStart = Len(CheckStep)
-    CheckStep.SetFocus
     checkResult.ForeColor = &HC000&
     checkResult.Caption = "PASS"
     checkResult.BackColor = &HFF00&
@@ -839,7 +838,6 @@ FAIL:
     Call saveALLcData
 
     CheckStep.SelStart = Len(CheckStep)
-    CheckStep.SetFocus
     CheckStep.BackColor = &HFFFF&
     checkResult.BackColor = &HFF&
     checkResult.ForeColor = &H808080
@@ -862,7 +860,7 @@ Private Sub subInitBeforeRunning()
     lbTimer.Caption = "0s"
     Timer1.Enabled = True
 
-    txtInput.Locked = True
+    txtInput.Enabled = False
     'gstrBarCode = ""
     adjustGainAgainCool1Flag = 0
     adjustGainAgainNormalFlag = 0
@@ -872,15 +870,15 @@ End Sub
 Private Sub subInitAfterRunning()
     Timer1.Enabled = False
     
-    SaveLogInFile "[Time]Total: " & lbTimer.Caption & vbCrLf
+    'SaveLogInFile "[Time]Total: " & lbTimer.Caption & vbCrLf
     
     adjustGainAgainCool1Flag = 0
     adjustGainAgainNormalFlag = 0
     adjustGainAgainWarm1Flag = 0
 
+    txtInput.Enabled = True
     txtInput.Text = ""
     txtInput.SetFocus
-    txtInput.Locked = False
     
     If isUartMode = False Then
         isNetworkConnected = False
@@ -961,7 +959,6 @@ Sub ShowError_Sys(t As Integer)
     CheckStep.ForeColor = &HFF&
     CheckStep.Text = CheckStep.Text + "Error Code:" + Str$(t) + vbCrLf + s + vbCrLf
     CheckStep.SelStart = Len(CheckStep)
-    CheckStep.SetFocus
 End Sub
 
 Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustVal As Long, HighLowMode As Long) As Boolean
@@ -1255,7 +1252,7 @@ End Sub
 Private Sub Form_Load()
     i = 0
     IsStop = False
-    txtInput.Locked = False
+    txtInput.Enabled = True
     
     gstrBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
     
@@ -1386,7 +1383,7 @@ On Error GoTo ErrExit
     If KeyAscii = 13 Then
         IsStop = False
         
-        If txtInput.Locked = False Then
+        If txtInput.Enabled = True Then
             If txtInput.Text = "" Or Len(txtInput.Text) <> gintBarCodeLen Then
                 MsgBox "条形码不对，请确认！(要求长度为：" & CStr(gintBarCodeLen) & ")"
                 txtInput.Text = ""
@@ -1395,7 +1392,7 @@ On Error GoTo ErrExit
                 gstrBarCode = txtInput.Text
             End If
 
-            SaveLogInFile "================[" & gstrBarCode & "]================"
+            'SaveLogInFile "================[" & gstrBarCode & "]================"
 
             If isUartMode = True Then
                 If MSComm1.PortOpen = False Then
@@ -1408,7 +1405,7 @@ On Error GoTo ErrExit
                     If tcpClient.State = sckClosed Then
                         Log_Info "TCP Connect"
                         tcpClient.Connect
-                        txtInput.Locked = True
+                        txtInput.Enabled = False
                     End If
                     Call DelaySWithFlag(cmdReceiveWaitS * 2, isNetworkConnected)
                 
@@ -1423,7 +1420,7 @@ On Error GoTo ErrExit
                     End If
                     Log_Info "Re-connect to TV."
                 Loop While i <= 5
-                txtInput.Locked = False
+                txtInput.Enabled = True
             End If
         End If
         
