@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmSplash 
    BackColor       =   &H00808080&
    BorderStyle     =   3  'Fixed Dialog
-   ClientHeight    =   2775
+   ClientHeight    =   2580
    ClientLeft      =   255
    ClientTop       =   1410
    ClientWidth     =   5580
@@ -13,7 +13,7 @@ Begin VB.Form frmSplash
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   2775
+   ScaleHeight     =   2580
    ScaleWidth      =   5580
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
@@ -21,7 +21,7 @@ Begin VB.Form frmSplash
       BackColor       =   &H00E0E0E0&
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   20.25
+         Size            =   12
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -29,7 +29,7 @@ Begin VB.Form frmSplash
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FF0000&
-      Height          =   600
+      Height          =   405
       Left            =   1080
       Sorted          =   -1  'True
       TabIndex        =   0
@@ -115,7 +115,7 @@ Begin VB.Form frmSplash
       Height          =   255
       Left            =   120
       TabIndex        =   1
-      Top             =   2400
+      Top             =   2200
       Width           =   5295
    End
 End
