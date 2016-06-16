@@ -122,7 +122,7 @@ Public Sub Log_Info(strLog As String)
     Form1.CheckStep.Text = Form1.CheckStep.Text + strLog + vbCrLf
     Form1.CheckStep.SelStart = Len(Form1.CheckStep)
 
-    'SaveLogInFile strLog
+    SaveLogInFile strLog
 End Sub
 
 Public Sub SaveLogInFile(strLog As String)
@@ -135,7 +135,7 @@ Public Sub SaveLogInFile(strLog As String)
         MkDir logPath
     End If
     
-    Open (logPath & gstrCurProjName & "-" & CStr(Date) & ".log") For Append As #1
+    Open (logPath & gstrCurProjName & "-" & Format(Date, "YYYY-MM-DD") & ".log") For Append As #1
     Write #1, CStr(Time) & "> " & strLog
     Close #1
 End Sub
