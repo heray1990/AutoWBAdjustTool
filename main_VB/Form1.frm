@@ -72,7 +72,7 @@ Begin VB.Form Form1
    End
    Begin VB.TextBox CheckStep 
       Appearance      =   0  'Flat
-      BackColor       =   &H8000000F&
+      BackColor       =   &H80000006&
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   10.5
@@ -82,6 +82,7 @@ Begin VB.Form Form1
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+      ForeColor       =   &H0000FF00&
       Height          =   3580
       Left            =   6440
       MultiLine       =   -1  'True
