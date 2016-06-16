@@ -71,8 +71,8 @@ Public setTVInputSourcePortNum As Integer
 Public maxBrightnessSpec As Long
 
 Public IsCa210ok As Boolean
-Public isUartMode As Boolean
 Public isNetworkConnected As Boolean
+Public utdCommMode As CommunicationMode
 
 Public gstrBarCode As String
 Public countTime As Long

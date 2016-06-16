@@ -579,14 +579,12 @@ On Error GoTo ErrExit
 
     Log_Info "###INITIAL USER###"
     Log_Info "###ADJUST COLORTEMP###"
+    Call ChangePattern("103")
 
     clsProtocal.EnterFacMode
     Call clsProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
     Call clsProtocal.ResetPicMode
 
-    Call ChangePattern("103")
-    'DelayMS 200
-    
     Label6.Caption = "WHITE"
 
 ADJUST_GAIN_AGAIN_COOL1:
@@ -704,7 +702,6 @@ ADJUST_GAIN_AGAIN_WARM1:
     If isCheckColorTemp Then
         If isAdjustOffset Then
             Call ChangePattern("103")
-            'DelayMS 200
         End If
 CHECK_COOL1:
         If isAdjustCool1 Then
@@ -774,7 +771,6 @@ CHECK_WARM1:
     'Cool, 100% white pattern, brightness = 100, contrast = 100
     'Check Lv and save x, y, lv
     Call ChangePattern("101")
-    'DelayMS 200
 
     Call clsProtocal.SetBrightness(100)
     Log_Info "Set brightness to 100"
@@ -852,7 +848,7 @@ FAIL:
     Exit Sub
 
 ErrExit:
-        MsgBox Err.Description, vbCritical, Err.Source
+    MsgBox Err.Description, vbCritical, Err.Source
 End Sub
 
 Private Sub subInitBeforeRunning()
@@ -880,7 +876,7 @@ Private Sub subInitAfterRunning()
     txtInput.Text = ""
     txtInput.SetFocus
     
-    If isUartMode = False Then
+    If utdCommMode = modeNetwork Then
         isNetworkConnected = False
         tcpClient.Close
     End If
@@ -1299,12 +1295,11 @@ Public Sub subInitInterface()
     isCheckColorTemp = clsConfigData.EnableChkColor
     isAdjustOffset = clsConfigData.EnableAdjOffset
     
-    If clsConfigData.CommMode = modeUART Then
-        isUartMode = True
+    utdCommMode = clsConfigData.CommMode
+    If utdCommMode = modeUART Then
         lbCommMode.Caption = "UART"
         subInitComPort
     Else
-        isUartMode = False
         lbCommMode.Caption = "Network"
         subInitNetwork
     End If
@@ -1394,7 +1389,7 @@ On Error GoTo ErrExit
 
             SaveLogInFile "================[" & gstrBarCode & "]================"
 
-            If isUartMode = True Then
+            If utdCommMode = modeUART Then
                 If MSComm1.PortOpen = False Then
                     MSComm1.PortOpen = True
                 End If
@@ -1432,10 +1427,11 @@ On Error GoTo ErrExit
 
 ErrExit:
     txtInput.Text = ""
+    MsgBox Err.Description, vbCritical, Err.Source
     'Invalid Port Number
-    If Err.Number = 8002 Then
-        MsgBox Err.Description, vbCritical, Err.Source
-    End If
+    'If Err.Number = 8002 Then
+    '    MsgBox Err.Description, vbCritical, Err.Source
+    'End If
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -1460,7 +1456,6 @@ On Error GoTo ErrExit
     If Not (clsProtocal Is Nothing) Then
         Set clsProtocal = Nothing
     End If
-    
 
     IsStop = True
     If (IsCa210ok = True) Then
@@ -1632,7 +1627,6 @@ Private Sub tcpClient_Connect()
 End Sub
 
 Private Sub InitVPGDevice()
-
     Select Case gstrVPGModel
         Case "2401"
             Set ivpg = New VPGCtrl.VPGCtrl_24xx

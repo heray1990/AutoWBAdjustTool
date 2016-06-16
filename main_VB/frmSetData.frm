@@ -638,7 +638,7 @@ Private Sub Form_Load()
     
     cmbChromaModel.Text = gstrVPGModel
 
-    If isUartMode Then
+    If utdCommMode = modeUART Then
         optUart.Value = True
         optNetwork.Value = False
         cmbComBaud.Enabled = True
