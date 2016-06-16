@@ -601,7 +601,7 @@ ADJUST_GAIN_AGAIN_COOL1:
             Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
-        'SaveLogInFile "[Time]White Cool1: " & lbTimer.Caption
+        SaveLogInFile "[Time]White Cool1: " & lbTimer.Caption
         lbAdjustCOOL_1.BackColor = &HC0FFC0
         
         If adjustGainAgainCool1Flag > 0 Then
@@ -621,7 +621,7 @@ ADJUST_GAIN_AGAIN_NORMAL:
             Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
-        'SaveLogInFile "[Time]White Normal: " & lbTimer.Caption
+        SaveLogInFile "[Time]White Normal: " & lbTimer.Caption
         lbAdjustNormal.BackColor = &HC0FFC0
         
         If adjustGainAgainNormalFlag > 0 Then
@@ -641,7 +641,7 @@ ADJUST_GAIN_AGAIN_WARM1:
             Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
         End If
 
-        'SaveLogInFile "[Time]White Warm1: " & lbTimer.Caption
+        SaveLogInFile "[Time]White Warm1: " & lbTimer.Caption
         lbAdjustWARM_1.BackColor = &HC0FFC0
         
         If adjustGainAgainWarm1Flag > 0 Then
@@ -666,7 +666,7 @@ ADJUST_GAIN_AGAIN_WARM1:
                 Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
             
-            'SaveLogInFile "[Time]Grey Cool1: " & lbTimer.Caption
+            SaveLogInFile "[Time]Grey Cool1: " & lbTimer.Caption
             lbAdjustCOOL_1.BackColor = &HC0FFC0
         End If
    
@@ -681,7 +681,7 @@ ADJUST_GAIN_AGAIN_WARM1:
                 Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
 
-            'SaveLogInFile "[Time]Grey Normal: " & lbTimer.Caption
+            SaveLogInFile "[Time]Grey Normal: " & lbTimer.Caption
             lbAdjustNormal.BackColor = &HC0FFC0
         End If
    
@@ -696,7 +696,7 @@ ADJUST_GAIN_AGAIN_WARM1:
                 Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
             End If
 
-            'SaveLogInFile "[Time]Grey Warm1: " & lbTimer.Caption
+            SaveLogInFile "[Time]Grey Warm1: " & lbTimer.Caption
             lbAdjustWARM_1.BackColor = &HC0FFC0
         End If
     End If
@@ -870,7 +870,7 @@ End Sub
 Private Sub subInitAfterRunning()
     Timer1.Enabled = False
     
-    'SaveLogInFile "[Time]Total: " & lbTimer.Caption & vbCrLf
+    SaveLogInFile "[Time]Total: " & lbTimer.Caption & vbCrLf
     
     adjustGainAgainCool1Flag = 0
     adjustGainAgainNormalFlag = 0
@@ -1392,7 +1392,7 @@ On Error GoTo ErrExit
                 gstrBarCode = txtInput.Text
             End If
 
-            'SaveLogInFile "================[" & gstrBarCode & "]================"
+            SaveLogInFile "================[" & gstrBarCode & "]================"
 
             If isUartMode = True Then
                 If MSComm1.PortOpen = False Then
