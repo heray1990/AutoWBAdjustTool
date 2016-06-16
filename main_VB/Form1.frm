@@ -1573,7 +1573,7 @@ Private Sub saveALLcData()
     If gstrBarCode = "" Then
         Exit Sub
     Else
-        sqlstring = "select * from DataRecord"
+        sqlstring = "select * from [" & gstrCurProjName & "]"
         Executesql (sqlstring)
         rs.AddNew
 

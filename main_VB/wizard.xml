@@ -4,8 +4,7 @@
 	<project_list>
 		<project brand="Letv" model="X65"/>
 		<project brand="Letv" model="X50"/>
-		<project brand="CAN" model="C49S"/>
-		<project brand="CAN" model="C43C"/>
-		<project brand="Haier" model="75P3"/>
+		<project brand="CAN" model="C43S"/>
+		<project brand="Haier" model="LS75A31A3L1"/>
 	</project_list>
 </wizard>
