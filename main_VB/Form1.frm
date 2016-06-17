@@ -24,6 +24,19 @@ Begin VB.Form Form1
    ScaleHeight     =   4620
    ScaleWidth      =   10335
    StartUpPosition =   2  'CenterScreen
+   Begin VB.PictureBox PictureBrand 
+      Appearance      =   0  'Flat
+      BackColor       =   &H00E0E0E0&
+      ForeColor       =   &H80000008&
+      Height          =   758
+      Left            =   120
+      Picture         =   "Form1.frx":1DF72
+      ScaleHeight     =   735
+      ScaleWidth      =   2505
+      TabIndex        =   21
+      Top             =   0
+      Width           =   2528
+   End
    Begin MSWinsockLib.Winsock tcpClient 
       Left            =   10560
       Top             =   3000
@@ -38,7 +51,7 @@ Begin VB.Form Form1
       ForeColor       =   &H80000008&
       Height          =   2580
       Left            =   2640
-      Picture         =   "Form1.frx":1DF72
+      Picture         =   "Form1.frx":24226
       ScaleHeight     =   2550
       ScaleWidth      =   3780
       TabIndex        =   6
@@ -87,7 +100,7 @@ Begin VB.Form Form1
       Left            =   6440
       MultiLine       =   -1  'True
       TabIndex        =   5
-      Text            =   "Form1.frx":3D06C
+      Text            =   "Form1.frx":43320
       Top             =   960
       Width           =   3805
    End
@@ -96,39 +109,18 @@ Begin VB.Form Form1
       Appearance      =   0  'Flat
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   12
+         Size            =   10.5
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   375
+      Height          =   360
       Left            =   120
       TabIndex        =   1
       Text            =   "123456789"
-      Top             =   600
-      Width           =   2535
-   End
-   Begin VB.Label lbCommMode 
-      Alignment       =   2  'Center
-      Appearance      =   0  'Flat
-      BorderStyle     =   1  'Fixed Single
-      Caption         =   "UART"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   21.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Left            =   120
-      TabIndex        =   21
-      Top             =   960
+      Top             =   1130
       Width           =   2535
    End
    Begin VB.Label Label3 
@@ -157,7 +149,7 @@ Begin VB.Form Form1
       Caption         =   "Sampl1"
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   24
+         Size            =   14.25
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -165,10 +157,10 @@ Begin VB.Form Form1
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H80000008&
-      Height          =   615
+      Height          =   390
       Left            =   120
       TabIndex        =   19
-      Top             =   0
+      Top             =   750
       Width           =   2535
    End
    Begin VB.Label lbTimer 
@@ -1258,12 +1250,15 @@ Private Sub Form_Load()
         UCase(gstrBrand) = "CANTV" Then
         Set clsCANTVProtocal = New CANTVProtocal
         Set clsProtocal = clsCANTVProtocal
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\CANTV.bmp")
     ElseIf UCase(gstrBrand) = "HAIER" Then
         Set clsHaierProtocal = New HaierProtocal
         Set clsProtocal = clsHaierProtocal
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
     Else
         Set clsLetvProtocal = New LetvProtocal
         Set clsProtocal = clsLetvProtocal
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
     End If
 
     mTitle = Me.Caption
@@ -1298,17 +1293,15 @@ Public Sub subInitInterface()
     
     utdCommMode = clsConfigData.CommMode
     If utdCommMode = modeUART Then
-        lbCommMode.Caption = "UART"
         subInitComPort
     Else
-        lbCommMode.Caption = "Network"
         subInitNetwork
     End If
     
     Set clsConfigData = Nothing
 
     txtInput.Text = ""
-    lbModelName.Caption = gstrCurProjName
+    lbModelName.Caption = Split(gstrCurProjName, gstrDelimiterForProjName)(1)
     
     If isAdjustCool1 = True Then lbAdjustCOOL_1.ForeColor = &H80000008
     If isAdjustCool2 = True Then lbAdjustCOOL_2.ForeColor = &H80000008

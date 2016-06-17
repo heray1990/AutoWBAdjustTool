@@ -18,28 +18,32 @@ Begin VB.Form frmSplash
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin VB.PictureBox Picture1 
+      Appearance      =   0  'Flat
       AutoSize        =   -1  'True
-      BorderStyle     =   0  'None
-      Height          =   750
-      Left            =   2880
+      BackColor       =   &H80000005&
+      ForeColor       =   &H80000008&
+      Height          =   780
+      Left            =   2900
       Picture         =   "frmSplash.frx":000C
       ScaleHeight     =   750
       ScaleWidth      =   750
       TabIndex        =   4
       Top             =   240
-      Width           =   750
+      Width           =   780
    End
    Begin VB.PictureBox PictureBrand 
+      Appearance      =   0  'Flat
       AutoSize        =   -1  'True
-      BorderStyle     =   0  'None
-      Height          =   750
+      BackColor       =   &H80000005&
+      ForeColor       =   &H80000008&
+      Height          =   780
       Left            =   360
       Picture         =   "frmSplash.frx":1E00
       ScaleHeight     =   750
-      ScaleWidth      =   2250
+      ScaleWidth      =   2520
       TabIndex        =   3
       Top             =   240
-      Width           =   2250
+      Width           =   2550
    End
    Begin VB.ComboBox cmbModelName 
       BackColor       =   &H00E0E0E0&
@@ -134,7 +138,6 @@ Private Sub Form_Load()
 
 On Error GoTo ErrExit
     Dim strProjectName As Variant
-    Dim strBrand As String
     
     cmbModelName.Clear
     
