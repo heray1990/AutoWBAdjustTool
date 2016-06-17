@@ -3,7 +3,7 @@ Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
 Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
 Begin VB.Form Form1 
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "Auto Color Temp Adjust System"
+   Caption         =   "Auto White Balance Modulation"
    ClientHeight    =   4620
    ClientLeft      =   5865
    ClientTop       =   2625
@@ -478,10 +478,10 @@ Begin VB.Form Form1
    Begin VB.Menu vbFunc 
       Caption         =   "Function"
       Begin VB.Menu vbConCA310 
-         Caption         =   "ConnectCA210"
+         Caption         =   "Connect CA310/CA210"
       End
       Begin VB.Menu tbDisConnectastro 
-         Caption         =   "DisConnectCA210(&D)"
+         Caption         =   "DisConnect CA310/CA210(&D)"
       End
    End
    Begin VB.Menu vbSet 
@@ -542,7 +542,7 @@ On Error GoTo ErrExit
     End If
 
     If IsCa210ok = False Then
-        MsgBox "CA210 disconnected,Please click'Connect'->'Connect CA210'to do operation!", vbOKOnly + vbInformation, "warning"
+        MsgBox TXTCaDisconnectHint, vbOKOnly + vbInformation, "warning"
         subInitAfterRunning
         
         Exit Sub
@@ -553,7 +553,7 @@ On Error GoTo ErrExit
     checkResult.Caption = "RUN..."
     checkResult.ForeColor = &HC0&
     CheckStep = ""
-    CheckStep.BackColor = &H8000000F
+    'CheckStep.BackColor = &H8000000F
     CheckStep.ForeColor = &H80000008
 
     lbAdjustCOOL_1.BackColor = &H8000000F
@@ -644,7 +644,6 @@ ADJUST_GAIN_AGAIN_WARM1:
         Label6.Caption = "GREY"
 
         Call ChangePattern("109")
-        'DelayMS 200
 
         If isAdjustCool1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
@@ -806,7 +805,7 @@ PASS:
     Call saveALLcData
 
     CheckStep.ForeColor = &H80000008
-    CheckStep.BackColor = &HC0FFC0
+    'CheckStep.BackColor = &HC0FFC0
     CheckStep = CheckStep + "TEST ALL PASS"
     CheckStep.SelStart = Len(CheckStep)
     checkResult.ForeColor = &HC000&
@@ -827,7 +826,7 @@ FAIL:
     Call saveALLcData
 
     CheckStep.SelStart = Len(CheckStep)
-    CheckStep.BackColor = &HFFFF&
+    'CheckStep.BackColor = &HFFFF&
     checkResult.BackColor = &HFF&
     checkResult.ForeColor = &H808080
     checkResult.Caption = "FAIL"
@@ -882,13 +881,13 @@ Sub ShowError_Sys(t As Integer)
 
     Select Case t
         Case 1
-            s = "ColorTemp_COOL_1 is Wrong, Please Check Again."
+            s = TXTGainCool1Wrong
         Case 2
             s = "ColorTemp_COOL_2 is Wrong, Please Check Again."
         Case 3
-            s = "ColorTemp_NORMAL is Wrong, Please Check Again."
+            s = TXTGainNormalWrong
         Case 4
-            s = "ColorTemp_WARM_1 is Wrong, Please Check Again."
+            s = TXTGainWarm1Wrong
         Case 5
             s = "ColorTemp_WARM_2 is Wrong, Please Check Again."
         Case 6
@@ -902,13 +901,13 @@ Sub ShowError_Sys(t As Integer)
         Case 10
             s = "Read DSUB EDID FAIL"
         Case 11
-            s = "OFFSET_Color_COOL_1 is Wrong, Please Check Again."
+            s = TXTOffsetCool1Wrong
         Case 12
             s = "OFFSET_Color_COOL_2 is Wrong, Please Check Again."
         Case 13
-            s = "OFFSET_Color_NORMAL is Wrong, Please Check Again."
+            s = TXTOffsetNormalWrong
         Case 14
-            s = "OFFSET_Color_WARM_1 is Wrong, Please Check Again."
+            s = TXTOffsetWarm1Wrong
         Case 15
             s = "OFFSET_Color_WARM_2 is Wrong, Please Check Again."
         Case 16
@@ -940,7 +939,7 @@ Sub ShowError_Sys(t As Integer)
         Case 29
             s = "LightSensor Data is Wrong, Please Check Again."
         Case 30
-            s = "亮度不在规格！"
+            s = TXTLvTooLow
         Case 31
             s = ""
     End Select
@@ -1102,13 +1101,13 @@ Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As
     Dim i, j, k As Integer
 
     Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
-    DelayMS delayTime
+    DelayMS 200
 
     Log_Info "========Check " & strColorTemp & "========"
   
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
-        DelayMS delayTime
+        DelayMS 200
         Log_Info "Init current colorTemp. RES:" + Str$(RES)
 
         Label1 = Str$(presetData.xx)
@@ -1123,7 +1122,7 @@ Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As
 
         If RES Then Exit For
 
-        DelayMS delayTime
+        DelayMS 200
     Next j
   
 Cancel:
@@ -1176,7 +1175,7 @@ On Error Resume Next
         Else
             lbColorTempWrong.Visible = True
             Picture1.Circle (xPos, yPos), 23, &HFF&
-          
+
             If rColor.xx < 5 Then
                 IsStop = True
                 ObjCa.RemoteMode = 2
@@ -1261,6 +1260,7 @@ Private Sub Form_Load()
         PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
     End If
 
+    Me.Caption = TXTTitle
     mTitle = Me.Caption
     subInitInterface
     
@@ -1374,7 +1374,7 @@ On Error GoTo ErrExit
         
         If txtInput.Enabled = True Then
             If txtInput.Text = "" Or Len(txtInput.Text) <> gintBarCodeLen Then
-                MsgBox "条形码不对，请确认！(要求长度为：" & CStr(gintBarCodeLen) & ")"
+                MsgBox TXTBarcodeError & CStr(gintBarCodeLen), vbOKOnly, TXTBarcodeErrorTitle
                 txtInput.Text = ""
                 Exit Sub
             Else

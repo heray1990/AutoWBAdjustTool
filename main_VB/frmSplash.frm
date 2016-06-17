@@ -88,7 +88,7 @@ Begin VB.Form frmSplash
    End
    Begin VB.Label Label1 
       BackColor       =   &H00E0E0E0&
-      Caption         =   "Please select your model:"
+      Caption         =   "Please select model:"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   12
@@ -145,7 +145,8 @@ On Error GoTo ErrExit
         cmbModelName.AddItem strProjectName
     Next strProjectName
     
-    lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision
+    lblVersion.Caption = TXTVersion & " " & App.Major & "." & App.Minor & "." & App.Revision
+    Label1.Caption = TXTMessage1
 
     cmbModelName.Text = GetCurProjectName
     

@@ -27,6 +27,7 @@ Module=DelayHelper; DelayHelper.bas
 Class=HaierProtocal; HaierProtocal.cls
 Class=Protocal; Protocal.cls
 Class=CANTVProtocal; CAVTVProtocal.cls
+Module=ModuleText; ModuleText.bas
 IconForm="Form1"
 Startup="frmSplash"
 HelpFile=""
