@@ -7,7 +7,7 @@ Begin VB.Form Form1
    ClientHeight    =   4620
    ClientLeft      =   5865
    ClientTop       =   2625
-   ClientWidth     =   10335
+   ClientWidth     =   10230
    BeginProperty Font 
       Name            =   "Arial"
       Size            =   9
@@ -22,7 +22,7 @@ Begin VB.Form Form1
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    ScaleHeight     =   4620
-   ScaleWidth      =   10335
+   ScaleWidth      =   10230
    StartUpPosition =   2  'CenterScreen
    Begin VB.PictureBox PictureBrand 
       Appearance      =   0  'Flat
@@ -102,7 +102,7 @@ Begin VB.Form Form1
       TabIndex        =   5
       Text            =   "Form1.frx":43320
       Top             =   960
-      Width           =   3805
+      Width           =   3700
    End
    Begin VB.TextBox txtInput 
       Alignment       =   2  'Center
@@ -125,7 +125,7 @@ Begin VB.Form Form1
    End
    Begin VB.Label Label3 
       Alignment       =   2  'Center
-      Caption         =   "2970"
+      Caption         =   "----"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   18
@@ -185,7 +185,7 @@ Begin VB.Form Form1
    End
    Begin VB.Label Label1 
       Alignment       =   2  'Center
-      Caption         =   "2670"
+      Caption         =   "----"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   18
@@ -289,7 +289,7 @@ Begin VB.Form Form1
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "210"
+      Caption         =   "----"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   18
@@ -310,7 +310,7 @@ Begin VB.Form Form1
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
-      Caption         =   "2800"
+      Caption         =   "----"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   18
@@ -331,7 +331,7 @@ Begin VB.Form Form1
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
-      Caption         =   "2700"
+      Caption         =   "----"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   18
@@ -431,7 +431,7 @@ Begin VB.Form Form1
       Left            =   2640
       TabIndex        =   0
       Top             =   0
-      Width           =   7605
+      Width           =   7500
    End
    Begin VB.Label Label2 
       Appearance      =   0  'Flat

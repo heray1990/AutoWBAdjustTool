@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmSplash 
    BackColor       =   &H00E0E0E0&
    BorderStyle     =   3  'Fixed Dialog
-   ClientHeight    =   2415
+   ClientHeight    =   2295
    ClientLeft      =   255
    ClientTop       =   1410
    ClientWidth     =   4005
@@ -13,7 +13,7 @@ Begin VB.Form frmSplash
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   2415
+   ScaleHeight     =   2295
    ScaleWidth      =   4005
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
@@ -23,12 +23,12 @@ Begin VB.Form frmSplash
       BackColor       =   &H80000005&
       ForeColor       =   &H80000008&
       Height          =   780
-      Left            =   2900
+      Left            =   2895
       Picture         =   "frmSplash.frx":000C
       ScaleHeight     =   750
       ScaleWidth      =   750
       TabIndex        =   4
-      Top             =   240
+      Top             =   120
       Width           =   780
    End
    Begin VB.PictureBox PictureBrand 
@@ -42,7 +42,7 @@ Begin VB.Form frmSplash
       ScaleHeight     =   750
       ScaleWidth      =   2520
       TabIndex        =   3
-      Top             =   240
+      Top             =   120
       Width           =   2550
    End
    Begin VB.ComboBox cmbModelName 
@@ -62,8 +62,8 @@ Begin VB.Form frmSplash
       Sorted          =   -1  'True
       TabIndex        =   0
       Text            =   "Sample1"
-      Top             =   1560
-      Width           =   3255
+      Top             =   1440
+      Width           =   3300
    End
    Begin VB.Label lblVersion 
       Alignment       =   1  'Right Justify
@@ -83,7 +83,7 @@ Begin VB.Form frmSplash
       Height          =   255
       Left            =   2760
       TabIndex        =   2
-      Top             =   2040
+      Top             =   1920
       Width           =   825
    End
    Begin VB.Label Label1 
@@ -102,7 +102,7 @@ Begin VB.Form frmSplash
       Height          =   375
       Left            =   360
       TabIndex        =   1
-      Top             =   1200
+      Top             =   1080
       Width           =   3255
    End
 End
