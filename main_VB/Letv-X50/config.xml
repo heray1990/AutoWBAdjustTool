@@ -8,7 +8,13 @@
 	<channel_number>3</channel_number>
 	<length_bar_code>19</length_bar_code>
 	<Lv_spec>300</Lv_spec>
-	<VPG_model>22294</VPG_model>
+	<VPG>
+		<model>22294</model>
+		<timing>69</timing>
+		<IRE100>101</IRE100>
+		<IRE80>103</IRE80>
+		<IRE20>109</IRE20>
+	</VPG>
 	<cool_2>False</cool_2>
 	<cool_1>True</cool_1>
 	<normal>True</normal>

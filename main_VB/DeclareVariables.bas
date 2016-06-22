@@ -79,6 +79,10 @@ Public countTime As Long
 Public gstrBrand As String
 
 Public gstrVPGModel As String
+Public gstrVPGTiming As String
+Public gstrVPG100IRE As String
+Public gstrVPG80IRE As String
+Public gstrVPG20IRE As String
 
 
 Public Type COLORTEMPSPEC

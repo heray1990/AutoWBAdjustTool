@@ -73,11 +73,11 @@ Private Function CalChkSum(ByRef data() As Byte) As Byte
 End Function
 
 Private Sub Protocal_EnterFacMode()
-    'Empty cmd for CIBN
+    'Empty cmd for CAN
 End Sub
 
 Private Sub Protocal_ExitFacMode()
-    'Empty cmd for CIBN
+    'Empty cmd for CAN
 End Sub
 
 Private Sub Protocal_SwitchInputSource(strInputSrc As String, intSrcNum As Integer)

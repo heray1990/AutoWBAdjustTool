@@ -553,8 +553,6 @@ On Error GoTo ErrExit
     checkResult.Caption = "RUN..."
     checkResult.ForeColor = &HC0&
     CheckStep = ""
-    'CheckStep.BackColor = &H8000000F
-    CheckStep.ForeColor = &H80000008
 
     lbAdjustCOOL_1.BackColor = &H8000000F
     lbAdjustCOOL_2.BackColor = &H8000000F
@@ -572,7 +570,7 @@ On Error GoTo ErrExit
 
     Log_Info "###INITIAL USER###"
     Log_Info "###ADJUST COLORTEMP###"
-    Call ChangePattern("103")
+    Call ChangePattern(gstrVPG80IRE)
 
     clsProtocal.EnterFacMode
     Call clsProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
@@ -643,7 +641,7 @@ ADJUST_GAIN_AGAIN_WARM1:
     If isAdjustOffset Then
         Label6.Caption = "GREY"
 
-        Call ChangePattern("109")
+        Call ChangePattern(gstrVPG20IRE)
 
         If isAdjustCool1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
@@ -693,7 +691,7 @@ ADJUST_GAIN_AGAIN_WARM1:
 
     If isCheckColorTemp Then
         If isAdjustOffset Then
-            Call ChangePattern("103")
+            Call ChangePattern(gstrVPG80IRE)
         End If
 CHECK_COOL1:
         If isAdjustCool1 Then
@@ -762,7 +760,7 @@ CHECK_WARM1:
     'Last check:
     'Cool, 100% white pattern, brightness = 100, contrast = 100
     'Check Lv and save x, y, lv
-    Call ChangePattern("101")
+    Call ChangePattern(gstrVPG100IRE)
 
     Call clsProtocal.SetBrightness(100)
     Log_Info "Set brightness to 100"
@@ -804,8 +802,6 @@ PASS:
     cmdMark = "PASS"
     Call saveALLcData
 
-    CheckStep.ForeColor = &H80000008
-    'CheckStep.BackColor = &HC0FFC0
     CheckStep = CheckStep + "TEST ALL PASS"
     CheckStep.SelStart = Len(CheckStep)
     checkResult.ForeColor = &HC000&
@@ -826,7 +822,6 @@ FAIL:
     Call saveALLcData
 
     CheckStep.SelStart = Len(CheckStep)
-    'CheckStep.BackColor = &HFFFF&
     checkResult.BackColor = &HFF&
     checkResult.ForeColor = &H808080
     checkResult.Caption = "FAIL"
@@ -944,7 +939,6 @@ Sub ShowError_Sys(t As Integer)
             s = ""
     End Select
 
-    CheckStep.ForeColor = &HFF&
     CheckStep.Text = CheckStep.Text + "Error Code:" + Str$(t) + vbCrLf + s + vbCrLf
     CheckStep.SelStart = Len(CheckStep)
 End Sub
@@ -998,9 +992,7 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
             If RES Then Exit For
             
             If RES = False Then
-                If UCase(gstrBrand) = "CIBN" Or _
-                    UCase(gstrBrand) = "CAN" Or _
-                    UCase(gstrBrand) = "CANTV" Or _
+                If UCase(gstrBrand) = "CAN" Or _
                     UCase(gstrBrand) = "HAIER" Then
                     Call adjustColorTempForCIBN(rRGB)
                 Else    ' Letv
@@ -1244,9 +1236,7 @@ Private Sub Form_Load()
     
     gstrBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
     
-    If UCase(gstrBrand) = "CIBN" Or _
-        UCase(gstrBrand) = "CAN" Or _
-        UCase(gstrBrand) = "CANTV" Then
+    If UCase(gstrBrand) = "CAN" Then
         Set clsCANTVProtocal = New CANTVProtocal
         Set clsProtocal = clsCANTVProtocal
         PictureBrand.Picture = LoadPicture(App.Path & "\Resources\CANTV.bmp")
@@ -1283,6 +1273,10 @@ Public Sub subInitInterface()
     gintBarCodeLen = clsConfigData.BarCodeLen
     maxBrightnessSpec = clsConfigData.LvSpec
     gstrVPGModel = clsConfigData.VPGModel
+    gstrVPGTiming = clsConfigData.VPGTiming
+    gstrVPG100IRE = clsConfigData.VPG100IRE
+    gstrVPG80IRE = clsConfigData.VPG80IRE
+    gstrVPG20IRE = clsConfigData.VPG20IRE
     isAdjustCool2 = clsConfigData.EnableCool2
     isAdjustCool1 = clsConfigData.EnableCool1
     isAdjustNormal = clsConfigData.EnableNormal
@@ -1318,18 +1312,7 @@ Public Sub subInitInterface()
     InitVPGDevice
     DelayMS 200
     
-    If setTVInputSource = "HDMI" Then
-        'Timing 69: HDMI-720P60
-        'Timing 74: HDMI-1080P60
-        Call ChangeTiming("69")
-    ElseIf setTVInputSource = "AV" Then
-        If gstrVPGModel = "2401" Then
-            Call ChangeTiming("104")
-        Else
-            'Timing 38: PAL-BDGHI
-            Call ChangeTiming("38")
-        End If
-    End If
+    Call ChangeTiming(gstrVPGTiming)
 End Sub
 
 Private Sub subInitComPort()
@@ -1431,9 +1414,7 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
 On Error GoTo ErrExit
 
-    If UCase(gstrBrand) = "CIBN" Or _
-        UCase(gstrBrand) = "CAN" Or _
-        UCase(gstrBrand) = "CANTV" Then
+    If UCase(gstrBrand) = "CAN" Then
         If Not (clsCANTVProtocal Is Nothing) Then
             Set clsCANTVProtocal = Nothing
         End If
