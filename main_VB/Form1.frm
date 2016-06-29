@@ -1203,7 +1203,9 @@ On Error Resume Next
 End Sub
 
 Private Sub tbDisConnectastro_Click()
-    ObjCa.RemoteMode = 0
+    If IsCa210ok Then
+        ObjCa.RemoteMode = 0
+    End If
 End Sub
 
 Private Sub Timer1_Timer()
