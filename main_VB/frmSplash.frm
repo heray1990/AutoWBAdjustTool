@@ -1,11 +1,11 @@
 VERSION 5.00
 Begin VB.Form frmSplash 
-   BackColor       =   &H00808080&
+   BackColor       =   &H00E0E0E0&
    BorderStyle     =   3  'Fixed Dialog
-   ClientHeight    =   2775
+   ClientHeight    =   2295
    ClientLeft      =   255
    ClientTop       =   1410
-   ClientWidth     =   5580
+   ClientWidth     =   4005
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    Icon            =   "frmSplash.frx":0000
@@ -13,15 +13,43 @@ Begin VB.Form frmSplash
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   2775
-   ScaleWidth      =   5580
+   ScaleHeight     =   2295
+   ScaleWidth      =   4005
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.PictureBox Picture1 
+      Appearance      =   0  'Flat
+      AutoSize        =   -1  'True
+      BackColor       =   &H80000005&
+      ForeColor       =   &H80000008&
+      Height          =   780
+      Left            =   2895
+      Picture         =   "frmSplash.frx":000C
+      ScaleHeight     =   750
+      ScaleWidth      =   750
+      TabIndex        =   4
+      Top             =   120
+      Width           =   780
+   End
+   Begin VB.PictureBox PictureBrand 
+      Appearance      =   0  'Flat
+      AutoSize        =   -1  'True
+      BackColor       =   &H80000005&
+      ForeColor       =   &H80000008&
+      Height          =   780
+      Left            =   360
+      Picture         =   "frmSplash.frx":1E00
+      ScaleHeight     =   750
+      ScaleWidth      =   2520
+      TabIndex        =   3
+      Top             =   120
+      Width           =   2550
+   End
    Begin VB.ComboBox cmbModelName 
       BackColor       =   &H00E0E0E0&
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   20.25
+         Size            =   12
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -29,18 +57,18 @@ Begin VB.Form frmSplash
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FF0000&
-      Height          =   600
-      Left            =   1080
+      Height          =   405
+      Left            =   360
       Sorted          =   -1  'True
       TabIndex        =   0
       Text            =   "Sample1"
       Top             =   1440
-      Width           =   3135
+      Width           =   3300
    End
    Begin VB.Label lblVersion 
       Alignment       =   1  'Right Justify
       AutoSize        =   -1  'True
-      BackColor       =   &H00808080&
+      BackColor       =   &H00E0E0E0&
       Caption         =   "Version "
       BeginProperty Font 
          Name            =   "Times New Roman"
@@ -53,70 +81,29 @@ Begin VB.Form frmSplash
       EndProperty
       ForeColor       =   &H00404040&
       Height          =   255
-      Left            =   4680
-      TabIndex        =   4
-      Top             =   720
+      Left            =   2760
+      TabIndex        =   2
+      Top             =   1920
       Width           =   825
    End
-   Begin VB.Label Label2 
-      Alignment       =   2  'Center
-      AutoSize        =   -1  'True
-      BackColor       =   &H00808080&
-      Caption         =   "Auto White Balance System"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   14.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00000000&
-      Height          =   330
-      Left            =   120
-      TabIndex        =   3
-      Top             =   240
-      Width           =   5355
-   End
    Begin VB.Label Label1 
-      BackColor       =   &H00808080&
-      Caption         =   "Please select your model:"
+      BackColor       =   &H00E0E0E0&
+      Caption         =   "Please select model:"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   12
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
-         Italic          =   -1  'True
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00C0C0C0&
-      Height          =   375
-      Left            =   960
-      TabIndex        =   2
-      Top             =   1080
-      Width           =   3255
-   End
-   Begin VB.Label Label3 
-      Alignment       =   2  'Center
-      BackColor       =   &H00808080&
-      Caption         =   "Copyright 2013-2016    Design by ECHOM"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00404040&
-      Height          =   255
-      Left            =   120
+      Height          =   375
+      Left            =   360
       TabIndex        =   1
-      Top             =   2400
-      Width           =   5295
+      Top             =   1080
+      Width           =   3255
    End
 End
 Attribute VB_Name = "frmSplash"
@@ -124,7 +111,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
 Option Explicit
 
 
@@ -144,6 +130,10 @@ Private Sub Form_KeyPress(KeyAscii As Integer)
     Unload Me
 End Sub
 
+Private Sub cmbModelName_Click()
+    ChangePictureBrandByCmdBox
+End Sub
+
 Private Sub Form_Load()
 
 On Error GoTo ErrExit
@@ -155,9 +145,12 @@ On Error GoTo ErrExit
         cmbModelName.AddItem strProjectName
     Next strProjectName
     
-    lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision
+    lblVersion.Caption = TXTVersion & " " & App.Major & "." & App.Minor & "." & App.Revision
+    Label1.Caption = TXTMessage1
 
     cmbModelName.Text = GetCurProjectName
+    
+    ChangePictureBrandByCmdBox
     
     Exit Sub
 
@@ -176,4 +169,18 @@ On Error GoTo ErrExit
 
 ErrExit:
     MsgBox Err.Description, vbCritical, Err.Source
+End Sub
+
+Private Sub ChangePictureBrandByCmdBox()
+    Dim strBrand As String
+    
+    strBrand = Split(cmbModelName.Text, gstrDelimiterForProjName)(0)
+    
+    If UCase(strBrand) = "CAN" Then
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\CANTV.bmp")
+    ElseIf UCase(strBrand) = "HAIER" Then
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
+    Else
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
+    End If
 End Sub

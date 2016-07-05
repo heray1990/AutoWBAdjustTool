@@ -3,11 +3,11 @@ Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
 Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
 Begin VB.Form Form1 
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "Auto Color Temp Adjust System"
+   Caption         =   "Auto White Balance Modulation"
    ClientHeight    =   4620
    ClientLeft      =   5865
    ClientTop       =   2625
-   ClientWidth     =   10335
+   ClientWidth     =   10230
    BeginProperty Font 
       Name            =   "Arial"
       Size            =   9
@@ -22,8 +22,21 @@ Begin VB.Form Form1
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    ScaleHeight     =   4620
-   ScaleWidth      =   10335
+   ScaleWidth      =   10230
    StartUpPosition =   2  'CenterScreen
+   Begin VB.PictureBox PictureBrand 
+      Appearance      =   0  'Flat
+      BackColor       =   &H00E0E0E0&
+      ForeColor       =   &H80000008&
+      Height          =   758
+      Left            =   120
+      Picture         =   "Form1.frx":1DF72
+      ScaleHeight     =   735
+      ScaleWidth      =   2505
+      TabIndex        =   21
+      Top             =   0
+      Width           =   2528
+   End
    Begin MSWinsockLib.Winsock tcpClient 
       Left            =   10560
       Top             =   3000
@@ -38,7 +51,7 @@ Begin VB.Form Form1
       ForeColor       =   &H80000008&
       Height          =   2580
       Left            =   2640
-      Picture         =   "Form1.frx":1DF72
+      Picture         =   "Form1.frx":24226
       ScaleHeight     =   2550
       ScaleWidth      =   3780
       TabIndex        =   6
@@ -72,7 +85,7 @@ Begin VB.Form Form1
    End
    Begin VB.TextBox CheckStep 
       Appearance      =   0  'Flat
-      BackColor       =   &H8000000F&
+      BackColor       =   &H80000006&
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   10.5
@@ -82,57 +95,37 @@ Begin VB.Form Form1
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+      ForeColor       =   &H0000FF00&
       Height          =   3580
       Left            =   6440
       MultiLine       =   -1  'True
       TabIndex        =   5
-      Text            =   "Form1.frx":3D06C
+      Text            =   "Form1.frx":43320
       Top             =   960
-      Width           =   3805
+      Width           =   3700
    End
    Begin VB.TextBox txtInput 
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   12
+         Size            =   10.5
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   375
+      Height          =   360
       Left            =   120
       TabIndex        =   1
       Text            =   "123456789"
-      Top             =   600
-      Width           =   2535
-   End
-   Begin VB.Label lbCommMode 
-      Alignment       =   2  'Center
-      Appearance      =   0  'Flat
-      BorderStyle     =   1  'Fixed Single
-      Caption         =   "UART"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   21.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Left            =   120
-      TabIndex        =   21
-      Top             =   960
+      Top             =   1130
       Width           =   2535
    End
    Begin VB.Label Label3 
       Alignment       =   2  'Center
-      Caption         =   "2970"
+      Caption         =   "----"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   18
@@ -156,7 +149,7 @@ Begin VB.Form Form1
       Caption         =   "Sampl1"
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   24
+         Size            =   14.25
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -164,10 +157,10 @@ Begin VB.Form Form1
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H80000008&
-      Height          =   615
+      Height          =   390
       Left            =   120
       TabIndex        =   19
-      Top             =   0
+      Top             =   750
       Width           =   2535
    End
    Begin VB.Label lbTimer 
@@ -192,7 +185,7 @@ Begin VB.Form Form1
    End
    Begin VB.Label Label1 
       Alignment       =   2  'Center
-      Caption         =   "2670"
+      Caption         =   "----"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   18
@@ -296,7 +289,7 @@ Begin VB.Form Form1
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "210"
+      Caption         =   "----"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   18
@@ -317,7 +310,7 @@ Begin VB.Form Form1
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
-      Caption         =   "2800"
+      Caption         =   "----"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   18
@@ -338,7 +331,7 @@ Begin VB.Form Form1
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
-      Caption         =   "2700"
+      Caption         =   "----"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   18
@@ -438,7 +431,7 @@ Begin VB.Form Form1
       Left            =   2640
       TabIndex        =   0
       Top             =   0
-      Width           =   7605
+      Width           =   7500
    End
    Begin VB.Label Label2 
       Appearance      =   0  'Flat
@@ -485,10 +478,10 @@ Begin VB.Form Form1
    Begin VB.Menu vbFunc 
       Caption         =   "Function"
       Begin VB.Menu vbConCA310 
-         Caption         =   "ConnectCA210"
+         Caption         =   "Connect CA310/CA210"
       End
       Begin VB.Menu tbDisConnectastro 
-         Caption         =   "DisConnectCA210(&D)"
+         Caption         =   "DisConnect CA310/CA210(&D)"
       End
    End
    Begin VB.Menu vbSet 
@@ -529,7 +522,6 @@ Dim cmdMark As String
 Dim clsProtocal As Protocal
 Dim clsCANTVProtocal As CANTVProtocal
 Dim clsLetvProtocal As LetvProtocal
-Dim clsLetvCurvedProtocal As LetvCurvedProtocal
 Dim clsHaierProtocal As HaierProtocal
 
 Dim ivpg As IVPGCtrl
@@ -550,7 +542,7 @@ On Error GoTo ErrExit
     End If
 
     If IsCa210ok = False Then
-        MsgBox "CA210 disconnected,Please click'Connect'->'Connect CA210'to do operation!", vbOKOnly + vbInformation, "warning"
+        MsgBox TXTCaDisconnectHint, vbOKOnly + vbInformation, "warning"
         subInitAfterRunning
         
         Exit Sub
@@ -561,8 +553,6 @@ On Error GoTo ErrExit
     checkResult.Caption = "RUN..."
     checkResult.ForeColor = &HC0&
     CheckStep = ""
-    CheckStep.BackColor = &H8000000F
-    CheckStep.ForeColor = &H80000008
 
     lbAdjustCOOL_1.BackColor = &H8000000F
     lbAdjustCOOL_2.BackColor = &H8000000F
@@ -580,7 +570,7 @@ On Error GoTo ErrExit
 
     Log_Info "###INITIAL USER###"
     Log_Info "###ADJUST COLORTEMP###"
-    Call ChangePattern("103")
+    Call ChangePattern(gstrVPG80IRE)
 
     clsProtocal.EnterFacMode
     Call clsProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
@@ -651,8 +641,7 @@ ADJUST_GAIN_AGAIN_WARM1:
     If isAdjustOffset Then
         Label6.Caption = "GREY"
 
-        Call ChangePattern("109")
-        'DelayMS 200
+        Call ChangePattern(gstrVPG20IRE)
 
         If isAdjustCool1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
@@ -702,7 +691,7 @@ ADJUST_GAIN_AGAIN_WARM1:
 
     If isCheckColorTemp Then
         If isAdjustOffset Then
-            Call ChangePattern("103")
+            Call ChangePattern(gstrVPG80IRE)
         End If
 CHECK_COOL1:
         If isAdjustCool1 Then
@@ -771,7 +760,7 @@ CHECK_WARM1:
     'Last check:
     'Cool, 100% white pattern, brightness = 100, contrast = 100
     'Check Lv and save x, y, lv
-    Call ChangePattern("101")
+    Call ChangePattern(gstrVPG100IRE)
 
     Call clsProtocal.SetBrightness(100)
     Log_Info "Set brightness to 100"
@@ -790,7 +779,7 @@ CHECK_WARM1:
     rColorLastChk.yy = CLng(ObjProbe.sy * 10000)
     rColorLastChk.lv = CLng(ObjProbe.lv)
     
-    Log_Info "x = " + str$(rColorLastChk.xx) + ", y = " + str$(rColorLastChk.yy) + ", lv = " + str$(rColorLastChk.lv)
+    Log_Info "x = " + Str$(rColorLastChk.xx) + ", y = " + Str$(rColorLastChk.yy) + ", lv = " + Str$(rColorLastChk.lv)
 
     showData (lastChkShwDataStep)
     
@@ -813,8 +802,6 @@ PASS:
     cmdMark = "PASS"
     Call saveALLcData
 
-    CheckStep.ForeColor = &H80000008
-    CheckStep.BackColor = &HC0FFC0
     CheckStep = CheckStep + "TEST ALL PASS"
     CheckStep.SelStart = Len(CheckStep)
     checkResult.ForeColor = &HC000&
@@ -835,7 +822,6 @@ FAIL:
     Call saveALLcData
 
     CheckStep.SelStart = Len(CheckStep)
-    CheckStep.BackColor = &HFFFF&
     checkResult.BackColor = &HFF&
     checkResult.ForeColor = &H808080
     checkResult.Caption = "FAIL"
@@ -890,17 +876,17 @@ Sub ShowError_Sys(t As Integer)
 
     Select Case t
         Case 1
-            s = "ColorTemp_COOL_1 is Wrong, Please Check Again."
+            s = TXTGainCool1Wrong
         Case 2
             s = "ColorTemp_COOL_2 is Wrong, Please Check Again."
         Case 3
-            s = "ColorTemp_NORMAL is Wrong, Please Check Again."
+            s = TXTGainNormalWrong
         Case 4
-            s = "ColorTemp_WARM_1 is Wrong, Please Check Again."
+            s = TXTGainWarm1Wrong
         Case 5
             s = "ColorTemp_WARM_2 is Wrong, Please Check Again."
         Case 6
-            s = "LAB_SN:" + gstrBarCode + "(End)  Len:" + str$(gintBarCodeLen) + vbCrLf + "条形码长度不对，请确认！"
+            s = "LAB_SN:" + gstrBarCode + "(End)  Len:" + Str$(gintBarCodeLen) + vbCrLf + "条形码长度不对，请确认！"
         Case 7
             s = "Can not Write DVI EDID."
         Case 8
@@ -910,13 +896,13 @@ Sub ShowError_Sys(t As Integer)
         Case 10
             s = "Read DSUB EDID FAIL"
         Case 11
-            s = "OFFSET_Color_COOL_1 is Wrong, Please Check Again."
+            s = TXTOffsetCool1Wrong
         Case 12
             s = "OFFSET_Color_COOL_2 is Wrong, Please Check Again."
         Case 13
-            s = "OFFSET_Color_NORMAL is Wrong, Please Check Again."
+            s = TXTOffsetNormalWrong
         Case 14
-            s = "OFFSET_Color_WARM_1 is Wrong, Please Check Again."
+            s = TXTOffsetWarm1Wrong
         Case 15
             s = "OFFSET_Color_WARM_2 is Wrong, Please Check Again."
         Case 16
@@ -948,13 +934,12 @@ Sub ShowError_Sys(t As Integer)
         Case 29
             s = "LightSensor Data is Wrong, Please Check Again."
         Case 30
-            s = "亮度不在规格！"
+            s = TXTLvTooLow
         Case 31
             s = ""
     End Select
 
-    CheckStep.ForeColor = &HFF&
-    CheckStep.Text = CheckStep.Text + "Error Code:" + str$(t) + vbCrLf + s + vbCrLf
+    CheckStep.Text = CheckStep.Text + "Error Code:" + Str$(t) + vbCrLf + s + vbCrLf
     CheckStep.SelStart = Len(CheckStep)
 End Sub
 
@@ -984,13 +969,13 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
         DelayMS 200
         
-        Log_Info "Init current colorTemp. RES:" + str$(RES)
+        Log_Info "Init current colorTemp. RES:" + Str$(RES)
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
         rRGB.cBB = presetData.nColorBB
         
-        Label1 = str$(presetData.xx)
-        Label3 = str$(presetData.yy)
+        Label1 = Str$(presetData.xx)
+        Label3 = Str$(presetData.yy)
 
         Call clsProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
@@ -1002,14 +987,12 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
             If IsStop = True Then GoTo Cancel
             
             RES = checkColorTemp(rColor, strColorTemp)
-            Log_Info "Check colorTemp. RES:" + str$(RES)
+            Log_Info "Check colorTemp. RES:" + Str$(RES)
             
             If RES Then Exit For
             
             If RES = False Then
-                If UCase(gstrBrand) = "CIBN" Or _
-                    UCase(gstrBrand) = "CAN" Or _
-                    UCase(gstrBrand) = "CANTV" Or _
+                If UCase(gstrBrand) = "CAN" Or _
                     UCase(gstrBrand) = "HAIER" Then
                     Call adjustColorTempForCIBN(rRGB)
                 Else    ' Letv
@@ -1061,7 +1044,7 @@ Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixVa
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
         DelayMS 200
-        Log_Info "Init current colorTemp. RES:" + str$(RES)
+        Log_Info "Init current colorTemp. RES:" + Str$(RES)
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
         rRGB.cBB = presetData.nColorBB
@@ -1077,7 +1060,7 @@ Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixVa
             If IsStop = True Then GoTo Cancel
                 
             RES = checkColorTemp(rColor, strColorTemp)
-            Log_Info "Check colorTemp. RES:" + str$(RES)
+            Log_Info "Check colorTemp. RES:" + Str$(RES)
     
             If RES Then Exit For
             If RES = False Then
@@ -1110,28 +1093,28 @@ Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As
     Dim i, j, k As Integer
 
     Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
-    DelayMS delayTime
+    DelayMS 200
 
     Log_Info "========Check " & strColorTemp & "========"
   
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
-        DelayMS delayTime
-        Log_Info "Init current colorTemp. RES:" + str$(RES)
+        DelayMS 200
+        Log_Info "Init current colorTemp. RES:" + Str$(RES)
 
-        Label1 = str$(presetData.xx)
-        Label3 = str$(presetData.yy)
+        Label1 = Str$(presetData.xx)
+        Label3 = Str$(presetData.yy)
 
         showData (5)
 
         If IsStop = True Then GoTo Cancel
 
         RES = checkColorTemp(rColor, strColorTemp)
-        Log_Info "Check colorTemp. RES:" + str$(RES)
+        Log_Info "Check colorTemp. RES:" + Str$(RES)
 
         If RES Then Exit For
 
-        DelayMS delayTime
+        DelayMS 200
     Next j
   
 Cancel:
@@ -1184,7 +1167,7 @@ On Error Resume Next
         Else
             lbColorTempWrong.Visible = True
             Picture1.Circle (xPos, yPos), 23, &HFF&
-          
+
             If rColor.xx < 5 Then
                 IsStop = True
                 ObjCa.RemoteMode = 2
@@ -1210,17 +1193,19 @@ On Error Resume Next
         End If
     End If
  
-    Log_Info "_x/y/Lv: " + str$(rColor.xx) + " / " + str$(rColor.yy) + " / " + str$(rColor.lv)
+    Log_Info "_x/y/Lv: " + Str$(rColor.xx) + " / " + Str$(rColor.yy) + " / " + Str$(rColor.lv)
 
-    If Label6 <> "CHECK" Then Log_Info "_R/G/B:  " + str$(rRGB.cRR) + " / " + str$(rRGB.cGG) + " / " + str$(rRGB.cBB)
+    If Label6 <> "CHECK" Then Log_Info "_R/G/B:  " + Str$(rRGB.cRR) + " / " + Str$(rRGB.cGG) + " / " + Str$(rRGB.cBB)
 
-    Label_x = str$(rColor.xx)
-    Label_y = str$(rColor.yy)
-    Label_Lv = str$(rColor.lv)
+    Label_x = Str$(rColor.xx)
+    Label_y = Str$(rColor.yy)
+    Label_Lv = Str$(rColor.lv)
 End Sub
 
 Private Sub tbDisConnectastro_Click()
-    ObjCa.RemoteMode = 0
+    If IsCa210ok Then
+        ObjCa.RemoteMode = 0
+    End If
 End Sub
 
 Private Sub Timer1_Timer()
@@ -1253,22 +1238,21 @@ Private Sub Form_Load()
     
     gstrBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
     
-    If UCase(gstrBrand) = "CIBN" Or _
-        UCase(gstrBrand) = "CAN" Or _
-        UCase(gstrBrand) = "CANTV" Then
+    If UCase(gstrBrand) = "CAN" Then
         Set clsCANTVProtocal = New CANTVProtocal
         Set clsProtocal = clsCANTVProtocal
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\CANTV.bmp")
     ElseIf UCase(gstrBrand) = "HAIER" Then
         Set clsHaierProtocal = New HaierProtocal
         Set clsProtocal = clsHaierProtocal
-    ElseIf gstrCurProjName = "Letv-Max4_65_Curved" Then
-        Set clsLetvCurvedProtocal = New LetvCurvedProtocal
-        Set clsProtocal = clsLetvCurvedProtocal
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
     Else
         Set clsLetvProtocal = New LetvProtocal
         Set clsProtocal = clsLetvProtocal
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
     End If
 
+    Me.Caption = TXTTitle
     mTitle = Me.Caption
     subInitInterface
     
@@ -1283,7 +1267,6 @@ Public Sub subInitInterface()
     
     setTVCurrentComBaud = clsConfigData.ComBaud
     setTVCurrentComID = clsConfigData.ComID
-    glngI2cClockRate = clsConfigData.I2cClockRate
     setTVInputSource = clsConfigData.inputSource
     setTVInputSourcePortNum = CInt(Right(setTVInputSource, 1))
     setTVInputSource = Left(setTVInputSource, Len(setTVInputSource) - 1)
@@ -1292,6 +1275,10 @@ Public Sub subInitInterface()
     gintBarCodeLen = clsConfigData.BarCodeLen
     maxBrightnessSpec = clsConfigData.LvSpec
     gstrVPGModel = clsConfigData.VPGModel
+    gstrVPGTiming = clsConfigData.VPGTiming
+    gstrVPG100IRE = clsConfigData.VPG100IRE
+    gstrVPG80IRE = clsConfigData.VPG80IRE
+    gstrVPG20IRE = clsConfigData.VPG20IRE
     isAdjustCool2 = clsConfigData.EnableCool2
     isAdjustCool1 = clsConfigData.EnableCool1
     isAdjustNormal = clsConfigData.EnableNormal
@@ -1302,19 +1289,15 @@ Public Sub subInitInterface()
     
     utdCommMode = clsConfigData.CommMode
     If utdCommMode = modeUART Then
-        lbCommMode.Caption = "UART"
         subInitComPort
-    ElseIf utdCommMode = modeNetwork Then
-        lbCommMode.Caption = "Network"
+    Else
         subInitNetwork
-    ElseIf utdCommMode = modeI2c Then
-        lbCommMode.Caption = "I2C"
     End If
     
     Set clsConfigData = Nothing
 
     txtInput.Text = ""
-    lbModelName.Caption = gstrCurProjName
+    lbModelName.Caption = Split(gstrCurProjName, gstrDelimiterForProjName)(1)
     
     If isAdjustCool1 = True Then lbAdjustCOOL_1.ForeColor = &H80000008
     If isAdjustCool2 = True Then lbAdjustCOOL_2.ForeColor = &H80000008
@@ -1328,23 +1311,10 @@ Public Sub subInitInterface()
     If isAdjustWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
     If isAdjustWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
     
-    DEVICE_USED = 0
-    
     InitVPGDevice
     DelayMS 200
     
-    If setTVInputSource = "HDMI" Then
-        'Timing 69: HDMI-720P60
-        'Timing 74: HDMI-1080P60
-        Call ChangeTiming("69")
-    ElseIf setTVInputSource = "AV" Then
-        If gstrVPGModel = "2401" Then
-            Call ChangeTiming("104")
-        Else
-            'Timing 38: PAL-BDGHI
-            Call ChangeTiming("38")
-        End If
-    End If
+    Call ChangeTiming(gstrVPGTiming)
 End Sub
 
 Private Sub subInitComPort()
@@ -1389,7 +1359,7 @@ On Error GoTo ErrExit
         
         If txtInput.Enabled = True Then
             If txtInput.Text = "" Or Len(txtInput.Text) <> gintBarCodeLen Then
-                MsgBox "条形码不对，请确认！(要求长度为：" & CStr(gintBarCodeLen) & ")"
+                MsgBox TXTBarcodeError & CStr(gintBarCodeLen), vbOKOnly, TXTBarcodeErrorTitle
                 txtInput.Text = ""
                 Exit Sub
             Else
@@ -1403,7 +1373,7 @@ On Error GoTo ErrExit
                     MSComm1.PortOpen = True
                 End If
                 subMainProcesser
-            ElseIf utdCommMode = modeNetwork Then
+            Else
                 isNetworkConnected = False
                 Do
                     If tcpClient.State = sckClosed Then
@@ -1425,24 +1395,6 @@ On Error GoTo ErrExit
                     Log_Info "Re-connect to TV."
                 Loop While i <= 5
                 txtInput.Enabled = True
-            ElseIf utdCommMode = modeI2c Then
-                Dim SetDeviceSts As Integer
-
-                If DEVICE_USED = 0 Then
-                    '=====================================
-                    '  I2C tool initialization
-                    '=====================================
-                    SetDeviceSts = LptioSetDevice(DEVICE_FTDI)
-    
-                    '=====================================
-                    '  Set I2C Clock Rate
-                    '=====================================
-                    Call I2cSetClockRate(glngI2cClockRate)
-                    
-                    DEVICE_USED = 1
-                End If
-                
-                subMainProcesser
             End If
         End If
         
@@ -1464,9 +1416,7 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
 On Error GoTo ErrExit
 
-    If UCase(gstrBrand) = "CIBN" Or _
-        UCase(gstrBrand) = "CAN" Or _
-        UCase(gstrBrand) = "CANTV" Then
+    If UCase(gstrBrand) = "CAN" Then
         If Not (clsCANTVProtocal Is Nothing) Then
             Set clsCANTVProtocal = Nothing
         End If
@@ -1600,7 +1550,7 @@ Private Sub saveALLcData()
     If gstrBarCode = "" Then
         Exit Sub
     Else
-        sqlstring = "select * from DataRecord"
+        sqlstring = "select * from [" & gstrCurProjName & "]"
         Executesql (sqlstring)
         rs.AddNew
 

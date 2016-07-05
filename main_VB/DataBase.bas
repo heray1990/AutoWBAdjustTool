@@ -10,7 +10,7 @@ Public Function Executesql(sqlstr As String)
     Dim strPath As String
 
 On Error GoTo ADOERROR
-    strPath = App.Path & "\" & gstrCurProjName & "\"
+    strPath = App.Path
     
     If Right(strPath, 1) <> "\" Then strPath = strPath & "\"
     

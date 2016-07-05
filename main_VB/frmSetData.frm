@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin VB.Form frmSetData 
    Caption         =   "SpecData"
-   ClientHeight    =   6525
+   ClientHeight    =   6495
    ClientLeft      =   6435
    ClientTop       =   3210
    ClientWidth     =   5055
    BeginProperty Font 
-      Name            =   "Arial Narrow"
+      Name            =   "Arial"
       Size            =   18
       Charset         =   0
       Weight          =   400
@@ -16,10 +16,10 @@ Begin VB.Form frmSetData
    EndProperty
    Icon            =   "frmSetData.frx":0000
    LinkTopic       =   "Form4"
-   ScaleHeight     =   6525
+   ScaleHeight     =   6495
    ScaleWidth      =   5055
    Begin VB.Frame Frame6 
-      Caption         =   "I2C"
+      Caption         =   "Chroma"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   9
@@ -29,12 +29,156 @@ Begin VB.Form frmSetData
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   800
-      Left            =   2550
-      TabIndex        =   34
-      Top             =   3240
+      Height          =   2655
+      Left            =   120
+      TabIndex        =   30
+      Top             =   3720
       Width           =   2400
-      Begin VB.ComboBox cmbI2cClockRate 
+      Begin VB.Frame Frame7 
+         Caption         =   "Pattern"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   1455
+         Left            =   120
+         TabIndex        =   35
+         Top             =   1080
+         Width           =   2175
+         Begin VB.TextBox txt20IRE 
+            Alignment       =   2  'Center
+            Appearance      =   0  'Flat
+            BeginProperty Font 
+               Name            =   "Arial"
+               Size            =   7.5
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   300
+            Left            =   1150
+            TabIndex        =   41
+            Text            =   "1"
+            Top             =   960
+            Width           =   800
+         End
+         Begin VB.TextBox txt80IRE 
+            Alignment       =   2  'Center
+            Appearance      =   0  'Flat
+            BeginProperty Font 
+               Name            =   "Arial"
+               Size            =   7.5
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   300
+            Left            =   1150
+            TabIndex        =   39
+            Text            =   "1"
+            Top             =   600
+            Width           =   800
+         End
+         Begin VB.TextBox txt100IRE 
+            Alignment       =   2  'Center
+            Appearance      =   0  'Flat
+            BeginProperty Font 
+               Name            =   "Arial"
+               Size            =   7.5
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   300
+            Left            =   1150
+            TabIndex        =   37
+            Text            =   "1"
+            Top             =   240
+            Width           =   800
+         End
+         Begin VB.Label lb20IRE 
+            Caption         =   "20IRE"
+            BeginProperty Font 
+               Name            =   "Arial"
+               Size            =   9
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Left            =   240
+            TabIndex        =   40
+            Top             =   990
+            Width           =   795
+         End
+         Begin VB.Label lb80IRE 
+            Caption         =   "80IRE"
+            BeginProperty Font 
+               Name            =   "Arial"
+               Size            =   9
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Left            =   240
+            TabIndex        =   38
+            Top             =   630
+            Width           =   795
+         End
+         Begin VB.Label lb100IRE 
+            Caption         =   "100IRE"
+            BeginProperty Font 
+               Name            =   "Arial"
+               Size            =   9
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Left            =   240
+            TabIndex        =   36
+            Top             =   270
+            Width           =   795
+         End
+      End
+      Begin VB.TextBox txtChromaTiming 
+         Alignment       =   2  'Center
+         Appearance      =   0  'Flat
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   300
+         Left            =   1200
+         TabIndex        =   34
+         Text            =   "1"
+         Top             =   720
+         Width           =   1000
+      End
+      Begin VB.ComboBox cmbChromaModel 
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -47,14 +191,14 @@ Begin VB.Form frmSetData
          Height          =   345
          ItemData        =   "frmSetData.frx":1DF72
          Left            =   1200
-         List            =   "frmSetData.frx":1DF8B
-         TabIndex        =   35
-         Text            =   "50KHz"
-         Top             =   300
+         List            =   "frmSetData.frx":1DFA0
+         TabIndex        =   32
+         Text            =   "22294"
+         Top             =   280
          Width           =   1000
       End
-      Begin VB.Label lbClockRate 
-         Caption         =   "Clock Rate:"
+      Begin VB.Label lbChromaTiming 
+         Caption         =   "Timing:"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -65,46 +209,10 @@ Begin VB.Form frmSetData
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   195
-         TabIndex        =   36
-         Top             =   330
-         Width           =   1140
-      End
-   End
-   Begin VB.Frame Frame7 
-      Caption         =   "Chroma"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   9
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   800
-      Left            =   2550
-      TabIndex        =   30
-      Top             =   4080
-      Width           =   2400
-      Begin VB.ComboBox cmbChromaModel 
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   9
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   345
-         ItemData        =   "frmSetData.frx":1DFC5
-         Left            =   1200
-         List            =   "frmSetData.frx":1DFF3
-         TabIndex        =   32
-         Text            =   "22294"
-         Top             =   300
-         Width           =   1000
+         Left            =   200
+         TabIndex        =   33
+         Top             =   750
+         Width           =   900
       End
       Begin VB.Label lbChromaModel 
          Caption         =   "Model:"
@@ -138,7 +246,7 @@ Begin VB.Form frmSetData
       Height          =   1095
       Left            =   2550
       TabIndex        =   25
-      Top             =   2040
+      Top             =   2520
       Width           =   2400
       Begin VB.ComboBox cmbComID 
          BeginProperty Font 
@@ -151,9 +259,9 @@ Begin VB.Form frmSetData
             Strikethrough   =   0   'False
          EndProperty
          Height          =   345
-         ItemData        =   "frmSetData.frx":1E060
+         ItemData        =   "frmSetData.frx":1E00D
          Left            =   1200
-         List            =   "frmSetData.frx":1E062
+         List            =   "frmSetData.frx":1E00F
          TabIndex        =   27
          Text            =   "COM1"
          Top             =   300
@@ -170,9 +278,7 @@ Begin VB.Form frmSetData
             Strikethrough   =   0   'False
          EndProperty
          Height          =   345
-         ItemData        =   "frmSetData.frx":1E064
          Left            =   1200
-         List            =   "frmSetData.frx":1E066
          TabIndex        =   26
          Text            =   "9600"
          Top             =   660
@@ -224,28 +330,11 @@ Begin VB.Form frmSetData
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   1095
+      Height          =   795
       Left            =   2550
       TabIndex        =   22
-      Top             =   840
+      Top             =   1680
       Width           =   2400
-      Begin VB.OptionButton optI2c 
-         Caption         =   "I2C"
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   9
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   250
-         Left            =   120
-         TabIndex        =   33
-         Top             =   720
-         Width           =   800
-      End
       Begin VB.OptionButton optUart 
          Caption         =   "UART"
          BeginProperty Font 
@@ -293,7 +382,7 @@ Begin VB.Form frmSetData
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1815
-      Left            =   120
+      Left            =   2550
       TabIndex        =   10
       Top             =   3720
       Width           =   2400
@@ -327,9 +416,9 @@ Begin VB.Form frmSetData
             Strikethrough   =   0   'False
          EndProperty
          Height          =   345
-         ItemData        =   "frmSetData.frx":1E068
+         ItemData        =   "frmSetData.frx":1E011
          Left            =   1200
-         List            =   "frmSetData.frx":1E078
+         List            =   "frmSetData.frx":1E021
          TabIndex        =   17
          Text            =   "HDMI1"
          Top             =   1000
@@ -454,9 +543,9 @@ Begin VB.Form frmSetData
          Strikethrough   =   0   'False
       EndProperty
       Height          =   800
-      Left            =   120
+      Left            =   2550
       TabIndex        =   7
-      Top             =   5640
+      Top             =   840
       Width           =   2400
       Begin VB.TextBox txtChannel 
          Alignment       =   2  'Center
@@ -655,9 +744,9 @@ Begin VB.Form frmSetData
          Strikethrough   =   0   'False
       EndProperty
       Height          =   435
-      Left            =   3840
+      Left            =   3720
       TabIndex        =   5
-      Top             =   6000
+      Top             =   5880
       Width           =   1095
    End
    Begin VB.Label Label1 
@@ -709,29 +798,21 @@ Private Sub Form_Load()
     cmbComBaud.AddItem "115200"
     
     cmbChromaModel.Text = gstrVPGModel
-    cmbI2cClockRate.Text = glngI2cClockRate & "KHz"
+    txtChromaTiming.Text = gstrVPGTiming
+    txt100IRE.Text = gstrVPG100IRE
+    txt80IRE.Text = gstrVPG80IRE
+    txt20IRE.Text = gstrVPG20IRE
 
     If utdCommMode = modeUART Then
-        optUart.value = True
-        optNetwork.value = False
-        optI2c.value = False
+        optUart.Value = True
+        optNetwork.Value = False
         cmbComBaud.Enabled = True
         cmbComID.Enabled = True
-        cmbI2cClockRate.Enabled = False
-    ElseIf utdCommMode = modeNetwork Then
-        optUart.value = False
-        optNetwork.value = True
-        optI2c.value = False
+    Else
+        optUart.Value = False
+        optNetwork.Value = True
         cmbComBaud.Enabled = False
         cmbComID.Enabled = False
-        cmbI2cClockRate.Enabled = False
-    ElseIf utdCommMode = modeI2c Then
-        optUart.value = False
-        optNetwork.value = False
-        optI2c.value = True
-        cmbComBaud.Enabled = False
-        cmbComID.Enabled = False
-        cmbI2cClockRate.Enabled = True
     End If
     
     If isAdjustCool2 Then
@@ -805,19 +886,20 @@ Private Sub Command1_Click()
         clsSaveConfigData.CommMode = modeUART
     ElseIf optNetwork.Value = True Then
         clsSaveConfigData.CommMode = modeNetwork
-    ElseIf optI2c.value = True Then
-        clsSaveConfigData.CommMode = modeI2c
     Else
         clsSaveConfigData.CommMode = modeUART
     End If
 
     clsSaveConfigData.ComBaud = cmbComBaud.Text
     clsSaveConfigData.ComID = Val(Replace(cmbComID.Text, "COM", ""))
-    clsSaveConfigData.I2cClockRate = val(Replace(cmbI2cClockRate.Text, "KHz", ""))
     clsSaveConfigData.ChannelNum = Val(txtChannel.Text)
     clsSaveConfigData.DelayMS = Val(txtDelay.Text)
     clsSaveConfigData.inputSource = cmbInputSource.Text
     clsSaveConfigData.VPGModel = cmbChromaModel.Text
+    clsSaveConfigData.VPGTiming = txtChromaTiming.Text
+    clsSaveConfigData.VPG100IRE = txt100IRE.Text
+    clsSaveConfigData.VPG80IRE = txt80IRE.Text
+    clsSaveConfigData.VPG20IRE = txt20IRE.Text
     
     clsSaveConfigData.SaveConfigData
     
@@ -829,20 +911,12 @@ Private Sub Command1_Click()
     Form1.Show
 End Sub
 
-Private Sub optI2c_Click()
-    cmbComBaud.Enabled = False
-    cmbComID.Enabled = False
-    cmbI2cClockRate.Enabled = True
-End Sub
-
 Private Sub optNetwork_Click()
     cmbComBaud.Enabled = False
     cmbComID.Enabled = False
-    cmbI2cClockRate.Enabled = False
 End Sub
 
 Private Sub optUart_Click()
     cmbComBaud.Enabled = True
     cmbComID.Enabled = True
-    cmbI2cClockRate.Enabled = False
 End Sub
