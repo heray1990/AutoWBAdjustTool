@@ -522,6 +522,7 @@ Dim cmdMark As String
 Dim clsProtocal As Protocal
 Dim clsCANTVProtocal As CANTVProtocal
 Dim clsLetvProtocal As LetvProtocal
+Dim clsLetvCurvedProtocal As LetvCurvedProtocal
 Dim clsHaierProtocal As HaierProtocal
 
 Dim ivpg As IVPGCtrl
@@ -1246,6 +1247,10 @@ Private Sub Form_Load()
         Set clsHaierProtocal = New HaierProtocal
         Set clsProtocal = clsHaierProtocal
         PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
+    ElseIf gstrCurProjName = "Letv-Max4_65_Curved" Then
+        Set clsLetvCurvedProtocal = New LetvCurvedProtocal
+        Set clsProtocal = clsLetvCurvedProtocal
+	PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
     Else
         Set clsLetvProtocal = New LetvProtocal
         Set clsProtocal = clsLetvProtocal
@@ -1267,6 +1272,7 @@ Public Sub subInitInterface()
     
     setTVCurrentComBaud = clsConfigData.ComBaud
     setTVCurrentComID = clsConfigData.ComID
+    glngI2cClockRate = clsConfigData.I2cClockRate
     setTVInputSource = clsConfigData.inputSource
     setTVInputSourcePortNum = CInt(Right(setTVInputSource, 1))
     setTVInputSource = Left(setTVInputSource, Len(setTVInputSource) - 1)
@@ -1290,7 +1296,7 @@ Public Sub subInitInterface()
     utdCommMode = clsConfigData.CommMode
     If utdCommMode = modeUART Then
         subInitComPort
-    Else
+    ElseIf utdCommMode = modeNetwork Then
         subInitNetwork
     End If
     
@@ -1373,7 +1379,7 @@ On Error GoTo ErrExit
                     MSComm1.PortOpen = True
                 End If
                 subMainProcesser
-            Else
+            ElseIf utdCommMode = modeNetwork Then
                 isNetworkConnected = False
                 Do
                     If tcpClient.State = sckClosed Then
@@ -1395,6 +1401,24 @@ On Error GoTo ErrExit
                     Log_Info "Re-connect to TV."
                 Loop While i <= 5
                 txtInput.Enabled = True
+            ElseIf utdCommMode = modeI2c Then
+                Dim SetDeviceSts As Integer
+
+                If DEVICE_USED = 0 Then
+                    '=====================================
+                    '  I2C tool initialization
+                    '=====================================
+                    SetDeviceSts = LptioSetDevice(DEVICE_FTDI)
+    
+                    '=====================================
+                    '  Set I2C Clock Rate
+                    '=====================================
+                    Call I2cSetClockRate(glngI2cClockRate)
+                    
+                    DEVICE_USED = 1
+                End If
+                
+                subMainProcesser
             End If
         End If
         

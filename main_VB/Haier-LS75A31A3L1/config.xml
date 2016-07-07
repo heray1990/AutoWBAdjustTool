@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<communication mode="UART">
-		<common baud="115200" id="6"/>
+		<common baud="115200" id="4"/>
+		<i2c clockrate="50"/>
 	</communication>
 	<input_source>AV1</input_source>
 	<delayms>500</delayms>

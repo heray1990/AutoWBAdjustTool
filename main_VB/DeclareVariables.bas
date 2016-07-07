@@ -79,6 +79,7 @@ Public countTime As Long
 Public gstrBrand As String
 
 Public gstrVPGModel As String
+Public glngI2cClockRate As Long
 Public gstrVPGTiming As String
 Public gstrVPG100IRE As String
 Public gstrVPG80IRE As String
@@ -118,6 +119,7 @@ Public rRGB1 As REALRGB
 Public Enum CommunicationMode
     modeUART = 1
     modeNetwork
+    modeI2c
 End Enum
 
 Public Sub Log_Info(strLog As String)

@@ -34,6 +34,7 @@ Private Type udtConfigData
     strVPG100IRE As String
     strVPG80IRE As String
     strVPG20IRE As String
+    lngI2cClockRate As Long
     bolEnableCool2 As Boolean
     bolEnableCool1 As Boolean
     bolEnableNormal As Boolean
@@ -62,6 +63,7 @@ Private Sub Class_Initialize()
     mConfigData.strVPG100IRE = "101"
     mConfigData.strVPG80IRE = "103"
     mConfigData.strVPG20IRE = "109"
+    mConfigData.lngI2cClockRate = 50
     mConfigData.bolEnableCool2 = False
     mConfigData.bolEnableCool1 = True
     mConfigData.bolEnableNormal = True
@@ -87,17 +89,20 @@ Public Sub LoadConfigData()
     Else
         If xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "UART" Then
             mConfigData.CommMode = modeUART
-        Else
+        ElseIf xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "Network" Then
             mConfigData.CommMode = modeNetwork
+        ElseIf xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "I2C" Then
+            mConfigData.CommMode = modeI2c
         End If
 
         mConfigData.strComBaud = xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@baud").Text
-        mConfigData.intComID = Val(xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@id").Text)
+        mConfigData.intComID = val(xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@id").Text)
+        mConfigData.lngI2cClockRate = val(xmlDoc.selectSingleNode("/config/communication/i2c").selectSingleNode("@clockrate").Text)
         mConfigData.strInputSource = xmlDoc.selectSingleNode("/config/input_source").Text
-        mConfigData.lngDelayMs = Val(xmlDoc.selectSingleNode("/config/delayms").Text)
-        mConfigData.intChannelNum = Val(xmlDoc.selectSingleNode("/config/channel_number").Text)
-        mConfigData.intBarCodeLen = Val(xmlDoc.selectSingleNode("/config/length_bar_code").Text)
-        mConfigData.intLvSpec = Val(xmlDoc.selectSingleNode("/config/Lv_spec").Text)
+        mConfigData.lngDelayMs = val(xmlDoc.selectSingleNode("/config/delayms").Text)
+        mConfigData.intChannelNum = val(xmlDoc.selectSingleNode("/config/channel_number").Text)
+        mConfigData.intBarCodeLen = val(xmlDoc.selectSingleNode("/config/length_bar_code").Text)
+        mConfigData.intLvSpec = val(xmlDoc.selectSingleNode("/config/Lv_spec").Text)
         mConfigData.strVPGModel = xmlDoc.selectSingleNode("/config/VPG/model").Text
         mConfigData.strVPGTiming = xmlDoc.selectSingleNode("/config/VPG/timing").Text
         mConfigData.strVPG100IRE = xmlDoc.selectSingleNode("/config/VPG/IRE100").Text
@@ -159,8 +164,10 @@ Public Sub SaveConfigData()
     Else
         If mConfigData.CommMode = modeUART Then
             xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "UART"
-        Else
+        ElseIf mConfigData.CommMode = modeNetwork Then
             xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "Network"
+        ElseIf mConfigData.CommMode = modeI2c Then
+            xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "I2C"
         End If
         
         xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@baud").Text = mConfigData.strComBaud
@@ -324,6 +331,14 @@ End Property
 
 Public Property Let VPG20IRE(strVPG20IRE As String)
     mConfigData.strVPG20IRE = strVPG20IRE
+End Property
+
+Public Property Get I2cClockRate() As String
+    I2cClockRate = mConfigData.lngI2cClockRate
+End Property
+
+Public Property Let I2cClockRate(lngI2cClockRate As String)
+    mConfigData.lngI2cClockRate = lngI2cClockRate
 End Property
 
 Public Property Get EnableCool2() As Boolean

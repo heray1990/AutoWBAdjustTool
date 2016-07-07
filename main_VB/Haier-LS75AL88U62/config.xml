@@ -2,6 +2,7 @@
 <config>
 	<communication mode="UART">
 		<common baud="115200" id="4"/>
+		<i2c clockrate="50"/>
 	</communication>
 	<input_source>HDMI2</input_source>
 	<delayms>500</delayms>
