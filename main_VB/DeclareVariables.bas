@@ -140,6 +140,6 @@ Public Sub SaveLogInFile(strLog As String)
     End If
     
     Open (logPath & gstrCurProjName & "-" & Format(Date, "YYYY-MM-DD") & ".log") For Append As #1
-    Write #1, CStr(Time) & "> " & strLog
+    Print #1, CStr(Time) & "> " & strLog
     Close #1
 End Sub
