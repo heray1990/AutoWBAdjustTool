@@ -569,8 +569,7 @@ On Error GoTo ErrExit
 
     strBuff = ""
 
-    Log_Info "###INITIAL USER###"
-    Log_Info "###ADJUST COLORTEMP###"
+    Log_Info "Start adjusting color temperature"
     Call ChangePattern(gstrVPG80IRE)
 
     clsProtocal.EnterFacMode
@@ -780,7 +779,7 @@ CHECK_WARM1:
     rColorLastChk.yy = CLng(ObjProbe.sy * 10000)
     rColorLastChk.lv = CLng(ObjProbe.lv)
     
-    Log_Info "x = " + Str$(rColorLastChk.xx) + ", y = " + Str$(rColorLastChk.yy) + ", lv = " + Str$(rColorLastChk.lv)
+    Log_Info "x = " + CStr(rColorLastChk.xx) + ", y = " + CStr(rColorLastChk.yy) + ", lv = " + CStr(rColorLastChk.lv)
 
     showData (lastChkShwDataStep)
     
@@ -887,7 +886,7 @@ Sub ShowError_Sys(t As Integer)
         Case 5
             s = "ColorTemp_WARM_2 is Wrong, Please Check Again."
         Case 6
-            s = "LAB_SN:" + gstrBarCode + "(End)  Len:" + Str$(gintBarCodeLen) + vbCrLf + "条形码长度不对，请确认！"
+            s = "LAB_SN:" + gstrBarCode + "(End)  Len:" + str$(gintBarCodeLen) + vbCrLf + "条形码长度不对，请确认！"
         Case 7
             s = "Can not Write DVI EDID."
         Case 8
@@ -940,7 +939,7 @@ Sub ShowError_Sys(t As Integer)
             s = ""
     End Select
 
-    CheckStep.Text = CheckStep.Text + "Error Code:" + Str$(t) + vbCrLf + s + vbCrLf
+    CheckStep.Text = CheckStep.Text + "Error Code:" + str$(t) + vbCrLf + s + vbCrLf
     CheckStep.SelStart = Len(CheckStep)
 End Sub
 
@@ -970,13 +969,13 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
         DelayMS 200
         
-        Log_Info "Init current colorTemp. RES:" + Str$(RES)
+        Log_Info "Init current colorTemp. RES:" + str$(RES)
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
         rRGB.cBB = presetData.nColorBB
         
-        Label1 = Str$(presetData.xx)
-        Label3 = Str$(presetData.yy)
+        Label1 = str$(presetData.xx)
+        Label3 = str$(presetData.yy)
 
         Call clsProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
@@ -988,7 +987,7 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
             If IsStop = True Then GoTo Cancel
             
             RES = checkColorTemp(rColor, strColorTemp)
-            Log_Info "Check colorTemp. RES:" + Str$(RES)
+            Log_Info "Check colorTemp. RES:" + str$(RES)
             
             If RES Then Exit For
             
@@ -1045,7 +1044,7 @@ Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixVa
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
         DelayMS 200
-        Log_Info "Init current colorTemp. RES:" + Str$(RES)
+        Log_Info "Init current colorTemp. RES:" + str$(RES)
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
         rRGB.cBB = presetData.nColorBB
@@ -1061,7 +1060,7 @@ Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixVa
             If IsStop = True Then GoTo Cancel
                 
             RES = checkColorTemp(rColor, strColorTemp)
-            Log_Info "Check colorTemp. RES:" + Str$(RES)
+            Log_Info "Check colorTemp. RES:" + str$(RES)
     
             If RES Then Exit For
             If RES = False Then
@@ -1101,17 +1100,17 @@ Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
         DelayMS 200
-        Log_Info "Init current colorTemp. RES:" + Str$(RES)
+        Log_Info "Init current colorTemp. RES:" + str$(RES)
 
-        Label1 = Str$(presetData.xx)
-        Label3 = Str$(presetData.yy)
+        Label1 = str$(presetData.xx)
+        Label3 = str$(presetData.yy)
 
         showData (5)
 
         If IsStop = True Then GoTo Cancel
 
         RES = checkColorTemp(rColor, strColorTemp)
-        Log_Info "Check colorTemp. RES:" + Str$(RES)
+        Log_Info "Check colorTemp. RES:" + str$(RES)
 
         If RES Then Exit For
 
@@ -1194,13 +1193,13 @@ On Error Resume Next
         End If
     End If
  
-    Log_Info "_x/y/Lv: " + Str$(rColor.xx) + " / " + Str$(rColor.yy) + " / " + Str$(rColor.lv)
+    Log_Info "_x/y/Lv: " + CStr(rColor.xx) + " / " + CStr(rColor.yy) + " / " + CStr(rColor.lv)
 
-    If Label6 <> "CHECK" Then Log_Info "_R/G/B:  " + Str$(rRGB.cRR) + " / " + Str$(rRGB.cGG) + " / " + Str$(rRGB.cBB)
+    If Label6 <> "CHECK" Then Log_Info "_R/G/B: " + CStr(rRGB.cRR) + " / " + CStr(rRGB.cGG) + " / " + CStr(rRGB.cBB)
 
-    Label_x = Str$(rColor.xx)
-    Label_y = Str$(rColor.yy)
-    Label_Lv = Str$(rColor.lv)
+    Label_x = str$(rColor.xx)
+    Label_y = str$(rColor.yy)
+    Label_Lv = str$(rColor.lv)
 End Sub
 
 Private Sub tbDisConnectastro_Click()
@@ -1250,7 +1249,7 @@ Private Sub Form_Load()
     ElseIf gstrCurProjName = "Letv-Max4_65_Curved" Then
         Set clsLetvCurvedProtocal = New LetvCurvedProtocal
         Set clsProtocal = clsLetvCurvedProtocal
-	PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
     Else
         Set clsLetvProtocal = New LetvProtocal
         Set clsProtocal = clsLetvProtocal
@@ -1372,7 +1371,11 @@ On Error GoTo ErrExit
                 gstrBarCode = txtInput.Text
             End If
 
-            SaveLogInFile "================[" & gstrBarCode & "]================"
+            SaveLogInFile "======================================================================="
+            SaveLogInFile "        Auto-White Balance Adjusting Tool by Echom                     "
+            SaveLogInFile "        Software Version: " & App.Major & "." & App.Minor & "." & App.Revision
+            SaveLogInFile "        Barcode of TV: " & gstrBarCode
+            SaveLogInFile "======================================================================="
 
             If utdCommMode = modeUART Then
                 If MSComm1.PortOpen = False Then
