@@ -24,7 +24,7 @@ AutoWBAdjustTool is a tool for auto white balance adjustment of some TVs. For no
 * A debug tool which connects PC and TV.
 * A network cable (Some TVs may use a network cable instead of a debug tool to connect to PC).
 
-![](https://github.com/heray1990/AutoWBAdjustTool/Images/Devices.png)
+![](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/Devices.png)
 
 ## Building
 
