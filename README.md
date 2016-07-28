@@ -69,6 +69,8 @@ If successful, `CyUSB.tlb`, `VPGCtrl.tlb` and `VPGParser.tlb` will be generated.
 * XML files
 	* `main_VB/wizard.xml`: Contains project lists. 
 	* `main_VB/project_name/config.xml`: project_name must be same as names in `wizard.xml` file. 
+	
+* ini file 
 	* `main_VB/project_name/CONFIG.INI`
 
 ### Resource files
@@ -82,4 +84,8 @@ If successful, `CyUSB.tlb`, `VPGCtrl.tlb` and `VPGParser.tlb` will be generated.
 
 ### Database
 
-* `Data.mdb`: One table for one project or one model.
+* `Data.mdb`: A file to store data of white balance. One table for one project or one model.
+
+### Executable file (*.exe)
+
+* `main_VB/AutoAdjustColorTemp.exe`
