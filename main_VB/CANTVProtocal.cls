@@ -6,13 +6,13 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "HaierProtocal"
+Attribute VB_Name = "CANTVProtocal"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '**********************************************
-' Class module to handle protocal for Haier.
+' Class module to handle protocal for CANTV.
 '**********************************************
 
 Option Explicit
@@ -73,36 +73,36 @@ Private Function CalChkSum(ByRef data() As Byte) As Byte
 End Function
 
 Private Sub Protocal_EnterFacMode()
-    'Empty cmd for Haier
+    'Empty cmd for CAN
 End Sub
 
 Private Sub Protocal_ExitFacMode()
-    'Empty cmd for Haier
+    'Empty cmd for CAN
 End Sub
 
 Private Sub Protocal_SwitchInputSource(strInputSrc As String, intSrcNum As Integer)
     '55 2E 01 XX 00 00 00 00 00 00 CHK FE
-    'HDMI1: 55 2E 01 07 00 00 00 00 00 00 CA FE
+    'HDMI1: 55 2E 01 04 00 00 00 00 00 00 CD FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H2E
     mSendDataBuf(2) = &H1
 
     If strInputSrc = "HDMI" Then
         If intSrcNum = 1 Then
-            mSendDataBuf(3) = &H7
+            mSendDataBuf(3) = &H4
         ElseIf intSrcNum = 2 Then
-            mSendDataBuf(3) = &H8
+            mSendDataBuf(3) = &H5
         ElseIf intSrcNum = 3 Then
-            mSendDataBuf(3) = &H9
+            mSendDataBuf(3) = &H6
         Else
-            mSendDataBuf(3) = &H7
+            mSendDataBuf(3) = &H4
         End If
     ElseIf strInputSrc = "AV" Then
         mSendDataBuf(3) = &H3
     ElseIf strInputSrc = "YPbPr" Then
-        mSendDataBuf(3) = &H5
-    Else
         mSendDataBuf(3) = &H7
+    Else
+        mSendDataBuf(3) = &H4
     End If
 
     mSendDataBuf(4) = &H0
@@ -241,12 +241,12 @@ Private Sub Protocal_SetRGBOffset(lngROffset As Long, lngGOffset As Long, lngBOf
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H4
     mSendDataBuf(2) = &H6
-    mSendDataBuf(3) = CByte((lngROffset + 1024) \ 256)
-    mSendDataBuf(4) = CByte((lngROffset + 1024) Mod 256)
-    mSendDataBuf(5) = CByte((lngGOffset + 1024) \ 256)
-    mSendDataBuf(6) = CByte((lngGOffset + 1024) Mod 256)
-    mSendDataBuf(7) = CByte((lngBOffset + 1024) \ 256)
-    mSendDataBuf(8) = CByte((lngBOffset + 1024) Mod 256)
+    mSendDataBuf(3) = CByte((lngROffset) \ 256)
+    mSendDataBuf(4) = CByte((lngROffset) Mod 256)
+    mSendDataBuf(5) = CByte((lngGOffset) \ 256)
+    mSendDataBuf(6) = CByte((lngGOffset) Mod 256)
+    mSendDataBuf(7) = CByte((lngBOffset) \ 256)
+    mSendDataBuf(8) = CByte((lngBOffset) Mod 256)
     mSendDataBuf(9) = &H0
     mSendDataBuf(10) = CalChkSum(mSendDataBuf)
     mSendDataBuf(11) = &HFE
@@ -275,4 +275,3 @@ End Sub
 Public Sub Protocal_ChannelPreset()
 
 End Sub
-

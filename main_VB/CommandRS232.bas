@@ -1,4 +1,4 @@
-Attribute VB_Name = "Module4"
+Attribute VB_Name = "CommandRS232"
 Option Explicit
 
 Public Sub ENTER_FAC_MODE()

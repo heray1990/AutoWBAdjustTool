@@ -352,3 +352,7 @@ Private Sub Protocal_SaveWBDataToAllSrc(strInputSrc As String, intSrcNum As Inte
         'SaveLogInFile "SaveWBDataToAllSrc Fail!"
     End If
 End Sub
+
+Public Sub Protocal_ChannelPreset()
+
+End Sub

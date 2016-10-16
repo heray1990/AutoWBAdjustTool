@@ -60,3 +60,7 @@ End Sub
 Public Sub SaveWBDataToAllSrc(strInputSrc As String, intSrcNum As Integer)
 
 End Sub
+
+Public Sub ChannelPreset()
+
+End Sub

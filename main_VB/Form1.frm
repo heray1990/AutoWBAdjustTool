@@ -790,6 +790,7 @@ CHECK_WARM1:
     Log_Info "Set contrast to 50"
     
     clsProtocal.ResetPicMode
+    clsProtocal.ChannelPreset
     
     If rColorLastChk.lv < maxBrightnessSpec Then
         ShowError_Sys (30)

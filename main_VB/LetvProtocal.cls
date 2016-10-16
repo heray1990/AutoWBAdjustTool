@@ -521,3 +521,20 @@ Private Sub Protocal_SaveWBDataToAllSrc(strInputSrc As String, intSrcNum As Inte
     
     SendCmd
 End Sub
+
+Public Sub Protocal_ChannelPreset()
+    '6E 51 86 03 FE 77 29 00 00 CHK
+    mSendDataBuf(0) = &H6E
+    mSendDataBuf(1) = &H51
+    mSendDataBuf(2) = &H86
+    mSendDataBuf(3) = &H3
+    mSendDataBuf(4) = &HFE
+    mSendDataBuf(5) = &H77
+    mSendDataBuf(6) = &H29
+    mSendDataBuf(7) = &H0
+    mSendDataBuf(8) = &H0
+    mSendDataBuf(9) = CalChkSum(mSendDataBuf)
+    
+    SendCmd
+End Sub
+
