@@ -42,6 +42,7 @@ Private Type udtConfigData
     bolEnableWarm2 As Boolean
     bolEnableChkColor As Boolean
     bolEnableAdjOffset As Boolean
+    strChipSet As String
 End Type
 
 Private mConfigData As udtConfigData
@@ -71,6 +72,7 @@ Private Sub Class_Initialize()
     mConfigData.bolEnableWarm2 = False
     mConfigData.bolEnableChkColor = True
     mConfigData.bolEnableAdjOffset = False
+    mConfigData.strChipSet = "Null"
 End Sub
 
 Public Sub LoadConfigData()
@@ -108,6 +110,7 @@ Public Sub LoadConfigData()
         mConfigData.strVPG100IRE = xmlDoc.selectSingleNode("/config/VPG/IRE100").Text
         mConfigData.strVPG80IRE = xmlDoc.selectSingleNode("/config/VPG/IRE80").Text
         mConfigData.strVPG20IRE = xmlDoc.selectSingleNode("/config/VPG/IRE20").Text
+        mConfigData.strChipSet = xmlDoc.selectSingleNode("/config/chipset").Text
     End If
 
     If xmlDoc.selectSingleNode("/config/cool_2").Text = "True" Then
@@ -395,4 +398,8 @@ End Property
 
 Public Property Let EnableAdjOffset(bolEnableAdjOffset As Boolean)
     mConfigData.bolEnableAdjOffset = bolEnableAdjOffset
+End Property
+
+Public Property Get ChipSet() As String
+    ChipSet = mConfigData.strChipSet
 End Property

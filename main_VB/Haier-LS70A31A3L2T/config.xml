@@ -23,4 +23,5 @@
 	<warm_2>False</warm_2>
 	<check_color>True</check_color>
 	<adjust_offset>True</adjust_offset>
+	<chipset>T968</chipset>
 </config>

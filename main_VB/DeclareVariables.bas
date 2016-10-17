@@ -60,7 +60,7 @@ Public IsFunctionAutoBri As Boolean
 Public isCheckColorTemp  As Boolean
 
 Public isAdjustOffset As Boolean
-
+Public gstrChipSet As String
 Public gstrCurProjName As String
 Public IsStop As Boolean
 Public IsACK As Boolean

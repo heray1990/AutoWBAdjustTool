@@ -1292,6 +1292,7 @@ Public Sub subInitInterface()
     isAdjustWarm2 = clsConfigData.EnableWarm2
     isCheckColorTemp = clsConfigData.EnableChkColor
     isAdjustOffset = clsConfigData.EnableAdjOffset
+    gstrChipSet = clsConfigData.ChipSet
     
     utdCommMode = clsConfigData.CommMode
     If utdCommMode = modeUART Then

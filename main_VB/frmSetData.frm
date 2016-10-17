@@ -490,7 +490,7 @@ Begin VB.Form frmSetData
          Height          =   345
          ItemData        =   "frmSetData.frx":1E019
          Left            =   1200
-         List            =   "frmSetData.frx":1E01B
+         List            =   "frmSetData.frx":1E029
          TabIndex        =   17
          Text            =   "HDMI1"
          Top             =   1000
