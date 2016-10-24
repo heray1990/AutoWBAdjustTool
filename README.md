@@ -2,6 +2,8 @@
 
 AutoWBAdjustTool is a tool for auto white balance adjustment of some TVs. For now, it supports Letv, Haier and CAN. 
 
+![Example](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/example.gif)
+
 ## Requirements
 
 ### Software
