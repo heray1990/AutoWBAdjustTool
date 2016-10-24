@@ -13,6 +13,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '**********************************************
 ' Class module to handle protocal for Haier.
+' When connecting T111, you need to turn "Uart bus" off in T111's factory menu.
 '**********************************************
 
 Option Explicit
@@ -114,7 +115,9 @@ Private Sub Protocal_SwitchInputSource(strInputSrc As String, intSrcNum As Integ
     mSendDataBuf(10) = CalChkSum(mSendDataBuf)
     mSendDataBuf(11) = &HFE
     
-    SendCmd
+    If Not (gstrChipSet = "T111") Then
+        SendCmd
+    End If
 End Sub
 
 'Set picture mode to standard.
@@ -133,7 +136,9 @@ Private Sub Protocal_ResetPicMode()
     mSendDataBuf(10) = &HCC
     mSendDataBuf(11) = &HFE
     
-    SendCmd
+    If Not (gstrChipSet = "T111") Then
+        SendCmd
+    End If
 End Sub
 
 Private Sub Protocal_SetBrightness(intBrightness As Integer)
@@ -151,7 +156,9 @@ Private Sub Protocal_SetBrightness(intBrightness As Integer)
     mSendDataBuf(10) = CalChkSum(mSendDataBuf)
     mSendDataBuf(11) = &HFE
     
-    SendCmd
+    If Not (gstrChipSet = "T111") Then
+        SendCmd
+    End If
 End Sub
 
 Private Sub Protocal_SetContrast(intContrast As Integer)
@@ -169,7 +176,9 @@ Private Sub Protocal_SetContrast(intContrast As Integer)
     mSendDataBuf(10) = CalChkSum(mSendDataBuf)
     mSendDataBuf(11) = &HFE
     
-    SendCmd
+    If Not (gstrChipSet = "T111") Then
+        SendCmd
+    End If
 End Sub
 
 Private Sub Protocal_SetBacklight(intBacklight As Integer)
@@ -187,7 +196,9 @@ Private Sub Protocal_SetBacklight(intBacklight As Integer)
     mSendDataBuf(10) = CalChkSum(mSendDataBuf)
     mSendDataBuf(11) = &HFE
     
-    SendCmd
+    If Not (gstrChipSet = "T111") Then
+        SendCmd
+    End If
 End Sub
 
 Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)
@@ -197,7 +208,7 @@ Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, in
     mSendDataBuf(1) = &H2
     mSendDataBuf(2) = &H1
 
-    If gstrChipSet = "T111" Then
+    If (gstrChipSet = "T111") Then
         Select Case strColorT
             Case cstrColorTempCool1
                 mSendDataBuf(3) = &H3
@@ -252,7 +263,7 @@ Private Sub Protocal_SetRGBOffset(lngROffset As Long, lngGOffset As Long, lngBOf
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H4
     mSendDataBuf(2) = &H6
-    If gstrChipSet = "T111" Then
+    If (gstrChipSet = "T111") Then
         mSendDataBuf(3) = CByte((lngROffset) \ 256)
         mSendDataBuf(4) = CByte((lngROffset) Mod 256)
         mSendDataBuf(5) = CByte((lngGOffset) \ 256)
@@ -277,15 +288,9 @@ End Sub
 Private Sub Protocal_SaveWBDataToAllSrc(strInputSrc As String, intSrcNum As Integer)
     '55 01 01 06 00 00 00 00 00 00 F8 FE
     mSendDataBuf(0) = &H55
-    If gstrChipSet = "T111" Then
-        mSendDataBuf(1) = &H16
-        mSendDataBuf(2) = &H0
-        mSendDataBuf(3) = &H0
-    Else
-        mSendDataBuf(1) = &H1
-        mSendDataBuf(2) = &H1
-        mSendDataBuf(3) = &H6
-    End If
+    mSendDataBuf(1) = &H1
+    mSendDataBuf(2) = &H1
+    mSendDataBuf(3) = &H6
     mSendDataBuf(4) = &H0
     mSendDataBuf(5) = &H0
     mSendDataBuf(6) = &H0
@@ -295,7 +300,9 @@ Private Sub Protocal_SaveWBDataToAllSrc(strInputSrc As String, intSrcNum As Inte
     mSendDataBuf(10) = CalChkSum(mSendDataBuf)
     mSendDataBuf(11) = &HFE
     
-    SendCmd
+    If Not (gstrChipSet = "T111") Then
+        SendCmd
+    End If
 End Sub
 
 Public Sub Protocal_ChannelPreset()

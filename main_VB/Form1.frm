@@ -757,45 +757,48 @@ CHECK_WARM1:
         End If
     End If
     
-    'Last check:
-    'Cool, 100% white pattern, brightness = 100, contrast = 100
-    'Check Lv and save x, y, lv
-    Call ChangePattern(gstrVPG100IRE)
+    If Not (gstrChipSet = "T111") Then
+        'Last check:
+        'Cool, 100% white pattern, brightness = 100, contrast = 100
+        'Check Lv and save x, y, lv
+        Call ChangePattern(gstrVPG100IRE)
 
-    Call clsProtocal.SetBrightness(100)
-    Log_Info "Set brightness to 100"
+        Call clsProtocal.SetBrightness(100)
+        Log_Info "Set brightness to 100"
 
-    Call clsProtocal.SetContrast(100)
-    Log_Info "Set contrast to 100"
+        Call clsProtocal.SetContrast(100)
+        Log_Info "Set contrast to 100"
 
-    Call clsProtocal.SetBacklight(100)
-    Log_Info "Set backlight to 100"
+        Call clsProtocal.SetBacklight(100)
+        Log_Info "Set backlight to 100"
 
-    Call clsProtocal.SelColorTemp(cstrColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
-    Log_Info "Set color temp to cool1"
+        Call clsProtocal.SelColorTemp(cstrColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
+        Log_Info "Set color temp to cool1"
 
-    ObjCa.Measure
-    rColorLastChk.xx = CLng(ObjProbe.sx * 10000)
-    rColorLastChk.yy = CLng(ObjProbe.sy * 10000)
-    rColorLastChk.lv = CLng(ObjProbe.lv)
+        ObjCa.Measure
+        rColorLastChk.xx = CLng(ObjProbe.sx * 10000)
+        rColorLastChk.yy = CLng(ObjProbe.sy * 10000)
+        rColorLastChk.lv = CLng(ObjProbe.lv)
     
-    Log_Info "x = " + CStr(rColorLastChk.xx) + ", y = " + CStr(rColorLastChk.yy) + ", lv = " + CStr(rColorLastChk.lv)
+        Log_Info "x = " + CStr(rColorLastChk.xx) + ", y = " + CStr(rColorLastChk.yy) + ", lv = " + CStr(rColorLastChk.lv)
 
-    showData (lastChkShwDataStep)
+        showData (lastChkShwDataStep)
     
-    Call clsProtocal.SetBrightness(50)
-    Log_Info "Set brightness to 50"
+        Call clsProtocal.SetBrightness(50)
+        Log_Info "Set brightness to 50"
 
-    Call clsProtocal.SetContrast(50)
-    Log_Info "Set contrast to 50"
+        Call clsProtocal.SetContrast(50)
+        Log_Info "Set contrast to 50"
     
-    clsProtocal.ResetPicMode
-    clsProtocal.ChannelPreset
-    
-    If rColorLastChk.lv < maxBrightnessSpec Then
-        ShowError_Sys (30)
-        GoTo FAIL
+        clsProtocal.ResetPicMode
+        
+        If rColorLastChk.lv < maxBrightnessSpec Then
+            ShowError_Sys (30)
+            GoTo FAIL
+        End If
     End If
+    
+    clsProtocal.ChannelPreset
 
 PASS:
     clsProtocal.ExitFacMode
