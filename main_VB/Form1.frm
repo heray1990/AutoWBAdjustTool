@@ -757,7 +757,9 @@ CHECK_WARM1:
         End If
     End If
     
-    If Not (gstrChipSet = "T111") Then
+    If gstrChipSet = "T111" Then
+        Call clsProtocal.SelColorTemp(cstrColorTempNormal, setTVInputSource, setTVInputSourcePortNum)
+    Else
         'Last check:
         'Cool, 100% white pattern, brightness = 100, contrast = 100
         'Check Lv and save x, y, lv
