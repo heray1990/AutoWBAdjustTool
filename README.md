@@ -66,6 +66,12 @@ In `AutoWBAdjustTool` folder, enter the following command to register `CyUSB.dll
 
 If successful, `CyUSB.tlb`, `VPGCtrl.tlb` and `VPGParser.tlb` will be generated.
 
+To unregister them, enter the following command.
+
+    RegAsm.exe CyUSB.dll /u /tlb
+    RegAsm.exe VPGCtrl.dll /u /tlb
+    RegAsm.exe VPGParser.dll /u /tlb
+
 ### Config files
 
 * XML files
