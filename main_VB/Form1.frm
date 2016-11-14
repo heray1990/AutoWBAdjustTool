@@ -1242,29 +1242,31 @@ Private Sub Form_Load()
     IsStop = False
     txtInput.Enabled = True
     
-    gstrBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
-    
-    If UCase(gstrBrand) = "CAN" Then
-        Set clsCANTVProtocal = New CANTVProtocal
-        Set clsProtocal = clsCANTVProtocal
-        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\CANTV.bmp")
-    ElseIf UCase(gstrBrand) = "HAIER" Then
-        Set clsHaierProtocal = New HaierProtocal
-        Set clsProtocal = clsHaierProtocal
-        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
-    ElseIf gstrCurProjName = "Letv-Max4_65_Curved" Then
-        Set clsLetvCurvedProtocal = New LetvCurvedProtocal
-        Set clsProtocal = clsLetvCurvedProtocal
-        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
-    Else
-        Set clsLetvProtocal = New LetvProtocal
-        Set clsProtocal = clsLetvProtocal
-        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
-    End If
-
     Me.Caption = TXTTitle
     mTitle = Me.Caption
     subInitInterface
+
+    gstrBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
+    
+    If UCase(gstrBrand) = "CAN" Then    'CANTV
+        Set clsCANTVProtocal = New CANTVProtocal
+        Set clsProtocal = clsCANTVProtocal
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\CANTV.bmp")
+    ElseIf UCase(gstrBrand) = "HAIER" Then    'Haier
+        Set clsHaierProtocal = New HaierProtocal
+        Set clsProtocal = clsHaierProtocal
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
+    Else    'Letv
+        If UCase(gstrChipSet) = "HX6310" Then
+            Set clsLetvCurvedProtocal = New LetvCurvedProtocal
+            Set clsProtocal = clsLetvCurvedProtocal
+            PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
+        Else
+            Set clsLetvProtocal = New LetvProtocal
+            Set clsProtocal = clsLetvProtocal
+            PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
+        End If
+    End If
     
     RES = initColorTemp(Calibrate, MinBrightness, gstrCurProjName, App.Path)
 End Sub
