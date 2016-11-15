@@ -523,6 +523,7 @@ Dim clsProtocal As Protocal
 Dim clsCANTVProtocal As CANTVProtocal
 Dim clsLetvProtocal As LetvProtocal
 Dim clsLetvCurvedProtocal As LetvCurvedProtocal
+Dim clsLetvMST6M60 As LetvMST6M60
 Dim clsHaierProtocal As HaierProtocal
 
 Dim ivpg As IVPGCtrl
@@ -1261,6 +1262,9 @@ Private Sub Form_Load()
             Set clsLetvCurvedProtocal = New LetvCurvedProtocal
             Set clsProtocal = clsLetvCurvedProtocal
             PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
+        ElseIf UCase(gstrChipSet) = "MST6M60" Then
+            Set clsLetvMST6M60 = New LetvMST6M60
+            Set clsProtocal = clsLetvMST6M60
         Else
             Set clsLetvProtocal = New LetvProtocal
             Set clsProtocal = clsLetvProtocal

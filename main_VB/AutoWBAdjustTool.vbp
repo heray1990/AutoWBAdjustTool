@@ -30,6 +30,7 @@ Class=Protocal; Protocal.cls
 Class=HaierProtocal; HaierProtocal.cls
 Class=LetvCurvedProtocal; LetvCurvedProtocal.cls
 Class=CANTVProtocal; CANTVProtocal.cls
+Class=LetvMST6M60; LetvMST6M60.cls
 IconForm="Form1"
 Startup="frmSplash"
 HelpFile=""
