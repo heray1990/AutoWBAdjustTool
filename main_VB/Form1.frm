@@ -989,7 +989,7 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
         Label3 = str$(presetData.yy)
 
         If UCase(gstrChipSet) = "MST6M60" Then
-            Call clsProtocal.SetRGBOffset(rRGB.cRR * 8, rRGB.cGG * 8, rRGB.cBB * 8)
+            Call clsProtocal.SetRGBGain(rRGB.cRR * 8, rRGB.cGG * 8, rRGB.cBB * 8)
         Else
             Call clsProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
         End If

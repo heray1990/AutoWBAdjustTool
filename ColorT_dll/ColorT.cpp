@@ -245,6 +245,12 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, pREALRGB pAdjRGB, int *pR
 	switch (FixValue)
 	{
 		case 1:
+			if (ca_y < PrimaryData.sy - PrimaryData.yt)
+			{
+				CalcRGB.cBB = PrimaryData.PriBB - (PrimaryData.sy - ca_y) / PrimaryData.MagicValYStepGain;
+				*pResultCode = 3;
+				break;
+			}
 			if (ca_x < PrimaryData.sx - PrimaryData.xt)
 			{
 				CalcRGB.cRR = PrimaryData.PriRR + (PrimaryData.sx - ca_x) / PrimaryData.MagicValXStepGain;
