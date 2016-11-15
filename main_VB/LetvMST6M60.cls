@@ -151,9 +151,9 @@ Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, in
 End Sub
 
 Private Sub Protocal_SetRGBGain(lngRGain As Long, lngGGain As Long, lngBGain As Long)
-    Call SetRGain(lngRGain + 1024)
-    Call SetGGain(lngGGain + 1024)
-    Call SetBGain(lngBGain + 1024)
+    Call SetRGain(lngRGain)
+    Call SetGGain(lngGGain)
+    Call SetBGain(lngBGain)
 End Sub
 
 Private Sub SetRGain(lngRGain As Long)
@@ -214,9 +214,9 @@ Private Sub SetBGain(lngBGain As Long)
 End Sub
 
 Private Sub Protocal_SetRGBOffset(lngROffset As Long, lngGOffset As Long, lngBOffset As Long)
-    Call SetROffset(lngROffset + 1024)
-    Call SetGOffset(lngGOffset + 1024)
-    Call SetBOffset(lngBOffset + 1024)
+    Call SetROffset(lngROffset)
+    Call SetGOffset(lngGOffset)
+    Call SetBOffset(lngBOffset)
 End Sub
 
 Private Sub SetROffset(lngROffset As Long)

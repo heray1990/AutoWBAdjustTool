@@ -968,7 +968,11 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
     End If
 
     Call LoadData(strColorTemp, 0)
-    Call clsProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
+    If UCase(gstrChipSet) = "MST6M60" Then
+        Call clsProtocal.SetRGBOffset(rRGB1.cRR * 8, rRGB1.cGG * 8, rRGB1.cBB * 8)
+    Else
+        Call clsProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
+    End If
     
     Log_Info "========Adjust " & strColorTemp & "========"
 
@@ -984,7 +988,11 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
         Label1 = str$(presetData.xx)
         Label3 = str$(presetData.yy)
 
-        Call clsProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
+        If UCase(gstrChipSet) = "MST6M60" Then
+            Call clsProtocal.SetRGBOffset(rRGB.cRR * 8, rRGB.cGG * 8, rRGB.cBB * 8)
+        Else
+            Call clsProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
+        End If
 
         showData (1)
 
@@ -1000,8 +1008,7 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
             
             If RES = False Then
                 If UCase(gstrBrand) = "CAN" Or _
-                    UCase(gstrBrand) = "HAIER" Or _
-                    UCase(gstrChipSet) = "MST6M60" Then
+                    UCase(gstrBrand) = "HAIER" Then
                     Call adjustColorTempForCIBN(rRGB)
                 Else    ' Letv
                     If resCodeForAdjustColorTemp = 0 Then
@@ -1020,8 +1027,12 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
                 Log_Info "SET_RGB_GAN: R = " & CStr(rRGB.cRR) & _
                     ", G = " & CStr(rRGB.cGG) & ", B = " & CStr(rRGB.cBB) & _
                     ", resultcode = " & CStr(resCodeForAdjustColorTemp)
- 
-                Call clsProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
+
+                If UCase(gstrChipSet) = "MST6M60" Then
+                   Call clsProtocal.SetRGBGain(rRGB.cRR * 8, rRGB.cGG * 8, rRGB.cBB * 8)
+                Else
+                   Call clsProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
+                End If
 
                 showData (2)
             End If
