@@ -1000,7 +1000,8 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
             
             If RES = False Then
                 If UCase(gstrBrand) = "CAN" Or _
-                    UCase(gstrBrand) = "HAIER" Then
+                    UCase(gstrBrand) = "HAIER" Or _
+                    UCase(gstrChipSet) = "MST6M60" Then
                     Call adjustColorTempForCIBN(rRGB)
                 Else    ' Letv
                     If resCodeForAdjustColorTemp = 0 Then
@@ -1465,8 +1466,18 @@ On Error GoTo ErrExit
             Set clsHaierProtocal = Nothing
         End If
     Else
-        If Not (clsLetvProtocal Is Nothing) Then
-            Set clsLetvProtocal = Nothing
+        If UCase(gstrChipSet) = "HX6310" Then
+            If Not (clsLetvCurvedProtocal Is Nothing) Then
+                Set clsLetvCurvedProtocal = Nothing
+            End If
+        ElseIf UCase(gstrChipSet) = "MST6M60" Then
+            If Not (clsLetvMST6M60 Is Nothing) Then
+                Set clsLetvMST6M60 = Nothing
+            End If
+        Else
+            If Not (clsLetvProtocal Is Nothing) Then
+                Set clsLetvProtocal = Nothing
+            End If
         End If
     End If
     
