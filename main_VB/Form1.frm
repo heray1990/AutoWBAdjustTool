@@ -758,7 +758,7 @@ CHECK_WARM1:
         End If
     End If
     
-    If gstrChipSet = "T111" Then
+    If gstrChipSet = "T111" Or UCase(gstrChipSet) = "MST6M60" Then
         Call clsProtocal.SelColorTemp(cstrColorTempNormal, setTVInputSource, setTVInputSourcePortNum)
     Else
         'Last check:

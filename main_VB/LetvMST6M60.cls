@@ -106,6 +106,23 @@ Private Sub Protocal_ExitFacMode()
 End Sub
 
 Private Sub Protocal_SwitchInputSource(strInputSrc As String, intSrcNum As Integer)
+    'Change resolution to 1080P
+    'E0 0B 40 81 05 07 80 04 38 00 8B
+    mSendDataBuf(0) = &HE0
+    mSendDataBuf(1) = &HB
+    mSendDataBuf(2) = &H40
+    mSendDataBuf(4) = &H5
+    mSendDataBuf(5) = &H7
+    mSendDataBuf(6) = &H80
+    mSendDataBuf(7) = &H4
+    mSendDataBuf(8) = &H38
+    mSendDataBuf(9) = &H0
+
+    DataToDDC
+    mSendDataBuf(3) = CalDDCChkSum(mDDCDataWithoutChksum) * 16 + &H1
+    mSendDataBuf(10) = CalChkSum(mSendDataBuf)
+
+    SendCmd
 End Sub
 
 'Set picture mode to standard.
