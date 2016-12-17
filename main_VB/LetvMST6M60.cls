@@ -296,6 +296,22 @@ Private Sub SetBOffset(lngBOffset As Long)
 End Sub
 
 Private Sub Protocal_SaveWBDataToAllSrc(strInputSrc As String, intSrcNum As Integer)
+    'E0 0B 40 X8 07 00 00 00 00 00 CHK
+    mSendDataBuf(0) = &HE0
+    mSendDataBuf(1) = &HB
+    mSendDataBuf(2) = &H40
+    mSendDataBuf(4) = &H7
+    mSendDataBuf(5) = &H0
+    mSendDataBuf(6) = &H0
+    mSendDataBuf(7) = &H0
+    mSendDataBuf(8) = &H0
+    mSendDataBuf(9) = &H0
+
+    DataToDDC
+    mSendDataBuf(3) = CalDDCChkSum(mDDCDataWithoutChksum) * 16 + &H8
+    mSendDataBuf(10) = CalChkSum(mSendDataBuf)
+
+    SendCmd
 End Sub
 
 Public Sub Protocal_ChannelPreset()

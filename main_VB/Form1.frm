@@ -565,6 +565,7 @@ On Error GoTo ErrExit
     Picture1.Cls
     lbColorTempWrong.Visible = False
 
+
     Set ObjMemory = ObjCa.Memory
     ObjMemory.ChannelNO = Ca210ChannelNO
 
@@ -1112,13 +1113,13 @@ Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As
     Dim i, j, k As Integer
 
     Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
-    DelayMS 200
+    DelayMS 500
 
     Log_Info "========Check " & strColorTemp & "========"
   
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
-        DelayMS 200
+        DelayMS 500
         Log_Info "Init current colorTemp. RES:" + str$(RES)
 
         Label1 = str$(presetData.xx)
