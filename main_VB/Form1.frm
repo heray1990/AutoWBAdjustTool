@@ -695,10 +695,12 @@ ADJUST_GAIN_AGAIN_WARM1:
         If isAdjustOffset Then
             Call ChangePattern(gstrVPG80IRE)
         End If
+
 CHECK_COOL1:
         If isAdjustCool1 Then
             Label6.Caption = "CHECK"
             lbAdjustCOOL_1.BackColor = &H80FFFF
+            DelayMS 500
             Result = checkColorAgain(cstrColorTempCool1, HighBri)
 
             If Result = False Then
@@ -715,11 +717,12 @@ CHECK_COOL1:
       
             lbAdjustCOOL_1.BackColor = &HC0FFC0
         End If
-     
+
 CHECK_NORMAL:
         If isAdjustNormal Then
             Label6.Caption = "CHECK"
             lbAdjustNormal.BackColor = &H80FFFF
+            DelayMS 500
             Result = checkColorAgain(cstrColorTempNormal, HighBri)
       
             If Result = False Then
@@ -741,6 +744,7 @@ CHECK_WARM1:
         If isAdjustWarm1 Then
             Label6.Caption = "CHECK"
             lbAdjustWARM_1.BackColor = &H80FFFF
+            DelayMS 500
             Result = checkColorAgain(cstrColorTempWarm1, HighBri)
 
             If Result = False Then
