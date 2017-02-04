@@ -15,14 +15,19 @@ AutoWBAdjustTool is a tool for auto white balance adjustment of some TVs. For no
 	* Visual C++ 6.0
 * Drivers
 	* FTDI USB Serial Converter Drivers (Google it to download this driver. I am using CDM 2.02.04.exe).
-	* CA-SDK for CA-310/CA-210/100Plus (You can find the SDK in CD/DVD in KONICA MINOLTA products or its offical website). After installing the SDK, connect the PC and CA-310/CA-210/100Plus with a USB B Type cable. Then install the driver as follow.
-![Driver of CA310](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/CA310-driver-01.png)
-![Driver of CA310](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/CA310-driver-02.png)
-![Driver of CA310](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/CA310-driver-03.png)
-![Driver of CA310](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/CA310-driver-04.png)
-![Driver of CA310](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/CA310-driver-05.png)
 	* Drivers for Chroma VPG products (To install **VPGMaster** provided by Chroma so that you can get drivers for Chroma VPG products).
 	* I2CBridge.0.1.4.exe (Install it so that you can communicate with Hx6310 by I2C).
+	* CA-SDK for CA-310/CA-210/100Plus (You can find the SDK in CD/DVD in KONICA MINOLTA products or its offical website). After installing the SDK, connect the PC and CA-310/CA-210/100Plus with a USB B Type cable. Then install the driver as follow.
+
+![Driver of CA310](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/CA310-driver-01.png)
+
+![Driver of CA310](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/CA310-driver-02.png)
+
+![Driver of CA310](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/CA310-driver-03.png)
+
+![Driver of CA310](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/CA310-driver-04.png)
+
+![Driver of CA310](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/CA310-driver-05.png)
 
 ### Hardware
 * A PC with softwares introduced above. 
