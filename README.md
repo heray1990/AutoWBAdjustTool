@@ -42,13 +42,13 @@ AutoWBAdjustTool is a tool for auto white balance adjustment of some TVs. For no
 
 ## Building
 
-### ColorT.dll
+### [ColorT.dll](https://github.com/heray1990/AutoWBAdjustTool/tree/master/ColorT_dll)
 
 `ColorT.dll` contains the main algorithm of AutoWBAdjustTool. Use the workspace file `ColorT_dll/ColorT.dsw` to build it on Windows. Visual C++ 6.0 is recommended.
 
 After building, please copy the `ColorT.dll` file from `ColorT_dll/Release` to `main_VB` so that we can use it for building AutoWBAdjustTool.
 
-### AutoWBAdjustTool
+### [AutoWBAdjustTool](https://github.com/heray1990/AutoWBAdjustTool/tree/master/main_VB)
 
 Use the project file `main_VB/AutoWBAdjustTool.vbp` to build AutoWBAdjustTool. Visual Basic 6.0 is recommended.
 
@@ -91,7 +91,7 @@ To unregister them, enter the following command.
 * ini file 
 	* `main_VB/project_name/CONFIG.INI`
 
-### Resource files
+### [Resource files](https://github.com/heray1990/AutoWBAdjustTool/tree/master/main_VB/Resources)
 
 * `Resources/AutoWB.bmp`
 * `Resources/CANTV.bmp`
