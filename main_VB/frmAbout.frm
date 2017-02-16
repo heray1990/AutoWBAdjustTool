@@ -26,7 +26,7 @@ Begin VB.Form frmAbout
       Width           =   1260
    End
    Begin VB.Label lblDisclaimer 
-      Caption         =   "Copyright 2013 - 2016             All rights reserved.              Echom "
+      Caption         =   "Copyright 2013 - 2017                             All rights reserved.                            Echom "
       ForeColor       =   &H00000000&
       Height          =   555
       Left            =   240

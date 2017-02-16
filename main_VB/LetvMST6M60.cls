@@ -138,6 +138,23 @@ Private Sub Protocal_SetContrast(intContrast As Integer)
 End Sub
 
 Private Sub Protocal_SetBacklight(intBacklight As Integer)
+    'Set backlight to 100
+    'E0 0B 40 E3 07 00 27 10 00 00 CHK
+    mSendDataBuf(0) = &HE0
+    mSendDataBuf(1) = &HB
+    mSendDataBuf(2) = &H40
+    mSendDataBuf(4) = &H7
+    mSendDataBuf(5) = &H0
+    mSendDataBuf(6) = &H27
+    mSendDataBuf(7) = &H10
+    mSendDataBuf(8) = &H0
+    mSendDataBuf(9) = &H0
+
+    DataToDDC
+    mSendDataBuf(3) = CalDDCChkSum(mDDCDataWithoutChksum) * 16 + &H3
+    mSendDataBuf(10) = CalChkSum(mSendDataBuf)
+
+    SendCmd
 End Sub
 
 Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)

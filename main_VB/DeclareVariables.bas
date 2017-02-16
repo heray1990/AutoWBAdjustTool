@@ -101,11 +101,9 @@ Public Type COLORTEMPSPEC
 End Type
 
 Public Type REALCOLOR
-
     xx                         As Long
     yy                         As Long
     lv                         As Long
-
 End Type
 
 Public Type REALRGB

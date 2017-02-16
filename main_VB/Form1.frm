@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
+Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "mscomm32.ocx"
 Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
 Begin VB.Form Form1 
    BorderStyle     =   1  'Fixed Single
@@ -515,7 +515,7 @@ Dim cFFCOOL1 As COLORTEMPSPEC
 Dim cFFNORMAL As COLORTEMPSPEC
 Dim cFFWARM1 As COLORTEMPSPEC
 Dim rColor As REALCOLOR
-Dim rColorLastChk As REALCOLOR
+Dim lvLastChk As Long
 Dim Calibrate, MinBrightness As Long
 Dim resCodeForAdjustColorTemp As Long
 Dim cmdMark As String
@@ -577,6 +577,10 @@ On Error GoTo ErrExit
     clsProtocal.EnterFacMode
     Call clsProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
     Call clsProtocal.ResetPicMode
+    
+    If gstrChipSet = "T111" Or UCase(gstrChipSet) = "MST6M60" Then
+        Call clsProtocal.SetBacklight(100)
+    End If
 
     Label6.Caption = "WHITE"
 
@@ -765,6 +769,17 @@ CHECK_WARM1:
     
     If gstrChipSet = "T111" Or UCase(gstrChipSet) = "MST6M60" Then
         Call clsProtocal.SelColorTemp(cstrColorTempNormal, setTVInputSource, setTVInputSourcePortNum)
+        Log_Info "Set color temp to cool1"
+        
+        ObjCa.Measure
+        lvLastChk = CLng(ObjProbe.lv)
+        Log_Info "lv = " + CStr(lvLastChk)
+        showData (lastChkShwDataStep)
+        
+        If lvLastChk <= maxBrightnessSpec Then
+            ShowError_Sys (30)
+            GoTo FAIL
+        End If
     Else
         'Last check:
         'Cool, 100% white pattern, brightness = 100, contrast = 100
@@ -784,29 +799,22 @@ CHECK_WARM1:
         Log_Info "Set color temp to cool1"
 
         ObjCa.Measure
-        rColorLastChk.xx = CLng(ObjProbe.sx * 10000)
-        rColorLastChk.yy = CLng(ObjProbe.sy * 10000)
-        rColorLastChk.lv = CLng(ObjProbe.lv)
-    
-        Log_Info "x = " + CStr(rColorLastChk.xx) + ", y = " + CStr(rColorLastChk.yy) + ", lv = " + CStr(rColorLastChk.lv)
-
+        lvLastChk = CLng(ObjProbe.lv)
+        Log_Info "lv = " + CStr(lvLastChk)
         showData (lastChkShwDataStep)
-    
-        Call clsProtocal.SetBrightness(50)
-        Log_Info "Set brightness to 50"
 
+        Call clsProtocal.SetBrightness(50)
         Call clsProtocal.SetContrast(50)
-        Log_Info "Set contrast to 50"
+        Log_Info "Set both brightness and contrast to 50."
     
         clsProtocal.ResetPicMode
-        
-        If rColorLastChk.lv < maxBrightnessSpec Then
+        clsProtocal.ChannelPreset
+
+        If lvLastChk <= maxBrightnessSpec Then
             ShowError_Sys (30)
             GoTo FAIL
         End If
     End If
-    
-    clsProtocal.ChannelPreset
 
 PASS:
     clsProtocal.ExitFacMode
@@ -1650,7 +1658,7 @@ Private Sub saveALLcData()
         rs.Fields(24) = cFFWARM1.nColorGG
         rs.Fields(25) = cFFWARM1.nColorBB
 
-        rs.Fields(26) = rColorLastChk.lv
+        rs.Fields(26) = lvLastChk
         rs.Fields(27) = maxBrightnessSpec
 
         rs.Fields(28) = cmdMark
