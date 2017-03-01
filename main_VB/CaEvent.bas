@@ -15,6 +15,9 @@ On Error GoTo ER
 
     Select Case sel
         Case vbYes
+            frmInformation.Show
+            DoEvents
+
             ObjCa210.AutoConnect
             Set ObjCa = ObjCa210.SingleCa
             Set ObjProbe = ObjCa.SingleProbe
@@ -26,12 +29,10 @@ On Error GoTo ER
             ObjCa.SetAnalogRange 2.5, 2.5
             ObjCa.DisplayMode = 0
             ObjMemory.ChannelNO = Ca210ChannelNO
-
-            Form1.ZOrder (0)
-            Delay 200
     
             MsgBox "Please Set the Probe at Measure Position", vbOKOnly + vbInformation, "Calibration OK"
             IsCa210ok = True
+            frmInformation.Hide
         Case vbNo
     End Select
         
