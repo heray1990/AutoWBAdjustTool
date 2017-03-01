@@ -138,6 +138,10 @@ Private Sub Protocal_SetContrast(intContrast As Integer)
 End Sub
 
 Private Sub Protocal_SetBacklight(intBacklight As Integer)
+    'E0 0B 40 X3 07 00 XX XX 00 00 CHK
+    '0  : 03 E8 (1000)
+    '100: 27 10 (10000)
+    'intBacklight: (10000 - 1000) * intBacklight / 100 + 1000
     'Set backlight to 100
     'E0 0B 40 E3 07 00 27 10 00 00 CHK
     mSendDataBuf(0) = &HE0

@@ -8,7 +8,7 @@
 	<delayms>450</delayms>
 	<channel_number>3</channel_number>
 	<length_bar_code>19</length_bar_code>
-	<Lv_spec>250</Lv_spec>
+	<Lv_spec>220</Lv_spec>
 	<VPG>
 		<model>22294</model>
 		<timing>69</timing>
