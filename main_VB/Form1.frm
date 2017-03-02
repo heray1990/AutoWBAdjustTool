@@ -704,7 +704,6 @@ CHECK_COOL1:
         If isAdjustCool1 Then
             Label6.Caption = "CHECK"
             lbAdjustCOOL_1.BackColor = &H80FFFF
-            DelayMS 500
             Result = checkColorAgain(cstrColorTempCool1, HighBri)
 
             If Result = False Then
@@ -726,9 +725,8 @@ CHECK_NORMAL:
         If isAdjustNormal Then
             Label6.Caption = "CHECK"
             lbAdjustNormal.BackColor = &H80FFFF
-            DelayMS 500
             Result = checkColorAgain(cstrColorTempNormal, HighBri)
-      
+
             If Result = False Then
                 ShowError_Sys (3)
 
@@ -748,7 +746,6 @@ CHECK_WARM1:
         If isAdjustWarm1 Then
             Label6.Caption = "CHECK"
             lbAdjustWARM_1.BackColor = &H80FFFF
-            DelayMS 500
             Result = checkColorAgain(cstrColorTempWarm1, HighBri)
 
             If Result = False Then
@@ -1125,13 +1122,12 @@ Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As
     Dim i, j, k As Integer
 
     Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
-    DelayMS 500
 
     Log_Info "========Check " & strColorTemp & "========"
   
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
-        DelayMS 500
+        DelayMS 200
         Log_Info "Init current colorTemp. RES:" + str$(RES)
 
         Label1 = str$(presetData.xx)
@@ -1145,8 +1141,6 @@ Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As
         Log_Info "Check colorTemp. RES:" + str$(RES)
 
         If RES Then Exit For
-
-        DelayMS 200
     Next j
   
 Cancel:
