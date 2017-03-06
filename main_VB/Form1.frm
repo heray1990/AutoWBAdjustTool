@@ -578,9 +578,11 @@ On Error GoTo ErrExit
     Call clsProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
     Call clsProtocal.ResetPicMode
     
-    If gstrChipSet = "T111" Or UCase(gstrChipSet) = "MST6M60" Then
-        Call clsProtocal.SetBacklight(100)
-    End If
+    'If gstrChipSet = "T111" Or UCase(gstrChipSet) = "MST6M60" Then
+    '    Call clsProtocal.SetBacklight(100)
+    'End If
+    Call clsProtocal.SetBacklight(100)
+    Log_Info "Set backlight to 100"
 
     Label6.Caption = "WHITE"
 
@@ -789,8 +791,8 @@ CHECK_WARM1:
         Call clsProtocal.SetContrast(100)
         Log_Info "Set contrast to 100"
 
-        Call clsProtocal.SetBacklight(100)
-        Log_Info "Set backlight to 100"
+        'Call clsProtocal.SetBacklight(100)
+        'Log_Info "Set backlight to 100"
 
         Call clsProtocal.SelColorTemp(cstrColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
         Log_Info "Set color temp to cool1"
@@ -995,8 +997,8 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
         rRGB.cGG = presetData.nColorGG
         rRGB.cBB = presetData.nColorBB
         
-        Label1 = str$(presetData.xx)
-        Label3 = str$(presetData.yy)
+        Label1 = CStr(presetData.xx)
+        Label3 = CStr(presetData.yy)
 
         If UCase(gstrChipSet) = "MST6M60" Then
             Call clsProtocal.SetRGBGain(rRGB.cRR * 8, rRGB.cGG * 8, rRGB.cBB * 8)
@@ -1012,13 +1014,16 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
             If IsStop = True Then GoTo Cancel
             
             RES = checkColorTemp(rColor, strColorTemp)
-            Log_Info "Check colorTemp. RES:" + str$(RES)
+            Log_Info "Check colorTemp. RES: " + CStr(RES)
+            Log_Info "SPEC: x = " & CStr(presetData.xx) & " y = " & CStr(presetData.yy)
+            Log_Info "Tol: x = " & CStr(presetData.xt) & " y =  " & CStr(presetData.yt)
             
-            If RES Then Exit For
-            
-            If RES = False Then
+            If RES = 3 Then
+                Exit For
+            Else
                 If UCase(gstrBrand) = "CAN" Or _
                     UCase(gstrBrand) = "HAIER" Then
+                    Log_Info "Check colorTemp. RES: " + CStr(RES)
                     Call adjustColorTempForCIBN(rRGB)
                 Else    ' Letv
                     If resCodeForAdjustColorTemp = 0 Then
@@ -1048,12 +1053,12 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
             End If
         Next k
         
-        If RES Then Exit For
+        If RES = 3 Then Exit For
         
     Next j
 
 Cancel:
-    If RES Then
+    If RES = 3 Then
         Call saveData(strColorTemp, HighLowMode)
         Log_Info "Save current data of " & strColorTemp & "."
         autoAdjustColorTemperature_Gain = True
@@ -1091,8 +1096,9 @@ Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixVa
             RES = checkColorTemp(rColor, strColorTemp)
             Log_Info "Check colorTemp. RES:" + str$(RES)
     
-            If RES Then Exit For
-            If RES = False Then
+            If RES = 3 Then
+                Exit For
+            Else
                 Call adjustColorTempOffset(rRGB)
                     
                 Log_Info "SET_RGB_OFFSET: R = " & CStr(rRGB.cRR) & _
@@ -1104,11 +1110,11 @@ Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixVa
             End If
         Next k
 
-        If RES Then Exit For
+        If RES = 3 Then Exit For
     Next j
 
 Cancel:
-    If RES Then
+    If RES = 3 Then
         Call saveData(strColorTemp, HighLowMode)
         Log_Info "Save current data of " & strColorTemp & "."
         autoAdjustColorTemperature_Offset = True
@@ -1140,11 +1146,11 @@ Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As
         RES = checkColorTemp(rColor, strColorTemp)
         Log_Info "Check colorTemp. RES:" + str$(RES)
 
-        If RES Then Exit For
+        If RES = 3 Then Exit For
     Next j
   
 Cancel:
-    If RES Then
+    If RES = 3 Then
         checkColorAgain = True
     Else
         checkColorAgain = False
@@ -1198,7 +1204,7 @@ On Error Resume Next
                 IsStop = True
                 ObjCa.RemoteMode = 2
                 MsgBox ("Please check the CA210 Probe is OK or not.")
-                RES = False
+                RES = 0
             End If
         End If
     End If
@@ -1223,9 +1229,9 @@ On Error Resume Next
 
     If Label6 <> "CHECK" Then Log_Info "_R/G/B: " + CStr(rRGB.cRR) + " / " + CStr(rRGB.cGG) + " / " + CStr(rRGB.cBB)
 
-    Label_x = str$(rColor.xx)
-    Label_y = str$(rColor.yy)
-    Label_Lv = str$(rColor.lv)
+    Label_x = CStr(rColor.xx)
+    Label_y = CStr(rColor.yy)
+    Label_Lv = CStr(rColor.lv)
 End Sub
 
 Private Sub tbDisConnectastro_Click()

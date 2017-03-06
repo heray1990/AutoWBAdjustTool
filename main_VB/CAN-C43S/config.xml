@@ -5,12 +5,12 @@
 		<i2c clockrate="50"/>
 	</communication>
 	<input_source>HDMI2</input_source>
-	<delayms>500</delayms>
-	<channel_number>1</channel_number>
-	<length_bar_code>1</length_bar_code>
+	<delayms>300</delayms>
+	<channel_number>3</channel_number>
+	<length_bar_code>24</length_bar_code>
 	<Lv_spec>250</Lv_spec>
 	<VPG>
-		<model>22294</model>
+		<model>22294_A</model>
 		<timing>69</timing>
 		<IRE100>101</IRE100>
 		<IRE80>103</IRE80>
@@ -22,6 +22,6 @@
 	<warm_1>True</warm_1>
 	<warm_2>False</warm_2>
 	<check_color>True</check_color>
-	<adjust_offset>True</adjust_offset>
+	<adjust_offset>False</adjust_offset>
 	<chipset>MS638</chipset>
 </config>

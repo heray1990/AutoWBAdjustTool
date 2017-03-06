@@ -135,29 +135,34 @@ COLORT_API int _stdcall checkColorTemp(pREALCOLOR pGetColor,char* colorTemp)
 	ca_y = pGetColor->sy;
 	ca_lv = pGetColor->Lv;
 
-    if ((ca_x < PrimaryData.sx - PrimaryData.cxt) ||
-		(ca_x > PrimaryData.sx + PrimaryData.cxt) ||
-		(ca_y < PrimaryData.sy - PrimaryData.cyt) ||
-		(ca_y > PrimaryData.sy + PrimaryData.cyt))
+	PrimaryData.PriRR = CalcRGB.cRR;           //For stepbystep adjust.
+	PrimaryData.PriGG = CalcRGB.cGG;
+	PrimaryData.PriBB = CalcRGB.cBB;
+
+	if ((ca_x < PrimaryData.sx - PrimaryData.cxt) ||
+		(ca_x > PrimaryData.sx + PrimaryData.cxt))
 	{
-	   PrimaryData.PriRR = CalcRGB.cRR;
-	   PrimaryData.PriGG = CalcRGB.cGG;
-	   PrimaryData.PriBB = CalcRGB.cBB;
-	//   CurrentData.sx = ca_x;
-    //   CurrentData.sy = ca_y;
-       return false;
+		if ((ca_y < PrimaryData.sy - PrimaryData.cyt) ||
+			(ca_y > PrimaryData.sy + PrimaryData.cyt))
+		{
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+	else
+	{
+		if ((ca_y < PrimaryData.sy - PrimaryData.cyt) ||
+			(ca_y > PrimaryData.sy + PrimaryData.cyt))
+		{
+			return 2;
+		}
 	}
 
-    PrimaryData.PriRR = CalcRGB.cRR;           //For stepbystep adjust.
-    PrimaryData.PriGG = CalcRGB.cGG;
-    PrimaryData.PriBB = CalcRGB.cBB;
 	ReLoadRGB(colorTemp);
-
-	//if (AdjustGAN == 1)
-	//{
-	    //if (ca_lv < PrimaryData.LimLV) return false;
-	//}
-	return true;
+	return 3;
 }
 
 void AverageData(pCOLORSPEC pColorST)
@@ -233,13 +238,6 @@ COLORT_API int _stdcall  adjustColorTempForCIBN(pREALRGB pAdjRGB)
 /////////////////////////////////////////////////////////////////////////////
 ////////////////////////Add for Colortemperature App.////////////////////////
 /////////////////////////////////////////////////////////////////////////////
-// LeTV spec, R Gain <= 135, G Gain <= 128, B Gain <= 135
-// *pResultCode = 0: Both x and y are out of range. But all Gains are in spec.
-//                   Then go to case 3 to do the normal adjust.
-// *pResultCode = 1: Both x and y are out of range. B Gain equals to 135.
-//                   Then adjust R Gain to match x next time.
-// *pResultCode = 2: Only y is out of range. B Gain equals to 135. Then adjust
-//                   G Gain to match y. 
 COLORT_API int _stdcall  adjustColorTemp(int FixValue, pREALRGB pAdjRGB, int *pResultCode)
 {
 	switch (FixValue)
@@ -540,6 +538,26 @@ int getdata(pCOLORSPEC pColorST, char* CT)
 	pColorST->MagicValXStepOffset = GetPrivateProfileInt(magicValX, "#####STEP_OFFSET", nDefault, buf);
 	pColorST->MagicValYStepGain = GetPrivateProfileInt(magicValY, "#####STEP_GAIN", nDefault, buf);
 	pColorST->MagicValYStepOffset = GetPrivateProfileInt(magicValY, "#####STEP_OFFSET", nDefault, buf);
+
+	if (pColorST->MagicValXStepGain > pColorST->xt)
+	{
+		pColorST->MagicValXStepGain = pColorST->xt;
+	}
+
+	if (pColorST->MagicValXStepOffset > pColorST->xt)
+	{
+		pColorST->MagicValXStepOffset = pColorST->xt;
+	}
+
+	if (pColorST->MagicValYStepGain > pColorST->yt)
+	{
+		pColorST->MagicValYStepGain = pColorST->yt;
+	}
+
+	if (pColorST->MagicValYStepOffset > pColorST->yt)
+	{
+		pColorST->MagicValYStepOffset = pColorST->yt;
+	}
 
 	return true;
 }
