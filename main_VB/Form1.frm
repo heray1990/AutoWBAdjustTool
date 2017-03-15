@@ -565,7 +565,6 @@ On Error GoTo ErrExit
     Picture1.Cls
     lbColorTempWrong.Visible = False
 
-
     Set ObjMemory = ObjCa.Memory
     ObjMemory.ChannelNO = Ca210ChannelNO
 
@@ -577,10 +576,6 @@ On Error GoTo ErrExit
     clsProtocal.EnterFacMode
     Call clsProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
     Call clsProtocal.ResetPicMode
-    
-    'If gstrChipSet = "T111" Or UCase(gstrChipSet) = "MST6M60" Then
-    '    Call clsProtocal.SetBacklight(100)
-    'End If
     Call clsProtocal.SetBacklight(100)
     Log_Info "Set backlight to 100"
 
@@ -791,9 +786,6 @@ CHECK_WARM1:
         Call clsProtocal.SetContrast(100)
         Log_Info "Set contrast to 100"
 
-        'Call clsProtocal.SetBacklight(100)
-        'Log_Info "Set backlight to 100"
-
         Call clsProtocal.SelColorTemp(cstrColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
         Log_Info "Set color temp to cool1"
 
@@ -970,7 +962,7 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
     ' Set Offset first
     If adjustGainAgainCool1Flag = 0 Then
         Call setColorTemp(strColorTemp, presetData, 0)
-        DelayMS 200
+        'DelayMS 200
         
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
@@ -990,7 +982,7 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
 
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
-        DelayMS 200
+        'DelayMS 200
         
         Log_Info "Init current colorTemp. RES:" + str$(RES)
         rRGB.cRR = presetData.nColorRR
@@ -1017,13 +1009,12 @@ Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustV
             Log_Info "Check colorTemp. RES: " + CStr(RES)
             Log_Info "SPEC: x = " & CStr(presetData.xx) & " y = " & CStr(presetData.yy)
             Log_Info "Tol: x = " & CStr(presetData.xt) & " y =  " & CStr(presetData.yt)
-            
+
             If RES = 3 Then
                 Exit For
             Else
                 If UCase(gstrBrand) = "CAN" Or _
                     UCase(gstrBrand) = "HAIER" Then
-                    Log_Info "Check colorTemp. RES: " + CStr(RES)
                     Call adjustColorTempForCIBN(rRGB)
                 Else    ' Letv
                     If resCodeForAdjustColorTemp = 0 Then
@@ -1077,7 +1068,7 @@ Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixVa
   
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
-        DelayMS 200
+        'DelayMS 200
         Log_Info "Init current colorTemp. RES:" + str$(RES)
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
@@ -1133,7 +1124,7 @@ Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As
   
     For j = 1 To 2
         Call setColorTemp(strColorTemp, presetData, HighLowMode)
-        DelayMS 200
+        'DelayMS 200
         Log_Info "Init current colorTemp. RES:" + str$(RES)
 
         Label1 = str$(presetData.xx)
@@ -1168,7 +1159,7 @@ On Error Resume Next
     rColor.xx = CLng(ObjProbe.sx * 10000)
     rColor.yy = CLng(ObjProbe.sy * 10000)
     rColor.lv = CLng(ObjProbe.lv)
-  
+
     Picture1.Cls
     
     'The values here are about 15 times bigger than the actual pixel.
