@@ -132,9 +132,60 @@ Private Sub Protocal_ResetPicMode()
 End Sub
 
 Private Sub Protocal_SetBrightness(intBrightness As Integer)
+    '               R  G  B
+    'E0 0B 40 X8 02 XX XX XX 00 00 CHK
+    'Set brightness to 100
+    'E0 0B 40 F8 02 FF FF FF 00 00 CHK
+    'Set brightness to 50
+    'E0 0B 40 F8 02 7F 7F 7F 00 00 CHK
+    mSendDataBuf(0) = &HE0
+    mSendDataBuf(1) = &HB
+    mSendDataBuf(2) = &H40
+    mSendDataBuf(4) = &H2
+    If intBrightness = 100 Then
+        mSendDataBuf(5) = &HFF
+        mSendDataBuf(6) = &HFF
+        mSendDataBuf(7) = &HFF
+    Else
+        mSendDataBuf(5) = &H7F
+        mSendDataBuf(6) = &H7F
+        mSendDataBuf(7) = &H7F
+    End If
+    mSendDataBuf(8) = &H0
+    mSendDataBuf(9) = &H0
+
+    DataToDDC
+    mSendDataBuf(3) = CalDDCChkSum(mDDCDataWithoutChksum) * 16 + &H8
+    mSendDataBuf(10) = CalChkSum(mSendDataBuf)
+
+    SendCmd
 End Sub
 
 Private Sub Protocal_SetContrast(intContrast As Integer)
+    'E0 0B 40 X8 03 XX 00 00 00 00 CHK
+    'Set brightness to 100
+    'E0 0B 40 28 03 FF 00 00 00 00 CHK
+    'Set brightness to 50
+    'E0 0B 40 28 03 7F 00 00 00 00 CHK
+    mSendDataBuf(0) = &HE0
+    mSendDataBuf(1) = &HB
+    mSendDataBuf(2) = &H40
+    mSendDataBuf(4) = &H3
+    If intContrast = 100 Then
+        mSendDataBuf(5) = &HFF
+    Else
+        mSendDataBuf(5) = &H7F
+    End If
+    mSendDataBuf(6) = &H0
+    mSendDataBuf(7) = &H0
+    mSendDataBuf(8) = &H0
+    mSendDataBuf(9) = &H0
+
+    DataToDDC
+    mSendDataBuf(3) = CalDDCChkSum(mDDCDataWithoutChksum) * 16 + &H8
+    mSendDataBuf(10) = CalChkSum(mSendDataBuf)
+
+    SendCmd
 End Sub
 
 Private Sub Protocal_SetBacklight(intBacklight As Integer)
