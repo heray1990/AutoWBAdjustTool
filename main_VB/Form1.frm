@@ -584,7 +584,7 @@ On Error GoTo ErrExit
 ADJUST_GAIN_AGAIN_COOL1:
     If isAdjustCool1 Then
         lbAdjustCOOL_1.BackColor = &H80FFFF
-        Result = autoAdjustColorTemperature_Gain(cstrColorTempCool1, adjustMode3, HighBri)
+        Result = AdjRGBGain(cstrColorTempCool1, adjustMode3, HighBri)
   
         If Result = False Then
             ShowError_Sys (1)
@@ -604,7 +604,7 @@ ADJUST_GAIN_AGAIN_COOL1:
 ADJUST_GAIN_AGAIN_NORMAL:
     If isAdjustNormal Then
         lbAdjustNormal.BackColor = &H80FFFF
-        Result = autoAdjustColorTemperature_Gain(cstrColorTempNormal, adjustMode3, HighBri)
+        Result = AdjRGBGain(cstrColorTempNormal, adjustMode3, HighBri)
 
         If Result = False Then
             ShowError_Sys (3)
@@ -624,7 +624,7 @@ ADJUST_GAIN_AGAIN_NORMAL:
 ADJUST_GAIN_AGAIN_WARM1:
     If isAdjustWarm1 Then
         lbAdjustWARM_1.BackColor = &H80FFFF
-        Result = autoAdjustColorTemperature_Gain(cstrColorTempWarm1, adjustMode3, HighBri)
+        Result = AdjRGBGain(cstrColorTempWarm1, adjustMode3, HighBri)
 
         If Result = False Then
             ShowError_Sys (4)
@@ -648,7 +648,7 @@ ADJUST_GAIN_AGAIN_WARM1:
 
         If isAdjustCool1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
-            Result = autoAdjustColorTemperature_Offset(cstrColorTempCool1, FixG, LowBri)
+            Result = AdjRGBOffset(cstrColorTempCool1, FixG, LowBri)
                 
             If Result = False Then
                 ShowError_Sys (11)
@@ -663,7 +663,7 @@ ADJUST_GAIN_AGAIN_WARM1:
    
         If isAdjustNormal Then
             lbAdjustNormal.BackColor = &H80FFFF
-            Result = autoAdjustColorTemperature_Offset(cstrColorTempNormal, FixG, LowBri)
+            Result = AdjRGBOffset(cstrColorTempNormal, FixG, LowBri)
 
             If Result = False Then
                 ShowError_Sys (13)
@@ -678,7 +678,7 @@ ADJUST_GAIN_AGAIN_WARM1:
    
         If isAdjustWarm1 Then
             lbAdjustWARM_1.BackColor = &H80FFFF
-            Result = autoAdjustColorTemperature_Offset(cstrColorTempWarm1, FixG, LowBri)
+            Result = AdjRGBOffset(cstrColorTempWarm1, FixG, LowBri)
                 
             If Result = False Then
                 ShowError_Sys (14)
@@ -954,7 +954,7 @@ Sub ShowError_Sys(t As Integer)
     CheckStep.SelStart = Len(CheckStep)
 End Sub
 
-Private Function autoAdjustColorTemperature_Gain(strColorTemp As String, adjustVal As Long, HighLowMode As Long) As Boolean
+Private Function AdjRGBGain(strColorTemp As String, adjustVal As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
 
     Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
@@ -1052,14 +1052,14 @@ Cancel:
     If RES = 3 Then
         Call saveData(strColorTemp, HighLowMode)
         Log_Info "Save current data of " & strColorTemp & "."
-        autoAdjustColorTemperature_Gain = True
+        AdjRGBGain = True
     Else
-        autoAdjustColorTemperature_Gain = False
+        AdjRGBGain = False
     End If
 
 End Function
 
-Private Function autoAdjustColorTemperature_Offset(strColorTemp As String, FixValue As Long, HighLowMode As Long) As Boolean
+Private Function AdjRGBOffset(strColorTemp As String, FixValue As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
 
     Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
@@ -1108,9 +1108,9 @@ Cancel:
     If RES = 3 Then
         Call saveData(strColorTemp, HighLowMode)
         Log_Info "Save current data of " & strColorTemp & "."
-        autoAdjustColorTemperature_Offset = True
+        AdjRGBOffset = True
     Else
-        autoAdjustColorTemperature_Offset = False
+        AdjRGBOffset = False
     End If
 
 End Function
