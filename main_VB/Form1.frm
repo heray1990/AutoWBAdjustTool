@@ -533,7 +533,7 @@ Dim m_Title As String
 Private WithEvents Obj As VPGCtrl.VPGCtrl
 Attribute Obj.VB_VarHelpID = -1
 
-Private Sub subMainProcesser()
+Private Sub SubRun()
     Dim i, j As Integer
 
 On Error GoTo ErrExit
@@ -1410,7 +1410,7 @@ On Error GoTo ErrExit
                 If MSComm1.PortOpen = False Then
                     MSComm1.PortOpen = True
                 End If
-                subMainProcesser
+                SubRun
             ElseIf utdCommMode = modeNetwork Then
                 isNetworkConnected = False
                 Do
@@ -1422,7 +1422,7 @@ On Error GoTo ErrExit
                     Call DelaySWithFlag(cmdReceiveWaitS * 2, isNetworkConnected)
                 
                     If tcpClient.State = sckConnected Then
-                        subMainProcesser
+                        SubRun
                         Exit Do
                     Else
                         If tcpClient.State <> sckClosed Then
@@ -1450,7 +1450,7 @@ On Error GoTo ErrExit
                     DEVICE_USED = 1
                 End If
                 
-                subMainProcesser
+                SubRun
             End If
         End If
         
