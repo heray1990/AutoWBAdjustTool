@@ -528,7 +528,6 @@ Dim clsHaierProtocal As HaierProtocal
 
 Dim ivpg As IVPGCtrl
 Private mTitle As String
-Dim m_Title As String
 
 Private WithEvents Obj As VPGCtrl.VPGCtrl
 Attribute Obj.VB_VarHelpID = -1
@@ -584,7 +583,7 @@ On Error GoTo ErrExit
 ADJUST_GAIN_AGAIN_COOL1:
     If isAdjustCool1 Then
         lbAdjustCOOL_1.BackColor = &H80FFFF
-        Result = AdjRGBGain(cstrColorTempCool1, adjustMode3, HighBri)
+        Result = FuncAdjRGBGain(cstrColorTempCool1, adjustMode3, HighBri)
   
         If Result = False Then
             ShowError_Sys (1)
@@ -604,7 +603,7 @@ ADJUST_GAIN_AGAIN_COOL1:
 ADJUST_GAIN_AGAIN_NORMAL:
     If isAdjustNormal Then
         lbAdjustNormal.BackColor = &H80FFFF
-        Result = AdjRGBGain(cstrColorTempNormal, adjustMode3, HighBri)
+        Result = FuncAdjRGBGain(cstrColorTempNormal, adjustMode3, HighBri)
 
         If Result = False Then
             ShowError_Sys (3)
@@ -624,7 +623,7 @@ ADJUST_GAIN_AGAIN_NORMAL:
 ADJUST_GAIN_AGAIN_WARM1:
     If isAdjustWarm1 Then
         lbAdjustWARM_1.BackColor = &H80FFFF
-        Result = AdjRGBGain(cstrColorTempWarm1, adjustMode3, HighBri)
+        Result = FuncAdjRGBGain(cstrColorTempWarm1, adjustMode3, HighBri)
 
         If Result = False Then
             ShowError_Sys (4)
@@ -648,7 +647,7 @@ ADJUST_GAIN_AGAIN_WARM1:
 
         If isAdjustCool1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
-            Result = AdjRGBOffset(cstrColorTempCool1, FixG, LowBri)
+            Result = FuncAdjRGBOffset(cstrColorTempCool1, FixG, LowBri)
                 
             If Result = False Then
                 ShowError_Sys (11)
@@ -663,7 +662,7 @@ ADJUST_GAIN_AGAIN_WARM1:
    
         If isAdjustNormal Then
             lbAdjustNormal.BackColor = &H80FFFF
-            Result = AdjRGBOffset(cstrColorTempNormal, FixG, LowBri)
+            Result = FuncAdjRGBOffset(cstrColorTempNormal, FixG, LowBri)
 
             If Result = False Then
                 ShowError_Sys (13)
@@ -678,7 +677,7 @@ ADJUST_GAIN_AGAIN_WARM1:
    
         If isAdjustWarm1 Then
             lbAdjustWARM_1.BackColor = &H80FFFF
-            Result = AdjRGBOffset(cstrColorTempWarm1, FixG, LowBri)
+            Result = FuncAdjRGBOffset(cstrColorTempWarm1, FixG, LowBri)
                 
             If Result = False Then
                 ShowError_Sys (14)
@@ -768,7 +767,7 @@ CHECK_WARM1:
         ObjCa.Measure
         lvLastChk = CLng(ObjProbe.lv)
         Log_Info "lv = " + CStr(lvLastChk)
-        showData (lastChkShwDataStep)
+        SubShowData (lastChkShwDataStep)
         
         If lvLastChk <= maxBrightnessSpec Then
             ShowError_Sys (30)
@@ -792,7 +791,7 @@ CHECK_WARM1:
         ObjCa.Measure
         lvLastChk = CLng(ObjProbe.lv)
         Log_Info "lv = " + CStr(lvLastChk)
-        showData (lastChkShwDataStep)
+        SubShowData (lastChkShwDataStep)
 
         Call clsProtocal.SetBrightness(50)
         Call clsProtocal.SetContrast(50)
@@ -954,7 +953,7 @@ Sub ShowError_Sys(t As Integer)
     CheckStep.SelStart = Len(CheckStep)
 End Sub
 
-Private Function AdjRGBGain(strColorTemp As String, adjustVal As Long, HighLowMode As Long) As Boolean
+Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
 
     Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
@@ -998,7 +997,7 @@ Private Function AdjRGBGain(strColorTemp As String, adjustVal As Long, HighLowMo
             Call clsProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
         End If
 
-        showData (1)
+        SubShowData (1)
 
         resCodeForAdjustColorTemp = 0
         
@@ -1040,7 +1039,7 @@ Private Function AdjRGBGain(strColorTemp As String, adjustVal As Long, HighLowMo
                    Call clsProtocal.SetRGBGain(rRGB.cRR, rRGB.cGG, rRGB.cBB)
                 End If
 
-                showData (2)
+                SubShowData (2)
             End If
         Next k
         
@@ -1052,14 +1051,14 @@ Cancel:
     If RES = 3 Then
         Call saveData(strColorTemp, HighLowMode)
         Log_Info "Save current data of " & strColorTemp & "."
-        AdjRGBGain = True
+        FuncAdjRGBGain = True
     Else
-        AdjRGBGain = False
+        FuncAdjRGBGain = False
     End If
 
 End Function
 
-Private Function AdjRGBOffset(strColorTemp As String, FixValue As Long, HighLowMode As Long) As Boolean
+Private Function FuncAdjRGBOffset(strColorTemp As String, FixValue As Long, HighLowMode As Long) As Boolean
     Dim i, j, k As Integer
 
     Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
@@ -1079,7 +1078,7 @@ Private Function AdjRGBOffset(strColorTemp As String, FixValue As Long, HighLowM
 
         Call clsProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
-        showData (3)
+        SubShowData (3)
 
         For k = 1 To 50
             If IsStop = True Then GoTo Cancel
@@ -1097,7 +1096,7 @@ Private Function AdjRGBOffset(strColorTemp As String, FixValue As Long, HighLowM
 
                 Call clsProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
     
-                showData (4)
+                SubShowData (4)
             End If
         Next k
 
@@ -1108,9 +1107,9 @@ Cancel:
     If RES = 3 Then
         Call saveData(strColorTemp, HighLowMode)
         Log_Info "Save current data of " & strColorTemp & "."
-        AdjRGBOffset = True
+        FuncAdjRGBOffset = True
     Else
-        AdjRGBOffset = False
+        FuncAdjRGBOffset = False
     End If
 
 End Function
@@ -1130,7 +1129,7 @@ Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As
         Label1 = str$(presetData.xx)
         Label3 = str$(presetData.yy)
 
-        showData (5)
+        SubShowData (5)
 
         If IsStop = True Then GoTo Cancel
 
@@ -1151,7 +1150,7 @@ End Function
 
 
 'step = lastChkShwDataStep: Check max brightness of TV with brightness 100 and contrast 100 in 100% white pattern.
-Private Sub showData(step As Integer)
+Private Sub SubShowData(step As Integer)
 On Error Resume Next
     Dim xPos, yPos, vPos As Long
 
@@ -1166,8 +1165,15 @@ On Error Resume Next
     '(1515,1275) is the origin of dx-dy axis.
     'In lv axis, 1660 is the distance from the bottom edge of blue rectangle to the top of Picture1.
     'In dx, 365 is half a side of blue rectangle.
+    If presetData.xt = 0 Then
+        presetData.xt = 30
+    End If
+    If presetData.yt = 0 Then
+        presetData.yt = 30
+    End If
     xPos = 1515 + (rColor.xx - presetData.xx) * 365 / presetData.xt
     yPos = 1275 - (rColor.yy - presetData.yy) * 385 / presetData.yt
+
     If step = lastChkShwDataStep Then
         vPos = 1660 - (rColor.lv - maxBrightnessSpec) * 385 / 50
     Else
