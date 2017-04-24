@@ -2,11 +2,11 @@ Attribute VB_Name = "Language"
 Option Explicit
 
 ' ================ English ================
-' frmSplash
+' FormSplash
 Public Const TXTMessage1 As String = "Please select model:"
 Public Const TXTVersion As String = "Version"
 
-' Form1
+' FormMain
 Public Const TXTTitle As String = "Auto White Balance Modulation"
 Public Const TXTBarcodeError As String = "Please check the barcode of TV. Its length is: "
 Public Const TXTBarcodeErrorTitle As String = "Barcode Error"

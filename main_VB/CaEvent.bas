@@ -15,7 +15,7 @@ On Error GoTo ER
 
     Select Case sel
         Case vbYes
-            frmInformation.Show
+            FormCalZero.Show
             DoEvents
 
             ObjCa210.AutoConnect
@@ -32,7 +32,7 @@ On Error GoTo ER
     
             MsgBox "Please Set the Probe at Measure Position", vbOKOnly + vbInformation, "Calibration OK"
             IsCa210ok = True
-            frmInformation.Hide
+            FormCalZero.Hide
         Case vbNo
     End Select
         

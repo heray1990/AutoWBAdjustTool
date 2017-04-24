@@ -3,5 +3,5 @@ Option Explicit
 
 
 Public Sub Main()
-    frmSplash.Show
+    FormSplash.Show
 End Sub

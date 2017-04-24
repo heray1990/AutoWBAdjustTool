@@ -43,7 +43,7 @@ Private Sub Class_Initialize()
 End Sub
 
 Private Sub SendCmd()
-    Form1.MSComm1.Output = mSendDataBuf
+    FormMain.MSComm1.Output = mSendDataBuf
     
     DelayMS delayTime
 End Sub

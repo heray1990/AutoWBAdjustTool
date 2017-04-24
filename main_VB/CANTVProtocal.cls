@@ -37,9 +37,9 @@ End Sub
 
 Private Sub SendCmd()
     If utdCommMode = modeUART Then
-        Form1.MSComm1.Output = mSendDataBuf
+        FormMain.MSComm1.Output = mSendDataBuf
     ElseIf utdCommMode = modeNetwork Then
-        Form1.tcpClient.SendData mSendDataBuf
+        FormMain.tcpClient.SendData mSendDataBuf
     End If
     
     DelayMS delayTime
