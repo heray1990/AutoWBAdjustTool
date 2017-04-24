@@ -1261,7 +1261,7 @@ Private Sub vbConCA310_Click()
         ObjCa.RemoteMode = 1
         Exit Sub
     Else
-        CONNECT_CA210
+        SubConnectCa
     End If
 End Sub
 

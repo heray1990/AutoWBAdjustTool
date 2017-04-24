@@ -62,7 +62,6 @@ Public glngI2cClockRate As Long
 
 Public gintBarCodeLen As Integer
 Public gintCurComId As Integer
-
 Public gintTvInputSrcPort As Integer
 
 Public gblEnableCool1 As Boolean
