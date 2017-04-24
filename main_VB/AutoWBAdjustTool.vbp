@@ -18,7 +18,6 @@ Module=CaEvent; CaEvent.bas
 Module=DeclareVariables; DeclareVariables.bas
 Module=ColorTDLL; ColorTDLL.bas
 Form=FormSplash.frm
-Module=DataBase; DataBase.bas
 Form=FormSettings.frm
 Class=ProjectConfig; ProjectConfig.cls
 Module=WizardXMLHelper; WizardXMLHelper.bas

@@ -1623,7 +1623,7 @@ Private Sub saveALLcData()
         Exit Sub
     Else
         sqlstring = "select * from [" & gstrCurProjName & "]"
-        Executesql (sqlstring)
+        FuncOpenSQL (sqlstring)
         rs.AddNew
 
         rs.Fields(0) = gstrCurProjName
