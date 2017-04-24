@@ -1,4 +1,4 @@
-Attribute VB_Name = "DataBase"
+Attribute VB_Name = "AutoWBAdjTool"
 Option Explicit
 
 Public cn As New ADODB.Connection
@@ -6,10 +6,13 @@ Public rs As New ADODB.Recordset
 Public sqlstring As String
 
 
-Public Function Executesql(sqlstr As String)
-    Dim strPath As String
+Public Sub Main()
+    FormSplash.Show
+End Sub
 
-On Error GoTo ADOERROR
+Public Function FuncOpenSQL(sqlstr As String)
+    On Error GoTo ADOERROR
+    Dim strPath As String
     strPath = App.Path
     
     If Right(strPath, 1) <> "\" Then strPath = strPath & "\"
@@ -26,6 +29,5 @@ On Error GoTo ADOERROR
 
 ADOERROR:
     MsgBox Err.Source & "------" & Err.Description
-
 End Function
 

@@ -1,5 +1,5 @@
 VERSION 5.00
-Begin VB.Form frmInformation 
+Begin VB.Form FormCalZero 
    BackColor       =   &H00404040&
    BorderStyle     =   0  'None
    ClientHeight    =   660
@@ -33,7 +33,7 @@ Begin VB.Form frmInformation
       Width           =   4815
    End
 End
-Attribute VB_Name = "frmInformation"
+Attribute VB_Name = "FormCalZero"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True

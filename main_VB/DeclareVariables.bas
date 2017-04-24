@@ -121,8 +121,8 @@ Public Enum CommunicationMode
 End Enum
 
 Public Sub Log_Info(strLog As String)
-    Form1.CheckStep.Text = Form1.CheckStep.Text + strLog + vbCrLf
-    Form1.CheckStep.SelStart = Len(Form1.CheckStep)
+    FormMain.CheckStep.Text = FormMain.CheckStep.Text + strLog + vbCrLf
+    FormMain.CheckStep.SelStart = Len(FormMain.CheckStep)
 
     SaveLogInFile strLog
 End Sub

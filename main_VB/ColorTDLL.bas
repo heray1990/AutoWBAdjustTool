@@ -1,4 +1,4 @@
-Attribute VB_Name = "AdjustDLL"
+Attribute VB_Name = "ColorTDLL"
 Option Explicit
 '====================================================
 '====================================================
