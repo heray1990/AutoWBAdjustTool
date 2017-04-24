@@ -11,11 +11,12 @@ Public Sub SubConnectCa()
     On Error GoTo ER
     Dim strERR As String
     Dim iReturn As Integer
+    Dim msgboxResult As VbMsgBoxResult
 
     Set ObjCa210 = New Ca200
-    sel = MsgBox("Please Set the Probe at 0-CALL Position! Are you sure?", vbYesNo + vbInformation, "Calibration")
+    msgboxResult = MsgBox("Please Set the Probe at 0-CALL Position! Are you sure?", vbYesNo + vbInformation, "CAL-0")
 
-    Select Case sel
+    Select Case msgboxResult
         Case vbYes
             FormCalZero.Show
             DoEvents
