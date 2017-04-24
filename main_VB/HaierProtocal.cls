@@ -210,20 +210,20 @@ Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, in
 
     If (gstrChipSet = "T111") Then
         Select Case strColorT
-            Case cstrColorTempCool1
+            Case COLORTEMP_COOL1
                 mSendDataBuf(3) = &H3
-            Case cstrColorTempNormal
+            Case COLORTEMP_STANDARD
                 mSendDataBuf(3) = &H1
-            Case cstrColorTempWarm1
+            Case COLORTEMP_WARM1
                 mSendDataBuf(3) = &H2
         End Select
     Else
         Select Case strColorT
-            Case cstrColorTempCool1
+            Case COLORTEMP_COOL1
                 mSendDataBuf(3) = &H0
-            Case cstrColorTempNormal
+            Case COLORTEMP_STANDARD
                 mSendDataBuf(3) = &H1
-            Case cstrColorTempWarm1
+            Case COLORTEMP_WARM1
                 mSendDataBuf(3) = &H2
         End Select
     End If

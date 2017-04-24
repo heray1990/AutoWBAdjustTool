@@ -198,11 +198,11 @@ Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, in
     mSendDataBuf(2) = &H1
 
     Select Case strColorT
-        Case cstrColorTempCool1
+        Case COLORTEMP_COOL1
             mSendDataBuf(3) = &H0
-        Case cstrColorTempNormal
+        Case COLORTEMP_STANDARD
             mSendDataBuf(3) = &H1
-        Case cstrColorTempWarm1
+        Case COLORTEMP_WARM1
             mSendDataBuf(3) = &H2
     End Select
 

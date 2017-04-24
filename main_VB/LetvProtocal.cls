@@ -202,11 +202,11 @@ End Sub
 
 Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)
     Select Case strColorT
-      Case cstrColorTempCool1
+      Case COLORTEMP_COOL1
          Call SetColorTempCool1(strInputSrc, intSrcNum)
-      Case cstrColorTempNormal
+      Case COLORTEMP_STANDARD
          Call SetColorTempNormal(strInputSrc, intSrcNum)
-      Case cstrColorTempWarm1
+      Case COLORTEMP_WARM1
          Call SetColorTempWarm1(strInputSrc, intSrcNum)
     End Select
 End Sub

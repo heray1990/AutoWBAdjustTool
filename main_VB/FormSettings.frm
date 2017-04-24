@@ -849,6 +849,8 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
+    Dim i As Integer
+
     Label1.Caption = gstrCurProjName
     
     txtChannel.Text = CStr(Ca210ChannelNO)
