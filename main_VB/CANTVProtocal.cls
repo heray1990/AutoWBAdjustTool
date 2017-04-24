@@ -36,13 +36,13 @@ Private Sub Class_Initialize()
 End Sub
 
 Private Sub SendCmd()
-    If utdCommMode = modeUART Then
+    If gutdCommMode = modeUART Then
         FormMain.MSComm1.Output = mSendDataBuf
-    ElseIf utdCommMode = modeNetwork Then
+    ElseIf gutdCommMode = modeNetwork Then
         FormMain.tcpClient.SendData mSendDataBuf
     End If
     
-    DelayMS delayTime
+    DelayMS glngDelayTime
 End Sub
 
 Private Function CalChkSum(ByRef data() As Byte) As Byte

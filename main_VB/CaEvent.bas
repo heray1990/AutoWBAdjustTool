@@ -28,10 +28,10 @@ On Error GoTo ER
             ObjCa.AveragingMode = 2
             ObjCa.SetAnalogRange 2.5, 2.5
             ObjCa.DisplayMode = 0
-            ObjMemory.ChannelNO = Ca210ChannelNO
+            ObjMemory.ChannelNO = glngCaChannel
     
             MsgBox "Please Set the Probe at Measure Position", vbOKOnly + vbInformation, "Calibration OK"
-            IsCa210ok = True
+            gblCaConnected = True
             FormCalZero.Hide
         Case vbNo
     End Select

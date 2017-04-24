@@ -57,7 +57,7 @@ Private Function SendCmd(ByRef data() As Byte) As Boolean
     Else
         SendCmd = True
     End If
-    DelayMS delayTime
+    DelayMS glngDelayTime
 End Function
 
 Private Function CalChkSum(ByRef data() As Byte) As Byte

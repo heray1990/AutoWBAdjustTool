@@ -52,52 +52,41 @@ Public Const REMOTE_HOST As String = "192.168.1.11"
 Public Const REMOTE_PORT As Long = 8888
 
 '==========Public Variables==========
-Public Ca210ChannelNO As Long
-Public delayTime As Long
+Public gutdCommMode As CommunicationMode
 
-Public isAdjustCool1 As Boolean
-Public isAdjustCool2  As Boolean
-Public isAdjustNormal  As Boolean
-Public isAdjustWarm1 As Boolean
-Public isAdjustWarm2  As Boolean
+Public glngCaChannel As Long
+Public glngDelayTime As Long
+Public gintCurComBaud As Long
+Public glngBlSpecVal As Long
+Public glngI2cClockRate As Long
 
 Public gintBarCodeLen As Integer
-Public IsFunctionAutoBri As Boolean
-Public isCheckColorTemp  As Boolean
+Public gintCurComId As Integer
 
-Public isAdjustOffset As Boolean
+Public gintTvInputSrcPort As Integer
+
+Public gblEnableCool1 As Boolean
+Public gblEnableCool2  As Boolean
+Public gblEnableStandard  As Boolean
+Public gblEnableWarm1 As Boolean
+Public gblEnableWarm2  As Boolean
+Public gblChkColorTemp  As Boolean
+Public gblAdjOffset As Boolean
+Public gblStop As Boolean
+Public gblCaConnected As Boolean
+Public gblNetConnected As Boolean
+
 Public gstrChipSet As String
 Public gstrCurProjName As String
-Public IsStop As Boolean
-Public IsACK As Boolean
-Public setTVCurrentComID As Integer
-Public setTVCurrentComBaud As Long
-Public setTVInputSource As String
-Public setTVInputSourcePortNum As Integer
-Public maxBrightnessSpec As Long
-
-Public IsCa210ok As Boolean
-Public isNetworkConnected As Boolean
-Public utdCommMode As CommunicationMode
-
-Public gstrBarCode As String
-Public countTime As Long
-Public gstrBrand As String
-
+Public gstrTvInputSrc As String
 Public gstrVPGModel As String
-Public glngI2cClockRate As Long
 Public gstrVPGTiming As String
 Public gstrVPG100IRE As String
 Public gstrVPG80IRE As String
 Public gstrVPG20IRE As String
 
-Public rRGB As REALRGB
-Public rRGB1 As REALRGB
-
-
 Public cn As New ADODB.Connection
 Public rs As New ADODB.Recordset
-Public sqlstring As String
 
 
 Public Sub Main()

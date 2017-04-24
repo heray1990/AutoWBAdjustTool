@@ -7,7 +7,7 @@ On Error GoTo ShowError
     While (Timer - start) < (mmSec / 1000#)
         DoEvents
 
-    If IsStop = True Then
+    If gblStop = True Then
         Exit Sub
     End If
     Wend
@@ -26,7 +26,7 @@ On Error GoTo ShowError
     While (Timer - start) < (mmSec / 1000#)
         DoEvents
    
-    If IsStop = True Then
+    If gblStop = True Then
         Exit Sub
     End If
 
@@ -49,7 +49,7 @@ On Error GoTo ShowError
             Exit Sub
         End If
         
-        If IsStop = True Then
+        If gblStop = True Then
             Exit Sub
         End If
     Wend

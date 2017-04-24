@@ -45,7 +45,7 @@ End Sub
 Private Sub SendCmd()
     FormMain.MSComm1.Output = mSendDataBuf
     
-    DelayMS delayTime
+    DelayMS glngDelayTime
 End Sub
 
 Private Function CalDDCChkSum(ByRef data() As Byte) As Byte
