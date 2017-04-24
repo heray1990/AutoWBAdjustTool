@@ -114,14 +114,14 @@ ADOERROR:
     MsgBox Err.Source & "------" & Err.Description
 End Function
 
-Public Sub Log_Info(strLog As String)
+Public Sub SubLogInfo(strLog As String)
     FormMain.CheckStep.Text = FormMain.CheckStep.Text + strLog + vbCrLf
     FormMain.CheckStep.SelStart = Len(FormMain.CheckStep)
 
-    SaveLogInFile strLog
+    SubSaveLogInFile strLog
 End Sub
 
-Public Sub SaveLogInFile(strLog As String)
+Public Sub SubSaveLogInFile(strLog As String)
     Dim logPath As String
 
     logPath = App.Path & "\" & "Logs\"
@@ -136,3 +136,42 @@ Public Sub SaveLogInFile(strLog As String)
     Close #1
 End Sub
 
+Public Sub SubDelayMs(mmSec As Long)
+    On Error GoTo ShowError
+    Dim start As Single
+
+    start = Timer
+    While (Timer - start) < (mmSec / 1000#)
+        DoEvents
+   
+        If gblStop = True Then
+            Exit Sub
+        End If
+    Wend
+    Exit Sub
+
+ShowError:
+    MsgBox Err.Source & "------" & Err.Description
+End Sub
+
+Public Sub SubDelayWithFlag(Sec As Long, flag As Boolean)
+    On Error GoTo ShowError
+    Dim start As Single
+
+    start = Timer
+    While (Timer - start) < Sec
+        DoEvents
+   
+        If flag = True Then
+            Exit Sub
+        End If
+        
+        If gblStop = True Then
+            Exit Sub
+        End If
+    Wend
+    Exit Sub
+
+ShowError:
+    MsgBox Err.Source & "------" & Err.Description
+End Sub

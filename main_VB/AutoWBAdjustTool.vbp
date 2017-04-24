@@ -20,7 +20,6 @@ Form=FormSplash.frm
 Form=FormSettings.frm
 Class=ProjectConfig; ProjectConfig.cls
 Module=WizardXMLHelper; WizardXMLHelper.bas
-Module=DelayHelper; DelayHelper.bas
 Class=LetvProtocal; LetvProtocal.cls
 Module=LptIo; lptio.bas
 Class=Protocal; Protocal.cls

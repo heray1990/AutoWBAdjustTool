@@ -40,7 +40,7 @@ Private Sub SendCmd()
         FormMain.tcpClient.SendData mSendDataBuf
     End If
     
-    DelayMS glngDelayTime
+    SubDelayMs glngDelayTime
 End Sub
 
 Private Function CalChkSum(ByRef data() As Byte) As Byte

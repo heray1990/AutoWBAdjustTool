@@ -45,7 +45,7 @@ End Sub
 Private Sub SendCmd()
     FormMain.MSComm1.Output = mSendDataBuf
     
-    DelayMS glngDelayTime
+    SubDelayMs glngDelayTime
 End Sub
 
 Private Function CalDDCChkSum(ByRef data() As Byte) As Byte
@@ -106,7 +106,7 @@ End Sub
 
 Private Sub Protocal_ExitFacMode()
     'The last command should delay 2s to save the setting values to TV.
-    DelayMS 2000
+    SubDelayMs 2000
 End Sub
 
 Private Sub Protocal_SwitchInputSource(strInputSrc As String, intSrcNum As Integer)
