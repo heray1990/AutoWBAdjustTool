@@ -528,6 +528,9 @@ Dim clsHaierProtocal As HaierProtocal
 
 Dim ivpg As IVPGCtrl
 Private mTitle As String
+Private mAdjGainAgainCool1 As Integer
+Private mAdjGainAgainStandard As Integer
+Private mAdjGainAgainWarm1 As Integer
 
 Private WithEvents Obj As VPGCtrl.VPGCtrl
 Attribute Obj.VB_VarHelpID = -1
@@ -591,7 +594,7 @@ ADJUST_GAIN_AGAIN_COOL1:
         SaveLogInFile "[Time]White Cool1: " & lbTimer.Caption
         lbAdjustCOOL_1.BackColor = &HC0FFC0
         
-        If adjustGainAgainCool1Flag > 0 Then
+        If mAdjGainAgainCool1 > 0 Then
             GoTo CHECK_COOL1
         End If
     End If
@@ -611,7 +614,7 @@ ADJUST_GAIN_AGAIN_NORMAL:
         SaveLogInFile "[Time]White Normal: " & lbTimer.Caption
         lbAdjustNormal.BackColor = &HC0FFC0
         
-        If adjustGainAgainNormalFlag > 0 Then
+        If mAdjGainAgainStandard > 0 Then
             GoTo CHECK_NORMAL
         End If
     End If
@@ -631,7 +634,7 @@ ADJUST_GAIN_AGAIN_WARM1:
         SaveLogInFile "[Time]White Warm1: " & lbTimer.Caption
         lbAdjustWARM_1.BackColor = &HC0FFC0
         
-        If adjustGainAgainWarm1Flag > 0 Then
+        If mAdjGainAgainWarm1 > 0 Then
             GoTo CHECK_WARM1
         End If
     End If
@@ -701,11 +704,11 @@ CHECK_COOL1:
             If Result = False Then
                 ShowError_Sys (1)
 
-                If adjustGainAgainCool1Flag > 0 Then
+                If mAdjGainAgainCool1 > 0 Then
                     GoTo FAIL
                 End If
                 
-                adjustGainAgainCool1Flag = adjustGainAgainCool1Flag + 1
+                mAdjGainAgainCool1 = mAdjGainAgainCool1 + 1
                 
                 GoTo ADJUST_GAIN_AGAIN_COOL1
             End If
@@ -722,11 +725,11 @@ CHECK_NORMAL:
             If Result = False Then
                 ShowError_Sys (3)
 
-                If adjustGainAgainNormalFlag > 0 Then
+                If mAdjGainAgainStandard > 0 Then
                     GoTo FAIL
                 End If
     
-                adjustGainAgainNormalFlag = adjustGainAgainNormalFlag + 1
+                mAdjGainAgainStandard = mAdjGainAgainStandard + 1
 
                 GoTo ADJUST_GAIN_AGAIN_NORMAL
             End If
@@ -743,11 +746,11 @@ CHECK_WARM1:
             If Result = False Then
                 ShowError_Sys (4)
                 
-                If adjustGainAgainWarm1Flag > 0 Then
+                If mAdjGainAgainWarm1 > 0 Then
                     GoTo FAIL
                 End If
     
-                adjustGainAgainWarm1Flag = adjustGainAgainWarm1Flag + 1
+                mAdjGainAgainWarm1 = mAdjGainAgainWarm1 + 1
                 
                 GoTo ADJUST_GAIN_AGAIN_WARM1
             End If
@@ -851,9 +854,9 @@ Private Sub subInitBeforeRunning()
 
     txtInput.Enabled = False
     'gstrBarCode = ""
-    adjustGainAgainCool1Flag = 0
-    adjustGainAgainNormalFlag = 0
-    adjustGainAgainWarm1Flag = 0
+    mAdjGainAgainCool1 = 0
+    mAdjGainAgainStandard = 0
+    mAdjGainAgainWarm1 = 0
 End Sub
 
 Private Sub subInitAfterRunning()
@@ -861,9 +864,9 @@ Private Sub subInitAfterRunning()
     
     SaveLogInFile "[Time]Total: " & lbTimer.Caption & vbCrLf
     
-    adjustGainAgainCool1Flag = 0
-    adjustGainAgainNormalFlag = 0
-    adjustGainAgainWarm1Flag = 0
+    mAdjGainAgainCool1 = 0
+    mAdjGainAgainStandard = 0
+    mAdjGainAgainWarm1 = 0
 
     txtInput.Enabled = True
     txtInput.Text = ""
@@ -955,7 +958,7 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
     Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
 
     ' Set Offset first
-    If adjustGainAgainCool1Flag = 0 Then
+    If mAdjGainAgainCool1 = 0 Then
         Call setColorTemp(strColorTemp, presetData, 0)
         'DelayMS 200
         

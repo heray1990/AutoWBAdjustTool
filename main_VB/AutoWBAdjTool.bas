@@ -52,16 +52,6 @@ Public Const REMOTE_HOST As String = "192.168.1.11"
 Public Const REMOTE_PORT As Long = 8888
 
 '==========Public Variables==========
-Public adjustGainAgainCool1Flag As Integer
-Public adjustGainAgainNormalFlag As Integer
-Public adjustGainAgainWarm1Flag As Integer
-
-Public Const xxf = 1
-Public Const xfyf = 2
-Public Const yyf = 3
-Public Const microStep = True
-Public Const StepbyStep = False
-
 Public Ca210ChannelNO As Long
 Public delayTime As Long
 
