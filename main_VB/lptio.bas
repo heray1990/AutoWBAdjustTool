@@ -38,12 +38,6 @@ Declare Function I2c_ReadString Lib "LPTIO.dll" (ByRef sz As Byte, ByVal str As 
 Declare Function I2c_WriteString Lib "LPTIO.dll" (ByRef sz As Byte, ByVal str As String) As Long 'sz: # hex bytes of str, str: write cmd string
 
 
-
-
-Global gBank As Byte
-
-
-
 ' I2C Tool Device Constant
 Global Const DEVICE_LPT = 0
 Global Const DEVICE_U2C = 1
