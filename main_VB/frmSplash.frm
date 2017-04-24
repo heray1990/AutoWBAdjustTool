@@ -131,12 +131,11 @@ Private Sub Form_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub cmbModelName_Click()
-    ChangePictureBrandByCmdBox
+    SubUpdateBrand
 End Sub
 
 Private Sub Form_Load()
-
-On Error GoTo ErrExit
+    On Error GoTo ErrExit
     Dim strProjectName As Variant
     
     cmbModelName.Clear
@@ -150,7 +149,7 @@ On Error GoTo ErrExit
 
     cmbModelName.Text = GetCurProjectName
     
-    ChangePictureBrandByCmdBox
+    SubUpdateBrand
     
     Exit Sub
 
@@ -171,7 +170,7 @@ ErrExit:
     MsgBox Err.Description, vbCritical, Err.Source
 End Sub
 
-Private Sub ChangePictureBrandByCmdBox()
+Private Sub SubUpdateBrand()
     Dim strBrand As String
     
     strBrand = Split(cmbModelName.Text, gstrDelimiterForProjName)(0)

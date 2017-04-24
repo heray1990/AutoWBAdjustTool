@@ -1,6 +1,7 @@
-Attribute VB_Name = "ModuleText"
+Attribute VB_Name = "Language"
 Option Explicit
 
+' ================ English ================
 ' frmSplash
 Public Const TXTMessage1 As String = "Please select model:"
 Public Const TXTVersion As String = "Version"
@@ -17,6 +18,4 @@ Public Const TXTOffsetCool1Wrong As String = "OFFSET_Color_COOL_1 is Wrong, Plea
 Public Const TXTOffsetNormalWrong As String = "OFFSET_Color_NORMAL is Wrong, Please Check Again."
 Public Const TXTOffsetWarm1Wrong As String = "OFFSET_Color_WARM_1 is Wrong, Please Check Again."
 Public Const TXTLvTooLow As String = "Luminance is too low."
-
-' frmSetData
-
+' ================ English ================
