@@ -369,11 +369,11 @@ Begin VB.Form FormMain
       Top             =   3000
       Width           =   2535
    End
-   Begin VB.Label lbAdjustNormal 
+   Begin VB.Label lbAdjustStandard 
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "NORMAL"
+      Caption         =   "STANDARD"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   21.75
@@ -527,22 +527,30 @@ Dim clsLetvMST6M60 As LetvMST6M60
 Dim clsHaierProtocal As HaierProtocal
 
 Dim ivpg As IVPGCtrl
+
+Private rRGB As REALRGB
+Private rRGB1 As REALRGB
+
+Private mAdjGainAgainCool1 As Integer
+Private mAdjGainAgainStandard As Integer
+Private mAdjGainAgainWarm1 As Integer
+Private mCntTime As Long
 Private mTitle As String
+Private mBrand As String
+Private mBarCode As String
 
 Private WithEvents Obj As VPGCtrl.VPGCtrl
 Attribute Obj.VB_VarHelpID = -1
 
 Private Sub SubRun()
-    Dim i, j As Integer
-
-On Error GoTo ErrExit
+    On Error GoTo ErrExit
     subInitBeforeRunning
 
-    If IsStop = True Then
+    If gblStop = True Then
         Exit Sub
     End If
 
-    If IsCa210ok = False Then
+    If gblCaConnected = False Then
         MsgBox TXTCaDisconnectHint, vbOKOnly + vbInformation, "warning"
         subInitAfterRunning
         
@@ -550,14 +558,14 @@ On Error GoTo ErrExit
     End If
 
     checkResult.BackColor = &H80FFFF
-    IsStop = False
+    gblStop = False
     checkResult.Caption = "RUN..."
     checkResult.ForeColor = &HC0&
     CheckStep = ""
 
     lbAdjustCOOL_1.BackColor = &H8000000F
     lbAdjustCOOL_2.BackColor = &H8000000F
-    lbAdjustNormal.BackColor = &H8000000F
+    lbAdjustStandard.BackColor = &H8000000F
     lbAdjustWARM_1.BackColor = &H8000000F
     lbAdjustWARM_2.BackColor = &H8000000F
 
@@ -565,151 +573,149 @@ On Error GoTo ErrExit
     lbColorTempWrong.Visible = False
 
     Set ObjMemory = ObjCa.Memory
-    ObjMemory.ChannelNO = Ca210ChannelNO
+    ObjMemory.ChannelNO = glngCaChannel
 
-    strBuff = ""
-
-    Log_Info "Start adjusting color temperature"
+    SubLogInfo "Start adjusting color temperature"
     Call ChangePattern(gstrVPG80IRE)
 
     clsProtocal.EnterFacMode
-    Call clsProtocal.SwitchInputSource(setTVInputSource, setTVInputSourcePortNum)
+    Call clsProtocal.SwitchInputSource(gstrTvInputSrc, gintTvInputSrcPort)
     Call clsProtocal.ResetPicMode
     Call clsProtocal.SetBacklight(100)
-    Log_Info "Set backlight to 100"
+    SubLogInfo "Set backlight to 100"
 
     Label6.Caption = "WHITE"
 
 ADJUST_GAIN_AGAIN_COOL1:
-    If isAdjustCool1 Then
+    If gblEnableCool1 Then
         lbAdjustCOOL_1.BackColor = &H80FFFF
-        Result = FuncAdjRGBGain(cstrColorTempCool1, adjustMode3, HighBri)
+        Result = FuncAdjRGBGain(COLORTEMP_COOL1, ADJMODE_3)
   
         If Result = False Then
             ShowError_Sys (1)
             GoTo FAIL
         Else
-            Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+            Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
         End If
 
-        SaveLogInFile "[Time]White Cool1: " & lbTimer.Caption
+        SubSaveLogInFile "[Time]White Cool1: " & lbTimer.Caption
         lbAdjustCOOL_1.BackColor = &HC0FFC0
         
-        If adjustGainAgainCool1Flag > 0 Then
+        If mAdjGainAgainCool1 > 0 Then
             GoTo CHECK_COOL1
         End If
     End If
 
 ADJUST_GAIN_AGAIN_NORMAL:
-    If isAdjustNormal Then
-        lbAdjustNormal.BackColor = &H80FFFF
-        Result = FuncAdjRGBGain(cstrColorTempNormal, adjustMode3, HighBri)
+    If gblEnableStandard Then
+        lbAdjustStandard.BackColor = &H80FFFF
+        Result = FuncAdjRGBGain(COLORTEMP_STANDARD, ADJMODE_3)
 
         If Result = False Then
             ShowError_Sys (3)
             GoTo FAIL
         Else
-            Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+            Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
         End If
 
-        SaveLogInFile "[Time]White Normal: " & lbTimer.Caption
-        lbAdjustNormal.BackColor = &HC0FFC0
+        SubSaveLogInFile "[Time]White Normal: " & lbTimer.Caption
+        lbAdjustStandard.BackColor = &HC0FFC0
         
-        If adjustGainAgainNormalFlag > 0 Then
+        If mAdjGainAgainStandard > 0 Then
             GoTo CHECK_NORMAL
         End If
     End If
 
 ADJUST_GAIN_AGAIN_WARM1:
-    If isAdjustWarm1 Then
+    If gblEnableWarm1 Then
         lbAdjustWARM_1.BackColor = &H80FFFF
-        Result = FuncAdjRGBGain(cstrColorTempWarm1, adjustMode3, HighBri)
+        Result = FuncAdjRGBGain(COLORTEMP_WARM1, ADJMODE_3)
 
         If Result = False Then
             ShowError_Sys (4)
             GoTo FAIL
         Else
-            Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+            Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
         End If
 
-        SaveLogInFile "[Time]White Warm1: " & lbTimer.Caption
+        SubSaveLogInFile "[Time]White Warm1: " & lbTimer.Caption
         lbAdjustWARM_1.BackColor = &HC0FFC0
         
-        If adjustGainAgainWarm1Flag > 0 Then
+        If mAdjGainAgainWarm1 > 0 Then
             GoTo CHECK_WARM1
         End If
     End If
 
-    If isAdjustOffset Then
+    If gblAdjOffset Then
         Label6.Caption = "GREY"
 
         Call ChangePattern(gstrVPG20IRE)
 
-        If isAdjustCool1 Then
+        If gblEnableCool1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
-            Result = FuncAdjRGBOffset(cstrColorTempCool1, FixG, LowBri)
+            Result = FuncAdjRGBOffset(COLORTEMP_COOL1)
                 
             If Result = False Then
                 ShowError_Sys (11)
                 GoTo FAIL
             Else
-                Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+                Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
             End If
             
-            SaveLogInFile "[Time]Grey Cool1: " & lbTimer.Caption
+            SubSaveLogInFile "[Time]Grey Cool1: " & lbTimer.Caption
             lbAdjustCOOL_1.BackColor = &HC0FFC0
         End If
    
-        If isAdjustNormal Then
-            lbAdjustNormal.BackColor = &H80FFFF
-            Result = FuncAdjRGBOffset(cstrColorTempNormal, FixG, LowBri)
+        If gblEnableStandard Then
+            lbAdjustStandard.BackColor = &H80FFFF
+            Result = FuncAdjRGBOffset(COLORTEMP_STANDARD)
 
             If Result = False Then
                 ShowError_Sys (13)
                 GoTo FAIL
             Else
-                Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+                Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
             End If
 
-            SaveLogInFile "[Time]Grey Normal: " & lbTimer.Caption
-            lbAdjustNormal.BackColor = &HC0FFC0
+            SubSaveLogInFile "[Time]Grey Normal: " & lbTimer.Caption
+            lbAdjustStandard.BackColor = &HC0FFC0
         End If
    
-        If isAdjustWarm1 Then
+        If gblEnableWarm1 Then
             lbAdjustWARM_1.BackColor = &H80FFFF
-            Result = FuncAdjRGBOffset(cstrColorTempWarm1, FixG, LowBri)
+            Result = FuncAdjRGBOffset(COLORTEMP_WARM1)
                 
             If Result = False Then
                 ShowError_Sys (14)
                 GoTo FAIL
             Else
-                Call clsProtocal.SaveWBDataToAllSrc(setTVInputSource, setTVInputSourcePortNum)
+                Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
             End If
 
-            SaveLogInFile "[Time]Grey Warm1: " & lbTimer.Caption
+            SubSaveLogInFile "[Time]Grey Warm1: " & lbTimer.Caption
             lbAdjustWARM_1.BackColor = &HC0FFC0
         End If
     End If
 
-    If isCheckColorTemp Then
-        If isAdjustOffset Then
+    If gblChkColorTemp Then
+        If gblAdjOffset Then
             Call ChangePattern(gstrVPG80IRE)
         End If
 
 CHECK_COOL1:
-        If isAdjustCool1 Then
+        If gblEnableCool1 Then
             Label6.Caption = "CHECK"
             lbAdjustCOOL_1.BackColor = &H80FFFF
-            Result = checkColorAgain(cstrColorTempCool1, HighBri)
+            Result = checkColorAgain(COLORTEMP_COOL1)
 
             If Result = False Then
                 ShowError_Sys (1)
 
-                If adjustGainAgainCool1Flag > 0 Then
+                If mAdjGainAgainCool1 > 0 Then
                     GoTo FAIL
                 End If
                 
-                adjustGainAgainCool1Flag = adjustGainAgainCool1Flag + 1
+                mAdjGainAgainCool1 = mAdjGainAgainCool1 + 1
                 
                 GoTo ADJUST_GAIN_AGAIN_COOL1
             End If
@@ -718,40 +724,40 @@ CHECK_COOL1:
         End If
 
 CHECK_NORMAL:
-        If isAdjustNormal Then
+        If gblEnableStandard Then
             Label6.Caption = "CHECK"
-            lbAdjustNormal.BackColor = &H80FFFF
-            Result = checkColorAgain(cstrColorTempNormal, HighBri)
+            lbAdjustStandard.BackColor = &H80FFFF
+            Result = checkColorAgain(COLORTEMP_STANDARD)
 
             If Result = False Then
                 ShowError_Sys (3)
 
-                If adjustGainAgainNormalFlag > 0 Then
+                If mAdjGainAgainStandard > 0 Then
                     GoTo FAIL
                 End If
     
-                adjustGainAgainNormalFlag = adjustGainAgainNormalFlag + 1
+                mAdjGainAgainStandard = mAdjGainAgainStandard + 1
 
                 GoTo ADJUST_GAIN_AGAIN_NORMAL
             End If
     
-            lbAdjustNormal.BackColor = &HC0FFC0
+            lbAdjustStandard.BackColor = &HC0FFC0
         End If
 
 CHECK_WARM1:
-        If isAdjustWarm1 Then
+        If gblEnableWarm1 Then
             Label6.Caption = "CHECK"
             lbAdjustWARM_1.BackColor = &H80FFFF
-            Result = checkColorAgain(cstrColorTempWarm1, HighBri)
+            Result = checkColorAgain(COLORTEMP_WARM1)
 
             If Result = False Then
                 ShowError_Sys (4)
                 
-                If adjustGainAgainWarm1Flag > 0 Then
+                If mAdjGainAgainWarm1 > 0 Then
                     GoTo FAIL
                 End If
     
-                adjustGainAgainWarm1Flag = adjustGainAgainWarm1Flag + 1
+                mAdjGainAgainWarm1 = mAdjGainAgainWarm1 + 1
                 
                 GoTo ADJUST_GAIN_AGAIN_WARM1
             End If
@@ -761,15 +767,15 @@ CHECK_WARM1:
     End If
     
     If gstrChipSet = "T111" Then
-        Call clsProtocal.SelColorTemp(cstrColorTempNormal, setTVInputSource, setTVInputSourcePortNum)
-        Log_Info "Set color temp to cool1"
+        Call clsProtocal.SelColorTemp(COLORTEMP_STANDARD, gstrTvInputSrc, gintTvInputSrcPort)
+        SubLogInfo "Set color temp to cool1"
         
         ObjCa.Measure
         lvLastChk = CLng(ObjProbe.lv)
-        Log_Info "lv = " + CStr(lvLastChk)
-        SubShowData (lastChkShwDataStep)
+        SubLogInfo "lv = " + CStr(lvLastChk)
+        SubShowData (LASTSTEP)
         
-        If lvLastChk <= maxBrightnessSpec Then
+        If lvLastChk <= glngBlSpecVal Then
             ShowError_Sys (30)
             GoTo FAIL
         End If
@@ -780,27 +786,27 @@ CHECK_WARM1:
         Call ChangePattern(gstrVPG100IRE)
 
         Call clsProtocal.SetBrightness(100)
-        Log_Info "Set brightness to 100"
+        SubLogInfo "Set brightness to 100"
 
         Call clsProtocal.SetContrast(100)
-        Log_Info "Set contrast to 100"
+        SubLogInfo "Set contrast to 100"
 
-        Call clsProtocal.SelColorTemp(cstrColorTempCool1, setTVInputSource, setTVInputSourcePortNum)
-        Log_Info "Set color temp to cool1"
+        Call clsProtocal.SelColorTemp(COLORTEMP_COOL1, gstrTvInputSrc, gintTvInputSrcPort)
+        SubLogInfo "Set color temp to cool1"
 
         ObjCa.Measure
         lvLastChk = CLng(ObjProbe.lv)
-        Log_Info "lv = " + CStr(lvLastChk)
-        SubShowData (lastChkShwDataStep)
+        SubLogInfo "lv = " + CStr(lvLastChk)
+        SubShowData (LASTSTEP)
 
         Call clsProtocal.SetBrightness(50)
         Call clsProtocal.SetContrast(50)
-        Log_Info "Set both brightness and contrast to 50."
+        SubLogInfo "Set both brightness and contrast to 50."
     
         clsProtocal.ResetPicMode
         clsProtocal.ChannelPreset
 
-        If lvLastChk <= maxBrightnessSpec Then
+        If lvLastChk <= glngBlSpecVal Then
             ShowError_Sys (30)
             GoTo FAIL
         End If
@@ -849,32 +855,32 @@ ErrExit:
 End Sub
 
 Private Sub subInitBeforeRunning()
-    countTime = 0
+    mCntTime = 0
     lbTimer.Caption = "0s"
     Timer1.Enabled = True
 
     txtInput.Enabled = False
-    'gstrBarCode = ""
-    adjustGainAgainCool1Flag = 0
-    adjustGainAgainNormalFlag = 0
-    adjustGainAgainWarm1Flag = 0
+    'mBarCode = ""
+    mAdjGainAgainCool1 = 0
+    mAdjGainAgainStandard = 0
+    mAdjGainAgainWarm1 = 0
 End Sub
 
 Private Sub subInitAfterRunning()
     Timer1.Enabled = False
     
-    SaveLogInFile "[Time]Total: " & lbTimer.Caption & vbCrLf
+    SubSaveLogInFile "[Time]Total: " & lbTimer.Caption & vbCrLf
     
-    adjustGainAgainCool1Flag = 0
-    adjustGainAgainNormalFlag = 0
-    adjustGainAgainWarm1Flag = 0
+    mAdjGainAgainCool1 = 0
+    mAdjGainAgainStandard = 0
+    mAdjGainAgainWarm1 = 0
 
     txtInput.Enabled = True
     txtInput.Text = ""
     txtInput.SetFocus
     
-    If utdCommMode = modeNetwork Then
-        isNetworkConnected = False
+    If gutdCommMode = modeNetwork Then
+        gblNetConnected = False
         tcpClient.Close
     End If
 End Sub
@@ -896,7 +902,7 @@ Sub ShowError_Sys(t As Integer)
         Case 5
             s = "ColorTemp_WARM_2 is Wrong, Please Check Again."
         Case 6
-            s = "LAB_SN:" + gstrBarCode + "(End)  Len:" + str$(gintBarCodeLen) + vbCrLf + "条形码长度不对，请确认！"
+            s = "LAB_SN:" + mBarCode + "(End)  Len:" + str$(gintBarCodeLen) + vbCrLf + "条形码长度不对，请确认！"
         Case 7
             s = "Can not Write DVI EDID."
         Case 8
@@ -953,15 +959,15 @@ Sub ShowError_Sys(t As Integer)
     CheckStep.SelStart = Len(CheckStep)
 End Sub
 
-Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long, HighLowMode As Long) As Boolean
-    Dim i, j, k As Integer
+Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Boolean
+    Dim i, j As Integer
 
-    Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
+    Call clsProtocal.SelColorTemp(strColorTemp, gstrTvInputSrc, gintTvInputSrcPort)
 
     ' Set Offset first
-    If adjustGainAgainCool1Flag = 0 Then
+    If mAdjGainAgainCool1 = 0 Then
         Call setColorTemp(strColorTemp, presetData, 0)
-        'DelayMS 200
+        'SubDelayMs 200
         
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
@@ -977,13 +983,13 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long, HighL
         Call clsProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
     End If
     
-    Log_Info "========Adjust " & strColorTemp & "========"
+    SubLogInfo "========Adjust " & strColorTemp & "========"
 
-    For j = 1 To 2
-        Call setColorTemp(strColorTemp, presetData, HighLowMode)
-        'DelayMS 200
+    For i = 1 To 2
+        Call setColorTemp(strColorTemp, presetData, ADJMODE_GAIN)
+        'SubDelayMs 200
         
-        Log_Info "Init current colorTemp. RES:" + str$(RES)
+        SubLogInfo "Init current colorTemp. RES:" + str$(RES)
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
         rRGB.cBB = presetData.nColorBB
@@ -1001,35 +1007,35 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long, HighL
 
         resCodeForAdjustColorTemp = 0
         
-        For k = 1 To 50
-            If IsStop = True Then GoTo Cancel
+        For j = 1 To 50
+            If gblStop = True Then GoTo Cancel
             
             RES = checkColorTemp(rColor, strColorTemp)
-            Log_Info "Check colorTemp. RES: " + CStr(RES)
-            Log_Info "SPEC: x = " & CStr(presetData.xx) & " y = " & CStr(presetData.yy)
-            Log_Info "Tol: x = " & CStr(presetData.xt) & " y =  " & CStr(presetData.yt)
+            SubLogInfo "Check colorTemp. RES: " + CStr(RES)
+            SubLogInfo "SPEC: x = " & CStr(presetData.xx) & " y = " & CStr(presetData.yy)
+            SubLogInfo "Tol: x = " & CStr(presetData.xt) & " y =  " & CStr(presetData.yt)
 
             If RES = 3 Then
                 Exit For
             Else
-                If UCase(gstrBrand) = "CAN" Or _
-                    UCase(gstrBrand) = "HAIER" Then
+                If UCase(mBrand) = "CAN" Or _
+                    UCase(mBrand) = "HAIER" Then
                     Call adjustColorTempForCIBN(rRGB)
                 Else    ' Letv
                     If resCodeForAdjustColorTemp = 0 Then
-                        Call adjustColorTemp(adjustMode3, rRGB, resCodeForAdjustColorTemp)
+                        Call adjustColorTemp(ADJMODE_3, rRGB, resCodeForAdjustColorTemp)
                     ElseIf resCodeForAdjustColorTemp = 1 Then
-                        Call adjustColorTemp(adjustMode1, rRGB, resCodeForAdjustColorTemp)
+                        Call adjustColorTemp(ADJMODE_1, rRGB, resCodeForAdjustColorTemp)
                     ElseIf resCodeForAdjustColorTemp = 2 Then
-                        Call adjustColorTemp(adjustMode2, rRGB, resCodeForAdjustColorTemp)
+                        Call adjustColorTemp(ADJMODE_2, rRGB, resCodeForAdjustColorTemp)
                     ElseIf resCodeForAdjustColorTemp = 3 Then
-                        Call adjustColorTemp(adjustMode3, rRGB, resCodeForAdjustColorTemp)
+                        Call adjustColorTemp(ADJMODE_3, rRGB, resCodeForAdjustColorTemp)
                     ElseIf resCodeForAdjustColorTemp = 4 Then
-                        Call adjustColorTemp(adjustMode4, rRGB, resCodeForAdjustColorTemp)
+                        Call adjustColorTemp(ADJMODE_4, rRGB, resCodeForAdjustColorTemp)
                     End If
                 End If
 
-                Log_Info "SET_RGB_GAN: R = " & CStr(rRGB.cRR) & _
+                SubLogInfo "SET_RGB_GAN: R = " & CStr(rRGB.cRR) & _
                     ", G = " & CStr(rRGB.cGG) & ", B = " & CStr(rRGB.cBB) & _
                     ", resultcode = " & CStr(resCodeForAdjustColorTemp)
 
@@ -1041,16 +1047,16 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long, HighL
 
                 SubShowData (2)
             End If
-        Next k
+        Next j
         
         If RES = 3 Then Exit For
         
-    Next j
+    Next i
 
 Cancel:
     If RES = 3 Then
-        Call saveData(strColorTemp, HighLowMode)
-        Log_Info "Save current data of " & strColorTemp & "."
+        Call saveData(strColorTemp, ADJMODE_GAIN)
+        SubLogInfo "Save current data of " & strColorTemp & "."
         FuncAdjRGBGain = True
     Else
         FuncAdjRGBGain = False
@@ -1058,17 +1064,17 @@ Cancel:
 
 End Function
 
-Private Function FuncAdjRGBOffset(strColorTemp As String, FixValue As Long, HighLowMode As Long) As Boolean
-    Dim i, j, k As Integer
+Private Function FuncAdjRGBOffset(strColorTemp As String) As Boolean
+    Dim i, j As Integer
 
-    Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
+    Call clsProtocal.SelColorTemp(strColorTemp, gstrTvInputSrc, gintTvInputSrcPort)
 
-    Log_Info "========Adjust " & strColorTemp & "========"
+    SubLogInfo "========Adjust " & strColorTemp & "========"
   
-    For j = 1 To 2
-        Call setColorTemp(strColorTemp, presetData, HighLowMode)
-        'DelayMS 200
-        Log_Info "Init current colorTemp. RES:" + str$(RES)
+    For i = 1 To 2
+        Call setColorTemp(strColorTemp, presetData, ADJMODE_OFFSET)
+        'SubDelayMs 200
+        SubLogInfo "Init current colorTemp. RES:" + str$(RES)
         rRGB.cRR = presetData.nColorRR
         rRGB.cGG = presetData.nColorGG
         rRGB.cBB = presetData.nColorBB
@@ -1080,33 +1086,33 @@ Private Function FuncAdjRGBOffset(strColorTemp As String, FixValue As Long, High
 
         SubShowData (3)
 
-        For k = 1 To 50
-            If IsStop = True Then GoTo Cancel
+        For j = 1 To 50
+            If gblStop = True Then GoTo Cancel
                 
             RES = checkColorTemp(rColor, strColorTemp)
-            Log_Info "Check colorTemp. RES:" + str$(RES)
+            SubLogInfo "Check colorTemp. RES:" + str$(RES)
     
             If RES = 3 Then
                 Exit For
             Else
                 Call adjustColorTempOffset(rRGB)
                     
-                Log_Info "SET_RGB_OFFSET: R = " & CStr(rRGB.cRR) & _
+                SubLogInfo "SET_RGB_OFFSET: R = " & CStr(rRGB.cRR) & _
                     ", G = " & CStr(rRGB.cGG) & ", B = " & CStr(rRGB.cBB)
 
                 Call clsProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
     
                 SubShowData (4)
             End If
-        Next k
+        Next j
 
         If RES = 3 Then Exit For
-    Next j
+    Next i
 
 Cancel:
     If RES = 3 Then
-        Call saveData(strColorTemp, HighLowMode)
-        Log_Info "Save current data of " & strColorTemp & "."
+        Call saveData(strColorTemp, ADJMODE_OFFSET)
+        SubLogInfo "Save current data of " & strColorTemp & "."
         FuncAdjRGBOffset = True
     Else
         FuncAdjRGBOffset = False
@@ -1114,30 +1120,30 @@ Cancel:
 
 End Function
 
-Private Function checkColorAgain(strColorTemp As String, HighLowMode As Long) As Boolean
-    Dim i, j, k As Integer
+Private Function checkColorAgain(strColorTemp As String) As Boolean
+    Dim i As Integer
 
-    Call clsProtocal.SelColorTemp(strColorTemp, setTVInputSource, setTVInputSourcePortNum)
+    Call clsProtocal.SelColorTemp(strColorTemp, gstrTvInputSrc, gintTvInputSrcPort)
 
-    Log_Info "========Check " & strColorTemp & "========"
+    SubLogInfo "========Check " & strColorTemp & "========"
   
-    For j = 1 To 2
-        Call setColorTemp(strColorTemp, presetData, HighLowMode)
-        'DelayMS 200
-        Log_Info "Init current colorTemp. RES:" + str$(RES)
+    For i = 1 To 2
+        Call setColorTemp(strColorTemp, presetData, ADJMODE_GAIN)
+        'SubDelayMs 200
+        SubLogInfo "Init current colorTemp. RES:" + str$(RES)
 
         Label1 = str$(presetData.xx)
         Label3 = str$(presetData.yy)
 
         SubShowData (5)
 
-        If IsStop = True Then GoTo Cancel
+        If gblStop = True Then GoTo Cancel
 
         RES = checkColorTemp(rColor, strColorTemp)
-        Log_Info "Check colorTemp. RES:" + str$(RES)
+        SubLogInfo "Check colorTemp. RES:" + str$(RES)
 
         If RES = 3 Then Exit For
-    Next j
+    Next i
   
 Cancel:
     If RES = 3 Then
@@ -1149,7 +1155,7 @@ Cancel:
 End Function
 
 
-'step = lastChkShwDataStep: Check max brightness of TV with brightness 100 and contrast 100 in 100% white pattern.
+'step = LASTSTEP: Check max brightness of TV with brightness 100 and contrast 100 in 100% white pattern.
 Private Sub SubShowData(step As Integer)
 On Error Resume Next
     Dim xPos, yPos, vPos As Long
@@ -1174,8 +1180,8 @@ On Error Resume Next
     xPos = 1515 + (rColor.xx - presetData.xx) * 365 / presetData.xt
     yPos = 1275 - (rColor.yy - presetData.yy) * 385 / presetData.yt
 
-    If step = lastChkShwDataStep Then
-        vPos = 1660 - (rColor.lv - maxBrightnessSpec) * 385 / 50
+    If step = LASTSTEP Then
+        vPos = 1660 - (rColor.lv - glngBlSpecVal) * 385 / 50
     Else
         vPos = 1660 - (rColor.lv - presetData.lv) * 385 / 50
     End If
@@ -1189,7 +1195,7 @@ On Error Resume Next
     If yPos < 80 Then yPos = 80
     If yPos > 2480 Then yPos = 2480
 
-    If step <> lastChkShwDataStep Then
+    If step <> LASTSTEP Then
         If Abs(rColor.xx - presetData.xx) <= presetData.xt And Abs(rColor.yy - presetData.yy) <= presetData.yt Then
             lbColorTempWrong.Visible = False
             Picture1.Circle (xPos, yPos), 23, &H30FF30
@@ -1198,7 +1204,7 @@ On Error Resume Next
             Picture1.Circle (xPos, yPos), 23, &HFF&
 
             If rColor.xx < 5 Then
-                IsStop = True
+                gblStop = True
                 ObjCa.RemoteMode = 2
                 MsgBox ("Please check the CA210 Probe is OK or not.")
                 RES = 0
@@ -1208,8 +1214,8 @@ On Error Resume Next
 
     'In lv axis, 3060 is the distance from left edge of white rectangle to the left of Picture1.
     'In lv axis, 3390 is the distance from right edge of white rectangle to the left of Picture1.
-    If step = lastChkShwDataStep Then
-        If rColor.lv > maxBrightnessSpec Then
+    If step = LASTSTEP Then
+        If rColor.lv > glngBlSpecVal Then
             Picture1.Line (3060, vPos)-(3390, vPos), &H30FF30
         Else
             Picture1.Line (3060, vPos)-(3390, vPos), &HFF&
@@ -1222,9 +1228,9 @@ On Error Resume Next
         End If
     End If
  
-    Log_Info "_x/y/Lv: " + CStr(rColor.xx) + " / " + CStr(rColor.yy) + " / " + CStr(rColor.lv)
+    SubLogInfo "_x/y/Lv: " + CStr(rColor.xx) + " / " + CStr(rColor.yy) + " / " + CStr(rColor.lv)
 
-    If Label6 <> "CHECK" Then Log_Info "_R/G/B: " + CStr(rRGB.cRR) + " / " + CStr(rRGB.cGG) + " / " + CStr(rRGB.cBB)
+    If Label6 <> "CHECK" Then SubLogInfo "_R/G/B: " + CStr(rRGB.cRR) + " / " + CStr(rRGB.cGG) + " / " + CStr(rRGB.cBB)
 
     Label_x = CStr(rColor.xx)
     Label_y = CStr(rColor.yy)
@@ -1232,14 +1238,14 @@ On Error Resume Next
 End Sub
 
 Private Sub tbDisConnectastro_Click()
-    If IsCa210ok Then
+    If gblCaConnected Then
         ObjCa.RemoteMode = 0
     End If
 End Sub
 
 Private Sub Timer1_Timer()
-    countTime = countTime + 1
-    lbTimer.Caption = CStr(countTime) & "s"
+    mCntTime = mCntTime + 1
+    lbTimer.Caption = CStr(mCntTime) & "s"
 End Sub
 
 Private Sub vbSetSPEC_Click()
@@ -1251,31 +1257,30 @@ Private Sub vbAbout_Click()
 End Sub
 
 Private Sub vbConCA310_Click()
-    If IsCa210ok = True Then
+    If gblCaConnected = True Then
         ObjCa.RemoteMode = 1
         Exit Sub
     Else
-        CONNECT_CA210
+        SubConnectCa
     End If
 End Sub
 
 
 Private Sub Form_Load()
-    i = 0
-    IsStop = False
+    gblStop = False
     txtInput.Enabled = True
     
     Me.Caption = TXTTitle
     mTitle = Me.Caption
     subInitInterface
 
-    gstrBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
+    mBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
     
-    If UCase(gstrBrand) = "CAN" Then    'CANTV
+    If UCase(mBrand) = "CAN" Then    'CANTV
         Set clsCANTVProtocal = New CANTVProtocal
         Set clsProtocal = clsCANTVProtocal
         PictureBrand.Picture = LoadPicture(App.Path & "\Resources\CANTV.bmp")
-    ElseIf UCase(gstrBrand) = "HAIER" Then    'Haier
+    ElseIf UCase(mBrand) = "HAIER" Then    'Haier
         Set clsHaierProtocal = New HaierProtocal
         Set clsProtocal = clsHaierProtocal
         PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
@@ -1303,34 +1308,34 @@ Public Sub subInitInterface()
     Set clsConfigData = New ProjectConfig
     clsConfigData.LoadConfigData
     
-    setTVCurrentComBaud = clsConfigData.ComBaud
-    setTVCurrentComID = clsConfigData.ComID
+    gintCurComBaud = clsConfigData.ComBaud
+    gintCurComId = clsConfigData.ComID
     glngI2cClockRate = clsConfigData.I2cClockRate
-    setTVInputSource = clsConfigData.inputSource
-    setTVInputSourcePortNum = CInt(Right(setTVInputSource, 1))
-    setTVInputSource = Left(setTVInputSource, Len(setTVInputSource) - 1)
-    delayTime = clsConfigData.DelayMS
-    Ca210ChannelNO = clsConfigData.ChannelNum
+    gstrTvInputSrc = clsConfigData.inputSource
+    gintTvInputSrcPort = CInt(Right(gstrTvInputSrc, 1))
+    gstrTvInputSrc = Left(gstrTvInputSrc, Len(gstrTvInputSrc) - 1)
+    glngDelayTime = clsConfigData.DelayMS
+    glngCaChannel = clsConfigData.ChannelNum
     gintBarCodeLen = clsConfigData.BarCodeLen
-    maxBrightnessSpec = clsConfigData.LvSpec
+    glngBlSpecVal = clsConfigData.LvSpec
     gstrVPGModel = clsConfigData.VPGModel
     gstrVPGTiming = clsConfigData.VPGTiming
     gstrVPG100IRE = clsConfigData.VPG100IRE
     gstrVPG80IRE = clsConfigData.VPG80IRE
     gstrVPG20IRE = clsConfigData.VPG20IRE
-    isAdjustCool2 = clsConfigData.EnableCool2
-    isAdjustCool1 = clsConfigData.EnableCool1
-    isAdjustNormal = clsConfigData.EnableNormal
-    isAdjustWarm1 = clsConfigData.EnableWarm1
-    isAdjustWarm2 = clsConfigData.EnableWarm2
-    isCheckColorTemp = clsConfigData.EnableChkColor
-    isAdjustOffset = clsConfigData.EnableAdjOffset
+    gblEnableCool2 = clsConfigData.EnableCool2
+    gblEnableCool1 = clsConfigData.EnableCool1
+    gblEnableStandard = clsConfigData.EnableNormal
+    gblEnableWarm1 = clsConfigData.EnableWarm1
+    gblEnableWarm2 = clsConfigData.EnableWarm2
+    gblChkColorTemp = clsConfigData.EnableChkColor
+    gblAdjOffset = clsConfigData.EnableAdjOffset
     gstrChipSet = clsConfigData.ChipSet
     
-    utdCommMode = clsConfigData.CommMode
-    If utdCommMode = modeUART Then
+    gutdCommMode = clsConfigData.CommMode
+    If gutdCommMode = modeUART Then
         subInitComPort
-    ElseIf utdCommMode = modeNetwork Then
+    ElseIf gutdCommMode = modeNetwork Then
         subInitNetwork
     End If
     
@@ -1339,20 +1344,20 @@ Public Sub subInitInterface()
     txtInput.Text = ""
     lbModelName.Caption = Split(gstrCurProjName, gstrDelimiterForProjName)(1)
     
-    If isAdjustCool1 = True Then lbAdjustCOOL_1.ForeColor = &H80000008
-    If isAdjustCool2 = True Then lbAdjustCOOL_2.ForeColor = &H80000008
-    If isAdjustNormal = True Then lbAdjustNormal.ForeColor = &H80000008
-    If isAdjustWarm1 = True Then lbAdjustWARM_1.ForeColor = &H80000008
-    If isAdjustWarm2 = True Then lbAdjustWARM_2.ForeColor = &H80000008
+    If gblEnableCool1 = True Then lbAdjustCOOL_1.ForeColor = &H80000008
+    If gblEnableCool2 = True Then lbAdjustCOOL_2.ForeColor = &H80000008
+    If gblEnableStandard = True Then lbAdjustStandard.ForeColor = &H80000008
+    If gblEnableWarm1 = True Then lbAdjustWARM_1.ForeColor = &H80000008
+    If gblEnableWarm2 = True Then lbAdjustWARM_2.ForeColor = &H80000008
 
-    If isAdjustCool1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
-    If isAdjustCool2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0
-    If isAdjustNormal = False Then lbAdjustNormal.ForeColor = &HC0C0C0
-    If isAdjustWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
-    If isAdjustWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
+    If gblEnableCool1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
+    If gblEnableCool2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0
+    If gblEnableStandard = False Then lbAdjustStandard.ForeColor = &HC0C0C0
+    If gblEnableWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
+    If gblEnableWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
     
     InitVPGDevice
-    DelayMS 200
+    SubDelayMs 200
     
     Call ChangeTiming(gstrVPGTiming)
 End Sub
@@ -1362,8 +1367,8 @@ Private Sub subInitComPort()
         MSComm1.PortOpen = False
     End If
     
-    MSComm1.CommPort = setTVCurrentComID
-    MSComm1.Settings = setTVCurrentComBaud & ",N,8,1"
+    MSComm1.CommPort = gintCurComId
+    MSComm1.Settings = gintCurComBaud & ",N,8,1"
     MSComm1.InputLen = 0
         
     MSComm1.InBufferCount = 0
@@ -1381,21 +1386,24 @@ Private Sub subInitComPort()
 End Sub
 
 Private Sub subInitNetwork()
-    isNetworkConnected = False
+    gblNetConnected = False
     With tcpClient
         .Protocol = sckTCPProtocol
         ' IMPORTANT: be sure to change the RemoteHost
         ' value to the name of your computer.
-        .RemoteHost = strRemoteHost
-        .RemotePort = lngRemotePort
+        .RemoteHost = REMOTE_HOST
+        .RemotePort = REMOTE_PORT
     End With
 End Sub
 
 Private Sub txtInput_KeyPress(KeyAscii As Integer)
-On Error GoTo ErrExit
+    On Error GoTo ErrExit
+    Dim i As Integer
+    
+    i = 0
 
     If KeyAscii = 13 Then
-        IsStop = False
+        gblStop = False
         
         If txtInput.Enabled = True Then
             If txtInput.Text = "" Or Len(txtInput.Text) <> gintBarCodeLen Then
@@ -1403,29 +1411,29 @@ On Error GoTo ErrExit
                 txtInput.Text = ""
                 Exit Sub
             Else
-                gstrBarCode = txtInput.Text
+                mBarCode = txtInput.Text
             End If
 
-            SaveLogInFile "======================================================================="
-            SaveLogInFile "        Auto-White Balance Adjusting Tool by Echom                     "
-            SaveLogInFile "        Software Version: " & App.Major & "." & App.Minor & "." & App.Revision
-            SaveLogInFile "        Barcode of TV: " & gstrBarCode
-            SaveLogInFile "======================================================================="
+            SubSaveLogInFile "======================================================================="
+            SubSaveLogInFile "        Auto-White Balance Adjusting Tool by Echom                     "
+            SubSaveLogInFile "        Software Version: " & App.Major & "." & App.Minor & "." & App.Revision
+            SubSaveLogInFile "        Barcode of TV: " & mBarCode
+            SubSaveLogInFile "======================================================================="
 
-            If utdCommMode = modeUART Then
+            If gutdCommMode = modeUART Then
                 If MSComm1.PortOpen = False Then
                     MSComm1.PortOpen = True
                 End If
                 SubRun
-            ElseIf utdCommMode = modeNetwork Then
-                isNetworkConnected = False
+            ElseIf gutdCommMode = modeNetwork Then
+                gblNetConnected = False
                 Do
                     If tcpClient.State = sckClosed Then
-                        Log_Info "TCP Connect"
+                        SubLogInfo "TCP Connect"
                         tcpClient.Connect
                         txtInput.Enabled = False
                     End If
-                    Call DelaySWithFlag(cmdReceiveWaitS * 2, isNetworkConnected)
+                    Call SubDelayWithFlag(10, gblNetConnected)
                 
                     If tcpClient.State = sckConnected Then
                         SubRun
@@ -1436,10 +1444,10 @@ On Error GoTo ErrExit
                         End If
                         i = i + 1
                     End If
-                    Log_Info "Re-connect to TV."
+                    SubLogInfo "Re-connect to TV."
                 Loop While i <= 5
                 txtInput.Enabled = True
-            ElseIf utdCommMode = modeI2c Then
+            ElseIf gutdCommMode = modeI2c Then
                 Dim SetDeviceSts As Integer
 
                 If DEVICE_USED = 0 Then
@@ -1460,7 +1468,7 @@ On Error GoTo ErrExit
             End If
         End If
         
-        If IsStop = True Then
+        If gblStop = True Then
             Exit Sub
         End If
     End If
@@ -1478,11 +1486,11 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
 On Error GoTo ErrExit
 
-    If UCase(gstrBrand) = "CAN" Then
+    If UCase(mBrand) = "CAN" Then
         If Not (clsCANTVProtocal Is Nothing) Then
             Set clsCANTVProtocal = Nothing
         End If
-    ElseIf UCase(gstrBrand) = "HAIER" Then
+    ElseIf UCase(mBrand) = "HAIER" Then
         If Not (clsHaierProtocal Is Nothing) Then
             Set clsHaierProtocal = Nothing
         End If
@@ -1506,8 +1514,8 @@ On Error GoTo ErrExit
         Set clsProtocal = Nothing
     End If
 
-    IsStop = True
-    If (IsCa210ok = True) Then
+    gblStop = True
+    If (gblCaConnected = True) Then
         ObjCa.RemoteMode = 0
     End If
   
@@ -1527,7 +1535,7 @@ End Sub
 Private Sub saveData(strColorTemp As String, HL As Long)
 
     Select Case strColorTemp
-        Case cstrColorTempCool1
+        Case COLORTEMP_COOL1
             If HL Then
                 cCOOL1.xx = rColor.xx
                 cCOOL1.yy = rColor.yy
@@ -1544,7 +1552,7 @@ Private Sub saveData(strColorTemp As String, HL As Long)
                 cFFCOOL1.nColorBB = rRGB.cBB
             End If
 
-        Case cstrColorTempNormal
+        Case COLORTEMP_STANDARD
             If HL Then
                 cNORMAL.xx = rColor.xx
                 cNORMAL.yy = rColor.yy
@@ -1561,7 +1569,7 @@ Private Sub saveData(strColorTemp As String, HL As Long)
                 cFFNORMAL.nColorBB = rRGB.cBB
             End If
 
-        Case cstrColorTempWarm1
+        Case COLORTEMP_WARM1
             If HL Then
                 cWARM1.xx = rColor.xx
                 cWARM1.yy = rColor.yy
@@ -1583,7 +1591,7 @@ End Sub
 
 Private Sub LoadData(strColorTemp As String, isGain As Boolean)
     Select Case strColorTemp
-        Case cstrColorTempCool1
+        Case COLORTEMP_COOL1
             If isGain Then
                 rRGB1.cRR = cCOOL1.nColorRR
                 rRGB1.cGG = cCOOL1.nColorGG
@@ -1594,7 +1602,7 @@ Private Sub LoadData(strColorTemp As String, isGain As Boolean)
                 rRGB1.cBB = cFFCOOL1.nColorBB
             End If
             
-        Case cstrColorTempNormal
+        Case COLORTEMP_STANDARD
             If isGain Then
                 rRGB1.cRR = cNORMAL.nColorRR
                 rRGB1.cGG = cNORMAL.nColorGG
@@ -1605,7 +1613,7 @@ Private Sub LoadData(strColorTemp As String, isGain As Boolean)
                 rRGB1.cBB = cFFNORMAL.nColorBB
             End If
             
-        Case cstrColorTempWarm1
+        Case COLORTEMP_WARM1
             If isGain Then
                 rRGB1.cRR = cWARM1.nColorRR
                 rRGB1.cGG = cWARM1.nColorGG
@@ -1619,7 +1627,9 @@ Private Sub LoadData(strColorTemp As String, isGain As Boolean)
 End Sub
 
 Private Sub saveALLcData()
-    If gstrBarCode = "" Then
+    Dim sqlstring As String
+
+    If mBarCode = "" Then
         Exit Sub
     Else
         sqlstring = "select * from [" & gstrCurProjName & "]"
@@ -1627,7 +1637,7 @@ Private Sub saveALLcData()
         rs.AddNew
 
         rs.Fields(0) = gstrCurProjName
-        rs.Fields(1) = gstrBarCode
+        rs.Fields(1) = mBarCode
 
         rs.Fields(2) = cCOOL1.xx
         rs.Fields(3) = cCOOL1.yy
@@ -1656,7 +1666,7 @@ Private Sub saveALLcData()
         rs.Fields(25) = cFFWARM1.nColorBB
 
         rs.Fields(26) = lvLastChk
-        rs.Fields(27) = maxBrightnessSpec
+        rs.Fields(27) = glngBlSpecVal
 
         rs.Fields(28) = cmdMark
         rs.Fields(29) = Date
@@ -1672,7 +1682,7 @@ End Sub
 
 Private Sub tcpClient_Connect()
     'Success to connect the TV.
-    isNetworkConnected = True
+    gblNetConnected = True
 End Sub
 
 Private Sub InitVPGDevice()

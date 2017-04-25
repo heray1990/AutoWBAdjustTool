@@ -45,7 +45,7 @@ End Sub
 Private Sub SendCmd()
     FormMain.MSComm1.Output = mSendDataBuf
     
-    DelayMS delayTime
+    SubDelayMs glngDelayTime
 End Sub
 
 Private Function CalDDCChkSum(ByRef data() As Byte) As Byte
@@ -77,6 +77,8 @@ Private Function CalChkSum(ByRef data() As Byte) As Byte
 End Function
 
 Private Sub DataToDDC()
+    Dim i As Integer
+
     For i = 0 To 5
         mDDCDataWithoutChksum(i) = mSendDataBuf(i + 4)
     Next i
@@ -104,7 +106,7 @@ End Sub
 
 Private Sub Protocal_ExitFacMode()
     'The last command should delay 2s to save the setting values to TV.
-    DelayMS 2000
+    SubDelayMs 2000
 End Sub
 
 Private Sub Protocal_SwitchInputSource(strInputSrc As String, intSrcNum As Integer)
@@ -226,11 +228,11 @@ Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, in
     mSendDataBuf(9) = &H0
 
     Select Case strColorT
-      Case cstrColorTempCool1
+      Case COLORTEMP_COOL1
          mSendDataBuf(5) = &H0
-      Case cstrColorTempNormal
+      Case COLORTEMP_STANDARD
          mSendDataBuf(5) = &H1
-      Case cstrColorTempWarm1
+      Case COLORTEMP_WARM1
          mSendDataBuf(5) = &H2
     End Select
     

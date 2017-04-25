@@ -34,13 +34,13 @@ Private Sub Class_Initialize()
 End Sub
 
 Private Sub SendCmd()
-    If utdCommMode = modeUART Then
+    If gutdCommMode = modeUART Then
         FormMain.MSComm1.Output = mSendDataBuf
-    ElseIf utdCommMode = modeNetwork Then
+    ElseIf gutdCommMode = modeNetwork Then
         FormMain.tcpClient.SendData mSendDataBuf
     End If
     
-    DelayMS delayTime
+    SubDelayMs glngDelayTime
 End Sub
 
 Private Function CalChkSum(ByRef data() As Byte) As Byte
@@ -202,11 +202,11 @@ End Sub
 
 Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)
     Select Case strColorT
-      Case cstrColorTempCool1
+      Case COLORTEMP_COOL1
          Call SetColorTempCool1(strInputSrc, intSrcNum)
-      Case cstrColorTempNormal
+      Case COLORTEMP_STANDARD
          Call SetColorTempNormal(strInputSrc, intSrcNum)
-      Case cstrColorTempWarm1
+      Case COLORTEMP_WARM1
          Call SetColorTempWarm1(strInputSrc, intSrcNum)
     End Select
 End Sub

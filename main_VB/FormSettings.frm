@@ -849,16 +849,18 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
+    Dim i As Integer
+
     Label1.Caption = gstrCurProjName
     
-    txtChannel.Text = CStr(Ca210ChannelNO)
+    txtChannel.Text = CStr(glngCaChannel)
     txtSNLen.Text = CStr(gintBarCodeLen)
-    txtLvSpec.Text = CStr(maxBrightnessSpec)
-    cmbInputSource.Text = setTVInputSource & CStr(setTVInputSourcePortNum)
-    txtDelay.Text = delayTime
+    txtLvSpec.Text = CStr(glngBlSpecVal)
+    cmbInputSource.Text = gstrTvInputSrc & CStr(gintTvInputSrcPort)
+    txtDelay.Text = glngDelayTime
 
-    cmbComBaud.Text = CStr(setTVCurrentComBaud)
-    cmbComID.Text = "COM" & CStr(setTVCurrentComID)
+    cmbComBaud.Text = CStr(gintCurComBaud)
+    cmbComID.Text = "COM" & CStr(gintCurComId)
     For i = 1 To 20
         cmbComID.AddItem "COM" & i
     Next i
@@ -876,21 +878,21 @@ Private Sub Form_Load()
     txt20IRE.Text = gstrVPG20IRE
     cmbI2cClockRate.Text = glngI2cClockRate & "KHz"
 
-    If utdCommMode = modeUART Then
+    If gutdCommMode = modeUART Then
         optUart.Value = True
         optNetwork.Value = False
         optI2c.Value = False
         cmbComBaud.Enabled = True
         cmbComID.Enabled = True
         cmbI2cClockRate.Enabled = False
-    ElseIf utdCommMode = modeNetwork Then
+    ElseIf gutdCommMode = modeNetwork Then
         optUart.Value = False
         optNetwork.Value = True
         optI2c.Value = False
         cmbComBaud.Enabled = False
         cmbComID.Enabled = False
         cmbI2cClockRate.Enabled = False
-    ElseIf utdCommMode = modeI2c Then
+    ElseIf gutdCommMode = modeI2c Then
         optUart.Value = False
         optNetwork.Value = False
         optI2c.Value = True
@@ -899,43 +901,43 @@ Private Sub Form_Load()
         cmbI2cClockRate.Enabled = True
     End If
     
-    If isAdjustCool2 Then
+    If gblEnableCool2 Then
         Check1.Value = 1
     Else
         Check1.Value = 0
     End If
 
-    If isAdjustCool1 Then
+    If gblEnableCool1 Then
         Check2.Value = 1
     Else
         Check2.Value = 0
     End If
 
-    If isAdjustNormal Then
+    If gblEnableStandard Then
         Check3.Value = 1
     Else
         Check3.Value = 0
     End If
 
-    If isAdjustWarm1 Then
+    If gblEnableWarm1 Then
         Check4.Value = 1
     Else
         Check4.Value = 0
     End If
 
-    If isAdjustWarm2 Then
+    If gblEnableWarm2 Then
         Check5.Value = 1
     Else
         Check5.Value = 0
     End If
 
-    If isCheckColorTemp Then
+    If gblChkColorTemp Then
         Check6.Value = 1
     Else
         Check6.Value = 0
     End If
 
-    If isAdjustOffset Then
+    If gblAdjOffset Then
         Check7.Value = 1
     Else
         Check7.Value = 0
