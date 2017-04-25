@@ -369,11 +369,11 @@ Begin VB.Form FormMain
       Top             =   3000
       Width           =   2535
    End
-   Begin VB.Label lbAdjustNormal 
+   Begin VB.Label lbAdjustStandard 
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "NORMAL"
+      Caption         =   "STANDARD"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   21.75
@@ -565,7 +565,7 @@ Private Sub SubRun()
 
     lbAdjustCOOL_1.BackColor = &H8000000F
     lbAdjustCOOL_2.BackColor = &H8000000F
-    lbAdjustNormal.BackColor = &H8000000F
+    lbAdjustStandard.BackColor = &H8000000F
     lbAdjustWARM_1.BackColor = &H8000000F
     lbAdjustWARM_2.BackColor = &H8000000F
 
@@ -608,7 +608,7 @@ ADJUST_GAIN_AGAIN_COOL1:
 
 ADJUST_GAIN_AGAIN_NORMAL:
     If gblEnableStandard Then
-        lbAdjustNormal.BackColor = &H80FFFF
+        lbAdjustStandard.BackColor = &H80FFFF
         Result = FuncAdjRGBGain(COLORTEMP_STANDARD, ADJMODE_3)
 
         If Result = False Then
@@ -619,7 +619,7 @@ ADJUST_GAIN_AGAIN_NORMAL:
         End If
 
         SubSaveLogInFile "[Time]White Normal: " & lbTimer.Caption
-        lbAdjustNormal.BackColor = &HC0FFC0
+        lbAdjustStandard.BackColor = &HC0FFC0
         
         If mAdjGainAgainStandard > 0 Then
             GoTo CHECK_NORMAL
@@ -667,7 +667,7 @@ ADJUST_GAIN_AGAIN_WARM1:
         End If
    
         If gblEnableStandard Then
-            lbAdjustNormal.BackColor = &H80FFFF
+            lbAdjustStandard.BackColor = &H80FFFF
             Result = FuncAdjRGBOffset(COLORTEMP_STANDARD)
 
             If Result = False Then
@@ -678,7 +678,7 @@ ADJUST_GAIN_AGAIN_WARM1:
             End If
 
             SubSaveLogInFile "[Time]Grey Normal: " & lbTimer.Caption
-            lbAdjustNormal.BackColor = &HC0FFC0
+            lbAdjustStandard.BackColor = &HC0FFC0
         End If
    
         If gblEnableWarm1 Then
@@ -726,7 +726,7 @@ CHECK_COOL1:
 CHECK_NORMAL:
         If gblEnableStandard Then
             Label6.Caption = "CHECK"
-            lbAdjustNormal.BackColor = &H80FFFF
+            lbAdjustStandard.BackColor = &H80FFFF
             Result = checkColorAgain(COLORTEMP_STANDARD)
 
             If Result = False Then
@@ -741,7 +741,7 @@ CHECK_NORMAL:
                 GoTo ADJUST_GAIN_AGAIN_NORMAL
             End If
     
-            lbAdjustNormal.BackColor = &HC0FFC0
+            lbAdjustStandard.BackColor = &HC0FFC0
         End If
 
 CHECK_WARM1:
@@ -1346,13 +1346,13 @@ Public Sub subInitInterface()
     
     If gblEnableCool1 = True Then lbAdjustCOOL_1.ForeColor = &H80000008
     If gblEnableCool2 = True Then lbAdjustCOOL_2.ForeColor = &H80000008
-    If gblEnableStandard = True Then lbAdjustNormal.ForeColor = &H80000008
+    If gblEnableStandard = True Then lbAdjustStandard.ForeColor = &H80000008
     If gblEnableWarm1 = True Then lbAdjustWARM_1.ForeColor = &H80000008
     If gblEnableWarm2 = True Then lbAdjustWARM_2.ForeColor = &H80000008
 
     If gblEnableCool1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
     If gblEnableCool2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0
-    If gblEnableStandard = False Then lbAdjustNormal.ForeColor = &HC0C0C0
+    If gblEnableStandard = False Then lbAdjustStandard.ForeColor = &HC0C0C0
     If gblEnableWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
     If gblEnableWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
     

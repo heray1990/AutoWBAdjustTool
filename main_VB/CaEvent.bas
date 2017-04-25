@@ -38,7 +38,7 @@ Public Sub SubConnectCa()
             FormCalZero.Hide
         Case vbNo
     End Select
-        
+
     Exit Sub
 
 ER:
