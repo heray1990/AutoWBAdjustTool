@@ -559,7 +559,7 @@ Private Sub SubRun()
 
     checkResult.BackColor = &H80FFFF
     gblStop = False
-    checkResult.Caption = "RUN..."
+    checkResult.Caption = TXTRun
     checkResult.ForeColor = &HC0&
     CheckStep = ""
 
@@ -647,7 +647,7 @@ ADJUST_GAIN_AGAIN_WARM1:
     End If
 
     If gblAdjOffset Then
-        Label6.Caption = "GREY"
+        Label6.Caption = TXTGrey
 
         Call ChangePattern(gstrVPG20IRE)
 
@@ -815,17 +815,17 @@ CHECK_WARM1:
 PASS:
     clsProtocal.ExitFacMode
 
-    cmdMark = "PASS"
+    cmdMark = TXTPass
     Call saveALLcData
 
     CheckStep = CheckStep + "TEST ALL PASS"
     CheckStep.SelStart = Len(CheckStep)
     checkResult.ForeColor = &HC000&
-    checkResult.Caption = "PASS"
+    checkResult.Caption = TXTPass
     checkResult.BackColor = &HFF00&
     checkResult.ForeColor = &HC00000
     
-    Label6.Caption = "PASS"
+    Label6.Caption = TXTPass
     
     Call subInitAfterRunning
 
@@ -834,17 +834,17 @@ PASS:
 FAIL:
     clsProtocal.ExitFacMode
 
-    cmdMark = "FAIL"
+    cmdMark = TXTFail
     Call saveALLcData
 
     CheckStep.SelStart = Len(CheckStep)
     checkResult.BackColor = &HFF&
     checkResult.ForeColor = &H808080
-    checkResult.Caption = "FAIL"
+    checkResult.Caption = TXTFail
     checkResult.ForeColor = &H0&
     checkResult.ForeColor = &HFFFF&
     
-    Label6.Caption = "FAIL"
+    Label6.Caption = TXTFail
 
     Call subInitAfterRunning
 
@@ -945,7 +945,7 @@ Sub ShowError_Sys(t As Integer)
             s = ""
     End Select
 
-    CheckStep.Text = CheckStep.Text + "Error Code:" + str$(t) + vbCrLf + s + vbCrLf
+    CheckStep.Text = CheckStep.Text + TXTErrCode + str$(t) + vbCrLf + s + vbCrLf
     CheckStep.SelStart = Len(CheckStep)
 End Sub
 
@@ -1196,7 +1196,7 @@ On Error Resume Next
             If rColor.xx < 5 Then
                 gblStop = True
                 ObjCa.RemoteMode = 2
-                MsgBox ("Please check the CA210 Probe is OK or not.")
+                MsgBox (TXTChkCA210)
                 RES = 0
             End If
         End If
@@ -1257,6 +1257,21 @@ End Sub
 
 
 Private Sub Form_Load()
+    vbFunc.Caption = TXTFun
+    vbConCA310.Caption = TXTConnectCA
+    tbDisConnectastro.Caption = TXTDisConnectCA
+    vbSet.Caption = TXTSet
+    vbSetSPEC.Caption = TXTSetSpec
+    vbDescription.Caption = TXTDiscription
+    vbAbout.Caption = TXTAbout
+    lbAdjustCOOL_1.Caption = TXTCOOL1
+    lbAdjustCOOL_2.Caption = TXTCOOL2
+    lbAdjustStandard.Caption = TXTSTD
+    lbAdjustWARM_1.Caption = TXTWARM1
+    lbAdjustWARM_2.Caption = TXTWARM2
+    Label6.Caption = TXTINITIAL
+    Label7.Caption = "SPEC"
+    checkResult.Caption = TXTChkResult
     gblStop = False
     txtInput.Enabled = True
     
