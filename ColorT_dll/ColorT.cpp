@@ -25,12 +25,6 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 // This is an example of an exported variable
 COLORT_API int nColorT=0;
 
-// This is an example of an exported function.
-COLORT_API int fnColorT(void)
-{
-	return 42;
-}
-
 // This is the constructor of a class that has been exported.
 // see ColorT.h for the class definition
 CColorT::CColorT()
