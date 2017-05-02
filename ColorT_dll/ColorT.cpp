@@ -21,10 +21,6 @@ BOOL APIENTRY DllMain( HANDLE hModule,
     return TRUE;
 }
 
-
-// This is an example of an exported variable
-COLORT_API int nColorT=0;
-
 // This is the constructor of a class that has been exported.
 // see ColorT.h for the class definition
 CColorT::CColorT()
@@ -425,7 +421,7 @@ void delay(unsigned milliseconds)
 	Sleep(milliseconds);
 }
 
- int savedata(pCOLORSPEC pColorST,char* CT)
+int savedata(pCOLORSPEC pColorST,char* CT)
 {
 	char strTemp[18];
 	char preset[32] = "PRESET_GAN_";
