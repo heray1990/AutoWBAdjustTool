@@ -33,8 +33,6 @@ COLORT_API int _stdcall initColorTemp(BOOL *pCalibraEN,
 									  char* ModelFile,
 									  char* pCurDir)
 {
-	int tempRx = 0, tempRy = 0, tempGx = 0, tempGy = 0, tempBx = 0, tempBy = 0;
-
 	//::GetCurrentDirectory(512,buf);
 	strcpy(buf, pCurDir);
 	strcat(buf, "\\");
