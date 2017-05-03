@@ -43,6 +43,7 @@ Public Const TXTWhite As String = "WHITE"
 Public Const TXTGrey As String = "GREY"
 Public Const TXTPass As String = "PASS"
 Public Const TXTFail As String = "FAIL"
+Public Const TXTErrCode As String = "Error code:"
 'Menu
 Public Const TXTFun As String = "Function"
 Public Const TXTConnectCA As String = "Connect CA310/CA210"

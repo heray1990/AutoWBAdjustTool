@@ -546,11 +546,11 @@ Private Sub SubRun()
     On Error GoTo ErrExit
     subInitBeforeRunning
 
-    If gblStop = True Then
+    If gblnStop = True Then
         Exit Sub
     End If
 
-    If gblCaConnected = False Then
+    If gblnCaConnected = False Then
         MsgBox TXTCaDisconnectHint, vbOKOnly + vbInformation, "warning"
         subInitAfterRunning
         
@@ -558,7 +558,7 @@ Private Sub SubRun()
     End If
 
     checkResult.BackColor = &H80FFFF
-    gblStop = False
+    gblnStop = False
     checkResult.Caption = TXTRun
     checkResult.ForeColor = &HC0&
     CheckStep = ""
@@ -587,7 +587,7 @@ Private Sub SubRun()
     Label6.Caption = "WHITE"
 
 ADJUST_GAIN_AGAIN_COOL1:
-    If gblEnableCool1 Then
+    If gblnEnableCool1 Then
         lbAdjustCOOL_1.BackColor = &H80FFFF
         Result = FuncAdjRGBGain(COLORTEMP_COOL1, ADJMODE_3)
   
@@ -607,7 +607,7 @@ ADJUST_GAIN_AGAIN_COOL1:
     End If
 
 ADJUST_GAIN_AGAIN_NORMAL:
-    If gblEnableStandard Then
+    If gblnEnableStandard Then
         lbAdjustStandard.BackColor = &H80FFFF
         Result = FuncAdjRGBGain(COLORTEMP_STANDARD, ADJMODE_3)
 
@@ -627,7 +627,7 @@ ADJUST_GAIN_AGAIN_NORMAL:
     End If
 
 ADJUST_GAIN_AGAIN_WARM1:
-    If gblEnableWarm1 Then
+    If gblnEnableWarm1 Then
         lbAdjustWARM_1.BackColor = &H80FFFF
         Result = FuncAdjRGBGain(COLORTEMP_WARM1, ADJMODE_3)
 
@@ -646,12 +646,12 @@ ADJUST_GAIN_AGAIN_WARM1:
         End If
     End If
 
-    If gblAdjOffset Then
+    If gblnAdjOffset Then
         Label6.Caption = TXTGrey
 
         Call ChangePattern(gstrVPG20IRE)
 
-        If gblEnableCool1 Then
+        If gblnEnableCool1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
             Result = FuncAdjRGBOffset(COLORTEMP_COOL1)
                 
@@ -666,7 +666,7 @@ ADJUST_GAIN_AGAIN_WARM1:
             lbAdjustCOOL_1.BackColor = &HC0FFC0
         End If
    
-        If gblEnableStandard Then
+        If gblnEnableStandard Then
             lbAdjustStandard.BackColor = &H80FFFF
             Result = FuncAdjRGBOffset(COLORTEMP_STANDARD)
 
@@ -681,7 +681,7 @@ ADJUST_GAIN_AGAIN_WARM1:
             lbAdjustStandard.BackColor = &HC0FFC0
         End If
    
-        If gblEnableWarm1 Then
+        If gblnEnableWarm1 Then
             lbAdjustWARM_1.BackColor = &H80FFFF
             Result = FuncAdjRGBOffset(COLORTEMP_WARM1)
                 
@@ -697,13 +697,13 @@ ADJUST_GAIN_AGAIN_WARM1:
         End If
     End If
 
-    If gblChkColorTemp Then
-        If gblAdjOffset Then
+    If gblnChkColorTemp Then
+        If gblnAdjOffset Then
             Call ChangePattern(gstrVPG80IRE)
         End If
 
 CHECK_COOL1:
-        If gblEnableCool1 Then
+        If gblnEnableCool1 Then
             Label6.Caption = TXTChk
             lbAdjustCOOL_1.BackColor = &H80FFFF
             Result = checkColorAgain(COLORTEMP_COOL1)
@@ -724,7 +724,7 @@ CHECK_COOL1:
         End If
 
 CHECK_NORMAL:
-        If gblEnableStandard Then
+        If gblnEnableStandard Then
             Label6.Caption = TXTChk
             lbAdjustStandard.BackColor = &H80FFFF
             Result = checkColorAgain(COLORTEMP_STANDARD)
@@ -745,7 +745,7 @@ CHECK_NORMAL:
         End If
 
 CHECK_WARM1:
-        If gblEnableWarm1 Then
+        If gblnEnableWarm1 Then
             Label6.Caption = TXTChk
             lbAdjustWARM_1.BackColor = &H80FFFF
             Result = checkColorAgain(COLORTEMP_WARM1)
@@ -880,7 +880,7 @@ Private Sub subInitAfterRunning()
     txtInput.SetFocus
     
     If gutdCommMode = modeNetwork Then
-        gblNetConnected = False
+        gblnNetConnected = False
         tcpClient.Close
     End If
 End Sub
@@ -998,7 +998,7 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
         resCodeForAdjustColorTemp = 0
         
         For j = 1 To 50
-            If gblStop = True Then GoTo Cancel
+            If gblnStop = True Then GoTo Cancel
             
             RES = checkColorTemp(rColor, strColorTemp)
             SubLogInfo "Check colorTemp. RES: " + CStr(RES)
@@ -1077,7 +1077,7 @@ Private Function FuncAdjRGBOffset(strColorTemp As String) As Boolean
         SubShowData (3)
 
         For j = 1 To 50
-            If gblStop = True Then GoTo Cancel
+            If gblnStop = True Then GoTo Cancel
                 
             RES = checkColorTemp(rColor, strColorTemp)
             SubLogInfo "Check colorTemp. RES:" + str$(RES)
@@ -1127,7 +1127,7 @@ Private Function checkColorAgain(strColorTemp As String) As Boolean
 
         SubShowData (5)
 
-        If gblStop = True Then GoTo Cancel
+        If gblnStop = True Then GoTo Cancel
 
         RES = checkColorTemp(rColor, strColorTemp)
         SubLogInfo "Check colorTemp. RES:" + str$(RES)
@@ -1194,7 +1194,7 @@ On Error Resume Next
             Picture1.Circle (xPos, yPos), 23, &HFF&
 
             If rColor.xx < 5 Then
-                gblStop = True
+                gblnStop = True
                 ObjCa.RemoteMode = 2
                 MsgBox (TXTChkCA210)
                 RES = 0
@@ -1228,7 +1228,7 @@ On Error Resume Next
 End Sub
 
 Private Sub tbDisConnectastro_Click()
-    If gblCaConnected Then
+    If gblnCaConnected Then
         ObjCa.RemoteMode = 0
     End If
 End Sub
@@ -1247,7 +1247,7 @@ Private Sub vbAbout_Click()
 End Sub
 
 Private Sub vbConCA310_Click()
-    If gblCaConnected = True Then
+    If gblnCaConnected = True Then
         ObjCa.RemoteMode = 1
         Exit Sub
     Else
@@ -1272,7 +1272,7 @@ Private Sub Form_Load()
     Label6.Caption = TXTINITIAL
     Label7.Caption = "SPEC"
     checkResult.Caption = TXTChkResult
-    gblStop = False
+    gblnStop = False
     txtInput.Enabled = True
     
     Me.Caption = TXTTitle
@@ -1328,13 +1328,13 @@ Public Sub subInitInterface()
     gstrVPG100IRE = clsConfigData.VPG100IRE
     gstrVPG80IRE = clsConfigData.VPG80IRE
     gstrVPG20IRE = clsConfigData.VPG20IRE
-    gblEnableCool2 = clsConfigData.EnableCool2
-    gblEnableCool1 = clsConfigData.EnableCool1
-    gblEnableStandard = clsConfigData.EnableNormal
-    gblEnableWarm1 = clsConfigData.EnableWarm1
-    gblEnableWarm2 = clsConfigData.EnableWarm2
-    gblChkColorTemp = clsConfigData.EnableChkColor
-    gblAdjOffset = clsConfigData.EnableAdjOffset
+    gblnEnableCool2 = clsConfigData.EnableCool2
+    gblnEnableCool1 = clsConfigData.EnableCool1
+    gblnEnableStandard = clsConfigData.EnableNormal
+    gblnEnableWarm1 = clsConfigData.EnableWarm1
+    gblnEnableWarm2 = clsConfigData.EnableWarm2
+    gblnChkColorTemp = clsConfigData.EnableChkColor
+    gblnAdjOffset = clsConfigData.EnableAdjOffset
     gstrChipSet = clsConfigData.ChipSet
     
     gutdCommMode = clsConfigData.CommMode
@@ -1349,17 +1349,17 @@ Public Sub subInitInterface()
     txtInput.Text = ""
     lbModelName.Caption = Split(gstrCurProjName, gstrDelimiterForProjName)(1)
     
-    If gblEnableCool1 = True Then lbAdjustCOOL_1.ForeColor = &H80000008
-    If gblEnableCool2 = True Then lbAdjustCOOL_2.ForeColor = &H80000008
-    If gblEnableStandard = True Then lbAdjustStandard.ForeColor = &H80000008
-    If gblEnableWarm1 = True Then lbAdjustWARM_1.ForeColor = &H80000008
-    If gblEnableWarm2 = True Then lbAdjustWARM_2.ForeColor = &H80000008
+    If gblnEnableCool1 = True Then lbAdjustCOOL_1.ForeColor = &H80000008
+    If gblnEnableCool2 = True Then lbAdjustCOOL_2.ForeColor = &H80000008
+    If gblnEnableStandard = True Then lbAdjustStandard.ForeColor = &H80000008
+    If gblnEnableWarm1 = True Then lbAdjustWARM_1.ForeColor = &H80000008
+    If gblnEnableWarm2 = True Then lbAdjustWARM_2.ForeColor = &H80000008
 
-    If gblEnableCool1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
-    If gblEnableCool2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0
-    If gblEnableStandard = False Then lbAdjustStandard.ForeColor = &HC0C0C0
-    If gblEnableWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
-    If gblEnableWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
+    If gblnEnableCool1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
+    If gblnEnableCool2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0
+    If gblnEnableStandard = False Then lbAdjustStandard.ForeColor = &HC0C0C0
+    If gblnEnableWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
+    If gblnEnableWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
     
     InitVPGDevice
     SubDelayMs 200
@@ -1391,7 +1391,7 @@ Private Sub subInitComPort()
 End Sub
 
 Private Sub subInitNetwork()
-    gblNetConnected = False
+    gblnNetConnected = False
     With tcpClient
         .Protocol = sckTCPProtocol
         ' IMPORTANT: be sure to change the RemoteHost
@@ -1408,7 +1408,7 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
     i = 0
 
     If KeyAscii = 13 Then
-        gblStop = False
+        gblnStop = False
         
         If txtInput.Enabled = True Then
             If txtInput.Text = "" Or Len(txtInput.Text) <> gintBarCodeLen Then
@@ -1431,14 +1431,14 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
                 End If
                 SubRun
             ElseIf gutdCommMode = modeNetwork Then
-                gblNetConnected = False
+                gblnNetConnected = False
                 Do
                     If tcpClient.State = sckClosed Then
                         SubLogInfo "TCP Connect"
                         tcpClient.Connect
                         txtInput.Enabled = False
                     End If
-                    Call SubDelayWithFlag(10, gblNetConnected)
+                    Call SubDelayWithFlag(10, gblnNetConnected)
                 
                     If tcpClient.State = sckConnected Then
                         SubRun
@@ -1473,7 +1473,7 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
             End If
         End If
         
-        If gblStop = True Then
+        If gblnStop = True Then
             Exit Sub
         End If
     End If
@@ -1519,8 +1519,8 @@ On Error GoTo ErrExit
         Set clsProtocal = Nothing
     End If
 
-    gblStop = True
-    If (gblCaConnected = True) Then
+    gblnStop = True
+    If (gblnCaConnected = True) Then
         ObjCa.RemoteMode = 0
     End If
   
@@ -1687,7 +1687,7 @@ End Sub
 
 Private Sub tcpClient_Connect()
     'Success to connect the TV.
-    gblNetConnected = True
+    gblnNetConnected = True
 End Sub
 
 Private Sub InitVPGDevice()

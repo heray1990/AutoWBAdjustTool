@@ -64,16 +64,16 @@ Public gintBarCodeLen As Integer
 Public gintCurComId As Integer
 Public gintTvInputSrcPort As Integer
 
-Public gblEnableCool1 As Boolean
-Public gblEnableCool2  As Boolean
-Public gblEnableStandard  As Boolean
-Public gblEnableWarm1 As Boolean
-Public gblEnableWarm2  As Boolean
-Public gblChkColorTemp  As Boolean
-Public gblAdjOffset As Boolean
-Public gblStop As Boolean
-Public gblCaConnected As Boolean
-Public gblNetConnected As Boolean
+Public gblnEnableCool1 As Boolean
+Public gblnEnableCool2  As Boolean
+Public gblnEnableStandard  As Boolean
+Public gblnEnableWarm1 As Boolean
+Public gblnEnableWarm2  As Boolean
+Public gblnChkColorTemp  As Boolean
+Public gblnAdjOffset As Boolean
+Public gblnStop As Boolean
+Public gblnCaConnected As Boolean
+Public gblnNetConnected As Boolean
 
 Public gstrChipSet As String
 Public gstrCurProjName As String
@@ -143,7 +143,7 @@ Public Sub SubDelayMs(mmSec As Long)
     While (Timer - start) < (mmSec / 1000#)
         DoEvents
    
-        If gblStop = True Then
+        If gblnStop = True Then
             Exit Sub
         End If
     Wend
@@ -165,7 +165,7 @@ Public Sub SubDelayWithFlag(Sec As Long, flag As Boolean)
             Exit Sub
         End If
         
-        If gblStop = True Then
+        If gblnStop = True Then
             Exit Sub
         End If
     Wend
