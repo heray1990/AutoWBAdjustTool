@@ -21,16 +21,6 @@ BOOL APIENTRY DllMain( HANDLE hModule,
     return TRUE;
 }
 
-
-// This is an example of an exported variable
-COLORT_API int nColorT=0;
-
-// This is an example of an exported function.
-COLORT_API int fnColorT(void)
-{
-	return 42;
-}
-
 // This is the constructor of a class that has been exported.
 // see ColorT.h for the class definition
 CColorT::CColorT()
@@ -43,8 +33,6 @@ COLORT_API int _stdcall initColorTemp(BOOL *pCalibraEN,
 									  char* ModelFile,
 									  char* pCurDir)
 {
-	int tempRx = 0, tempRy = 0, tempGx = 0, tempGy = 0, tempBx = 0, tempBy = 0;
-
 	//::GetCurrentDirectory(512,buf);
 	strcpy(buf, pCurDir);
 	strcat(buf, "\\");
@@ -431,7 +419,7 @@ void delay(unsigned milliseconds)
 	Sleep(milliseconds);
 }
 
- int savedata(pCOLORSPEC pColorST,char* CT)
+int savedata(pCOLORSPEC pColorST,char* CT)
 {
 	char strTemp[18];
 	char preset[32] = "PRESET_GAN_";
