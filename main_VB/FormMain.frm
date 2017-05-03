@@ -516,7 +516,6 @@ Dim cFFNORMAL As COLORTEMPSPEC
 Dim cFFWARM1 As COLORTEMPSPEC
 Dim rColor As REALCOLOR
 Dim lvLastChk As Long
-Dim Calibrate, MinBrightness As Long
 Dim resCodeForAdjustColorTemp As Long
 Dim cmdMark As String
 Dim clsProtocal As Protocal
@@ -956,7 +955,7 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
 
     ' Set Offset first
     If mAdjGainAgainCool1 = 0 Then
-        Call setColorTemp(strColorTemp, presetData, 0)
+        Call ColorTSetSpec(strColorTemp, presetData, 0)
         'SubDelayMs 200
         
         rRGB.cRR = presetData.nColorRR
@@ -976,7 +975,7 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
     SubLogInfo "========Adjust " & strColorTemp & "========"
 
     For i = 1 To 2
-        Call setColorTemp(strColorTemp, presetData, ADJMODE_GAIN)
+        Call ColorTSetSpec(strColorTemp, presetData, ADJMODE_GAIN)
         'SubDelayMs 200
         
         SubLogInfo "Init current colorTemp. RES:" + str$(RES)
@@ -1000,7 +999,7 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
         For j = 1 To 50
             If gblnStop = True Then GoTo Cancel
             
-            RES = checkColorTemp(rColor, strColorTemp)
+            RES = ColorTChk(rColor, strColorTemp)
             SubLogInfo "Check colorTemp. RES: " + CStr(RES)
             SubLogInfo "SPEC: x = " & CStr(presetData.xx) & " y = " & CStr(presetData.yy)
             SubLogInfo "Tol: x = " & CStr(presetData.xt) & " y =  " & CStr(presetData.yt)
@@ -1010,18 +1009,18 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
             Else
                 If UCase(mBrand) = "CAN" Or _
                     UCase(mBrand) = "HAIER" Then
-                    Call adjustColorTempForCIBN(rRGB)
+                    Call ColorTAdjRGBGain(rRGB)
                 Else    ' Letv
                     If resCodeForAdjustColorTemp = 0 Then
-                        Call adjustColorTemp(ADJMODE_3, rRGB, resCodeForAdjustColorTemp)
+                        Call ColorTAdjRGBGainLetv(ADJMODE_3, rRGB, resCodeForAdjustColorTemp)
                     ElseIf resCodeForAdjustColorTemp = 1 Then
-                        Call adjustColorTemp(ADJMODE_1, rRGB, resCodeForAdjustColorTemp)
+                        Call ColorTAdjRGBGainLetv(ADJMODE_1, rRGB, resCodeForAdjustColorTemp)
                     ElseIf resCodeForAdjustColorTemp = 2 Then
-                        Call adjustColorTemp(ADJMODE_2, rRGB, resCodeForAdjustColorTemp)
+                        Call ColorTAdjRGBGainLetv(ADJMODE_2, rRGB, resCodeForAdjustColorTemp)
                     ElseIf resCodeForAdjustColorTemp = 3 Then
-                        Call adjustColorTemp(ADJMODE_3, rRGB, resCodeForAdjustColorTemp)
+                        Call ColorTAdjRGBGainLetv(ADJMODE_3, rRGB, resCodeForAdjustColorTemp)
                     ElseIf resCodeForAdjustColorTemp = 4 Then
-                        Call adjustColorTemp(ADJMODE_4, rRGB, resCodeForAdjustColorTemp)
+                        Call ColorTAdjRGBGainLetv(ADJMODE_4, rRGB, resCodeForAdjustColorTemp)
                     End If
                 End If
 
@@ -1062,7 +1061,7 @@ Private Function FuncAdjRGBOffset(strColorTemp As String) As Boolean
     SubLogInfo "========Adjust " & strColorTemp & "========"
   
     For i = 1 To 2
-        Call setColorTemp(strColorTemp, presetData, ADJMODE_OFFSET)
+        Call ColorTSetSpec(strColorTemp, presetData, ADJMODE_OFFSET)
         'SubDelayMs 200
         SubLogInfo "Init current colorTemp. RES:" + str$(RES)
         rRGB.cRR = presetData.nColorRR
@@ -1079,13 +1078,13 @@ Private Function FuncAdjRGBOffset(strColorTemp As String) As Boolean
         For j = 1 To 50
             If gblnStop = True Then GoTo Cancel
                 
-            RES = checkColorTemp(rColor, strColorTemp)
+            RES = ColorTChk(rColor, strColorTemp)
             SubLogInfo "Check colorTemp. RES:" + str$(RES)
     
             If RES = 3 Then
                 Exit For
             Else
-                Call adjustColorTempOffset(rRGB)
+                Call ColorTAdjRGBOffset(rRGB)
                     
                 SubLogInfo "SET_RGB_OFFSET: R = " & CStr(rRGB.cRR) & _
                     ", G = " & CStr(rRGB.cGG) & ", B = " & CStr(rRGB.cBB)
@@ -1118,7 +1117,7 @@ Private Function checkColorAgain(strColorTemp As String) As Boolean
     SubLogInfo "========Check " & strColorTemp & "========"
   
     For i = 1 To 2
-        Call setColorTemp(strColorTemp, presetData, ADJMODE_GAIN)
+        Call ColorTSetSpec(strColorTemp, presetData, ADJMODE_GAIN)
         'SubDelayMs 200
         SubLogInfo "Init current colorTemp. RES:" + str$(RES)
 
@@ -1304,7 +1303,7 @@ Private Sub Form_Load()
         End If
     End If
     
-    RES = initColorTemp(Calibrate, MinBrightness, gstrCurProjName, App.Path)
+    RES = ColorTInit(gstrCurProjName, App.Path)
 End Sub
 
 Public Sub subInitInterface()
@@ -1528,7 +1527,7 @@ On Error GoTo ErrExit
         MSComm1.PortOpen = False
     End If
   
-    Call DeinitColorTemp(gstrCurProjName)
+    Call ColorTDeInit
     End
     Exit Sub
 

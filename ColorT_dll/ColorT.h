@@ -79,13 +79,13 @@ int min_rgb=0;
 int AdjustGAN=0;
 
 
-COLORT_API int _stdcall  initColorTemp(BOOL *pCalibraEN, BOOL *pMiniBriEN, char* ModelFile, char* pCurDir);
-COLORT_API int _stdcall  DeinitColorTemp(char* ModelFile);
-COLORT_API int _stdcall  setColorTemp(char* colorTemp, pCOLORSPEC pSpecData,int GANref);
-COLORT_API int _stdcall  checkColorTemp(pREALCOLOR PGetColor,char* colorTemp);
-COLORT_API int _stdcall  adjustColorTemp(int FixValue, pREALRGB pAdjRGB, int *pResultCode);
-COLORT_API int _stdcall  adjustColorTempOffset(pREALRGB pAdjRGB);
-COLORT_API int _stdcall  adjustColorTempForCIBN(pREALRGB pAdjRGB);
+COLORT_API int _stdcall  ColorTInit(char* ModelFile, char* pCurDir);
+COLORT_API int _stdcall  ColorTDeInit();
+COLORT_API int _stdcall  ColorTSetSpec(char* colorTemp, pCOLORSPEC pSpecData,int GANref);
+COLORT_API int _stdcall  ColorTChk(pREALCOLOR PGetColor,char* colorTemp);
+COLORT_API int _stdcall  ColorTAdjRGBGainLetv(int FixValue, pREALRGB pAdjRGB, int *pResultCode);
+COLORT_API int _stdcall  ColorTAdjRGBOffset(pREALRGB pAdjRGB);
+COLORT_API int _stdcall  ColorTAdjRGBGain(pREALRGB pAdjRGB);
 
 void  delay(unsigned milliseconds);
 int   savedata(pCOLORSPEC pColorST,char* CT);

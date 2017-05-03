@@ -28,10 +28,7 @@ CColorT::CColorT()
 	return; 
 }
 
-COLORT_API int _stdcall initColorTemp(BOOL *pCalibraEN,
-									  BOOL *pMiniBriEN,
-									  char* ModelFile,
-									  char* pCurDir)
+COLORT_API int _stdcall ColorTInit(char* ModelFile,char* pCurDir)
 {
 	//::GetCurrentDirectory(512,buf);
 	strcpy(buf, pCurDir);
@@ -44,8 +41,6 @@ COLORT_API int _stdcall initColorTemp(BOOL *pCalibraEN,
 	maxColorRGB_GAN = GetPrivateProfileInt("Color_Level_RGB_GAN", "####max", nDefault, buf);
 	minColorRGB_GAN = GetPrivateProfileInt("Color_Level_RGB_GAN", "####min", nDefault, buf);
 	
-	*pCalibraEN = GetPrivateProfileInt("AutoColor_Enable", "####", nDefault, buf);
-	*pMiniBriEN = GetPrivateProfileInt("MiniBrightness_Enable", "####", nDefault, buf);
 
 	// COOL1
 	getdata(&SpecCool1, "COOL1");
@@ -57,7 +52,7 @@ COLORT_API int _stdcall initColorTemp(BOOL *pCalibraEN,
     return true;
 }
 
-COLORT_API int _stdcall DeinitColorTemp(char* ModelFile)
+COLORT_API int _stdcall ColorTDeInit()
 {
 	savedata(&SpecCool1, "COOL1");
 	savedata(&SpecNormal, "NORMAL");
@@ -66,7 +61,7 @@ COLORT_API int _stdcall DeinitColorTemp(char* ModelFile)
     return true;
 }
 
-COLORT_API int _stdcall setColorTemp(char* colorTemp, pCOLORSPEC pSpecData,int GANref)
+COLORT_API int _stdcall ColorTSetSpec(char* colorTemp, pCOLORSPEC pSpecData,int GANref)
 {
 	if (strcmp(colorTemp, "COOL1") == 0)
 	{
@@ -117,7 +112,7 @@ COLORT_API int _stdcall setColorTemp(char* colorTemp, pCOLORSPEC pSpecData,int G
     return CalcRGB.cRR;
 }
 
-COLORT_API int _stdcall checkColorTemp(pREALCOLOR pGetColor,char* colorTemp)
+COLORT_API int _stdcall ColorTChk(pREALCOLOR pGetColor,char* colorTemp)
 {
 	ca_x = pGetColor->sx;
 	ca_y = pGetColor->sy;
@@ -186,7 +181,7 @@ void ReLoadRGB(char* colorTemp)
 	}
 }
 
-COLORT_API int _stdcall  adjustColorTempForCIBN(pREALRGB pAdjRGB)
+COLORT_API int _stdcall  ColorTAdjRGBGain(pREALRGB pAdjRGB)
 {
 	if (ca_y < PrimaryData.sy - PrimaryData.yt)
 	{
@@ -226,7 +221,7 @@ COLORT_API int _stdcall  adjustColorTempForCIBN(pREALRGB pAdjRGB)
 /////////////////////////////////////////////////////////////////////////////
 ////////////////////////Add for Colortemperature App.////////////////////////
 /////////////////////////////////////////////////////////////////////////////
-COLORT_API int _stdcall  adjustColorTemp(int FixValue, pREALRGB pAdjRGB, int *pResultCode)
+COLORT_API int _stdcall  ColorTAdjRGBGainLetv(int FixValue, pREALRGB pAdjRGB, int *pResultCode)
 {
 	switch (FixValue)
 	{
@@ -377,7 +372,7 @@ COLORT_API int _stdcall  adjustColorTemp(int FixValue, pREALRGB pAdjRGB, int *pR
     return true;
 }
 
-COLORT_API int _stdcall  adjustColorTempOffset(pREALRGB pAdjRGB)
+COLORT_API int _stdcall  ColorTAdjRGBOffset(pREALRGB pAdjRGB)
 {
 	if (ca_y < PrimaryData.sy - PrimaryData.yt)
 	{
