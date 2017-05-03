@@ -34,7 +34,7 @@ Public Sub SubConnectCa()
             ObjMemory.ChannelNO = glngCaChannel
     
             MsgBox "Please Set the Probe at Measure Position", vbOKOnly + vbInformation, "Calibration OK"
-            gblCaConnected = True
+            gblnCaConnected = True
             FormCalZero.Hide
         Case vbNo
     End Select

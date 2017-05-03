@@ -901,43 +901,43 @@ Private Sub Form_Load()
         cmbI2cClockRate.Enabled = True
     End If
     
-    If gblEnableCool2 Then
+    If gblnEnableCool2 Then
         Check1.Value = 1
     Else
         Check1.Value = 0
     End If
 
-    If gblEnableCool1 Then
+    If gblnEnableCool1 Then
         Check2.Value = 1
     Else
         Check2.Value = 0
     End If
 
-    If gblEnableStandard Then
+    If gblnEnableStandard Then
         Check3.Value = 1
     Else
         Check3.Value = 0
     End If
 
-    If gblEnableWarm1 Then
+    If gblnEnableWarm1 Then
         Check4.Value = 1
     Else
         Check4.Value = 0
     End If
 
-    If gblEnableWarm2 Then
+    If gblnEnableWarm2 Then
         Check5.Value = 1
     Else
         Check5.Value = 0
     End If
 
-    If gblChkColorTemp Then
+    If gblnChkColorTemp Then
         Check6.Value = 1
     Else
         Check6.Value = 0
     End If
 
-    If gblAdjOffset Then
+    If gblnAdjOffset Then
         Check7.Value = 1
     Else
         Check7.Value = 0
