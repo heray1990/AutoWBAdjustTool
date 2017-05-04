@@ -2,13 +2,13 @@ LIBRARY COLORT
 
 EXPORTS
 
-initColorTemp         @1
-DeinitColorTemp       @2
-setColorTemp          @3
-checkColorTemp        @4
-adjustColorTemp       @5
-adjustColorTempOffset @6
-adjustColorTempForCIBN @7
+ColorTInit         @1
+ColorTDeInit       @2
+ColorTSetSpec          @3
+ColorTChk        @4
+ColorTAdjRGBGainLetv       @5
+ColorTAdjRGBOffset @6
+ColorTAdjRGBGain @7
 
 
 
