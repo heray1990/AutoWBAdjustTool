@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wizard>
-	<current_project>Letv-X43</current_project>
+	<current_project>CAN-U65</current_project>
 	<project_list>
 		<project brand="Letv" model="X40"/>
 		<project brand="Letv" model="X40M"/>
@@ -17,6 +17,7 @@
 		<project brand="Letv" model="Max65"/>
 		<project brand="Letv" model="U75"/>
 		<project brand="CAN" model="C43S"/>
+		<project brand="CAN" model="U65"/>
 		<project brand="Haier" model="LS70A31"/>
 		<project brand="Haier" model="U70H3"/>
 		<project brand="Haier" model="LS70AL88U62"/>
