@@ -1128,7 +1128,7 @@ Private Function checkColorAgain(strColorTemp As String) As Boolean
 
         If gblnStop = True Then GoTo Cancel
 
-        RES = checkColorTemp(rColor, strColorTemp)
+        RES = ColorTChk(rColor, strColorTemp)
         SubLogInfo "Check colorTemp. RES:" + str$(RES)
 
         If RES = 3 Then Exit For
@@ -1527,7 +1527,7 @@ On Error GoTo ErrExit
         MSComm1.PortOpen = False
     End If
   
-    Call ColorTDeInit
+    ColorTDeInit
     End
     Exit Sub
 
