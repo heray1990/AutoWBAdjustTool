@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<model>Letv-X43</model>
 	<communication mode="Network">
 		<common baud="115200" id="6"/>
 		<i2c clockrate="50"/>
 	</communication>
 	<input_source>HDMI1</input_source>
 	<delayms>300</delayms>
-	<channel_number>3</channel_number>
-	<length_bar_code>19</length_bar_code>
+	<channel_number>0</channel_number>
+	<length_bar_code>1</length_bar_code>
 	<Lv_spec>300</Lv_spec>
 	<VPG>
-		<model>22294</model>
+		<model>2402</model>
 		<timing>69</timing>
 		<IRE100>101</IRE100>
 		<IRE80>103</IRE80>

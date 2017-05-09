@@ -1307,43 +1307,40 @@ Private Sub Form_Load()
 End Sub
 
 Public Sub subInitInterface()
-    Dim clsConfigData As ProjectConfig
-
-    Set clsConfigData = New ProjectConfig
-    clsConfigData.LoadConfigData
     
-    gintCurComBaud = clsConfigData.ComBaud
-    gintCurComId = clsConfigData.ComID
-    glngI2cClockRate = clsConfigData.I2cClockRate
-    gstrTvInputSrc = clsConfigData.inputSource
+    LoadConfigData
+    
+    gintCurComBaud = ComBaud
+    gintCurComId = ComID
+    glngI2cClockRate = I2cClockRate
+    gstrTvInputSrc = inputSource
     gintTvInputSrcPort = CInt(Right(gstrTvInputSrc, 1))
     gstrTvInputSrc = Left(gstrTvInputSrc, Len(gstrTvInputSrc) - 1)
-    glngDelayTime = clsConfigData.DelayMS
-    glngCaChannel = clsConfigData.ChannelNum
-    gintBarCodeLen = clsConfigData.BarCodeLen
-    glngBlSpecVal = clsConfigData.LvSpec
-    gstrVPGModel = clsConfigData.VPGModel
-    gstrVPGTiming = clsConfigData.VPGTiming
-    gstrVPG100IRE = clsConfigData.VPG100IRE
-    gstrVPG80IRE = clsConfigData.VPG80IRE
-    gstrVPG20IRE = clsConfigData.VPG20IRE
-    gblnEnableCool2 = clsConfigData.EnableCool2
-    gblnEnableCool1 = clsConfigData.EnableCool1
-    gblnEnableStandard = clsConfigData.EnableNormal
-    gblnEnableWarm1 = clsConfigData.EnableWarm1
-    gblnEnableWarm2 = clsConfigData.EnableWarm2
-    gblnChkColorTemp = clsConfigData.EnableChkColor
-    gblnAdjOffset = clsConfigData.EnableAdjOffset
-    gstrChipSet = clsConfigData.ChipSet
+    glngDelayTime = DelayMS
+    glngCaChannel = ChannelNum
+    gintBarCodeLen = BarCodeLen
+    glngBlSpecVal = LvSpec
+    gstrVPGModel = VPGModel
+    gstrVPGTiming = VPGTiming
+    gstrVPG100IRE = VPG100IRE
+    gstrVPG80IRE = VPG80IRE
+    gstrVPG20IRE = VPG20IRE
+    gblnEnableCool2 = EnableCool2
+    gblnEnableCool1 = EnableCool1
+    gblnEnableStandard = EnableNormal
+    gblnEnableWarm1 = EnableWarm1
+    gblnEnableWarm2 = EnableWarm2
+    gblnChkColorTemp = EnableChkColor
+    gblnAdjOffset = EnableAdjOffset
+    gstrChipSet = ChipSet
     
-    gutdCommMode = clsConfigData.CommMode
+    gutdCommMode = CommMode
     If gutdCommMode = modeUART Then
         subInitComPort
     ElseIf gutdCommMode = modeNetwork Then
         subInitNetwork
     End If
     
-    Set clsConfigData = Nothing
 
     txtInput.Text = ""
     lbModelName.Caption = Split(gstrCurProjName, gstrDelimiterForProjName)(1)
@@ -1527,7 +1524,7 @@ On Error GoTo ErrExit
         MSComm1.PortOpen = False
     End If
   
-    ColorTDeInit
+    Call ColorTDeInit
     End
     Exit Sub
 

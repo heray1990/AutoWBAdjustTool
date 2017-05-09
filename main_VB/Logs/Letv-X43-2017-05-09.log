@@ -1,0 +1,230 @@
+9:58:44> =======================================================================
+9:58:44>         Auto-White Balance Adjusting Tool by Echom                     
+9:58:44>         Software Version: 1.0.6
+9:58:44>         Barcode of TV: 1
+9:58:44> =======================================================================
+9:58:44> TCP Connect
+9:58:50> [Time]Total: 0s
+
+9:59:20> =======================================================================
+9:59:20>         Auto-White Balance Adjusting Tool by Echom                     
+9:59:20>         Software Version: 1.0.6
+9:59:20>         Barcode of TV: 1
+9:59:20> =======================================================================
+9:59:20> TCP Connect
+9:59:21> Start adjusting color temperature
+9:59:23> Set backlight to 100
+9:59:24> ========Adjust COOL1========
+9:59:24> Init current colorTemp. RES: 1
+9:59:26> _x/y/Lv: 2734 / 2813 / 164
+9:59:26> _R/G/B: 128 / 128 / 128
+9:59:26> Check colorTemp. RES: 2
+9:59:26> SPEC: x = 2720 y = 2780
+9:59:26> Tol: x = 30 y =  30
+9:59:26> SET_RGB_GAN: R = 128, G = 128, B = 129, resultcode = 0
+9:59:27> _x/y/Lv: 2719 / 2791 / 164
+9:59:27> _R/G/B: 128 / 128 / 129
+9:59:27> Check colorTemp. RES: 3
+9:59:27> SPEC: x = 2720 y = 2780
+9:59:27> Tol: x = 30 y =  30
+9:59:27> Save current data of COOL1.
+9:59:28> [Time]White Cool1: 6s
+9:59:29> ========Adjust NORMAL========
+9:59:29> Init current colorTemp. RES: 3
+9:59:30> _x/y/Lv: 2731 / 2811 / 164
+9:59:30> _R/G/B: 128 / 128 / 128
+9:59:30> Check colorTemp. RES: 0
+9:59:30> SPEC: x = 2790 y = 2910
+9:59:30> Tol: x = 30 y =  30
+9:59:30> SET_RGB_GAN: R = 128, G = 128, B = 124, resultcode = 0
+9:59:31> _x/y/Lv: 2780 / 2905 / 163
+9:59:31> _R/G/B: 128 / 128 / 124
+9:59:31> Check colorTemp. RES: 3
+9:59:31> SPEC: x = 2790 y = 2910
+9:59:31> Tol: x = 30 y =  30
+9:59:31> Save current data of NORMAL.
+9:59:31> [Time]White Normal: 10s
+9:59:33> ========Adjust WARM1========
+9:59:33> Init current colorTemp. RES: 3
+9:59:34> _x/y/Lv: 2734 / 2815 / 165
+9:59:34> _R/G/B: 128 / 128 / 128
+9:59:34> Check colorTemp. RES: 0
+9:59:34> SPEC: x = 3130 y = 3290
+9:59:34> Tol: x = 30 y =  30
+9:59:34> SET_RGB_GAN: R = 128, G = 128, B = 105, resultcode = 0
+9:59:35> _x/y/Lv: 3028 / 3375 / 159
+9:59:35> _R/G/B: 128 / 128 / 105
+9:59:35> Check colorTemp. RES: 0
+9:59:35> SPEC: x = 3130 y = 3290
+9:59:35> Tol: x = 30 y =  30
+9:59:35> SET_RGB_GAN: R = 128, G = 128, B = 109, resultcode = 0
+9:59:36> _x/y/Lv: 2979 / 3280 / 160
+9:59:36> _R/G/B: 128 / 128 / 109
+9:59:36> Check colorTemp. RES: 1
+9:59:36> SPEC: x = 3130 y = 3290
+9:59:36> Tol: x = 30 y =  30
+9:59:36> SET_RGB_GAN: R = 135, G = 128, B = 99, resultcode = 4
+9:59:38> _x/y/Lv: 3213 / 3514 / 161
+9:59:38> _R/G/B: 135 / 128 / 99
+9:59:38> Check colorTemp. RES: 0
+9:59:38> SPEC: x = 3130 y = 3290
+9:59:38> Tol: x = 30 y =  30
+9:59:38> SET_RGB_GAN: R = 135, G = 128, B = 104, resultcode = 4
+9:59:39> _x/y/Lv: 3147 / 3395 / 163
+9:59:39> _R/G/B: 135 / 128 / 104
+9:59:39> Check colorTemp. RES: 2
+9:59:39> SPEC: x = 3130 y = 3290
+9:59:39> Tol: x = 30 y =  30
+9:59:39> SET_RGB_GAN: R = 135, G = 123, B = 104, resultcode = 2
+9:59:40> _x/y/Lv: 3161 / 3274 / 151
+9:59:40> _R/G/B: 135 / 123 / 104
+9:59:40> Check colorTemp. RES: 1
+9:59:40> SPEC: x = 3130 y = 3290
+9:59:40> Tol: x = 30 y =  30
+9:59:40> SET_RGB_GAN: R = 133, G = 123, B = 104, resultcode = 2
+9:59:41> _x/y/Lv: 3132 / 3276 / 150
+9:59:41> _R/G/B: 133 / 123 / 104
+9:59:41> Check colorTemp. RES: 3
+9:59:41> SPEC: x = 3130 y = 3290
+9:59:41> Tol: x = 30 y =  30
+9:59:41> Save current data of WARM1.
+9:59:41> [Time]White Warm1: 19s
+9:59:42> ========Check COOL1========
+9:59:42> Init current colorTemp. RES: 3
+9:59:42> _x/y/Lv: 2721 / 2790 / 164
+9:59:42> Check colorTemp. RES: 3
+9:59:42> ========Check NORMAL========
+9:59:42> Init current colorTemp. RES: 3
+9:59:43> _x/y/Lv: 2780 / 2905 / 163
+9:59:43> Check colorTemp. RES: 3
+9:59:43> ========Check WARM1========
+9:59:43> Init current colorTemp. RES: 3
+9:59:43> _x/y/Lv: 3132 / 3275 / 149
+9:59:43> Check colorTemp. RES: 3
+9:59:44> Set brightness to 100
+9:59:44> Set contrast to 100
+9:59:45> Set color temp to cool1
+9:59:45> lv = 334
+9:59:45> _x/y/Lv: 2729 / 2813 / 334
+9:59:46> Set both brightness and contrast to 50.
+9:59:48> [Time]Total: 23s
+
+10:00:31> =======================================================================
+10:00:31>         Auto-White Balance Adjusting Tool by Echom                     
+10:00:31>         Software Version: 1.0.6
+10:00:31>         Barcode of TV: 1
+10:00:31> =======================================================================
+10:00:31> TCP Connect
+10:00:36> [Time]Total: 0s
+
+10:01:15> =======================================================================
+10:01:15>         Auto-White Balance Adjusting Tool by Echom                     
+10:01:15>         Software Version: 1.0.6
+10:01:15>         Barcode of TV: 1
+10:01:15> =======================================================================
+10:01:15> TCP Connect
+10:01:15> Start adjusting color temperature
+10:01:16> Set backlight to 100
+10:01:18> ========Adjust COOL1========
+10:01:18> Init current colorTemp. RES: 1
+10:01:20> _x/y/Lv: 2732 / 2810 / 165
+10:01:20> _R/G/B: 128 / 128 / 128
+10:01:20> Check colorTemp. RES: 3
+10:01:20> SPEC: x = 2720 y = 2780
+10:01:20> Tol: x = 30 y =  30
+10:01:20> Save current data of COOL1.
+10:01:20> [Time]White Cool1: 5s
+10:01:21> ========Adjust NORMAL========
+10:01:22> Init current colorTemp. RES: 3
+10:01:23> _x/y/Lv: 2755 / 2855 / 165
+10:01:23> _R/G/B: 128 / 128 / 126
+10:01:23> Check colorTemp. RES: 0
+10:01:23> SPEC: x = 2790 y = 2910
+10:01:23> Tol: x = 30 y =  30
+10:01:23> SET_RGB_GAN: R = 128, G = 128, B = 124, resultcode = 0
+10:01:24> _x/y/Lv: 2782 / 2906 / 165
+10:01:24> _R/G/B: 128 / 128 / 124
+10:01:24> Check colorTemp. RES: 3
+10:01:24> SPEC: x = 2790 y = 2910
+10:01:24> Tol: x = 30 y =  30
+10:01:24> Save current data of NORMAL.
+10:01:24> [Time]White Normal: 9s
+10:01:25> ========Adjust WARM1========
+10:01:25> Init current colorTemp. RES: 3
+10:01:26> _x/y/Lv: 2917 / 3107 / 164
+10:01:26> _R/G/B: 130 / 128 / 116
+10:01:27> Check colorTemp. RES: 0
+10:01:27> SPEC: x = 3130 y = 3290
+10:01:27> Tol: x = 30 y =  30
+10:01:27> SET_RGB_GAN: R = 130, G = 128, B = 107, resultcode = 0
+10:01:28> _x/y/Lv: 3030 / 3324 / 162
+10:01:28> _R/G/B: 130 / 128 / 107
+10:01:28> Check colorTemp. RES: 0
+10:01:28> SPEC: x = 3130 y = 3290
+10:01:28> Tol: x = 30 y =  30
+10:01:28> SET_RGB_GAN: R = 130, G = 128, B = 108, resultcode = 0
+10:01:29> _x/y/Lv: 3020 / 3306 / 162
+10:01:29> _R/G/B: 130 / 128 / 108
+10:01:29> Check colorTemp. RES: 1
+10:01:29> SPEC: x = 3130 y = 3290
+10:01:29> Tol: x = 30 y =  30
+10:01:29> SET_RGB_GAN: R = 135, G = 128, B = 101, resultcode = 4
+10:01:30> _x/y/Lv: 3185 / 3470 / 164
+10:01:30> _R/G/B: 135 / 128 / 101
+10:01:30> Check colorTemp. RES: 0
+10:01:30> SPEC: x = 3130 y = 3290
+10:01:30> Tol: x = 30 y =  30
+10:01:30> SET_RGB_GAN: R = 135, G = 128, B = 104, resultcode = 4
+10:01:31> _x/y/Lv: 3145 / 3396 / 164
+10:01:31> _R/G/B: 135 / 128 / 104
+10:01:31> Check colorTemp. RES: 2
+10:01:31> SPEC: x = 3130 y = 3290
+10:01:31> Tol: x = 30 y =  30
+10:01:31> SET_RGB_GAN: R = 135, G = 123, B = 104, resultcode = 2
+10:01:33> _x/y/Lv: 3159 / 3274 / 152
+10:01:33> _R/G/B: 135 / 123 / 104
+10:01:33> Check colorTemp. RES: 3
+10:01:33> SPEC: x = 3130 y = 3290
+10:01:33> Tol: x = 30 y =  30
+10:01:33> Save current data of WARM1.
+10:01:33> [Time]White Warm1: 17s
+10:01:33> ========Check COOL1========
+10:01:33> Init current colorTemp. RES: 3
+10:01:34> _x/y/Lv: 2731 / 2814 / 165
+10:01:34> Check colorTemp. RES: 2
+10:01:34> Init current colorTemp. RES: 2
+10:01:34> _x/y/Lv: 2730 / 2814 / 165
+10:01:34> Check colorTemp. RES: 2
+10:01:35> ========Adjust COOL1========
+10:01:35> Init current colorTemp. RES: 2
+10:01:36> _x/y/Lv: 2729 / 2814 / 165
+10:01:36> Check colorTemp. RES: 2
+10:01:36> SPEC: x = 2720 y = 2780
+10:01:36> Tol: x = 30 y =  30
+10:01:36> SET_RGB_GAN: R = 128, G = 128, B = 129, resultcode = 0
+10:01:38> _x/y/Lv: 2719 / 2796 / 165
+10:01:38> Check colorTemp. RES: 3
+10:01:38> SPEC: x = 2720 y = 2780
+10:01:38> Tol: x = 30 y =  30
+10:01:38> Save current data of COOL1.
+10:01:38> [Time]White Cool1: 21s
+10:01:38> ========Check COOL1========
+10:01:38> Init current colorTemp. RES: 3
+10:01:38> _x/y/Lv: 2720 / 2795 / 165
+10:01:38> Check colorTemp. RES: 3
+10:01:39> ========Check NORMAL========
+10:01:39> Init current colorTemp. RES: 3
+10:01:39> _x/y/Lv: 2779 / 2910 / 164
+10:01:39> Check colorTemp. RES: 3
+10:01:39> ========Check WARM1========
+10:01:39> Init current colorTemp. RES: 3
+10:01:40> _x/y/Lv: 3157 / 3275 / 152
+10:01:40> Check colorTemp. RES: 3
+10:01:40> Set brightness to 100
+10:01:41> Set contrast to 100
+10:01:41> Set color temp to cool1
+10:01:42> lv = 337
+10:01:42> _x/y/Lv: 2732 / 2823 / 337
+10:01:42> Set both brightness and contrast to 50.
+10:01:43> [Time]Total: 26s
+
