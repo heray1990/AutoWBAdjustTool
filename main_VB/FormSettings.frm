@@ -946,53 +946,49 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub Command1_Click()
-    Dim clsSaveConfigData As ProjectConfig
+    If Check1.Value = 1 Then EnableCool2 = True
+    If Check1.Value = 0 Then EnableCool2 = False
+    If Check2.Value = 1 Then EnableCool1 = True
+    If Check2.Value = 0 Then EnableCool1 = False
+    If Check3.Value = 1 Then EnableNormal = True
+    If Check3.Value = 0 Then EnableNormal = False
+    If Check4.Value = 1 Then EnableWarm1 = True
+    If Check4.Value = 0 Then EnableWarm1 = False
+    If Check5.Value = 1 Then EnableWarm2 = True
+    If Check5.Value = 0 Then EnableWarm2 = False
+    If Check6.Value = 1 Then EnableChkColor = True
+    If Check6.Value = 0 Then EnableChkColor = False
+    If Check7.Value = 1 Then EnableAdjOffset = True
+    If Check7.Value = 0 Then EnableAdjOffset = False
     
-    Set clsSaveConfigData = New ProjectConfig
-    
-    If Check1.Value = 1 Then clsSaveConfigData.EnableCool2 = True
-    If Check1.Value = 0 Then clsSaveConfigData.EnableCool2 = False
-    If Check2.Value = 1 Then clsSaveConfigData.EnableCool1 = True
-    If Check2.Value = 0 Then clsSaveConfigData.EnableCool1 = False
-    If Check3.Value = 1 Then clsSaveConfigData.EnableNormal = True
-    If Check3.Value = 0 Then clsSaveConfigData.EnableNormal = False
-    If Check4.Value = 1 Then clsSaveConfigData.EnableWarm1 = True
-    If Check4.Value = 0 Then clsSaveConfigData.EnableWarm1 = False
-    If Check5.Value = 1 Then clsSaveConfigData.EnableWarm2 = True
-    If Check5.Value = 0 Then clsSaveConfigData.EnableWarm2 = False
-    If Check6.Value = 1 Then clsSaveConfigData.EnableChkColor = True
-    If Check6.Value = 0 Then clsSaveConfigData.EnableChkColor = False
-    If Check7.Value = 1 Then clsSaveConfigData.EnableAdjOffset = True
-    If Check7.Value = 0 Then clsSaveConfigData.EnableAdjOffset = False
-    
-    clsSaveConfigData.LvSpec = val(txtLvSpec.Text)
-    clsSaveConfigData.BarCodeLen = val(txtSNLen.Text)
+    LvSpec = val(txtLvSpec.Text)
+    BarCodeLen = val(txtSNLen.Text)
     
     If optUart.Value = True Then
-        clsSaveConfigData.CommMode = modeUART
+        CommMode = modeUART
     ElseIf optNetwork.Value = True Then
-        clsSaveConfigData.CommMode = modeNetwork
+        CommMode = modeNetwork
     ElseIf optI2c.Value = True Then
-        clsSaveConfigData.CommMode = modeI2c
+        CommMode = modeI2c
     Else
-        clsSaveConfigData.CommMode = modeUART
+        CommMode = modeUART
     End If
 
-    clsSaveConfigData.ComBaud = cmbComBaud.Text
-    clsSaveConfigData.ComID = val(Replace(cmbComID.Text, "COM", ""))
-    clsSaveConfigData.I2cClockRate = val(Replace(cmbI2cClockRate.Text, "KHz", ""))
-    clsSaveConfigData.ChannelNum = val(txtChannel.Text)
-    clsSaveConfigData.DelayMS = val(txtDelay.Text)
-    clsSaveConfigData.inputSource = cmbInputSource.Text
-    clsSaveConfigData.VPGModel = cmbChromaModel.Text
-    clsSaveConfigData.VPGTiming = txtChromaTiming.Text
-    clsSaveConfigData.VPG100IRE = txt100IRE.Text
-    clsSaveConfigData.VPG80IRE = txt80IRE.Text
-    clsSaveConfigData.VPG20IRE = txt20IRE.Text
+    ComBaud = cmbComBaud.Text
+    ComID = val(Replace(cmbComID.Text, "COM", ""))
+    I2cClockRate = val(Replace(cmbI2cClockRate.Text, "KHz", ""))
+    ChannelNum = val(txtChannel.Text)
+    DelayMS = val(txtDelay.Text)
+    inputSource = cmbInputSource.Text
+    VPGModel = cmbChromaModel.Text
+    VPGTiming = txtChromaTiming.Text
+    VPG100IRE = txt100IRE.Text
+    VPG80IRE = txt80IRE.Text
+    VPG20IRE = txt20IRE.Text
     
-    clsSaveConfigData.SaveConfigData
+    SaveConfigData
     
-    Set clsSaveConfigData = Nothing
+    
 
     Unload Me
     
