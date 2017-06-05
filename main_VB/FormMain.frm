@@ -1303,47 +1303,45 @@ Private Sub Form_Load()
         End If
     End If
     
-    RES = ColorTInit(gstrCurProjName, App.Path)
+    RES = ColorTInit(rConfigData)
 End Sub
 
 Public Sub subInitInterface()
-    Dim clsConfigData As ProjectConfig
-
-    Set clsConfigData = New ProjectConfig
-    clsConfigData.LoadConfigData
     
-    gintCurComBaud = clsConfigData.ComBaud
-    gintCurComId = clsConfigData.ComID
-    glngI2cClockRate = clsConfigData.I2cClockRate
-    gstrTvInputSrc = clsConfigData.inputSource
+    LoadConfigData
+    LoadConfigData1
+    
+    gintCurComBaud = ComBaud
+    gintCurComId = ComID
+    glngI2cClockRate = I2cClockRate
+    gstrTvInputSrc = inputSource
     gintTvInputSrcPort = CInt(Right(gstrTvInputSrc, 1))
     gstrTvInputSrc = Left(gstrTvInputSrc, Len(gstrTvInputSrc) - 1)
-    glngDelayTime = clsConfigData.DelayMS
-    glngCaChannel = clsConfigData.ChannelNum
-    gintBarCodeLen = clsConfigData.BarCodeLen
-    glngBlSpecVal = clsConfigData.LvSpec
-    gstrVPGModel = clsConfigData.VPGModel
-    gstrVPGTiming = clsConfigData.VPGTiming
-    gstrVPG100IRE = clsConfigData.VPG100IRE
-    gstrVPG80IRE = clsConfigData.VPG80IRE
-    gstrVPG20IRE = clsConfigData.VPG20IRE
-    gblnEnableCool2 = clsConfigData.EnableCool2
-    gblnEnableCool1 = clsConfigData.EnableCool1
-    gblnEnableStandard = clsConfigData.EnableNormal
-    gblnEnableWarm1 = clsConfigData.EnableWarm1
-    gblnEnableWarm2 = clsConfigData.EnableWarm2
-    gblnChkColorTemp = clsConfigData.EnableChkColor
-    gblnAdjOffset = clsConfigData.EnableAdjOffset
-    gstrChipSet = clsConfigData.ChipSet
+    glngDelayTime = DelayMS
+    glngCaChannel = ChannelNum
+    gintBarCodeLen = BarCodeLen
+    glngBlSpecVal = LvSpec
+    gstrVPGModel = VPGModel
+    gstrVPGTiming = VPGTiming
+    gstrVPG100IRE = VPG100IRE
+    gstrVPG80IRE = VPG80IRE
+    gstrVPG20IRE = VPG20IRE
+    gblnEnableCool2 = EnableCool2
+    gblnEnableCool1 = EnableCool1
+    gblnEnableStandard = EnableNormal
+    gblnEnableWarm1 = EnableWarm1
+    gblnEnableWarm2 = EnableWarm2
+    gblnChkColorTemp = EnableChkColor
+    gblnAdjOffset = EnableAdjOffset
+    gstrChipSet = ChipSet
     
-    gutdCommMode = clsConfigData.CommMode
+    gutdCommMode = CommMode
     If gutdCommMode = modeUART Then
         subInitComPort
     ElseIf gutdCommMode = modeNetwork Then
         subInitNetwork
     End If
     
-    Set clsConfigData = Nothing
 
     txtInput.Text = ""
     lbModelName.Caption = Split(gstrCurProjName, gstrDelimiterForProjName)(1)
@@ -1488,6 +1486,12 @@ ErrExit:
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
+    Dim strColorTemp As String
+    Dim isGain As Boolean
+    Dim xmlDoc As New MSXML2.DOMDocument
+    Dim success As Boolean
+    success = xmlDoc.Load(gstrXmlPath)
+
 On Error GoTo ErrExit
 
     If UCase(mBrand) = "CAN" Then
@@ -1527,7 +1531,46 @@ On Error GoTo ErrExit
         MSComm1.PortOpen = False
     End If
   
-    ColorTDeInit
+    Call ColorTDeInit(rConfigData)
+    If success = False Then
+        MsgBox xmlDoc.parseError.reason
+    Else
+        Select Case strColorTemp
+        Case COLORTEMP_COOL1
+            If isGain Then
+                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/R").Text = CStr(rConfigData.intPRESETGANCool1R)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/G").Text = CStr(rConfigData.intPRESETGANCool1G)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/B").Text = CStr(rConfigData.intPRESETGANCool1B)
+            Else
+                xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(rConfigData.intPRESETOFFCool1R)
+                xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(rConfigData.intPRESETOFFCool1G)
+                xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(rConfigData.intPRESETOFFCool1B)
+            End If
+            
+        Case COLORTEMP_STANDARD
+            If isGain Then
+                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/R").Text = CStr(rConfigData.intPRESETGANNormalR)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/G").Text = CStr(rConfigData.intPRESETGANNormalG)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/B").Text = CStr(rConfigData.intPRESETGANNormalB)
+            Else
+                xmlDoc.selectSingleNode("/config/PRESETOFF/normal/R").Text = CStr(rConfigData.intPRESETOFFNormalR)
+                xmlDoc.selectSingleNode("/config/PRESETOFF/normal/G").Text = CStr(rConfigData.intPRESETOFFNormalG)
+                xmlDoc.selectSingleNode("/config/PRESETOFF/normal/B").Text = CStr(rConfigData.intPRESETOFFNormalB)
+            End If
+            
+        Case COLORTEMP_WARM1
+            If isGain Then
+                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/R").Text = CStr(rConfigData.intPRESETGANWarm1R)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/G").Text = CStr(rConfigData.intPRESETGANWarm1G)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/B").Text = CStr(rConfigData.intPRESETGANWarm1B)
+            Else
+                xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/R").Text = CStr(rConfigData.intPRESETOFFWarm1R)
+                xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/G").Text = CStr(rConfigData.intPRESETOFFWarm1G)
+                xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/B").Text = CStr(rConfigData.intPRESETOFFWarm1B)
+            End If
+    End Select
+    End If
+    
     End
     Exit Sub
 

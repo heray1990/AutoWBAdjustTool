@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form FormSplash 
    BackColor       =   &H00E0E0E0&
    BorderStyle     =   3  'Fixed Dialog
@@ -17,6 +18,21 @@ Begin VB.Form FormSplash
    ScaleWidth      =   4005
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin MSComDlg.CommonDialog CommonDialog1 
+      Left            =   3120
+      Top             =   1320
+      _ExtentX        =   847
+      _ExtentY        =   847
+      _Version        =   393216
+   End
+   Begin VB.CommandButton CommandLoadXml 
+      Caption         =   "加载配置文件"
+      Height          =   495
+      Left            =   1080
+      TabIndex        =   3
+      Top             =   1200
+      Width           =   1575
+   End
    Begin VB.PictureBox Picture1 
       Appearance      =   0  'Flat
       AutoSize        =   -1  'True
@@ -27,7 +43,7 @@ Begin VB.Form FormSplash
       Picture         =   "FormSplash.frx":000C
       ScaleHeight     =   750
       ScaleWidth      =   750
-      TabIndex        =   4
+      TabIndex        =   2
       Top             =   120
       Width           =   780
    End
@@ -41,29 +57,9 @@ Begin VB.Form FormSplash
       Picture         =   "FormSplash.frx":1E00
       ScaleHeight     =   750
       ScaleWidth      =   2520
-      TabIndex        =   3
+      TabIndex        =   1
       Top             =   120
       Width           =   2550
-   End
-   Begin VB.ComboBox cmbModelName 
-      BackColor       =   &H00E0E0E0&
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   12
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FF0000&
-      Height          =   405
-      Left            =   360
-      Sorted          =   -1  'True
-      TabIndex        =   0
-      Text            =   "Sample1"
-      Top             =   1440
-      Width           =   3300
    End
    Begin VB.Label lblVersion 
       Alignment       =   1  'Right Justify
@@ -82,28 +78,9 @@ Begin VB.Form FormSplash
       ForeColor       =   &H00404040&
       Height          =   255
       Left            =   2760
-      TabIndex        =   2
+      TabIndex        =   0
       Top             =   1920
       Width           =   825
-   End
-   Begin VB.Label Label1 
-      BackColor       =   &H00E0E0E0&
-      Caption         =   "Please select model:"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   12
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00404040&
-      Height          =   375
-      Left            =   360
-      TabIndex        =   1
-      Top             =   1080
-      Width           =   3255
    End
 End
 Attribute VB_Name = "FormSplash"
@@ -114,72 +91,36 @@ Attribute VB_Exposed = False
 Option Explicit
 
 
-Private Sub Form_Click()
-    Unload Me
-End Sub
+Private Sub CommandLoadXml_Click()
+    ' CancelError is True.
+    On Error GoTo ErrHandler
+    ' Set filters.
+    CommonDialog1.Filter = "All Files (*.*)|*.*|Xml Files (*.xml)|*.xml"
+    ' Specify default filter.
+    CommonDialog1.FilterIndex = 2
 
-Private Sub Form_DblClick()
+    ' Display the Open dialog box.
+    CommonDialog1.ShowOpen
+    gstrXmlPath = CommonDialog1.FileName
+    
     Unload Me
-End Sub
+    Exit Sub
 
-Private Sub Form_Deactivate()
-    Unload Me
-End Sub
-
-Private Sub Form_KeyPress(KeyAscii As Integer)
-    Unload Me
-End Sub
-
-Private Sub cmbModelName_Click()
-    SubUpdateBrand
+ErrHandler:
+    ' User pressed Cancel button.
+    MsgBox "请加载 XML 文件，否则无法运行软件", vbExclamation, "加载配置文件"
+    Exit Sub
 End Sub
 
 Private Sub Form_Load()
-    On Error GoTo ErrExit
-    Dim strProjectName As Variant
-    
-    cmbModelName.Clear
-    
-    For Each strProjectName In GetProjectList
-        cmbModelName.AddItem strProjectName
-    Next strProjectName
-    
-    lblVersion.Caption = TXTVersion & " " & App.Major & "." & App.Minor & "." & App.Revision
-    Label1.Caption = TXTMessage1
-
-    cmbModelName.Text = GetCurProjectName
-    
-    SubUpdateBrand
-    
-    Exit Sub
-
-ErrExit:
-    MsgBox Err.Description, vbCritical, Err.Source
+    lblVersion.Caption = "Version: " & App.Major & "." & App.Minor & "." & App.Revision
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-
-On Error GoTo ErrExit
-    gstrCurProjName = cmbModelName.Text
-    SetCurProjectName gstrCurProjName
-
+    On Error GoTo ErrExit
     FormMain.Show
     Exit Sub
 
 ErrExit:
     MsgBox Err.Description, vbCritical, Err.Source
-End Sub
-
-Private Sub SubUpdateBrand()
-    Dim strBrand As String
-    
-    strBrand = Split(cmbModelName.Text, gstrDelimiterForProjName)(0)
-    
-    If UCase(strBrand) = "CAN" Then
-        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\CANTV.bmp")
-    ElseIf UCase(strBrand) = "HAIER" Then
-        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
-    Else
-        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
-    End If
 End Sub

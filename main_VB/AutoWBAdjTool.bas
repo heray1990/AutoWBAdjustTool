@@ -2,6 +2,82 @@ Attribute VB_Name = "AutoWBAdjTool"
 Option Explicit
 
 '==========User-defined Type==========
+Public Type udtConfigData
+    strModel As String
+    CommMode As CommunicationMode
+    strComBaud As String
+    intComID As Integer
+    strInputSource As String
+    lngDelayMs As Long
+    intChannelNum As Integer
+    intBarCodeLen As Integer
+    intLvSpec As Integer
+    strVPGModel As String
+    strVPGTiming As String
+    strVPG100IRE As String
+    strVPG80IRE As String
+    strVPG20IRE As String
+    lngI2cClockRate As Long
+    bolEnableCool2 As Boolean
+    bolEnableCool1 As Boolean
+    bolEnableNormal As Boolean
+    bolEnableWarm1 As Boolean
+    bolEnableWarm2 As Boolean
+    bolEnableChkColor As Boolean
+    bolEnableAdjOffset As Boolean
+    strChipSet As String
+End Type
+
+Public Type udtConfigData1
+    intSPECCool1x As Long
+    intSPECCool1y As Long
+    intSPECCool1Lv As Long
+    intSPECNormalx As Long
+    intSPECNormaly As Long
+    intSPECNormalLv As Long
+    intSPECWarm1x As Long
+    intSPECWarm1y As Long
+    intSPECWarm1Lv As Long
+    intTOLCool1xt As Long
+    intTOLCool1yt As Long
+    intTOLNormalxt As Long
+    intTOLNormalyt As Long
+    intTOLWarm1xt As Long
+    intTOLWarm1yt As Long
+    intCHKCool1Cxt As Long
+    intCHKCool1Cyt As Long
+    intCHKNormalCxt As Long
+    intCHKNormalCyt As Long
+    intCHKWarm1Cxt As Long
+    intCHKWarm1Cyt As Long
+    intPRESETGANCool1R As Long
+    intPRESETGANCool1G As Long
+    intPRESETGANCool1B As Long
+    intPRESETGANNormalR As Long
+    intPRESETGANNormalG As Long
+    intPRESETGANNormalB As Long
+    intPRESETGANWarm1R As Long
+    intPRESETGANWarm1G As Long
+    intPRESETGANWarm1B As Long
+    intPRESETOFFCool1R As Long
+    intPRESETOFFCool1G As Long
+    intPRESETOFFCool1B As Long
+    intPRESETOFFNormalR As Long
+    intPRESETOFFNormalG As Long
+    intPRESETOFFNormalB As Long
+    intPRESETOFFWarm1R As Long
+    intPRESETOFFWarm1G As Long
+    intPRESETOFFWarm1B As Long
+    intCLEVELRGBGMin As Long
+    intCLEVELRGBGMax As Long
+    intCLEVELRGBOMin As Long
+    intCLEVELRGBOMax As Long
+    intMAGICVALGMin As Long
+    intMAGICVALGMax As Long
+    intMAGICVALOMin As Long
+    intMAGICVALOMax As Long
+End Type
+
 Public Type COLORTEMPSPEC
     xx                         As Long
     yy                         As Long
@@ -53,6 +129,12 @@ Public Const REMOTE_PORT As Long = 8888
 
 '==========Public Variables==========
 Public gutdCommMode As CommunicationMode
+Public mConfigData As udtConfigData
+Public rConfigData As udtConfigData1
+
+
+
+
 
 Public glngCaChannel As Long
 Public glngDelayTime As Long
