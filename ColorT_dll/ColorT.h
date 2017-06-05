@@ -20,6 +20,56 @@ public:
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+typedef struct udtConfigData
+{
+	int intSPECCool1x; 
+    int intSPECCool1y;
+    int intSPECCool1Lv; 
+    int intSPECNormalx;
+    int intSPECNormaly; 
+    int intSPECNormalLv; 
+    int intSPECWarm1x; 
+    int intSPECWarm1y; 
+    int intSPECWarm1Lv; 
+    int intTOLCool1xt; 
+    int intTOLCool1yt;
+    int intTOLNormalxt; 
+    int intTOLNormalyt; 
+    int intTOLWarm1xt; 
+    int intTOLWarm1yt; 
+    int intCHKCool1Cxt; 
+    int intCHKCool1Cyt; 
+    int intCHKNormalCxt; 
+    int intCHKNormalCyt; 
+    int intCHKWarm1Cxt; 
+    int intCHKWarm1Cyt; 
+    int intPRESETGANCool1R; 
+    int intPRESETGANCool1G; 
+    int intPRESETGANCool1B; 
+    int intPRESETGANNormalR; 
+    int intPRESETGANNormalG; 
+    int intPRESETGANNormalB; 
+    int intPRESETGANWarm1R; 
+    int intPRESETGANWarm1G; 
+    int intPRESETGANWarm1B; 
+    int intPRESETOFFCool1R; 
+    int intPRESETOFFCool1G; 
+    int intPRESETOFFCool1B; 
+    int intPRESETOFFNormalR; 
+    int intPRESETOFFNormalG; 
+    int intPRESETOFFNormalB; 
+    int intPRESETOFFWarm1R; 
+    int intPRESETOFFWarm1G; 
+    int intPRESETOFFWarm1B; 
+    int intCLEVELRGBGMin; 
+    int intCLEVELRGBGMax; 
+    int intCLEVELRGBOMin; 
+    int intCLEVELRGBOMax; 
+    int intMAGICVALGMin; 
+    int intMAGICVALGMax; 
+    int intMAGICVALOMin; 
+    int intMAGICVALOMax; 
+}udtConfigData,*pudtConfigData;
 
 typedef struct COLORSPEC
 {
@@ -61,6 +111,7 @@ int minColorRGB_OFF;
 int maxColorRGB_GAN;
 int minColorRGB_GAN;
 
+udtConfigData ConfigData;
 COLORSPEC SpecCool1;
 COLORSPEC SpecNormal;
 COLORSPEC SpecWarm1;
@@ -79,8 +130,8 @@ int min_rgb=0;
 int AdjustGAN=0;
 
 
-COLORT_API int _stdcall  ColorTInit(char* ModelFile, char* pCurDir);
-COLORT_API int _stdcall  ColorTDeInit();
+COLORT_API int _stdcall  ColorTInit(pudtConfigData pConfigdata);
+COLORT_API int _stdcall  ColorTDeInit(pudtConfigData pConfigdata);
 COLORT_API int _stdcall  ColorTSetSpec(char* colorTemp, pCOLORSPEC pSpecData,int GANref);
 COLORT_API int _stdcall  ColorTChk(pREALCOLOR PGetColor,char* colorTemp);
 COLORT_API int _stdcall  ColorTAdjRGBGainLetv(int FixValue, pREALRGB pAdjRGB, int *pResultCode);
@@ -88,8 +139,8 @@ COLORT_API int _stdcall  ColorTAdjRGBOffset(pREALRGB pAdjRGB);
 COLORT_API int _stdcall  ColorTAdjRGBGain(pREALRGB pAdjRGB);
 
 void  delay(unsigned milliseconds);
-int   savedata(pCOLORSPEC pColorST,char* CT);
-int   getdata(pCOLORSPEC pColorST,char* CT);
+int Getdata(pCOLORSPEC pColorST,pudtConfigData pConfigdata,char* CT);
+int Savedata(pCOLORSPEC pColorST,pudtConfigData pConfigdata,char* CT);
 BOOL  CheckRGBisInRangeOkorNO(COLORSPEC rgb);
 void  VerifyRGB(int& RGB);
 

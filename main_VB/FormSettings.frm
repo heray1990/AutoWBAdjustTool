@@ -987,7 +987,7 @@ Private Sub Command1_Click()
     VPG20IRE = txt20IRE.Text
     
     SaveConfigData
-    
+    SaveConfigData1
     
 
     Unload Me

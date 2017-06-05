@@ -8,80 +8,8 @@ Option Explicit
 Public gstrXmlPath As String
 Private Declare Function PathFileExists Lib "shlwapi.dll" Alias "PathFileExistsA" (ByVal pszPath As String) As Long
 
-Private Type udtConfigData
-    strModel As String
-    CommMode As CommunicationMode
-    strComBaud As String
-    intComID As Integer
-    strInputSource As String
-    lngDelayMs As Long
-    intChannelNum As Integer
-    intBarCodeLen As Integer
-    intLvSpec As Integer
-    strVPGModel As String
-    strVPGTiming As String
-    strVPG100IRE As String
-    strVPG80IRE As String
-    strVPG20IRE As String
-    lngI2cClockRate As Long
-    bolEnableCool2 As Boolean
-    bolEnableCool1 As Boolean
-    bolEnableNormal As Boolean
-    bolEnableWarm1 As Boolean
-    bolEnableWarm2 As Boolean
-    bolEnableChkColor As Boolean
-    bolEnableAdjOffset As Boolean
-    strChipSet As String
-    intSPECCool1x As Integer
-    intSPECCool1y As Integer
-    intSPECCool1Lv As Integer
-    intSPECNormalx As Integer
-    intSPECNormaly As Integer
-    intSPECNormalLv As Integer
-    intSPECWarm1x As Integer
-    intSPECWarm1y As Integer
-    intSPECWarm1Lv As Integer
-    intTOLCool1xt As Integer
-    intTOLCool1yt As Integer
-    intTOLNormalxt As Integer
-    intTOLNormalyt As Integer
-    intTOLWarm1xt As Integer
-    intTOLWarm1yt As Integer
-    intCHKCool1Cxt As Integer
-    intCHKCool1Cyt As Integer
-    intCHKNormalCxt As Integer
-    intCHKNormalCyt As Integer
-    intCHKWarm1Cxt As Integer
-    intCHKWarm1Cyt As Integer
-    intPRESETGANCool1R As Integer
-    intPRESETGANCool1G As Integer
-    intPRESETGANCool1B As Integer
-    intPRESETGANNormalR As Integer
-    intPRESETGANNormalG As Integer
-    intPRESETGANNormalB As Integer
-    intPRESETGANWarm1R As Integer
-    intPRESETGANWarm1G As Integer
-    intPRESETGANWarm1B As Integer
-    intPRESETOFFCool1R As Integer
-    intPRESETOFFCool1G As Integer
-    intPRESETOFFCool1B As Integer
-    intPRESETOFFNormalR As Integer
-    intPRESETOFFNormalG As Integer
-    intPRESETOFFNormalB As Integer
-    intPRESETOFFWarm1R As Integer
-    intPRESETOFFWarm1G As Integer
-    intPRESETOFFWarm1B As Integer
-    intCLEVELRGBGMin As Integer
-    intCLEVELRGBGMax As Integer
-    intCLEVELRGBOMin As Integer
-    intCLEVELRGBOMax As Integer
-    intMAGICVALGMin As Integer
-    intMAGICVALGMax As Integer
-    intMAGICVALOMin As Integer
-    intMAGICVALOMax As Integer
-End Type
 
-Private mConfigData As udtConfigData
+
 
 Private Sub Class_Initialize()
     
@@ -143,53 +71,6 @@ Public Sub LoadConfigData()
         mConfigData.strVPG80IRE = xmlDoc.selectSingleNode("/config/VPG/IRE80").Text
         mConfigData.strVPG20IRE = xmlDoc.selectSingleNode("/config/VPG/IRE20").Text
         mConfigData.strChipSet = xmlDoc.selectSingleNode("/config/chipset").Text
-        mConfigData.intSPECCool1x = val(xmlDoc.selectSingleNode("/config/SPEC/cool1/x").Text)
-        mConfigData.intSPECCool1y = val(xmlDoc.selectSingleNode("/config/SPEC/cool1/y").Text)
-        mConfigData.intSPECCool1Lv = val(xmlDoc.selectSingleNode("/config/SPEC/cool1/Lv").Text)
-        mConfigData.intSPECNormalx = val(xmlDoc.selectSingleNode("/config/SPEC/normal/x").Text)
-        mConfigData.intSPECNormaly = val(xmlDoc.selectSingleNode("/config/SPEC/normal/y").Text)
-        mConfigData.intSPECNormalLv = val(xmlDoc.selectSingleNode("/config/SPEC/normal/Lv").Text)
-        mConfigData.intSPECWarm1x = val(xmlDoc.selectSingleNode("/config/SPEC/warm1/x").Text)
-        mConfigData.intSPECWarm1y = val(xmlDoc.selectSingleNode("/config/SPEC/warm1/y").Text)
-        mConfigData.intSPECWarm1Lv = val(xmlDoc.selectSingleNode("/config/SPEC/warm1/Lv").Text)
-        mConfigData.intTOLCool1xt = val(xmlDoc.selectSingleNode("/config/TOL/cool1/xt").Text)
-        mConfigData.intTOLCool1yt = val(xmlDoc.selectSingleNode("/config/TOL/cool1/yt").Text)
-        mConfigData.intTOLNormalxt = val(xmlDoc.selectSingleNode("/config/TOL/normal/xt").Text)
-        mConfigData.intTOLNormalyt = val(xmlDoc.selectSingleNode("/config/TOL/normal/yt").Text)
-        mConfigData.intTOLWarm1xt = val(xmlDoc.selectSingleNode("/config/TOL/warm1/xt").Text)
-        mConfigData.intTOLWarm1yt = val(xmlDoc.selectSingleNode("/config/TOL/warm1/yt").Text)
-        mConfigData.intCHKCool1Cxt = val(xmlDoc.selectSingleNode("/config/CHK/cool1/cxt").Text)
-        mConfigData.intCHKCool1Cyt = val(xmlDoc.selectSingleNode("/config/CHK/cool1/cyt").Text)
-        mConfigData.intCHKNormalCxt = val(xmlDoc.selectSingleNode("/config/CHK/normal/cxt").Text)
-        mConfigData.intCHKNormalCyt = val(xmlDoc.selectSingleNode("/config/CHK/normal/cyt").Text)
-        mConfigData.intCHKWarm1Cxt = val(xmlDoc.selectSingleNode("/config/CHK/warm1/cxt").Text)
-        mConfigData.intCHKWarm1Cyt = val(xmlDoc.selectSingleNode("/config/CHK/warm1/cyt").Text)
-        mConfigData.intPRESETGANCool1R = val(xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/R").Text)
-        mConfigData.intPRESETGANCool1G = val(xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/G").Text)
-        mConfigData.intPRESETGANCool1B = val(xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/B").Text)
-        mConfigData.intPRESETGANNormalR = val(xmlDoc.selectSingleNode("/config/PRESETGAN/normal/R").Text)
-        mConfigData.intPRESETGANNormalG = val(xmlDoc.selectSingleNode("/config/PRESETGAN/normal/G").Text)
-        mConfigData.intPRESETGANNormalB = val(xmlDoc.selectSingleNode("/config/PRESETGAN/normal/B").Text)
-        mConfigData.intPRESETGANWarm1R = val(xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/R").Text)
-        mConfigData.intPRESETGANWarm1G = val(xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/G").Text)
-        mConfigData.intPRESETGANWarm1B = val(xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/B").Text)
-        mConfigData.intPRESETOFFCool1R = val(xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text)
-        mConfigData.intPRESETOFFCool1G = val(xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/G").Text)
-        mConfigData.intPRESETOFFCool1B = val(xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/B").Text)
-        mConfigData.intPRESETOFFNormalR = val(xmlDoc.selectSingleNode("/config/PRESETOFF/normal/R").Text)
-        mConfigData.intPRESETOFFNormalG = val(xmlDoc.selectSingleNode("/config/PRESETOFF/normal/G").Text)
-        mConfigData.intPRESETOFFNormalB = val(xmlDoc.selectSingleNode("/config/PRESETOFF/normal/B").Text)
-        mConfigData.intPRESETOFFWarm1R = val(xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/R").Text)
-        mConfigData.intPRESETOFFWarm1G = val(xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/G").Text)
-        mConfigData.intPRESETOFFWarm1B = val(xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/B").Text)
-        mConfigData.intCLEVELRGBGMin = val(xmlDoc.selectSingleNode("/config/CLEVELRGB/gain/min").Text)
-        mConfigData.intCLEVELRGBGMax = val(xmlDoc.selectSingleNode("/config/CLEVELRGB/gain/max").Text)
-        mConfigData.intCLEVELRGBOMin = val(xmlDoc.selectSingleNode("/config/CLEVELRGB/offset/min").Text)
-        mConfigData.intCLEVELRGBOMax = val(xmlDoc.selectSingleNode("/config/CLEVELRGB/offset/max").Text)
-        mConfigData.intMAGICVALGMin = val(xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepgain").Text)
-        mConfigData.intMAGICVALGMax = val(xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepoffset").Text)
-        mConfigData.intMAGICVALOMin = val(xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepgain").Text)
-        mConfigData.intMAGICVALOMax = val(xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepoffset").Text)
     End If
 
     If xmlDoc.selectSingleNode("/config/cool_2").Text = "True" Then
@@ -235,6 +116,68 @@ Public Sub LoadConfigData()
     End If
 End Sub
 
+Public Sub LoadConfigData1()
+
+    Dim xmlDoc As New MSXML2.DOMDocument
+    Dim success As Boolean
+    
+    success = xmlDoc.Load(gstrXmlPath)
+    
+    If success = False Then
+        MsgBox xmlDoc.parseError.reason
+    Else
+        rConfigData.intSPECCool1x = val(xmlDoc.selectSingleNode("/config/SPEC/cool1/x").Text)
+        rConfigData.intSPECCool1y = val(xmlDoc.selectSingleNode("/config/SPEC/cool1/y").Text)
+        rConfigData.intSPECCool1Lv = val(xmlDoc.selectSingleNode("/config/SPEC/cool1/Lv").Text)
+        rConfigData.intSPECNormalx = val(xmlDoc.selectSingleNode("/config/SPEC/normal/x").Text)
+        rConfigData.intSPECNormaly = val(xmlDoc.selectSingleNode("/config/SPEC/normal/y").Text)
+        rConfigData.intSPECNormalLv = val(xmlDoc.selectSingleNode("/config/SPEC/normal/Lv").Text)
+        rConfigData.intSPECWarm1x = val(xmlDoc.selectSingleNode("/config/SPEC/warm1/x").Text)
+        rConfigData.intSPECWarm1y = val(xmlDoc.selectSingleNode("/config/SPEC/warm1/y").Text)
+        rConfigData.intSPECWarm1Lv = val(xmlDoc.selectSingleNode("/config/SPEC/warm1/Lv").Text)
+        rConfigData.intTOLCool1xt = val(xmlDoc.selectSingleNode("/config/TOL/cool1/xt").Text)
+        rConfigData.intTOLCool1yt = val(xmlDoc.selectSingleNode("/config/TOL/cool1/yt").Text)
+        rConfigData.intTOLNormalxt = val(xmlDoc.selectSingleNode("/config/TOL/normal/xt").Text)
+        rConfigData.intTOLNormalyt = val(xmlDoc.selectSingleNode("/config/TOL/normal/yt").Text)
+        rConfigData.intTOLWarm1xt = val(xmlDoc.selectSingleNode("/config/TOL/warm1/xt").Text)
+        rConfigData.intTOLWarm1yt = val(xmlDoc.selectSingleNode("/config/TOL/warm1/yt").Text)
+        rConfigData.intCHKCool1Cxt = val(xmlDoc.selectSingleNode("/config/CHK/cool1/cxt").Text)
+        rConfigData.intCHKCool1Cyt = val(xmlDoc.selectSingleNode("/config/CHK/cool1/cyt").Text)
+        rConfigData.intCHKNormalCxt = val(xmlDoc.selectSingleNode("/config/CHK/normal/cxt").Text)
+        rConfigData.intCHKNormalCyt = val(xmlDoc.selectSingleNode("/config/CHK/normal/cyt").Text)
+        rConfigData.intCHKWarm1Cxt = val(xmlDoc.selectSingleNode("/config/CHK/warm1/cxt").Text)
+        rConfigData.intCHKWarm1Cyt = val(xmlDoc.selectSingleNode("/config/CHK/warm1/cyt").Text)
+        rConfigData.intPRESETGANCool1R = val(xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/R").Text)
+        rConfigData.intPRESETGANCool1G = val(xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/G").Text)
+        rConfigData.intPRESETGANCool1B = val(xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/B").Text)
+        rConfigData.intPRESETGANNormalR = val(xmlDoc.selectSingleNode("/config/PRESETGAN/normal/R").Text)
+        rConfigData.intPRESETGANNormalG = val(xmlDoc.selectSingleNode("/config/PRESETGAN/normal/G").Text)
+        rConfigData.intPRESETGANNormalB = val(xmlDoc.selectSingleNode("/config/PRESETGAN/normal/B").Text)
+        rConfigData.intPRESETGANWarm1R = val(xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/R").Text)
+        rConfigData.intPRESETGANWarm1G = val(xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/G").Text)
+        rConfigData.intPRESETGANWarm1B = val(xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/B").Text)
+        rConfigData.intPRESETOFFCool1R = val(xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text)
+        rConfigData.intPRESETOFFCool1G = val(xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/G").Text)
+        rConfigData.intPRESETOFFCool1B = val(xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/B").Text)
+        rConfigData.intPRESETOFFNormalR = val(xmlDoc.selectSingleNode("/config/PRESETOFF/normal/R").Text)
+        rConfigData.intPRESETOFFNormalG = val(xmlDoc.selectSingleNode("/config/PRESETOFF/normal/G").Text)
+        rConfigData.intPRESETOFFNormalB = val(xmlDoc.selectSingleNode("/config/PRESETOFF/normal/B").Text)
+        rConfigData.intPRESETOFFWarm1R = val(xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/R").Text)
+        rConfigData.intPRESETOFFWarm1G = val(xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/G").Text)
+        rConfigData.intPRESETOFFWarm1B = val(xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/B").Text)
+        rConfigData.intCLEVELRGBGMin = val(xmlDoc.selectSingleNode("/config/CLEVELRGB/gain/min").Text)
+        rConfigData.intCLEVELRGBGMax = val(xmlDoc.selectSingleNode("/config/CLEVELRGB/gain/max").Text)
+        rConfigData.intCLEVELRGBOMin = val(xmlDoc.selectSingleNode("/config/CLEVELRGB/offset/min").Text)
+        rConfigData.intCLEVELRGBOMax = val(xmlDoc.selectSingleNode("/config/CLEVELRGB/offset/max").Text)
+        rConfigData.intMAGICVALGMin = val(xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepgain").Text)
+        rConfigData.intMAGICVALGMax = val(xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepoffset").Text)
+        rConfigData.intMAGICVALOMin = val(xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepgain").Text)
+        rConfigData.intMAGICVALOMax = val(xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepoffset").Text)
+    End If
+
+    
+End Sub
+
 Public Sub SaveConfigData()
     Dim xmlDoc As New MSXML2.DOMDocument
     Dim success As Boolean
@@ -264,53 +207,6 @@ Public Sub SaveConfigData()
         xmlDoc.selectSingleNode("/config/VPG/IRE100").Text = mConfigData.strVPG100IRE
         xmlDoc.selectSingleNode("/config/VPG/IRE80").Text = mConfigData.strVPG80IRE
         xmlDoc.selectSingleNode("/config/VPG/IRE20").Text = mConfigData.strVPG20IRE
-        xmlDoc.selectSingleNode("/config/SPEC/cool1/x").Text = CStr(mConfigData.intSPECCool1x)
-        xmlDoc.selectSingleNode("/config/SPEC/cool1/y").Text = CStr(mConfigData.intSPECCool1y)
-        xmlDoc.selectSingleNode("/config/SPEC/cool1/Lv").Text = CStr(mConfigData.intSPECCool1Lv)
-        xmlDoc.selectSingleNode("/config/SPEC/normal/x").Text = CStr(mConfigData.intSPECNormalx)
-        xmlDoc.selectSingleNode("/config/SPEC/normal/y").Text = CStr(mConfigData.intSPECNormaly)
-        xmlDoc.selectSingleNode("/config/SPEC/normal/Lv").Text = CStr(mConfigData.intSPECNormalLv)
-        xmlDoc.selectSingleNode("/config/SPEC/warm1/x").Text = CStr(mConfigData.intSPECWarm1x)
-        xmlDoc.selectSingleNode("/config/SPEC/warm1/y").Text = CStr(mConfigData.intSPECWarm1y)
-        xmlDoc.selectSingleNode("/config/SPEC/warm1/Lv").Text = CStr(mConfigData.intSPECWarm1Lv)
-        xmlDoc.selectSingleNode("/config/TOL/cool1/xt").Text = CStr(mConfigData.intTOLCool1xt)
-        xmlDoc.selectSingleNode("/config/TOL/cool1/yt").Text = CStr(mConfigData.intTOLCool1yt)
-        xmlDoc.selectSingleNode("/config/TOL/normal/xt").Text = CStr(mConfigData.intTOLNormalxt)
-        xmlDoc.selectSingleNode("/config/TOL/normal/yt").Text = CStr(mConfigData.intTOLNormalyt)
-        xmlDoc.selectSingleNode("/config/TOL/warm1/xt").Text = CStr(mConfigData.intTOLWarm1xt)
-        xmlDoc.selectSingleNode("/config/TOL/warm1/yt").Text = CStr(mConfigData.intTOLWarm1yt)
-        xmlDoc.selectSingleNode("/config/CHK/cool1/cxt").Text = CStr(mConfigData.intCHKCool1Cxt)
-        xmlDoc.selectSingleNode("/config/CHK/cool1/cyt").Text = CStr(mConfigData.intCHKCool1Cyt)
-        xmlDoc.selectSingleNode("/config/CHK/normal/cxt").Text = CStr(mConfigData.intCHKNormalCxt)
-        xmlDoc.selectSingleNode("/config/CHK/normal/cyt").Text = CStr(mConfigData.intCHKNormalCyt)
-        xmlDoc.selectSingleNode("/config/CHK/warm1/cxt").Text = CStr(mConfigData.intCHKWarm1Cxt)
-        xmlDoc.selectSingleNode("/config/CHK/warm1/cyt").Text = CStr(mConfigData.intCHKWarm1Cyt)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/R").Text = CStr(mConfigData.intPRESETGANCool1R)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/G").Text = CStr(mConfigData.intPRESETGANCool1G)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/B").Text = CStr(mConfigData.intPRESETGANCool1B)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/normal/R").Text = CStr(mConfigData.intPRESETGANNormalR)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/normal/G").Text = CStr(mConfigData.intPRESETGANNormalG)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/normal/B").Text = CStr(mConfigData.intPRESETGANNormalB)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/R").Text = CStr(mConfigData.intPRESETGANWarm1R)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/G").Text = CStr(mConfigData.intPRESETGANWarm1G)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/B").Text = CStr(mConfigData.intPRESETGANWarm1B)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(mConfigData.intPRESETOFFCool1R)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/G").Text = CStr(mConfigData.intPRESETOFFCool1G)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/B").Text = CStr(mConfigData.intPRESETOFFCool1B)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/normal/R").Text = CStr(mConfigData.intPRESETOFFNormalR)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/normal/G").Text = CStr(mConfigData.intPRESETOFFNormalG)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/normal/B").Text = CStr(mConfigData.intPRESETOFFNormalB)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/R").Text = CStr(mConfigData.intPRESETOFFWarm1R)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/G").Text = CStr(mConfigData.intPRESETOFFWarm1G)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/B").Text = CStr(mConfigData.intPRESETOFFWarm1B)
-        xmlDoc.selectSingleNode("/config/CLEVELRGB/gain/min").Text = CStr(mConfigData.intCLEVELRGBGMin)
-        xmlDoc.selectSingleNode("/config/CLEVELRGB/gain/max").Text = CStr(mConfigData.intCLEVELRGBGMax)
-        xmlDoc.selectSingleNode("/config/CLEVELRGB/offset/min").Text = CStr(mConfigData.intCLEVELRGBOMin)
-        xmlDoc.selectSingleNode("/config/CLEVELRGB/offset/max").Text = CStr(mConfigData.intCLEVELRGBOMax)
-        xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepgain").Text = CStr(mConfigData.intMAGICVALGMin)
-        xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepoffset").Text = CStr(mConfigData.intMAGICVALGMax)
-        xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepgain").Text = CStr(mConfigData.intMAGICVALOMin)
-        xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepoffset").Text = CStr(mConfigData.intMAGICVALOMax)
         
         If mConfigData.bolEnableCool2 Then
             xmlDoc.selectSingleNode("/config/cool_2").Text = "True"
@@ -357,6 +253,68 @@ Public Sub SaveConfigData()
         xmlDoc.Save gstrXmlPath
     End If
 End Sub
+
+Public Sub SaveConfigData1()
+    Dim xmlDoc As New MSXML2.DOMDocument
+    Dim success As Boolean
+    
+    success = xmlDoc.Load(gstrXmlPath)
+    
+    If success = False Then
+        MsgBox xmlDoc.parseError.reason
+    Else
+        xmlDoc.selectSingleNode("/config/SPEC/cool1/x").Text = CStr(rConfigData.intSPECCool1x)
+        xmlDoc.selectSingleNode("/config/SPEC/cool1/y").Text = CStr(rConfigData.intSPECCool1y)
+        xmlDoc.selectSingleNode("/config/SPEC/cool1/Lv").Text = CStr(rConfigData.intSPECCool1Lv)
+        xmlDoc.selectSingleNode("/config/SPEC/normal/x").Text = CStr(rConfigData.intSPECNormalx)
+        xmlDoc.selectSingleNode("/config/SPEC/normal/y").Text = CStr(rConfigData.intSPECNormaly)
+        xmlDoc.selectSingleNode("/config/SPEC/normal/Lv").Text = CStr(rConfigData.intSPECNormalLv)
+        xmlDoc.selectSingleNode("/config/SPEC/warm1/x").Text = CStr(rConfigData.intSPECWarm1x)
+        xmlDoc.selectSingleNode("/config/SPEC/warm1/y").Text = CStr(rConfigData.intSPECWarm1y)
+        xmlDoc.selectSingleNode("/config/SPEC/warm1/Lv").Text = CStr(rConfigData.intSPECWarm1Lv)
+        xmlDoc.selectSingleNode("/config/TOL/cool1/xt").Text = CStr(rConfigData.intTOLCool1xt)
+        xmlDoc.selectSingleNode("/config/TOL/cool1/yt").Text = CStr(rConfigData.intTOLCool1yt)
+        xmlDoc.selectSingleNode("/config/TOL/normal/xt").Text = CStr(rConfigData.intTOLNormalxt)
+        xmlDoc.selectSingleNode("/config/TOL/normal/yt").Text = CStr(rConfigData.intTOLNormalyt)
+        xmlDoc.selectSingleNode("/config/TOL/warm1/xt").Text = CStr(rConfigData.intTOLWarm1xt)
+        xmlDoc.selectSingleNode("/config/TOL/warm1/yt").Text = CStr(rConfigData.intTOLWarm1yt)
+        xmlDoc.selectSingleNode("/config/CHK/cool1/cxt").Text = CStr(rConfigData.intCHKCool1Cxt)
+        xmlDoc.selectSingleNode("/config/CHK/cool1/cyt").Text = CStr(rConfigData.intCHKCool1Cyt)
+        xmlDoc.selectSingleNode("/config/CHK/normal/cxt").Text = CStr(rConfigData.intCHKNormalCxt)
+        xmlDoc.selectSingleNode("/config/CHK/normal/cyt").Text = CStr(rConfigData.intCHKNormalCyt)
+        xmlDoc.selectSingleNode("/config/CHK/warm1/cxt").Text = CStr(rConfigData.intCHKWarm1Cxt)
+        xmlDoc.selectSingleNode("/config/CHK/warm1/cyt").Text = CStr(rConfigData.intCHKWarm1Cyt)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/R").Text = CStr(rConfigData.intPRESETGANCool1R)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/G").Text = CStr(rConfigData.intPRESETGANCool1G)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/B").Text = CStr(rConfigData.intPRESETGANCool1B)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/normal/R").Text = CStr(rConfigData.intPRESETGANNormalR)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/normal/G").Text = CStr(rConfigData.intPRESETGANNormalG)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/normal/B").Text = CStr(rConfigData.intPRESETGANNormalB)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/R").Text = CStr(rConfigData.intPRESETGANWarm1R)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/G").Text = CStr(rConfigData.intPRESETGANWarm1G)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/B").Text = CStr(rConfigData.intPRESETGANWarm1B)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(rConfigData.intPRESETOFFCool1R)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/G").Text = CStr(rConfigData.intPRESETOFFCool1G)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/B").Text = CStr(rConfigData.intPRESETOFFCool1B)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/normal/R").Text = CStr(rConfigData.intPRESETOFFNormalR)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/normal/G").Text = CStr(rConfigData.intPRESETOFFNormalG)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/normal/B").Text = CStr(rConfigData.intPRESETOFFNormalB)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/R").Text = CStr(rConfigData.intPRESETOFFWarm1R)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/G").Text = CStr(rConfigData.intPRESETOFFWarm1G)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/B").Text = CStr(rConfigData.intPRESETOFFWarm1B)
+        xmlDoc.selectSingleNode("/config/CLEVELRGB/gain/min").Text = CStr(rConfigData.intCLEVELRGBGMin)
+        xmlDoc.selectSingleNode("/config/CLEVELRGB/gain/max").Text = CStr(rConfigData.intCLEVELRGBGMax)
+        xmlDoc.selectSingleNode("/config/CLEVELRGB/offset/min").Text = CStr(rConfigData.intCLEVELRGBOMin)
+        xmlDoc.selectSingleNode("/config/CLEVELRGB/offset/max").Text = CStr(rConfigData.intCLEVELRGBOMax)
+        xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepgain").Text = CStr(rConfigData.intMAGICVALGMin)
+        xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepoffset").Text = CStr(rConfigData.intMAGICVALGMax)
+        xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepgain").Text = CStr(rConfigData.intMAGICVALOMin)
+        xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepoffset").Text = CStr(rConfigData.intMAGICVALOMax)
+        
+    End If
+End Sub
+
+
 
 Public Property Get CommMode() As CommunicationMode
     CommMode = mConfigData.CommMode
@@ -471,379 +429,379 @@ Public Property Let VPG20IRE(strVPG20IRE As String)
 End Property
 
 Public Property Get SPECCool1x() As Integer
-    SPECCool1x = mConfigData.intSPECCool1x
+    SPECCool1x = rConfigData.intSPECCool1x
 End Property
 
 Public Property Let SPECCool1x(intSPECCool1x As Integer)
-    mConfigData.intSPECCool1x = intSPECCool1x
+    rConfigData.intSPECCool1x = intSPECCool1x
 End Property
 
 Public Property Get SPECCool1y() As Integer
-    SPECCool1y = mConfigData.intSPECCool1y
+    SPECCool1y = rConfigData.intSPECCool1y
 End Property
 
 Public Property Let SPECCool1y(intSPECCool1y As Integer)
-    mConfigData.intSPECCool1y = intSPECCool1y
+    rConfigData.intSPECCool1y = intSPECCool1y
 End Property
 
 Public Property Get SPECCool1Lv() As Integer
-    SPECCool1Lv = mConfigData.intSPECCool1Lv
+    SPECCool1Lv = rConfigData.intSPECCool1Lv
 End Property
 
 Public Property Let SPECCool1Lv(intSPECCool1Lv As Integer)
-    mConfigData.intSPECCool1Lv = intSPECCool1Lv
+    rConfigData.intSPECCool1Lv = intSPECCool1Lv
 End Property
 
 Public Property Get SPECNormalx() As Integer
-    SPECNormalx = mConfigData.intSPECNormalx
+    SPECNormalx = rConfigData.intSPECNormalx
 End Property
 
 Public Property Let SPECNormalx(intSPECNormalx As Integer)
-    mConfigData.intSPECNormalx = intSPECNormalx
+    rConfigData.intSPECNormalx = intSPECNormalx
 End Property
 
 Public Property Get SPECNormaly() As Integer
-    SPECNormaly = mConfigData.intSPECNormaly
+    SPECNormaly = rConfigData.intSPECNormaly
 End Property
 
 Public Property Let SPECNormaly(intSPECNormaly As Integer)
-    mConfigData.intSPECNormaly = intSPECNormaly
+    rConfigData.intSPECNormaly = intSPECNormaly
 End Property
 
 Public Property Get SPECNormalLv() As Integer
-    SPECNormalLv = mConfigData.intSPECNormalLv
+    SPECNormalLv = rConfigData.intSPECNormalLv
 End Property
 
 Public Property Let SPECNormalLv(intSPECNormalLv As Integer)
-    mConfigData.intSPECNormalLv = intSPECNormalLv
+    rConfigData.intSPECNormalLv = intSPECNormalLv
 End Property
 
 Public Property Get SPECWarm1x() As Integer
-    SPECWarm1x = mConfigData.intSPECWarm1x
+    SPECWarm1x = rConfigData.intSPECWarm1x
 End Property
 
 Public Property Let SPECWarm1x(intSPECWarm1x As Integer)
-    mConfigData.intSPECWarm1x = intSPECWarm1x
+    rConfigData.intSPECWarm1x = intSPECWarm1x
 End Property
 
 Public Property Get SPECWarm1y() As Integer
-    SPECWarm1y = mConfigData.intSPECWarm1y
+    SPECWarm1y = rConfigData.intSPECWarm1y
 End Property
 
 Public Property Let SPECWarm1y(intSPECWarm1y As Integer)
-    mConfigData.intSPECWarm1y = intSPECWarm1y
+    rConfigData.intSPECWarm1y = intSPECWarm1y
 End Property
 
 Public Property Get SPECWarm1Lv() As Integer
-    SPECWarm1Lv = mConfigData.intSPECWarm1Lv
+    SPECWarm1Lv = rConfigData.intSPECWarm1Lv
 End Property
 
 Public Property Let SPECWarm1Lv(intSPECWarm1Lv As Integer)
-    mConfigData.intSPECWarm1Lv = intSPECWarm1Lv
+    rConfigData.intSPECWarm1Lv = intSPECWarm1Lv
 End Property
 
 Public Property Get TOLCool1xt() As Integer
-    TOLCool1xt = mConfigData.intTOLCool1xt
+    TOLCool1xt = rConfigData.intTOLCool1xt
 End Property
 
 Public Property Let TOLCool1xt(intTOLCool1xt As Integer)
-    mConfigData.intTOLCool1xt = intTOLCool1xt
+    rConfigData.intTOLCool1xt = intTOLCool1xt
 End Property
 
 Public Property Get TOLCool1yt() As Integer
-    TOLCool1yt = mConfigData.intTOLCool1yt
+    TOLCool1yt = rConfigData.intTOLCool1yt
 End Property
 
 Public Property Let TOLCool1yt(intTOLCool1yt As Integer)
-    mConfigData.intTOLCool1yt = intTOLCool1yt
+    rConfigData.intTOLCool1yt = intTOLCool1yt
 End Property
 
 Public Property Get TOLNormalxt() As Integer
-    TOLNormalxt = mConfigData.intTOLNormalxt
+    TOLNormalxt = rConfigData.intTOLNormalxt
 End Property
 
 Public Property Let TOLNormalxt(intTOLNormalxt As Integer)
-    mConfigData.intTOLNormalxt = intTOLNormalxt
+    rConfigData.intTOLNormalxt = intTOLNormalxt
 End Property
 
 Public Property Get TOLNormalyt() As Integer
-    TOLNormalyt = mConfigData.intTOLNormalyt
+    TOLNormalyt = rConfigData.intTOLNormalyt
 End Property
 
 Public Property Let TOLNormalyt(intTOLNormalyt As Integer)
-    mConfigData.intTOLNormalyt = intTOLNormalyt
+    rConfigData.intTOLNormalyt = intTOLNormalyt
 End Property
 
 Public Property Get TOLWarm1xt() As Integer
-    TOLWarm1xt = mConfigData.intTOLWarm1xt
+    TOLWarm1xt = rConfigData.intTOLWarm1xt
 End Property
 
 Public Property Let TOLWarm1xt(intTOLWarm1xt As Integer)
-    mConfigData.intTOLWarm1xt = intTOLWarm1xt
+    rConfigData.intTOLWarm1xt = intTOLWarm1xt
 End Property
 
 Public Property Get TOLWarm1yt() As Integer
-    TOLWarm1yt = mConfigData.intTOLWarm1yt
+    TOLWarm1yt = rConfigData.intTOLWarm1yt
 End Property
 
 Public Property Let TOLWarm1yt(intTOLWarm1yt As Integer)
-    mConfigData.intTOLWarm1yt = intTOLWarm1yt
+    rConfigData.intTOLWarm1yt = intTOLWarm1yt
 End Property
 
 Public Property Get CHKCool1Cxt() As Integer
-    CHKCool1Cxt = mConfigData.intCHKCool1Cxt
+    CHKCool1Cxt = rConfigData.intCHKCool1Cxt
 End Property
 
 Public Property Let CHKCool1Cxt(intCHKCool1Cxt As Integer)
-    mConfigData.intCHKCool1Cxt = intCHKCool1Cxt
+    rConfigData.intCHKCool1Cxt = intCHKCool1Cxt
 End Property
 
 Public Property Get CHKCool1Cyt() As Integer
-    CHKCool1Cyt = mConfigData.intCHKCool1Cyt
+    CHKCool1Cyt = rConfigData.intCHKCool1Cyt
 End Property
 
 Public Property Let CHKCool1Cyt(intCHKCool1Cyt As Integer)
-    mConfigData.intCHKCool1Cyt = intCHKCool1Cyt
+    rConfigData.intCHKCool1Cyt = intCHKCool1Cyt
 End Property
 
 Public Property Get CHKNormalCxt() As Integer
-    CHKNormalCxt = mConfigData.intCHKNormalCxt
+    CHKNormalCxt = rConfigData.intCHKNormalCxt
 End Property
 
 Public Property Let CHKNormalCxt(intCHKNormalCxt As Integer)
-    mConfigData.intCHKNormalCxt = intCHKNormalCxt
+    rConfigData.intCHKNormalCxt = intCHKNormalCxt
 End Property
 
 Public Property Get CHKNormalCyt() As Integer
-    CHKNormalCyt = mConfigData.intCHKNormalCyt
+    CHKNormalCyt = rConfigData.intCHKNormalCyt
 End Property
 
 Public Property Let CHKNormalCyt(intCHKNormalCyt As Integer)
-    mConfigData.intCHKNormalCyt = intCHKNormalCyt
+    rConfigData.intCHKNormalCyt = intCHKNormalCyt
 End Property
 
 Public Property Get CHKWarm1Cxt() As Integer
-    CHKWarm1Cxt = mConfigData.intCHKWarm1Cxt
+    CHKWarm1Cxt = rConfigData.intCHKWarm1Cxt
 End Property
 
 Public Property Let CHKWarm1Cxt(intCHKWarm1Cxt As Integer)
-    mConfigData.intCHKWarm1Cxt = intCHKWarm1Cxt
+    rConfigData.intCHKWarm1Cxt = intCHKWarm1Cxt
 End Property
 
 Public Property Get CHKWarm1Cyt() As Integer
-    CHKWarm1Cyt = mConfigData.intCHKWarm1Cyt
+    CHKWarm1Cyt = rConfigData.intCHKWarm1Cyt
 End Property
 
 Public Property Let CHKWarm1Cyt(intCHKWarm1Cyt As Integer)
-    mConfigData.intCHKWarm1Cyt = intCHKWarm1Cyt
+    rConfigData.intCHKWarm1Cyt = intCHKWarm1Cyt
 End Property
 
 Public Property Get PRESETGANCool1R() As Integer
-    PRESETGANCool1R = mConfigData.intPRESETGANCool1R
+    PRESETGANCool1R = rConfigData.intPRESETGANCool1R
 End Property
 
 Public Property Let PRESETGANCool1R(intPRESETGANCool1R As Integer)
-    mConfigData.intPRESETGANCool1R = intPRESETGANCool1R
+    rConfigData.intPRESETGANCool1R = intPRESETGANCool1R
 End Property
 
 Public Property Get PRESETGANCool1G() As Integer
-    PRESETGANCool1G = mConfigData.intPRESETGANCool1G
+    PRESETGANCool1G = rConfigData.intPRESETGANCool1G
 End Property
 
 Public Property Let PRESETGANCool1G(intPRESETGANCool1G As Integer)
-    mConfigData.intPRESETGANCool1G = intPRESETGANCool1G
+    rConfigData.intPRESETGANCool1G = intPRESETGANCool1G
 End Property
 
 Public Property Get PRESETGANCool1B() As Integer
-    PRESETGANCool1B = mConfigData.intPRESETGANCool1B
+    PRESETGANCool1B = rConfigData.intPRESETGANCool1B
 End Property
 
 Public Property Let PRESETGANCool1B(intPRESETGANCool1B As Integer)
-    mConfigData.intPRESETGANCool1B = intPRESETGANCool1B
+    rConfigData.intPRESETGANCool1B = intPRESETGANCool1B
 End Property
 
 Public Property Get PRESETGANNormalR() As Integer
-    PRESETGANNormalR = mConfigData.intPRESETGANNormalR
+    PRESETGANNormalR = rConfigData.intPRESETGANNormalR
 End Property
 
 Public Property Let PRESETGANNormalR(intPRESETGANNormalR As Integer)
-    mConfigData.intPRESETGANNormalR = intPRESETGANNormalR
+    rConfigData.intPRESETGANNormalR = intPRESETGANNormalR
 End Property
 
 Public Property Get PRESETGANNormalG() As Integer
-    PRESETGANNormalG = mConfigData.intPRESETGANNormalG
+    PRESETGANNormalG = rConfigData.intPRESETGANNormalG
 End Property
 
 Public Property Let PRESETGANNormalG(intPRESETGANNormalG As Integer)
-    mConfigData.intPRESETGANNormalG = intPRESETGANNormalG
+    rConfigData.intPRESETGANNormalG = intPRESETGANNormalG
 End Property
 
 Public Property Get PRESETGANNormalB() As Integer
-    PRESETGANNormalB = mConfigData.intPRESETGANNormalB
+    PRESETGANNormalB = rConfigData.intPRESETGANNormalB
 End Property
 
 Public Property Let PRESETGANNormalB(intPRESETGANNormalB As Integer)
-    mConfigData.intPRESETGANNormalB = intPRESETGANNormalB
+    rConfigData.intPRESETGANNormalB = intPRESETGANNormalB
 End Property
 
 Public Property Get PRESETGANWarm1R() As Integer
-    PRESETGANWarm1R = mConfigData.intPRESETGANWarm1R
+    PRESETGANWarm1R = rConfigData.intPRESETGANWarm1R
 End Property
 
 Public Property Let PRESETGANWarm1R(intPRESETGANWarm1R As Integer)
-    mConfigData.intPRESETGANWarm1R = intPRESETGANWarm1R
+    rConfigData.intPRESETGANWarm1R = intPRESETGANWarm1R
 End Property
 
 Public Property Get PRESETGANWarm1G() As Integer
-    PRESETGANWarm1G = mConfigData.intPRESETGANWarm1G
+    PRESETGANWarm1G = rConfigData.intPRESETGANWarm1G
 End Property
 
 Public Property Let PRESETGANWarm1G(intPRESETGANWarm1G As Integer)
-    mConfigData.intPRESETGANWarm1G = intPRESETGANWarm1G
+    rConfigData.intPRESETGANWarm1G = intPRESETGANWarm1G
 End Property
 
 Public Property Get PRESETGANWarm1B() As Integer
-    PRESETGANWarm1B = mConfigData.intPRESETGANWarm1B
+    PRESETGANWarm1B = rConfigData.intPRESETGANWarm1B
 End Property
 
 Public Property Let PRESETGANWarm1B(intPRESETGANWarm1B As Integer)
-    mConfigData.intPRESETGANWarm1B = intPRESETGANWarm1B
+    rConfigData.intPRESETGANWarm1B = intPRESETGANWarm1B
 End Property
 
 Public Property Get PRESETOFFCool1R() As Integer
-    PRESETOFFCool1R = mConfigData.intPRESETOFFCool1R
+    PRESETOFFCool1R = rConfigData.intPRESETOFFCool1R
 End Property
 
 Public Property Let PRESETOFFCool1R(intPRESETOFFCool1R As Integer)
-    mConfigData.intPRESETOFFCool1R = intPRESETOFFCool1R
+    rConfigData.intPRESETOFFCool1R = intPRESETOFFCool1R
 End Property
 
 Public Property Get PRESETOFFCool1G() As Integer
-    PRESETOFFCool1G = mConfigData.intPRESETOFFCool1G
+    PRESETOFFCool1G = rConfigData.intPRESETOFFCool1G
 End Property
 
 Public Property Let PRESETOFFCool1G(intPRESETOFFCool1G As Integer)
-    mConfigData.intPRESETOFFCool1G = intPRESETOFFCool1G
+    rConfigData.intPRESETOFFCool1G = intPRESETOFFCool1G
 End Property
 
 Public Property Get PRESETOFFCool1B() As Integer
-    PRESETOFFCool1B = mConfigData.intPRESETOFFCool1B
+    PRESETOFFCool1B = rConfigData.intPRESETOFFCool1B
 End Property
 
 Public Property Let PRESETOFFCool1B(intPRESETOFFCool1B As Integer)
-    mConfigData.intPRESETOFFCool1B = intPRESETOFFCool1B
+    rConfigData.intPRESETOFFCool1B = intPRESETOFFCool1B
 End Property
 
 Public Property Get PRESETOFFNormalR() As Integer
-    PRESETOFFNormalR = mConfigData.intPRESETOFFNormalR
+    PRESETOFFNormalR = rConfigData.intPRESETOFFNormalR
 End Property
 
 Public Property Let PRESETOFFNormalR(intPRESETOFFNormalR As Integer)
-    mConfigData.intPRESETOFFNormalR = intPRESETOFFNormalR
+    rConfigData.intPRESETOFFNormalR = intPRESETOFFNormalR
 End Property
 
 Public Property Get PRESETOFFNormalG() As Integer
-    PRESETOFFNormalG = mConfigData.intPRESETOFFNormalG
+    PRESETOFFNormalG = rConfigData.intPRESETOFFNormalG
 End Property
 
 Public Property Let PRESETOFFNormalG(intPRESETOFFNormalG As Integer)
-    mConfigData.intPRESETOFFNormalG = intPRESETOFFNormalG
+    rConfigData.intPRESETOFFNormalG = intPRESETOFFNormalG
 End Property
 
 Public Property Get PRESETOFFNormalB() As Integer
-    PRESETOFFNormalB = mConfigData.intPRESETOFFNormalB
+    PRESETOFFNormalB = rConfigData.intPRESETOFFNormalB
 End Property
 
 Public Property Let PRESETOFFNormalB(intPRESETOFFNormalB As Integer)
-    mConfigData.intPRESETOFFNormalB = intPRESETOFFNormalB
+    rConfigData.intPRESETOFFNormalB = intPRESETOFFNormalB
 End Property
 
 Public Property Get PRESETOFFWarm1R() As Integer
-    PRESETOFFWarm1R = mConfigData.intPRESETOFFWarm1R
+    PRESETOFFWarm1R = rConfigData.intPRESETOFFWarm1R
 End Property
 
 Public Property Let PRESETOFFWarm1R(intPRESETOFFWarm1R As Integer)
-    mConfigData.intPRESETOFFWarm1R = intPRESETOFFWarm1R
+    rConfigData.intPRESETOFFWarm1R = intPRESETOFFWarm1R
 End Property
 
 Public Property Get PRESETOFFWarm1G() As Integer
-    PRESETOFFWarm1G = mConfigData.intPRESETOFFWarm1G
+    PRESETOFFWarm1G = rConfigData.intPRESETOFFWarm1G
 End Property
 
 Public Property Let PRESETOFFWarm1G(intPRESETOFFWarm1G As Integer)
-    mConfigData.intPRESETOFFWarm1G = intPRESETOFFWarm1G
+    rConfigData.intPRESETOFFWarm1G = intPRESETOFFWarm1G
 End Property
 
 Public Property Get PRESETOFFWarm1B() As Integer
-    PRESETOFFWarm1B = mConfigData.intPRESETOFFWarm1B
+    PRESETOFFWarm1B = rConfigData.intPRESETOFFWarm1B
 End Property
 
 Public Property Let PRESETOFFWarm1B(intPRESETOFFWarm1B As Integer)
-    mConfigData.intPRESETOFFWarm1B = intPRESETOFFWarm1B
+    rConfigData.intPRESETOFFWarm1B = intPRESETOFFWarm1B
 End Property
 
 Public Property Get CLEVELRGBGMin() As Integer
-    CLEVELRGBGMin = mConfigData.intCLEVELRGBGMin
+    CLEVELRGBGMin = rConfigData.intCLEVELRGBGMin
 End Property
 
 Public Property Let CLEVELRGBGMin(intCLEVELRGBGMin As Integer)
-    mConfigData.intCLEVELRGBGMin = intCLEVELRGBGMin
+    rConfigData.intCLEVELRGBGMin = intCLEVELRGBGMin
 End Property
 
 Public Property Get CLEVELRGBGMax() As Integer
-    CLEVELRGBGMax = mConfigData.intCLEVELRGBGMax
+    CLEVELRGBGMax = rConfigData.intCLEVELRGBGMax
 End Property
 
 Public Property Let CLEVELRGBGMax(intCLEVELRGBGMax As Integer)
-    mConfigData.intCLEVELRGBGMax = intCLEVELRGBGMax
+    rConfigData.intCLEVELRGBGMax = intCLEVELRGBGMax
 End Property
 
 Public Property Get CLEVELRGBOMin() As Integer
-    CLEVELRGBOMin = mConfigData.intCLEVELRGBOMin
+    CLEVELRGBOMin = rConfigData.intCLEVELRGBOMin
 End Property
 
 Public Property Let CLEVELRGBOMin(intCLEVELRGBOMin As Integer)
-    mConfigData.intCLEVELRGBOMin = intCLEVELRGBOMin
+    rConfigData.intCLEVELRGBOMin = intCLEVELRGBOMin
 End Property
 
 Public Property Get CLEVELRGBOMax() As Integer
-    CLEVELRGBOMax = mConfigData.intCLEVELRGBOMax
+    CLEVELRGBOMax = rConfigData.intCLEVELRGBOMax
 End Property
 
 Public Property Let CLEVELRGBOMax(intCLEVELRGBOMax As Integer)
-    mConfigData.intCLEVELRGBOMax = intCLEVELRGBOMax
+    rConfigData.intCLEVELRGBOMax = intCLEVELRGBOMax
 End Property
 
 Public Property Get MAGICVALGMin() As Integer
-    MAGICVALGMin = mConfigData.intMAGICVALGMin
+    MAGICVALGMin = rConfigData.intMAGICVALGMin
 End Property
 
 Public Property Let MAGICVALGMin(intMAGICVALGMin As Integer)
-    mConfigData.intMAGICVALGMin = intMAGICVALGMin
+    rConfigData.intMAGICVALGMin = intMAGICVALGMin
 End Property
 
 Public Property Get MAGICVALGMax() As Integer
-    MAGICVALGMax = mConfigData.intMAGICVALGMax
+    MAGICVALGMax = rConfigData.intMAGICVALGMax
 End Property
 
 Public Property Let MAGICVALGMax(intMAGICVALGMax As Integer)
-    mConfigData.intMAGICVALGMax = intMAGICVALGMax
+    rConfigData.intMAGICVALGMax = intMAGICVALGMax
 End Property
 
 Public Property Get MAGICVALOMin() As Integer
-    MAGICVALOMin = mConfigData.intMAGICVALOMin
+    MAGICVALOMin = rConfigData.intMAGICVALOMin
 End Property
 
 Public Property Let MAGICVALOMin(intMAGICVALOMin As Integer)
-    mConfigData.intMAGICVALOMin = intMAGICVALOMin
+    rConfigData.intMAGICVALOMin = intMAGICVALOMin
 End Property
 
 Public Property Get MAGICVALOMax() As Integer
-    MAGICVALOMax = mConfigData.intMAGICVALOMax
+    MAGICVALOMax = rConfigData.intMAGICVALOMax
 End Property
 
 Public Property Let MAGICVALOMax(intMAGICVALOMax As Integer)
-    mConfigData.intMAGICVALOMax = intMAGICVALOMax
+    rConfigData.intMAGICVALOMax = intMAGICVALOMax
 End Property
 
 

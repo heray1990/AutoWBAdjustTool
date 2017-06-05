@@ -11,7 +11,7 @@
 	<length_bar_code>1</length_bar_code>
 	<Lv_spec>300</Lv_spec>
 	<VPG>
-		<model>2402</model>
+		<model>22294_A</model>
 		<timing>69</timing>
 		<IRE100>101</IRE100>
 		<IRE80>103</IRE80>
@@ -106,12 +106,12 @@
 	</PRESETOFF>
 	<CLEVELRGB>
 		<gain>
-			<min>135</min>
-			<max>63</max>
+			<min>63</min>
+			<max>135</max>
 		</gain>
 		<offset>
-			<min>255</min>
-			<max>63</max>
+			<min>63</min>
+			<max>255</max>
 		</offset>
 	</CLEVELRGB>
 	<MAGICVAL>
