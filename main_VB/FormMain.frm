@@ -1675,58 +1675,21 @@ End Sub
 
 Private Sub saveALLcData()
     Dim sqlstring As String
-
+    Dim cat As New ADOX.Catalog
+    Set cat = New ADOX.Catalog
+    Dim tbl As ADOX.Table
+    Dim pstr1 As String
+    pstr1 = "Provider=Microsoft.Jet.OLEDB.4.0;"
+    pstr1 = pstr1 & "Data Source=" & App.Path & "\Data.mdb"
+    cat.ActiveConnection = pstr1
+    On Error Resume Next
+    Set tbl = cat.Tables(gstrCurProjName)
+    
+    
     If mBarCode = "" Then
         Exit Sub
     Else
-            If sqlstring = "select * from [" & gstrCurProjName & "]" Then
-            FuncOpenSQL (sqlstring)
-            rs.AddNew
-
-        rs.Fields(0) = gstrCurProjName
-        rs.Fields(1) = mBarCode
-
-        rs.Fields(2) = cCOOL1.xx
-        rs.Fields(3) = cCOOL1.yy
-        rs.Fields(4) = cCOOL1.nColorRR
-        rs.Fields(5) = cCOOL1.nColorGG
-        rs.Fields(6) = cCOOL1.nColorBB
-        rs.Fields(7) = cNORMAL.xx
-        rs.Fields(8) = cNORMAL.yy
-        rs.Fields(9) = cNORMAL.nColorRR
-        rs.Fields(10) = cNORMAL.nColorGG
-        rs.Fields(11) = cNORMAL.nColorBB
-        rs.Fields(12) = cWARM1.xx
-        rs.Fields(13) = cWARM1.yy
-        rs.Fields(14) = cWARM1.nColorRR
-        rs.Fields(15) = cWARM1.nColorGG
-        rs.Fields(16) = cWARM1.nColorBB
-        
-        rs.Fields(17) = cFFCOOL1.nColorRR
-        rs.Fields(18) = cFFCOOL1.nColorGG
-        rs.Fields(19) = cFFCOOL1.nColorBB
-        rs.Fields(20) = cFFNORMAL.nColorRR
-        rs.Fields(21) = cFFNORMAL.nColorGG
-        rs.Fields(22) = cFFNORMAL.nColorBB
-        rs.Fields(23) = cFFWARM1.nColorRR
-        rs.Fields(24) = cFFWARM1.nColorGG
-        rs.Fields(25) = cFFWARM1.nColorBB
-
-        rs.Fields(26) = lvLastChk
-        rs.Fields(27) = glngBlSpecVal
-
-        rs.Fields(28) = cmdMark
-        rs.Fields(29) = Date
-        rs.Fields(30) = Time
-
-        rs.Update
-
-        Set cn = Nothing
-        Set rs = Nothing
-        sqlstring = ""
-        Else
-            Dim cat As New ADOX.Catalog
-            Dim pstr1 As String
+        If tbl Is Nothing Then
             Dim tb1 As New Table
             pstr1 = "Provider=Microsoft.Jet.OLEDB.4.0;"
             pstr1 = pstr1 & "Data Source=" & App.Path & "\Data.mdb"
@@ -1806,6 +1769,59 @@ Private Sub saveALLcData()
             rs.Fields(29) = Date
             rs.Fields(30) = Time
             rs.Update
+            Set cn = Nothing
+            Set rs = Nothing
+            sqlstring = ""
+        
+            
+        Else
+            sqlstring = "select * from [" & gstrCurProjName & "]"
+            FuncOpenSQL (sqlstring)
+            rs.AddNew
+    
+            rs.Fields(0) = gstrCurProjName
+            rs.Fields(1) = mBarCode
+    
+            rs.Fields(2) = cCOOL1.xx
+            rs.Fields(3) = cCOOL1.yy
+            rs.Fields(4) = cCOOL1.nColorRR
+            rs.Fields(5) = cCOOL1.nColorGG
+            rs.Fields(6) = cCOOL1.nColorBB
+            rs.Fields(7) = cNORMAL.xx
+            rs.Fields(8) = cNORMAL.yy
+            rs.Fields(9) = cNORMAL.nColorRR
+            rs.Fields(10) = cNORMAL.nColorGG
+            rs.Fields(11) = cNORMAL.nColorBB
+            rs.Fields(12) = cWARM1.xx
+            rs.Fields(13) = cWARM1.yy
+            rs.Fields(14) = cWARM1.nColorRR
+            rs.Fields(15) = cWARM1.nColorGG
+            rs.Fields(16) = cWARM1.nColorBB
+            
+            rs.Fields(17) = cFFCOOL1.nColorRR
+            rs.Fields(18) = cFFCOOL1.nColorGG
+            rs.Fields(19) = cFFCOOL1.nColorBB
+            rs.Fields(20) = cFFNORMAL.nColorRR
+            rs.Fields(21) = cFFNORMAL.nColorGG
+            rs.Fields(22) = cFFNORMAL.nColorBB
+            rs.Fields(23) = cFFWARM1.nColorRR
+            rs.Fields(24) = cFFWARM1.nColorGG
+            rs.Fields(25) = cFFWARM1.nColorBB
+    
+            rs.Fields(26) = lvLastChk
+            rs.Fields(27) = glngBlSpecVal
+    
+            rs.Fields(28) = cmdMark
+            rs.Fields(29) = Date
+            rs.Fields(30) = Time
+    
+            rs.Update
+    
+            Set cn = Nothing
+            Set rs = Nothing
+            sqlstring = ""
+            
+            
         End If
     End If
 End Sub
