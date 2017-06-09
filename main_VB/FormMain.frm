@@ -1678,10 +1678,10 @@ Private Sub saveALLcData()
     Dim cat As New ADOX.Catalog
     Set cat = New ADOX.Catalog
     Dim tbl As ADOX.Table
+    Dim path1 As String
     Dim pstr1 As String
     pstr1 = "Provider=Microsoft.Jet.OLEDB.4.0;"
     pstr1 = pstr1 & "Data Source=" & App.Path & "\Data.mdb"
-    cat.ActiveConnection = pstr1
     On Error Resume Next
     Set tbl = cat.Tables(gstrCurProjName)
     
@@ -1689,10 +1689,10 @@ Private Sub saveALLcData()
     If mBarCode = "" Then
         Exit Sub
     Else
-        If tbl Is Nothing Then
+        path1 = Dir(App.Path & "\Data.mdb")      '?¨¬2a???t¨º?¡¤?¡ä??¨²
+        If path1 = "" Then
+            cat.Create pstr1
             Dim tb1 As New Table
-            pstr1 = "Provider=Microsoft.Jet.OLEDB.4.0;"
-            pstr1 = pstr1 & "Data Source=" & App.Path & "\Data.mdb"
             cat.ActiveConnection = pstr1
             tb1.Name = gstrCurProjName
             tb1.Columns.Append "ModelName", adVarWChar, 10
@@ -1728,14 +1728,14 @@ Private Sub saveALLcData()
             tb1.Columns.Append "SaveTime", adVarWChar, 10
             cat.Tables.Append tb1
             sqlstring = "select * from [" & gstrCurProjName & "]"
-    
+        
             FuncOpenSQL (sqlstring)
-            
+                
             rs.AddNew
-    
+        
             rs.Fields(0) = gstrCurProjName
             rs.Fields(1) = mBarCode
-    
+        
             rs.Fields(2) = cCOOL1.xx
             rs.Fields(3) = cCOOL1.yy
             rs.Fields(4) = cCOOL1.nColorRR
@@ -1774,55 +1774,140 @@ Private Sub saveALLcData()
             sqlstring = ""
         
             
-        Else
-            sqlstring = "select * from [" & gstrCurProjName & "]"
-            FuncOpenSQL (sqlstring)
-            rs.AddNew
-    
-            rs.Fields(0) = gstrCurProjName
-            rs.Fields(1) = mBarCode
-    
-            rs.Fields(2) = cCOOL1.xx
-            rs.Fields(3) = cCOOL1.yy
-            rs.Fields(4) = cCOOL1.nColorRR
-            rs.Fields(5) = cCOOL1.nColorGG
-            rs.Fields(6) = cCOOL1.nColorBB
-            rs.Fields(7) = cNORMAL.xx
-            rs.Fields(8) = cNORMAL.yy
-            rs.Fields(9) = cNORMAL.nColorRR
-            rs.Fields(10) = cNORMAL.nColorGG
-            rs.Fields(11) = cNORMAL.nColorBB
-            rs.Fields(12) = cWARM1.xx
-            rs.Fields(13) = cWARM1.yy
-            rs.Fields(14) = cWARM1.nColorRR
-            rs.Fields(15) = cWARM1.nColorGG
-            rs.Fields(16) = cWARM1.nColorBB
+            Else
+                If tbl Is Nothing Then
+                    'Set tbl = cat.Tables(gstrCurProjName)
+                    Dim tb2 As New Table
+                    cat.ActiveConnection = pstr1
+                    tb2.Name = gstrCurProjName
+                    tb2.Columns.Append "ModelName", adVarWChar, 10
+                    tb2.Columns.Append "SerialNO", adVarWChar, 50
+                    tb2.Columns.Append "Cool_1x", adInteger
+                    tb2.Columns.Append "Cool_1y", adInteger
+                    tb2.Columns.Append "Cool_1R", adInteger
+                    tb2.Columns.Append "Cool_1G", adInteger
+                    tb2.Columns.Append "Cool_1B", adInteger
+                    tb2.Columns.Append "Normalx", adInteger
+                    tb2.Columns.Append "Normaly", adInteger
+                    tb2.Columns.Append "NormalR", adInteger
+                    tb2.Columns.Append "NormalG", adInteger
+                    tb2.Columns.Append "NormalB", adInteger
+                    tb2.Columns.Append "Warm_1x", adInteger
+                    tb2.Columns.Append "Warm_1y", adInteger
+                    tb2.Columns.Append "Warm_1R", adInteger
+                    tb2.Columns.Append "Warm_1G", adInteger
+                    tb2.Columns.Append "Warm_1B", adInteger
+                    tb2.Columns.Append "OFF_Cool_1R", adInteger
+                    tb2.Columns.Append "OFF_Cool_1G", adInteger
+                    tb2.Columns.Append "OFF_Cool_1B", adInteger
+                    tb2.Columns.Append "OFF_NormalR", adInteger
+                    tb2.Columns.Append "OFF_NormalG", adInteger
+                    tb2.Columns.Append "OFF_NormalB", adInteger
+                    tb2.Columns.Append "OFF_Warm_1R", adInteger
+                    tb2.Columns.Append "OFF_Warm_1G", adInteger
+                    tb2.Columns.Append "OFF_Warm_1B", adInteger
+                    tb2.Columns.Append "Max_Lv", adInteger
+                    tb2.Columns.Append "Sepc_Max_Lv", adInteger
+                    tb2.Columns.Append "Mark", adVarWChar, 10
+                    tb2.Columns.Append "SaveDate", adVarWChar, 10
+                    tb2.Columns.Append "SaveTime", adVarWChar, 10
+                    cat.Tables.Append tb2
+                    sqlstring = "select * from [" & gstrCurProjName & "]"
             
-            rs.Fields(17) = cFFCOOL1.nColorRR
-            rs.Fields(18) = cFFCOOL1.nColorGG
-            rs.Fields(19) = cFFCOOL1.nColorBB
-            rs.Fields(20) = cFFNORMAL.nColorRR
-            rs.Fields(21) = cFFNORMAL.nColorGG
-            rs.Fields(22) = cFFNORMAL.nColorBB
-            rs.Fields(23) = cFFWARM1.nColorRR
-            rs.Fields(24) = cFFWARM1.nColorGG
-            rs.Fields(25) = cFFWARM1.nColorBB
-    
-            rs.Fields(26) = lvLastChk
-            rs.Fields(27) = glngBlSpecVal
-    
-            rs.Fields(28) = cmdMark
-            rs.Fields(29) = Date
-            rs.Fields(30) = Time
-    
-            rs.Update
-    
-            Set cn = Nothing
-            Set rs = Nothing
-            sqlstring = ""
+                    FuncOpenSQL (sqlstring)
+                    
+                    rs.AddNew
             
+                    rs.Fields(0) = gstrCurProjName
+                    rs.Fields(1) = mBarCode
             
-        End If
+                    rs.Fields(2) = cCOOL1.xx
+                    rs.Fields(3) = cCOOL1.yy
+                    rs.Fields(4) = cCOOL1.nColorRR
+                    rs.Fields(5) = cCOOL1.nColorGG
+                    rs.Fields(6) = cCOOL1.nColorBB
+                    rs.Fields(7) = cNORMAL.xx
+                    rs.Fields(8) = cNORMAL.yy
+                    rs.Fields(9) = cNORMAL.nColorRR
+                    rs.Fields(10) = cNORMAL.nColorGG
+                    rs.Fields(11) = cNORMAL.nColorBB
+                    rs.Fields(12) = cWARM1.xx
+                    rs.Fields(13) = cWARM1.yy
+                    rs.Fields(14) = cWARM1.nColorRR
+                    rs.Fields(15) = cWARM1.nColorGG
+                    rs.Fields(16) = cWARM1.nColorBB
+                    
+                    rs.Fields(17) = cFFCOOL1.nColorRR
+                    rs.Fields(18) = cFFCOOL1.nColorGG
+                    rs.Fields(19) = cFFCOOL1.nColorBB
+                    rs.Fields(20) = cFFNORMAL.nColorRR
+                    rs.Fields(21) = cFFNORMAL.nColorGG
+                    rs.Fields(22) = cFFNORMAL.nColorBB
+                    rs.Fields(23) = cFFWARM1.nColorRR
+                    rs.Fields(24) = cFFWARM1.nColorGG
+                    rs.Fields(25) = cFFWARM1.nColorBB
+            
+                    rs.Fields(26) = lvLastChk
+                    rs.Fields(27) = glngBlSpecVal
+            
+                    rs.Fields(28) = cmdMark
+                    rs.Fields(29) = Date
+                    rs.Fields(30) = Time
+                    rs.Update
+                    Set cn = Nothing
+                    Set rs = Nothing
+                    sqlstring = ""
+        
+            
+                Else
+                    sqlstring = "select * from [" & gstrCurProjName & "]"
+                    FuncOpenSQL (sqlstring)
+                    rs.AddNew
+            
+                    rs.Fields(0) = gstrCurProjName
+                    rs.Fields(1) = mBarCode
+            
+                    rs.Fields(2) = cCOOL1.xx
+                    rs.Fields(3) = cCOOL1.yy
+                    rs.Fields(4) = cCOOL1.nColorRR
+                    rs.Fields(5) = cCOOL1.nColorGG
+                    rs.Fields(6) = cCOOL1.nColorBB
+                    rs.Fields(7) = cNORMAL.xx
+                    rs.Fields(8) = cNORMAL.yy
+                    rs.Fields(9) = cNORMAL.nColorRR
+                    rs.Fields(10) = cNORMAL.nColorGG
+                    rs.Fields(11) = cNORMAL.nColorBB
+                    rs.Fields(12) = cWARM1.xx
+                    rs.Fields(13) = cWARM1.yy
+                    rs.Fields(14) = cWARM1.nColorRR
+                    rs.Fields(15) = cWARM1.nColorGG
+                    rs.Fields(16) = cWARM1.nColorBB
+                    
+                    rs.Fields(17) = cFFCOOL1.nColorRR
+                    rs.Fields(18) = cFFCOOL1.nColorGG
+                    rs.Fields(19) = cFFCOOL1.nColorBB
+                    rs.Fields(20) = cFFNORMAL.nColorRR
+                    rs.Fields(21) = cFFNORMAL.nColorGG
+                    rs.Fields(22) = cFFNORMAL.nColorBB
+                    rs.Fields(23) = cFFWARM1.nColorRR
+                    rs.Fields(24) = cFFWARM1.nColorGG
+                    rs.Fields(25) = cFFWARM1.nColorBB
+            
+                    rs.Fields(26) = lvLastChk
+                    rs.Fields(27) = glngBlSpecVal
+            
+                    rs.Fields(28) = cmdMark
+                    rs.Fields(29) = Date
+                    rs.Fields(30) = Time
+            
+                    rs.Update
+            
+                    Set cn = Nothing
+                    Set rs = Nothing
+                    sqlstring = ""
+                End If
+            End If
+       
     End If
 End Sub
 
