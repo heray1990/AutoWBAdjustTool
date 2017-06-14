@@ -56,7 +56,7 @@ After building, please copy the `ColorT.dll` file from `ColorT_dll/Release` to `
 
 Use the project file `main_VB/AutoWBAdjustTool.vbp` to build AutoWBAdjustTool. Visual Basic 6.0 is recommended.
 
-After building, `main_VB/AutoAdjustColorTemp.exe` will be generated. Then we can install it into other PC.
+After building, `main_VB/AutoWBAdjustTool.exe` will be generated. Then we can install it into other PC.
 
 ## Installing
 
@@ -106,4 +106,4 @@ To unregister them, enter the following command.
 
 ### Executable file (*.exe)
 
-* `main_VB/AutoAdjustColorTemp.exe`
+* `main_VB/AutoWBAdjustTool.exe`
