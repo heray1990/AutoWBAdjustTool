@@ -29,6 +29,10 @@ AutoWBAdjustTool is a tool for auto white balance adjustment of some TVs. For no
 
 ![Driver of CA310](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/CA310-driver-05.png)
 
+![Driver of CA310](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/CA310-driver-06.png)
+
+![Driver of CA310](https://github.com/heray1990/AutoWBAdjustTool/raw/master/Images/CA310-driver-07.png)
+
 ### Hardware
 * A PC with softwares introduced above. 
 * A TV which needs to adjust white balance.
@@ -85,11 +89,7 @@ To unregister them, enter the following command.
 ### Config files
 
 * XML files
-	* `main_VB/wizard.xml`: Contains project lists. 
-	* `main_VB/project_name/config.xml`: project_name must be same as names in `wizard.xml` file. 
-	
-* ini file 
-	* `main_VB/project_name/CONFIG.INI`
+	* `main_VB/configXml/config*.xml`: Config files for different projects or models. 
 
 ### [Resource files](https://github.com/heray1990/AutoWBAdjustTool/tree/master/main_VB/Resources)
 
@@ -102,7 +102,7 @@ To unregister them, enter the following command.
 
 ### Database
 
-* `Data.mdb`: A file to store data of white balance. One table for one project or one model.
+* `Data.mdb`: A file to store data of white balance. One table for one project or one model. If there isn't this file, the software will generate it automatically.
 
 ### Executable file (*.exe)
 
