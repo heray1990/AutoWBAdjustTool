@@ -6,7 +6,7 @@
 		<i2c clockrate="50"/>
 	</communication>
 	<input_source>HDMI2</input_source>
-	<delayms>300</delayms>
+	<delayms>1000</delayms>
 	<channel_number>3</channel_number>
 	<length_bar_code>24</length_bar_code>
 	<Lv_spec>250</Lv_spec>
