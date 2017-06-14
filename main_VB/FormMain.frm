@@ -1,9 +1,9 @@
 VERSION 5.00
-Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "mscomm32.ocx"
+Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
 Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
 Begin VB.Form FormMain 
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "Auto White Balance Modulation"
+   Caption         =   "Auto White Balance Tool"
    ClientHeight    =   4620
    ClientLeft      =   5865
    ClientTop       =   2625
@@ -1274,7 +1274,7 @@ Private Sub Form_Load()
     gblnStop = False
     txtInput.Enabled = True
     
-    Me.Caption = TXTTitle
+    Me.Caption = TXTTitle & " V" & App.Major & "." & App.Minor & "." & App.Revision
     mTitle = Me.Caption
     subInitInterface
 

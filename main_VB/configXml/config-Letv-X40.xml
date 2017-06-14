@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<model>Letv-X40</model>
-	<communication> mode="Network"
+	<communication mode="Network">
 		<common baud="115200" id="6"/>
 		<i2c clockrate="50"/>
 	</communication>
