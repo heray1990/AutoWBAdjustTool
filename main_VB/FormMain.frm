@@ -1675,17 +1675,76 @@ End Sub
 
 Private Sub saveALLcData()
     Dim sqlstring As String
+    Dim cat As New ADOX.Catalog
+    Dim tbl As ADOX.Table
+    Dim path1 As String
+    Dim pstr1 As String
+    Dim tabelExist As Boolean
 
+    Set cat = New ADOX.Catalog
+    pstr1 = "Provider=Microsoft.Jet.OLEDB.4.0;" & "Data Source=" & App.Path & "\Data.mdb"
+    sqlstring = "select * from [" & gstrCurProjName & "]"
+    tabelExist = False
+    
     If mBarCode = "" Then
         Exit Sub
     Else
-        sqlstring = "select * from [" & gstrCurProjName & "]"
-        FuncOpenSQL (sqlstring)
-        rs.AddNew
+        path1 = Dir(App.Path & "\Data.mdb")
+        If path1 = "" Then
+            cat.Create pstr1
+        End If
 
+        cat.ActiveConnection = pstr1
+        For Each tbl In cat.Tables
+            If tbl.Name = gstrCurProjName Then
+                tabelExist = True
+                Exit For
+            End If
+        Next
+        
+        If tabelExist = False Then
+            Dim tblNew As New Table
+            tblNew.Name = gstrCurProjName
+            tblNew.Columns.Append "ModelName", adVarWChar, 10
+            tblNew.Columns.Append "SerialNO", adVarWChar, 50
+            tblNew.Columns.Append "Cool_1x", adInteger
+            tblNew.Columns.Append "Cool_1y", adInteger
+            tblNew.Columns.Append "Cool_1R", adInteger
+            tblNew.Columns.Append "Cool_1G", adInteger
+            tblNew.Columns.Append "Cool_1B", adInteger
+            tblNew.Columns.Append "Normalx", adInteger
+            tblNew.Columns.Append "Normaly", adInteger
+            tblNew.Columns.Append "NormalR", adInteger
+            tblNew.Columns.Append "NormalG", adInteger
+            tblNew.Columns.Append "NormalB", adInteger
+            tblNew.Columns.Append "Warm_1x", adInteger
+            tblNew.Columns.Append "Warm_1y", adInteger
+            tblNew.Columns.Append "Warm_1R", adInteger
+            tblNew.Columns.Append "Warm_1G", adInteger
+            tblNew.Columns.Append "Warm_1B", adInteger
+            tblNew.Columns.Append "OFF_Cool_1R", adInteger
+            tblNew.Columns.Append "OFF_Cool_1G", adInteger
+            tblNew.Columns.Append "OFF_Cool_1B", adInteger
+            tblNew.Columns.Append "OFF_NormalR", adInteger
+            tblNew.Columns.Append "OFF_NormalG", adInteger
+            tblNew.Columns.Append "OFF_NormalB", adInteger
+            tblNew.Columns.Append "OFF_Warm_1R", adInteger
+            tblNew.Columns.Append "OFF_Warm_1G", adInteger
+            tblNew.Columns.Append "OFF_Warm_1B", adInteger
+            tblNew.Columns.Append "Max_Lv", adInteger
+            tblNew.Columns.Append "Sepc_Max_Lv", adInteger
+            tblNew.Columns.Append "Mark", adVarWChar, 10
+            tblNew.Columns.Append "SaveDate", adVarWChar, 10
+            tblNew.Columns.Append "SaveTime", adVarWChar, 10
+            cat.Tables.Append tblNew
+        End If
+
+        FuncOpenSQL (sqlstring)
+
+        rs.AddNew
+        
         rs.Fields(0) = gstrCurProjName
         rs.Fields(1) = mBarCode
-
         rs.Fields(2) = cCOOL1.xx
         rs.Fields(3) = cCOOL1.yy
         rs.Fields(4) = cCOOL1.nColorRR
@@ -1701,7 +1760,6 @@ Private Sub saveALLcData()
         rs.Fields(14) = cWARM1.nColorRR
         rs.Fields(15) = cWARM1.nColorGG
         rs.Fields(16) = cWARM1.nColorBB
-        
         rs.Fields(17) = cFFCOOL1.nColorRR
         rs.Fields(18) = cFFCOOL1.nColorGG
         rs.Fields(19) = cFFCOOL1.nColorBB
@@ -1711,16 +1769,14 @@ Private Sub saveALLcData()
         rs.Fields(23) = cFFWARM1.nColorRR
         rs.Fields(24) = cFFWARM1.nColorGG
         rs.Fields(25) = cFFWARM1.nColorBB
-
         rs.Fields(26) = lvLastChk
         rs.Fields(27) = glngBlSpecVal
-
         rs.Fields(28) = cmdMark
         rs.Fields(29) = Date
         rs.Fields(30) = Time
-
+        
         rs.Update
-
+        
         Set cn = Nothing
         Set rs = Nothing
         sqlstring = ""
