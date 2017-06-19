@@ -250,7 +250,7 @@ Public Sub SaveConfigData()
             xmlDoc.selectSingleNode("/config/adjust_offset").Text = "False"
         End If
         
-        xmlDoc.Save gstrXmlPath
+        xmlDoc.save gstrXmlPath
     End If
 End Sub
 
@@ -311,6 +311,7 @@ Public Sub SaveConfigData1()
         xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepgain").Text = CStr(rConfigData.intMAGICVALOMin)
         xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepoffset").Text = CStr(rConfigData.intMAGICVALOMax)
         
+        xmlDoc.save gstrXmlPath
     End If
 End Sub
 

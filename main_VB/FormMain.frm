@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
+Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "mscomm32.ocx"
 Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
 Begin VB.Form FormMain 
    BorderStyle     =   1  'Fixed Single
@@ -487,7 +487,10 @@ Begin VB.Form FormMain
    Begin VB.Menu vbSet 
       Caption         =   "Setting"
       Begin VB.Menu vbSetSPEC 
-         Caption         =   "Set Spec"
+         Caption         =   "Common Settings"
+      End
+      Begin VB.Menu setWB 
+         Caption         =   "White Balance Settings"
       End
    End
    Begin VB.Menu vbDescription 
@@ -1224,6 +1227,12 @@ On Error Resume Next
     Label_x = CStr(rColor.xx)
     Label_y = CStr(rColor.yy)
     Label_Lv = CStr(rColor.lv)
+End Sub
+
+
+
+Private Sub setWB_Click()
+    FormWBSettings.Show
 End Sub
 
 Private Sub tbDisConnectastro_Click()
