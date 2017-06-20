@@ -1,6 +1,6 @@
 VERSION 5.00
 Begin VB.Form FormSettings 
-   Caption         =   "SpecData"
+   Caption         =   "Common Settings"
    ClientHeight    =   7350
    ClientLeft      =   6435
    ClientTop       =   3210
@@ -848,6 +848,9 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
+
+
+
 Private Sub Form_Load()
     Dim i As Integer
 
@@ -987,7 +990,6 @@ Private Sub Command1_Click()
     VPG20IRE = txt20IRE.Text
     
     SaveConfigData
-    SaveConfigData1
     
 
     Unload Me

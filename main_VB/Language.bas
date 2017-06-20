@@ -50,7 +50,7 @@ Public Const TXTFun As String = "Function"
 Public Const TXTConnectCA As String = "Connect CA310/CA210"
 Public Const TXTDisConnectCA As String = "DisConnect CA310/CA210(&D)"
 Public Const TXTSet As String = "Setting"
-Public Const TXTSetSpec As String = "Set Spec"
+Public Const TXTSetSpec As String = "Common Settings"
 Public Const TXTDiscription As String = "Description"
 Public Const TXTAbout As String = "About"
 'Interface
