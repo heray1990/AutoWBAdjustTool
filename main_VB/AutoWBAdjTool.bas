@@ -28,7 +28,7 @@ Public Type udtConfigData
     strChipSet As String
 End Type
 
-Public Type udtConfigData1
+Public Type udtSpecData
     intSPECCool1x As Long
     intSPECCool1y As Long
     intSPECCool1Lv As Long
@@ -128,13 +128,9 @@ Public Const REMOTE_HOST As String = "192.168.1.11"
 Public Const REMOTE_PORT As Long = 8888
 
 '==========Public Variables==========
-Public gutdCommMode As CommunicationMode
-Public mConfigData As udtConfigData
-Public rConfigData As udtConfigData1
-
-
-
-
+Public gEnumCommMode As CommunicationMode
+Public gudtConfigData As udtConfigData
+Public gudtSpecData As udtSpecData
 
 Public glngCaChannel As Long
 Public glngDelayTime As Long

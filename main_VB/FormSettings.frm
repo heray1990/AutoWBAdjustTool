@@ -879,21 +879,21 @@ Private Sub Form_Load()
     txt20IRE.Text = gstrVPG20IRE
     cmbI2cClockRate.Text = glngI2cClockRate & "KHz"
 
-    If gutdCommMode = modeUART Then
+    If gEnumCommMode = modeUART Then
         optUart.Value = True
         optNetwork.Value = False
         optI2c.Value = False
         cmbComBaud.Enabled = True
         cmbComID.Enabled = True
         cmbI2cClockRate.Enabled = False
-    ElseIf gutdCommMode = modeNetwork Then
+    ElseIf gEnumCommMode = modeNetwork Then
         optUart.Value = False
         optNetwork.Value = True
         optI2c.Value = False
         cmbComBaud.Enabled = False
         cmbComID.Enabled = False
         cmbI2cClockRate.Enabled = False
-    ElseIf gutdCommMode = modeI2c Then
+    ElseIf gEnumCommMode = modeI2c Then
         optUart.Value = False
         optNetwork.Value = False
         optI2c.Value = True

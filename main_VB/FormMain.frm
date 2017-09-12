@@ -876,7 +876,7 @@ Private Sub subInitAfterRunning()
     txtInput.Text = ""
     txtInput.SetFocus
     
-    If gutdCommMode = modeNetwork Then
+    If gEnumCommMode = modeNetwork Then
         gblnNetConnected = False
         tcpClient.Close
     End If
@@ -1305,13 +1305,13 @@ Private Sub Form_Load()
         End If
     End If
     
-    RES = ColorTInit(rConfigData)
+    RES = ColorTInit(gudtSpecData)
 End Sub
 
 Public Sub subInitInterface()
     
     LoadConfigData
-    LoadConfigData1
+    LoadSpecData
     
     gintCurComBaud = ComBaud
     gintCurComId = ComID
@@ -1337,10 +1337,10 @@ Public Sub subInitInterface()
     gblnAdjOffset = EnableAdjOffset
     gstrChipSet = ChipSet
     
-    gutdCommMode = CommMode
-    If gutdCommMode = modeUART Then
+    gEnumCommMode = CommMode
+    If gEnumCommMode = modeUART Then
         subInitComPort
-    ElseIf gutdCommMode = modeNetwork Then
+    ElseIf gEnumCommMode = modeNetwork Then
         subInitNetwork
     End If
     
@@ -1424,12 +1424,12 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
             SubSaveLogInFile "        Barcode of TV: " & mBarCode
             SubSaveLogInFile "======================================================================="
 
-            If gutdCommMode = modeUART Then
+            If gEnumCommMode = modeUART Then
                 If MSComm1.PortOpen = False Then
                     MSComm1.PortOpen = True
                 End If
                 SubRun
-            ElseIf gutdCommMode = modeNetwork Then
+            ElseIf gEnumCommMode = modeNetwork Then
                 gblnNetConnected = False
                 Do
                     If tcpClient.State = sckClosed Then
@@ -1451,7 +1451,7 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
                     SubLogInfo "Re-connect to TV."
                 Loop While i <= 5
                 txtInput.Enabled = True
-            ElseIf gutdCommMode = modeI2c Then
+            ElseIf gEnumCommMode = modeI2c Then
                 Dim SetDeviceSts As Integer
 
                 If DEVICE_USED = 0 Then
@@ -1533,7 +1533,7 @@ On Error GoTo ErrExit
         MSComm1.PortOpen = False
     End If
   
-    Call ColorTDeInit(rConfigData)
+    Call ColorTDeInit(gudtSpecData)
 
     If success = False Then
         MsgBox xmlDoc.parseError.reason
