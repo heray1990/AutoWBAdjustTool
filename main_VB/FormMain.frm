@@ -770,7 +770,7 @@ CHECK_WARM1:
     
     If (gstrChipSet = "T111" Or gstrChipSet = "Hi3751") Then
         Call clsProtocal.SelColorTemp(COLORTEMP_STANDARD, gstrTvInputSrc, gintTvInputSrcPort)
-        SubLogInfo "Set color temp to cool1"
+        SubLogInfo "Set color temp to Standard."
         
         ObjCa.Measure
         lvLastChk = CLng(ObjProbe.lv)
@@ -789,7 +789,7 @@ CHECK_WARM1:
         SubLogInfo "Set contrast to 100"
 
         Call clsProtocal.SelColorTemp(COLORTEMP_COOL1, gstrTvInputSrc, gintTvInputSrcPort)
-        SubLogInfo "Set color temp to cool1"
+        SubLogInfo "Set color temp to cool1."
 
         ObjCa.Measure
         lvLastChk = CLng(ObjProbe.lv)
@@ -1534,55 +1534,44 @@ On Error GoTo ErrExit
     End If
   
     Call ColorTDeInit(rConfigData)
+
     If success = False Then
         MsgBox xmlDoc.parseError.reason
     Else
-        Select Case strColorTemp
-            Case COLORTEMP_COOL1
-                If isGain Then
-                    xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/R").Text = CStr(rConfigData.intPRESETGANCool1R)
-                    xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/G").Text = CStr(rConfigData.intPRESETGANCool1G)
-                    xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/B").Text = CStr(rConfigData.intPRESETGANCool1B)
-                Else
-                    xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(rConfigData.intPRESETOFFCool1R)
-                    xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(rConfigData.intPRESETOFFCool1G)
-                    xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(rConfigData.intPRESETOFFCool1B)
-                End If
+        'Save RGB values of Cool1 in xml file.
+        xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/R").Text = CStr(cCOOL1.nColorRR)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/G").Text = CStr(cCOOL1.nColorGG)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/B").Text = CStr(cCOOL1.nColorBB)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(cFFCOOL1.nColorRR)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(cFFCOOL1.nColorGG)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(cFFCOOL1.nColorBB)
 
-            Case COLORTEMP_STANDARD
-                If isGain Then
-                    xmlDoc.selectSingleNode("/config/PRESETGAN/normal/R").Text = CStr(rConfigData.intPRESETGANNormalR)
-                    xmlDoc.selectSingleNode("/config/PRESETGAN/normal/G").Text = CStr(rConfigData.intPRESETGANNormalG)
-                    xmlDoc.selectSingleNode("/config/PRESETGAN/normal/B").Text = CStr(rConfigData.intPRESETGANNormalB)
-                Else
-                    xmlDoc.selectSingleNode("/config/PRESETOFF/normal/R").Text = CStr(rConfigData.intPRESETOFFNormalR)
-                    xmlDoc.selectSingleNode("/config/PRESETOFF/normal/G").Text = CStr(rConfigData.intPRESETOFFNormalG)
-                    xmlDoc.selectSingleNode("/config/PRESETOFF/normal/B").Text = CStr(rConfigData.intPRESETOFFNormalB)
-                End If
+        'Save RGB values to Standard in xml file.
+        xmlDoc.selectSingleNode("/config/PRESETGAN/normal/R").Text = CStr(cNORMAL.nColorRR)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/normal/G").Text = CStr(cNORMAL.nColorGG)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/normal/B").Text = CStr(cNORMAL.nColorBB)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/normal/R").Text = CStr(cFFNORMAL.nColorRR)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/normal/G").Text = CStr(cFFNORMAL.nColorGG)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/normal/B").Text = CStr(cFFNORMAL.nColorBB)
 
-            Case COLORTEMP_WARM1
-                If isGain Then
-                    xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/R").Text = CStr(rConfigData.intPRESETGANWarm1R)
-                    xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/G").Text = CStr(rConfigData.intPRESETGANWarm1G)
-                    xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/B").Text = CStr(rConfigData.intPRESETGANWarm1B)
-                Else
-                    xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/R").Text = CStr(rConfigData.intPRESETOFFWarm1R)
-                    xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/G").Text = CStr(rConfigData.intPRESETOFFWarm1G)
-                    xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/B").Text = CStr(rConfigData.intPRESETOFFWarm1B)
-                End If
-        End Select
+        'Save RGB values to Warm1 in xml file.
+        xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/R").Text = CStr(cWARM1.nColorRR)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/G").Text = CStr(cWARM1.nColorGG)
+        xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/B").Text = CStr(cWARM1.nColorBB)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/R").Text = CStr(cFFWARM1.nColorRR)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/G").Text = CStr(cFFWARM1.nColorGG)
+        xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/B").Text = CStr(cFFWARM1.nColorBB)
+        
+        xmlDoc.save gstrXmlPath
     End If
-    
-    End
+
     Exit Sub
 
 ErrExit:
     MsgBox Err.Description, vbCritical, Err.Source
 End Sub
 
-
 Private Sub saveData(strColorTemp As String, HL As Long)
-
     Select Case strColorTemp
         Case COLORTEMP_COOL1
             If HL Then

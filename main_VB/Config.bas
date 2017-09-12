@@ -9,11 +9,7 @@ Public gstrXmlPath As String
 Private Declare Function PathFileExists Lib "shlwapi.dll" Alias "PathFileExistsA" (ByVal pszPath As String) As Long
 
 
-
-
 Private Sub Class_Initialize()
-    
-    
     mConfigData.CommMode = modeUART
     mConfigData.strComBaud = "115200"
     mConfigData.intComID = 1
@@ -39,7 +35,6 @@ Private Sub Class_Initialize()
 End Sub
 
 Public Sub LoadConfigData()
-
     Dim xmlDoc As New MSXML2.DOMDocument
     Dim success As Boolean
     
@@ -117,7 +112,6 @@ Public Sub LoadConfigData()
 End Sub
 
 Public Sub LoadConfigData1()
-
     Dim xmlDoc As New MSXML2.DOMDocument
     Dim success As Boolean
     
@@ -174,8 +168,6 @@ Public Sub LoadConfigData1()
         rConfigData.intMAGICVALOMin = val(xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepgain").Text)
         rConfigData.intMAGICVALOMax = val(xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepoffset").Text)
     End If
-
-    
 End Sub
 
 Public Sub SaveConfigData()

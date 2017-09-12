@@ -309,6 +309,10 @@ Private Sub Protocal_SetRGBOffset(lngROffset As Long, lngGOffset As Long, lngBOf
 End Sub
 
 Private Sub Protocal_SaveWBDataToAllSrc(strInputSrc As String, intSrcNum As Integer)
+    If gstrChipSet = "T111" Then
+        Exit Sub
+    End If
+
     '55 01 01 06 00 00 00 00 00 00 F8 FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H1
@@ -323,9 +327,7 @@ Private Sub Protocal_SaveWBDataToAllSrc(strInputSrc As String, intSrcNum As Inte
     mSendDataBuf(10) = CalChkSum(mSendDataBuf)
     mSendDataBuf(11) = &HFE
     
-    If Not (gstrChipSet = "T111") Then
-        SendCmd
-    End If
+    SendCmd
 End Sub
 
 Public Sub Protocal_ChannelPreset()

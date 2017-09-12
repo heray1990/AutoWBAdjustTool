@@ -828,7 +828,7 @@ Private Sub cmbColorT_Click()
         txtGainStepY.Text = Format(val(rConfigData.intMAGICVALOMin) / 10000, "0.####")
         txtOffStepX.Text = Format(val(rConfigData.intMAGICVALGMax) / 10000, "0.####")
         txtOffStepY.Text = Format(val(rConfigData.intMAGICVALOMax) / 10000, "0.####")
-        End If
+    End If
 End Sub
 
 Private Sub Form_Load()
@@ -852,8 +852,6 @@ Private Sub Form_Load()
     cmbColorT.AddItem "Normal"
     cmbColorT.AddItem "Warm1"
     Label1.Caption = gstrCurProjName
-    
-    
 End Sub
 
 Private Sub Command1_Click()
@@ -913,7 +911,6 @@ Private Sub Command1_Click()
     End If
     
     SaveConfigData1
-    
 
     Unload Me
     
