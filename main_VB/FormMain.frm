@@ -1313,31 +1313,32 @@ Public Sub subInitInterface()
     LoadConfigData
     LoadSpecData
     
-    gintCurComBaud = ComBaud
-    gintCurComId = ComID
-    glngI2cClockRate = I2cClockRate
-    gstrTvInputSrc = inputSource
+    gstrCurProjName = gudtConfigData.strModel
+    gEnumCommMode = gudtConfigData.CommMode
+    gintCurComBaud = gudtConfigData.strComBaud
+    gintCurComId = gudtConfigData.intComID
+    glngI2cClockRate = gudtConfigData.lngI2cClockRate
+    gstrTvInputSrc = gudtConfigData.strInputSource
     gintTvInputSrcPort = CInt(Right(gstrTvInputSrc, 1))
     gstrTvInputSrc = Left(gstrTvInputSrc, Len(gstrTvInputSrc) - 1)
-    glngDelayTime = DelayMS
-    glngCaChannel = ChannelNum
-    gintBarCodeLen = BarCodeLen
-    glngBlSpecVal = LvSpec
-    gstrVPGModel = VPGModel
-    gstrVPGTiming = VPGTiming
-    gstrVPG100IRE = VPG100IRE
-    gstrVPG80IRE = VPG80IRE
-    gstrVPG20IRE = VPG20IRE
-    gblnEnableCool2 = EnableCool2
-    gblnEnableCool1 = EnableCool1
-    gblnEnableStandard = EnableNormal
-    gblnEnableWarm1 = EnableWarm1
-    gblnEnableWarm2 = EnableWarm2
-    gblnChkColorTemp = EnableChkColor
-    gblnAdjOffset = EnableAdjOffset
-    gstrChipSet = ChipSet
+    glngDelayTime = gudtConfigData.lngDelayMs
+    glngCaChannel = gudtConfigData.intChannelNum
+    gintBarCodeLen = gudtConfigData.intBarCodeLen
+    glngBlSpecVal = gudtConfigData.intLvSpec
+    gstrVPGModel = gudtConfigData.strVPGModel
+    gstrVPGTiming = gudtConfigData.strVPGTiming
+    gstrVPG100IRE = gudtConfigData.strVPG100IRE
+    gstrVPG80IRE = gudtConfigData.strVPG80IRE
+    gstrVPG20IRE = gudtConfigData.strVPG20IRE
+    gblnEnableCool2 = gudtConfigData.bolEnableCool2
+    gblnEnableCool1 = gudtConfigData.bolEnableCool1
+    gblnEnableStandard = gudtConfigData.bolEnableNormal
+    gblnEnableWarm1 = gudtConfigData.bolEnableWarm1
+    gblnEnableWarm2 = gudtConfigData.bolEnableWarm2
+    gblnChkColorTemp = gudtConfigData.bolEnableChkColor
+    gblnAdjOffset = gudtConfigData.bolEnableAdjOffset
+    gstrChipSet = gudtConfigData.strChipSet
     
-    gEnumCommMode = CommMode
     If gEnumCommMode = modeUART Then
         subInitComPort
     ElseIf gEnumCommMode = modeNetwork Then
@@ -1490,9 +1491,6 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
     Dim strColorTemp As String
     Dim isGain As Boolean
-    Dim xmlDoc As New MSXML2.DOMDocument
-    Dim success As Boolean
-    success = xmlDoc.Load(gstrXmlPath)
 
 On Error GoTo ErrExit
 
@@ -1535,36 +1533,6 @@ On Error GoTo ErrExit
   
     Call ColorTDeInit(gudtSpecData)
 
-    If success = False Then
-        MsgBox xmlDoc.parseError.reason
-    Else
-        'Save RGB values of Cool1 in xml file.
-        xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/R").Text = CStr(cCOOL1.nColorRR)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/G").Text = CStr(cCOOL1.nColorGG)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/B").Text = CStr(cCOOL1.nColorBB)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(cFFCOOL1.nColorRR)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(cFFCOOL1.nColorGG)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(cFFCOOL1.nColorBB)
-
-        'Save RGB values to Standard in xml file.
-        xmlDoc.selectSingleNode("/config/PRESETGAN/normal/R").Text = CStr(cNORMAL.nColorRR)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/normal/G").Text = CStr(cNORMAL.nColorGG)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/normal/B").Text = CStr(cNORMAL.nColorBB)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/normal/R").Text = CStr(cFFNORMAL.nColorRR)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/normal/G").Text = CStr(cFFNORMAL.nColorGG)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/normal/B").Text = CStr(cFFNORMAL.nColorBB)
-
-        'Save RGB values to Warm1 in xml file.
-        xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/R").Text = CStr(cWARM1.nColorRR)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/G").Text = CStr(cWARM1.nColorGG)
-        xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/B").Text = CStr(cWARM1.nColorBB)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/R").Text = CStr(cFFWARM1.nColorRR)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/G").Text = CStr(cFFWARM1.nColorGG)
-        xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/B").Text = CStr(cFFWARM1.nColorBB)
-        
-        xmlDoc.save gstrXmlPath
-    End If
-
     Exit Sub
 
 ErrExit:
@@ -1572,7 +1540,16 @@ ErrExit:
 End Sub
 
 Private Sub saveData(strColorTemp As String, HL As Long)
-    Select Case strColorTemp
+    Dim xmlDoc As New MSXML2.DOMDocument
+    Dim success As Boolean
+    success = xmlDoc.Load(gstrXmlPath)
+
+On Error GoTo ErrExit
+
+    If success = False Then
+        MsgBox xmlDoc.parseError.reason
+    Else
+        Select Case strColorTemp
         Case COLORTEMP_COOL1
             If HL Then
                 cCOOL1.xx = rColor.xx
@@ -1581,6 +1558,9 @@ Private Sub saveData(strColorTemp As String, HL As Long)
                 cCOOL1.nColorRR = rRGB.cRR
                 cCOOL1.nColorGG = rRGB.cGG
                 cCOOL1.nColorBB = rRGB.cBB
+                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/R").Text = CStr(cCOOL1.nColorRR)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/G").Text = CStr(cCOOL1.nColorGG)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/B").Text = CStr(cCOOL1.nColorBB)
             Else
                 cFFCOOL1.xx = rColor.xx
                 cFFCOOL1.yy = rColor.yy
@@ -1588,6 +1568,9 @@ Private Sub saveData(strColorTemp As String, HL As Long)
                 cFFCOOL1.nColorRR = rRGB.cRR
                 cFFCOOL1.nColorGG = rRGB.cGG
                 cFFCOOL1.nColorBB = rRGB.cBB
+                xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(cFFCOOL1.nColorRR)
+                xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(cFFCOOL1.nColorGG)
+                xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(cFFCOOL1.nColorBB)
             End If
 
         Case COLORTEMP_STANDARD
@@ -1598,6 +1581,9 @@ Private Sub saveData(strColorTemp As String, HL As Long)
                 cNORMAL.nColorRR = rRGB.cRR
                 cNORMAL.nColorGG = rRGB.cGG
                 cNORMAL.nColorBB = rRGB.cBB
+                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/R").Text = CStr(cNORMAL.nColorRR)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/G").Text = CStr(cNORMAL.nColorGG)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/B").Text = CStr(cNORMAL.nColorBB)
             Else
                 cFFNORMAL.xx = rColor.xx
                 cFFNORMAL.yy = rColor.yy
@@ -1605,6 +1591,9 @@ Private Sub saveData(strColorTemp As String, HL As Long)
                 cFFNORMAL.nColorRR = rRGB.cRR
                 cFFNORMAL.nColorGG = rRGB.cGG
                 cFFNORMAL.nColorBB = rRGB.cBB
+                xmlDoc.selectSingleNode("/config/PRESETOFF/normal/R").Text = CStr(cFFNORMAL.nColorRR)
+                xmlDoc.selectSingleNode("/config/PRESETOFF/normal/G").Text = CStr(cFFNORMAL.nColorGG)
+                xmlDoc.selectSingleNode("/config/PRESETOFF/normal/B").Text = CStr(cFFNORMAL.nColorBB)
             End If
 
         Case COLORTEMP_WARM1
@@ -1615,6 +1604,9 @@ Private Sub saveData(strColorTemp As String, HL As Long)
                 cWARM1.nColorRR = rRGB.cRR
                 cWARM1.nColorGG = rRGB.cGG
                 cWARM1.nColorBB = rRGB.cBB
+                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/R").Text = CStr(cWARM1.nColorRR)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/G").Text = CStr(cWARM1.nColorGG)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/B").Text = CStr(cWARM1.nColorBB)
             Else
                 cFFWARM1.xx = rColor.xx
                 cFFWARM1.yy = rColor.yy
@@ -1622,44 +1614,48 @@ Private Sub saveData(strColorTemp As String, HL As Long)
                 cFFWARM1.nColorRR = rRGB.cRR
                 cFFWARM1.nColorGG = rRGB.cGG
                 cFFWARM1.nColorBB = rRGB.cBB
+                xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/R").Text = CStr(cFFWARM1.nColorRR)
+                xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/G").Text = CStr(cFFWARM1.nColorGG)
+                xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/B").Text = CStr(cFFWARM1.nColorBB)
             End If
-    End Select
-  
+        End Select
+        xmlDoc.save gstrXmlPath
+    End If
 End Sub
 
 Private Sub LoadData(strColorTemp As String, isGain As Boolean)
     Select Case strColorTemp
         Case COLORTEMP_COOL1
             If isGain Then
-                rRGB1.cRR = cCOOL1.nColorRR
-                rRGB1.cGG = cCOOL1.nColorGG
-                rRGB1.cBB = cCOOL1.nColorBB
+                rRGB1.cRR = gudtSpecData.intPRESETGANCool1R
+                rRGB1.cGG = gudtSpecData.intPRESETGANCool1G
+                rRGB1.cBB = gudtSpecData.intPRESETGANCool1B
             Else
-                rRGB1.cRR = cFFCOOL1.nColorRR
-                rRGB1.cGG = cFFCOOL1.nColorGG
-                rRGB1.cBB = cFFCOOL1.nColorBB
+                rRGB1.cRR = gudtSpecData.intPRESETOFFCool1R
+                rRGB1.cGG = gudtSpecData.intPRESETOFFCool1G
+                rRGB1.cBB = gudtSpecData.intPRESETOFFCool1B
             End If
             
         Case COLORTEMP_STANDARD
             If isGain Then
-                rRGB1.cRR = cNORMAL.nColorRR
-                rRGB1.cGG = cNORMAL.nColorGG
-                rRGB1.cBB = cNORMAL.nColorBB
+                rRGB1.cRR = gudtSpecData.intPRESETGANNormalR
+                rRGB1.cGG = gudtSpecData.intPRESETGANNormalG
+                rRGB1.cBB = gudtSpecData.intPRESETGANNormalB
             Else
-                rRGB1.cRR = cFFNORMAL.nColorRR
-                rRGB1.cGG = cFFNORMAL.nColorGG
-                rRGB1.cBB = cFFNORMAL.nColorBB
+                rRGB1.cRR = gudtSpecData.intPRESETOFFNormalR
+                rRGB1.cGG = gudtSpecData.intPRESETOFFNormalG
+                rRGB1.cBB = gudtSpecData.intPRESETOFFNormalB
             End If
             
         Case COLORTEMP_WARM1
             If isGain Then
-                rRGB1.cRR = cWARM1.nColorRR
-                rRGB1.cGG = cWARM1.nColorGG
-                rRGB1.cBB = cWARM1.nColorBB
+                rRGB1.cRR = gudtSpecData.intPRESETGANWarm1R
+                rRGB1.cGG = gudtSpecData.intPRESETGANWarm1G
+                rRGB1.cBB = gudtSpecData.intPRESETGANWarm1B
             Else
-                rRGB1.cRR = cFFWARM1.nColorRR
-                rRGB1.cGG = cFFWARM1.nColorGG
-                rRGB1.cBB = cFFWARM1.nColorBB
+                rRGB1.cRR = gudtSpecData.intPRESETOFFWarm1R
+                rRGB1.cGG = gudtSpecData.intPRESETOFFWarm1G
+                rRGB1.cBB = gudtSpecData.intPRESETOFFWarm1B
             End If
     End Select
 End Sub

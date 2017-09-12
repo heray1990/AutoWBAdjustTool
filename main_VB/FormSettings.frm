@@ -947,45 +947,44 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub Command1_Click()
-    If Check1.Value = 1 Then EnableCool2 = True
-    If Check1.Value = 0 Then EnableCool2 = False
-    If Check2.Value = 1 Then EnableCool1 = True
-    If Check2.Value = 0 Then EnableCool1 = False
-    If Check3.Value = 1 Then EnableNormal = True
-    If Check3.Value = 0 Then EnableNormal = False
-    If Check4.Value = 1 Then EnableWarm1 = True
-    If Check4.Value = 0 Then EnableWarm1 = False
-    If Check5.Value = 1 Then EnableWarm2 = True
-    If Check5.Value = 0 Then EnableWarm2 = False
-    If Check6.Value = 1 Then EnableChkColor = True
-    If Check6.Value = 0 Then EnableChkColor = False
-    If Check7.Value = 1 Then EnableAdjOffset = True
-    If Check7.Value = 0 Then EnableAdjOffset = False
-    
-    LvSpec = val(txtLvSpec.Text)
-    BarCodeLen = val(txtSNLen.Text)
+    If Check1.Value = 1 Then gudtConfigData.bolEnableCool2 = True
+    If Check1.Value = 0 Then gudtConfigData.bolEnableCool2 = False
+    If Check2.Value = 1 Then gudtConfigData.bolEnableCool1 = True
+    If Check2.Value = 0 Then gudtConfigData.bolEnableCool1 = False
+    If Check3.Value = 1 Then gudtConfigData.bolEnableNormal = True
+    If Check3.Value = 0 Then gudtConfigData.bolEnableNormal = False
+    If Check4.Value = 1 Then gudtConfigData.bolEnableWarm1 = True
+    If Check4.Value = 0 Then gudtConfigData.bolEnableWarm1 = False
+    If Check5.Value = 1 Then gudtConfigData.bolEnableWarm2 = True
+    If Check5.Value = 0 Then gudtConfigData.bolEnableWarm2 = False
+    If Check6.Value = 1 Then gudtConfigData.bolEnableChkColor = True
+    If Check6.Value = 0 Then gudtConfigData.bolEnableChkColor = False
+    If Check7.Value = 1 Then gudtConfigData.bolEnableAdjOffset = True
+    If Check7.Value = 0 Then gudtConfigData.bolEnableAdjOffset = False
     
     If optUart.Value = True Then
-        CommMode = modeUART
+        gudtConfigData.CommMode = modeUART
     ElseIf optNetwork.Value = True Then
-        CommMode = modeNetwork
+        gudtConfigData.CommMode = modeNetwork
     ElseIf optI2c.Value = True Then
-        CommMode = modeI2c
+        gudtConfigData.CommMode = modeI2c
     Else
-        CommMode = modeUART
+        gudtConfigData.CommMode = modeUART
     End If
 
-    ComBaud = cmbComBaud.Text
-    ComID = val(Replace(cmbComID.Text, "COM", ""))
-    I2cClockRate = val(Replace(cmbI2cClockRate.Text, "KHz", ""))
-    ChannelNum = val(txtChannel.Text)
-    DelayMS = val(txtDelay.Text)
-    inputSource = cmbInputSource.Text
-    VPGModel = cmbChromaModel.Text
-    VPGTiming = txtChromaTiming.Text
-    VPG100IRE = txt100IRE.Text
-    VPG80IRE = txt80IRE.Text
-    VPG20IRE = txt20IRE.Text
+    gudtConfigData.strComBaud = cmbComBaud.Text
+    gudtConfigData.intComID = val(Replace(cmbComID.Text, "COM", ""))
+    gudtConfigData.lngI2cClockRate = val(Replace(cmbI2cClockRate.Text, "KHz", ""))
+    gudtConfigData.strInputSource = cmbInputSource.Text
+    gudtConfigData.lngDelayMs = val(txtDelay.Text)
+    gudtConfigData.intChannelNum = val(txtChannel.Text)
+    gudtConfigData.intBarCodeLen = val(txtSNLen.Text)
+    gudtConfigData.intLvSpec = val(txtLvSpec.Text)
+    gudtConfigData.strVPGModel = cmbChromaModel.Text
+    gudtConfigData.strVPGTiming = txtChromaTiming.Text
+    gudtConfigData.strVPG100IRE = txt100IRE.Text
+    gudtConfigData.strVPG80IRE = txt80IRE.Text
+    gudtConfigData.strVPG20IRE = txt20IRE.Text
     
     SaveConfigData
     

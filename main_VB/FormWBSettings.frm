@@ -9,7 +9,7 @@ Begin VB.Form FormWBSettings
    LinkTopic       =   "Form1"
    ScaleHeight     =   7890
    ScaleWidth      =   5325
-   StartUpPosition =   3  'Windows Default
+   StartUpPosition =   2  'CenterScreen
    Begin VB.CommandButton Command1 
       Caption         =   "Save"
       BeginProperty Font 
@@ -726,7 +726,7 @@ Begin VB.Form FormWBSettings
       Left            =   1800
       List            =   "FormWBSettings.frx":1DF74
       TabIndex        =   2
-      Text            =   "Cool1"
+      Text            =   "COOL1"
       Top             =   840
       Width           =   1215
    End
@@ -774,63 +774,6 @@ Attribute VB_Exposed = False
 Option Explicit
 
 
-Private Sub cmbColorT_Click()
-    If cmbColorT.Text = "Cool1" Then
-        txtSpecX.Text = Format(val(gudtSpecData.intSPECCool1x) / 10000, "0.####")
-        txtSpecY.Text = Format(val(gudtSpecData.intSPECCool1y) / 10000, "0.####")
-        txtTolX.Text = Format(val(gudtSpecData.intTOLCool1xt) / 10000, "0.####")
-        txtTolY.Text = Format(val(gudtSpecData.intTOLCool1yt) / 10000, "0.####")
-        txtChkX.Text = Format(val(gudtSpecData.intCHKCool1Cxt) / 10000, "0.####")
-        txtChkY.Text = Format(val(gudtSpecData.intCHKCool1Cyt) / 10000, "0.####")
-        txtPresetgainR.Text = CStr(gudtSpecData.intPRESETGANCool1R)
-        txtPresetgainG.Text = CStr(gudtSpecData.intPRESETGANCool1G)
-        txtPresetgainB.Text = CStr(gudtSpecData.intPRESETGANCool1B)
-        txtPresetOffR.Text = CStr(gudtSpecData.intPRESETOFFCool1R)
-        txtPresetOffG.Text = CStr(gudtSpecData.intPRESETOFFCool1G)
-        txtPresetOffB.Text = CStr(gudtSpecData.intPRESETOFFCool1B)
-        txtGainStepX.Text = Format(val(gudtSpecData.intMAGICVALGMin) / 10000, "0.####")
-        txtGainStepY.Text = Format(val(gudtSpecData.intMAGICVALOMin) / 10000, "0.####")
-        txtOffStepX.Text = Format(val(gudtSpecData.intMAGICVALGMax) / 10000, "0.####")
-        txtOffStepY.Text = Format(val(gudtSpecData.intMAGICVALOMax) / 10000, "0.####")
-    End If
-    If cmbColorT.Text = "Normal" Then
-        txtSpecX.Text = Format(val(gudtSpecData.intSPECNormalx) / 10000, "0.####")
-        txtSpecY.Text = Format(val(gudtSpecData.intSPECNormaly) / 10000, "0.####")
-        txtTolX.Text = Format(val(gudtSpecData.intTOLNormalxt) / 10000, "0.####")
-        txtTolY.Text = Format(val(gudtSpecData.intTOLNormalyt) / 10000, "0.####")
-        txtChkX.Text = Format(val(gudtSpecData.intCHKNormalCxt) / 10000, "0.####")
-        txtChkY.Text = Format(val(gudtSpecData.intCHKNormalCyt) / 10000, "0.####")
-        txtPresetgainR.Text = CStr(gudtSpecData.intPRESETGANNormalR)
-        txtPresetgainG.Text = CStr(gudtSpecData.intPRESETGANNormalG)
-        txtPresetgainB.Text = CStr(gudtSpecData.intPRESETGANNormalB)
-        txtPresetOffR.Text = CStr(gudtSpecData.intPRESETOFFNormalR)
-        txtPresetOffG.Text = CStr(gudtSpecData.intPRESETOFFNormalG)
-        txtPresetOffB.Text = CStr(gudtSpecData.intPRESETOFFNormalB)
-        txtGainStepX.Text = Format(val(gudtSpecData.intMAGICVALGMin) / 10000, "0.####")
-        txtGainStepY.Text = Format(val(gudtSpecData.intMAGICVALOMin) / 10000, "0.####")
-        txtOffStepX.Text = Format(val(gudtSpecData.intMAGICVALGMax) / 10000, "0.####")
-        txtOffStepY.Text = Format(val(gudtSpecData.intMAGICVALOMax) / 10000, "0.####")
-    End If
-    If cmbColorT.Text = "Warm1" Then
-        txtSpecX.Text = Format(val(gudtSpecData.intSPECWarm1x) / 10000, "0.####")
-        txtSpecY.Text = Format(val(gudtSpecData.intSPECWarm1y) / 10000, "0.####")
-        txtTolX.Text = Format(val(gudtSpecData.intTOLWarm1xt) / 10000, "0.####")
-        txtTolY.Text = Format(val(gudtSpecData.intTOLWarm1yt) / 10000, "0.####")
-        txtChkX.Text = Format(val(gudtSpecData.intCHKWarm1Cxt) / 10000, "0.####")
-        txtChkY.Text = Format(val(gudtSpecData.intCHKWarm1Cyt) / 10000, "0.####")
-        txtPresetgainR.Text = CStr(gudtSpecData.intPRESETGANWarm1R)
-        txtPresetgainG.Text = CStr(gudtSpecData.intPRESETGANWarm1G)
-        txtPresetgainB.Text = CStr(gudtSpecData.intPRESETGANWarm1B)
-        txtPresetOffR.Text = CStr(gudtSpecData.intPRESETOFFWarm1R)
-        txtPresetOffG.Text = CStr(gudtSpecData.intPRESETOFFWarm1G)
-        txtPresetOffB.Text = CStr(gudtSpecData.intPRESETOFFWarm1B)
-        txtGainStepX.Text = Format(val(gudtSpecData.intMAGICVALGMin) / 10000, "0.####")
-        txtGainStepY.Text = Format(val(gudtSpecData.intMAGICVALOMin) / 10000, "0.####")
-        txtOffStepX.Text = Format(val(gudtSpecData.intMAGICVALGMax) / 10000, "0.####")
-        txtOffStepY.Text = Format(val(gudtSpecData.intMAGICVALOMax) / 10000, "0.####")
-    End If
-End Sub
-
 Private Sub Form_Load()
     txtSpecX.Text = Format(val(gudtSpecData.intSPECCool1x) / 10000, "0.####")
     txtSpecY.Text = Format(val(gudtSpecData.intSPECCool1y) / 10000, "0.####")
@@ -848,14 +791,62 @@ Private Sub Form_Load()
     txtGainStepY.Text = Format(val(gudtSpecData.intMAGICVALOMin) / 10000, "0.####")
     txtOffStepX.Text = Format(val(gudtSpecData.intMAGICVALGMax) / 10000, "0.####")
     txtOffStepY.Text = Format(val(gudtSpecData.intMAGICVALOMax) / 10000, "0.####")
-    cmbColorT.AddItem "Cool1"
-    cmbColorT.AddItem "Normal"
-    cmbColorT.AddItem "Warm1"
+    cmbColorT.AddItem COLORTEMP_COOL1
+    cmbColorT.AddItem COLORTEMP_STANDARD
+    cmbColorT.AddItem COLORTEMP_WARM1
     Label1.Caption = gstrCurProjName
 End Sub
 
+Private Sub cmbColorT_Click()
+    If cmbColorT.Text = COLORTEMP_COOL1 Then
+        txtSpecX.Text = Format(val(gudtSpecData.intSPECCool1x) / 10000, "0.####")
+        txtSpecY.Text = Format(val(gudtSpecData.intSPECCool1y) / 10000, "0.####")
+        txtTolX.Text = Format(val(gudtSpecData.intTOLCool1xt) / 10000, "0.####")
+        txtTolY.Text = Format(val(gudtSpecData.intTOLCool1yt) / 10000, "0.####")
+        txtChkX.Text = Format(val(gudtSpecData.intCHKCool1Cxt) / 10000, "0.####")
+        txtChkY.Text = Format(val(gudtSpecData.intCHKCool1Cyt) / 10000, "0.####")
+        txtPresetgainR.Text = CStr(gudtSpecData.intPRESETGANCool1R)
+        txtPresetgainG.Text = CStr(gudtSpecData.intPRESETGANCool1G)
+        txtPresetgainB.Text = CStr(gudtSpecData.intPRESETGANCool1B)
+        txtPresetOffR.Text = CStr(gudtSpecData.intPRESETOFFCool1R)
+        txtPresetOffG.Text = CStr(gudtSpecData.intPRESETOFFCool1G)
+        txtPresetOffB.Text = CStr(gudtSpecData.intPRESETOFFCool1B)
+    ElseIf cmbColorT.Text = COLORTEMP_STANDARD Then
+        txtSpecX.Text = Format(val(gudtSpecData.intSPECNormalx) / 10000, "0.####")
+        txtSpecY.Text = Format(val(gudtSpecData.intSPECNormaly) / 10000, "0.####")
+        txtTolX.Text = Format(val(gudtSpecData.intTOLNormalxt) / 10000, "0.####")
+        txtTolY.Text = Format(val(gudtSpecData.intTOLNormalyt) / 10000, "0.####")
+        txtChkX.Text = Format(val(gudtSpecData.intCHKNormalCxt) / 10000, "0.####")
+        txtChkY.Text = Format(val(gudtSpecData.intCHKNormalCyt) / 10000, "0.####")
+        txtPresetgainR.Text = CStr(gudtSpecData.intPRESETGANNormalR)
+        txtPresetgainG.Text = CStr(gudtSpecData.intPRESETGANNormalG)
+        txtPresetgainB.Text = CStr(gudtSpecData.intPRESETGANNormalB)
+        txtPresetOffR.Text = CStr(gudtSpecData.intPRESETOFFNormalR)
+        txtPresetOffG.Text = CStr(gudtSpecData.intPRESETOFFNormalG)
+        txtPresetOffB.Text = CStr(gudtSpecData.intPRESETOFFNormalB)
+    ElseIf cmbColorT.Text = COLORTEMP_WARM1 Then
+        txtSpecX.Text = Format(val(gudtSpecData.intSPECWarm1x) / 10000, "0.####")
+        txtSpecY.Text = Format(val(gudtSpecData.intSPECWarm1y) / 10000, "0.####")
+        txtTolX.Text = Format(val(gudtSpecData.intTOLWarm1xt) / 10000, "0.####")
+        txtTolY.Text = Format(val(gudtSpecData.intTOLWarm1yt) / 10000, "0.####")
+        txtChkX.Text = Format(val(gudtSpecData.intCHKWarm1Cxt) / 10000, "0.####")
+        txtChkY.Text = Format(val(gudtSpecData.intCHKWarm1Cyt) / 10000, "0.####")
+        txtPresetgainR.Text = CStr(gudtSpecData.intPRESETGANWarm1R)
+        txtPresetgainG.Text = CStr(gudtSpecData.intPRESETGANWarm1G)
+        txtPresetgainB.Text = CStr(gudtSpecData.intPRESETGANWarm1B)
+        txtPresetOffR.Text = CStr(gudtSpecData.intPRESETOFFWarm1R)
+        txtPresetOffG.Text = CStr(gudtSpecData.intPRESETOFFWarm1G)
+        txtPresetOffB.Text = CStr(gudtSpecData.intPRESETOFFWarm1B)
+    End If
+
+    txtGainStepX.Text = Format(val(gudtSpecData.intMAGICVALGMin) / 10000, "0.####")
+    txtGainStepY.Text = Format(val(gudtSpecData.intMAGICVALOMin) / 10000, "0.####")
+    txtOffStepX.Text = Format(val(gudtSpecData.intMAGICVALGMax) / 10000, "0.####")
+    txtOffStepY.Text = Format(val(gudtSpecData.intMAGICVALOMax) / 10000, "0.####")
+End Sub
+
 Private Sub Command1_Click()
-    If cmbColorT.Text = "Cool1" Then
+    If cmbColorT.Text = COLORTEMP_COOL1 Then
         gudtSpecData.intSPECCool1x = val(txtSpecX.Text) * 10000
         gudtSpecData.intSPECCool1y = val(txtSpecY.Text) * 10000
         gudtSpecData.intTOLCool1xt = val(txtTolX.Text) * 10000
@@ -868,12 +859,7 @@ Private Sub Command1_Click()
         gudtSpecData.intPRESETOFFCool1R = val(txtPresetOffR.Text)
         gudtSpecData.intPRESETOFFCool1G = val(txtPresetOffG.Text)
         gudtSpecData.intPRESETOFFCool1B = val(txtPresetOffB.Text)
-        gudtSpecData.intMAGICVALGMin = val(txtGainStepX.Text) * 10000
-        gudtSpecData.intMAGICVALOMin = val(txtGainStepY.Text) * 10000
-        gudtSpecData.intMAGICVALGMax = val(txtOffStepX.Text) * 10000
-        gudtSpecData.intMAGICVALOMax = val(txtOffStepY.Text) * 10000
-    End If
-    If cmbColorT.Text = "Normal" Then
+    ElseIf cmbColorT.Text = COLORTEMP_STANDARD Then
         gudtSpecData.intSPECNormalx = val(txtSpecX.Text) * 10000
         gudtSpecData.intSPECNormaly = val(txtSpecY.Text) * 10000
         gudtSpecData.intTOLNormalxt = val(txtTolX.Text) * 10000
@@ -886,12 +872,7 @@ Private Sub Command1_Click()
         gudtSpecData.intPRESETOFFNormalR = val(txtPresetOffR.Text)
         gudtSpecData.intPRESETOFFNormalG = val(txtPresetOffG.Text)
         gudtSpecData.intPRESETOFFNormalB = val(txtPresetOffB.Text)
-        gudtSpecData.intMAGICVALGMin = val(txtGainStepX.Text) * 10000
-        gudtSpecData.intMAGICVALOMin = val(txtGainStepY.Text) * 10000
-        gudtSpecData.intMAGICVALGMax = val(txtOffStepX.Text) * 10000
-        gudtSpecData.intMAGICVALOMax = val(txtOffStepY.Text) * 10000
-    End If
-    If cmbColorT.Text = "Warm1" Then
+    ElseIf cmbColorT.Text = COLORTEMP_WARM1 Then
         gudtSpecData.intSPECWarm1x = val(txtSpecX.Text) * 10000
         gudtSpecData.intSPECWarm1y = val(txtSpecY.Text) * 10000
         gudtSpecData.intTOLWarm1xt = val(txtTolX.Text) * 10000
@@ -904,13 +885,14 @@ Private Sub Command1_Click()
         gudtSpecData.intPRESETOFFWarm1R = val(txtPresetOffR.Text)
         gudtSpecData.intPRESETOFFWarm1G = val(txtPresetOffG.Text)
         gudtSpecData.intPRESETOFFWarm1B = val(txtPresetOffB.Text)
-        gudtSpecData.intMAGICVALGMin = val(txtGainStepX.Text) * 10000
-        gudtSpecData.intMAGICVALOMin = val(txtGainStepY.Text) * 10000
-        gudtSpecData.intMAGICVALGMax = val(txtOffStepX.Text) * 10000
-        gudtSpecData.intMAGICVALOMax = val(txtOffStepY.Text) * 10000
     End If
     
-    SaveConfigData1
+    gudtSpecData.intMAGICVALGMin = val(txtGainStepX.Text) * 10000
+    gudtSpecData.intMAGICVALOMin = val(txtGainStepY.Text) * 10000
+    gudtSpecData.intMAGICVALGMax = val(txtOffStepX.Text) * 10000
+    gudtSpecData.intMAGICVALOMax = val(txtOffStepY.Text) * 10000
+    
+    Call SaveSpecData(cmbColorT.Text)
 
     Unload Me
     

@@ -161,6 +161,7 @@ Public gstrVPGTiming As String
 Public gstrVPG100IRE As String
 Public gstrVPG80IRE As String
 Public gstrVPG20IRE As String
+Public gstrXmlPath As String
 
 Public cn As New ADODB.Connection
 Public rs As New ADODB.Recordset
