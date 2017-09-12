@@ -82,6 +82,10 @@ Private Sub Protocal_ExitFacMode()
 End Sub
 
 Private Sub Protocal_SwitchInputSource(strInputSrc As String, intSrcNum As Integer)
+    If (gstrChipSet = "T111" Or gstrChipSet = "Hi3751") Then
+        Exit Sub
+    End If
+    
     '55 2E 01 XX 00 00 00 00 00 00 CHK FE
     'HDMI1: 55 2E 01 07 00 00 00 00 00 00 CA FE
     mSendDataBuf(0) = &H55
@@ -115,33 +119,51 @@ Private Sub Protocal_SwitchInputSource(strInputSrc As String, intSrcNum As Integ
     mSendDataBuf(10) = CalChkSum(mSendDataBuf)
     mSendDataBuf(11) = &HFE
     
-    If Not (gstrChipSet = "T111") Then
-        SendCmd
-    End If
+    SendCmd
 End Sub
 
 'Set picture mode to standard.
 Private Sub Protocal_ResetPicMode()
-    '55 34 00 00 00 00 00 00 00 00 CC FE
-    mSendDataBuf(0) = &H55
-    mSendDataBuf(1) = &H34
-    mSendDataBuf(2) = &H0
-    mSendDataBuf(3) = &H0
-    mSendDataBuf(4) = &H0
-    mSendDataBuf(5) = &H0
-    mSendDataBuf(6) = &H0
-    mSendDataBuf(7) = &H0
-    mSendDataBuf(8) = &H0
-    mSendDataBuf(9) = &H0
-    mSendDataBuf(10) = &HCC
-    mSendDataBuf(11) = &HFE
-    
-    If Not (gstrChipSet = "T111") Then
-        SendCmd
+    If gstrChipSet = "Hi3751" Then
+        '55 01 01 00 00 00 00 00 00 00 FE FE
+        mSendDataBuf(0) = &H55
+        mSendDataBuf(1) = &H1
+        mSendDataBuf(2) = &H1
+        mSendDataBuf(3) = &H0
+        mSendDataBuf(4) = &H0
+        mSendDataBuf(5) = &H0
+        mSendDataBuf(6) = &H0
+        mSendDataBuf(7) = &H0
+        mSendDataBuf(8) = &H0
+        mSendDataBuf(9) = &H0
+        mSendDataBuf(10) = &HFE
+        mSendDataBuf(11) = &HFE
+    ElseIf gstrChipSet = "T111" Then
+        Exit Sub
+    Else
+        '55 34 00 00 00 00 00 00 00 00 CC FE
+        mSendDataBuf(0) = &H55
+        mSendDataBuf(1) = &H34
+        mSendDataBuf(2) = &H0
+        mSendDataBuf(3) = &H0
+        mSendDataBuf(4) = &H0
+        mSendDataBuf(5) = &H0
+        mSendDataBuf(6) = &H0
+        mSendDataBuf(7) = &H0
+        mSendDataBuf(8) = &H0
+        mSendDataBuf(9) = &H0
+        mSendDataBuf(10) = &HCC
+        mSendDataBuf(11) = &HFE
     End If
+    
+    SendCmd
 End Sub
 
 Private Sub Protocal_SetBrightness(intBrightness As Integer)
+    If (gstrChipSet = "T111" Or gstrChipSet = "Hi3751") Then
+        Exit Sub
+    End If
+    
     '55 37 02 XX XX 00 00 00 00 00 CHK FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H37
@@ -156,12 +178,14 @@ Private Sub Protocal_SetBrightness(intBrightness As Integer)
     mSendDataBuf(10) = CalChkSum(mSendDataBuf)
     mSendDataBuf(11) = &HFE
     
-    If Not (gstrChipSet = "T111") Then
-        SendCmd
-    End If
+    SendCmd
 End Sub
 
 Private Sub Protocal_SetContrast(intContrast As Integer)
+    If (gstrChipSet = "T111" Or gstrChipSet = "Hi3751") Then
+        Exit Sub
+    End If
+
     '55 39 02 XX XX 00 00 00 00 00 CHK FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H39
@@ -176,12 +200,14 @@ Private Sub Protocal_SetContrast(intContrast As Integer)
     mSendDataBuf(10) = CalChkSum(mSendDataBuf)
     mSendDataBuf(11) = &HFE
     
-    If Not (gstrChipSet = "T111") Then
-        SendCmd
-    End If
+    SendCmd
 End Sub
 
 Private Sub Protocal_SetBacklight(intBacklight As Integer)
+    If (gstrChipSet = "T111" Or gstrChipSet = "Hi3751") Then
+        Exit Sub
+    End If
+
     '55 3B 02 XX XX 00 00 00 00 00 CHK FE
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H3B
@@ -195,20 +221,17 @@ Private Sub Protocal_SetBacklight(intBacklight As Integer)
     mSendDataBuf(9) = &H0
     mSendDataBuf(10) = CalChkSum(mSendDataBuf)
     mSendDataBuf(11) = &HFE
-    
-    If Not (gstrChipSet = "T111") Then
-        SendCmd
-    End If
+
+    SendCmd
 End Sub
 
 Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)
     '55 02 01 XX 00 00 00 00 00 00 CHK FE
-
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H2
     mSendDataBuf(2) = &H1
 
-    If (gstrChipSet = "T111") Then
+    If (gstrChipSet = "T111" Or gstrChipSet = "Hi3751") Then
         Select Case strColorT
             Case COLORTEMP_COOL1
                 mSendDataBuf(3) = &H3
@@ -263,7 +286,7 @@ Private Sub Protocal_SetRGBOffset(lngROffset As Long, lngGOffset As Long, lngBOf
     mSendDataBuf(0) = &H55
     mSendDataBuf(1) = &H4
     mSendDataBuf(2) = &H6
-    If (gstrChipSet = "T111") Then
+    If (gstrChipSet = "T111" Or gstrChipSet = "Hi3751") Then
         mSendDataBuf(3) = CByte((lngROffset) \ 256)
         mSendDataBuf(4) = CByte((lngROffset) Mod 256)
         mSendDataBuf(5) = CByte((lngGOffset) \ 256)

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<model>Letv-X43</model>
-	<communication mode="Network">
-		<common baud="115200" id="6"/>
+	<model>Haier-H70E30</model>
+	<communication mode="UART">
+		<common baud="115200" id="5"/>
 		<i2c clockrate="50"/>
 	</communication>
 	<input_source>HDMI1</input_source>
-	<delayms>300</delayms>
-	<channel_number>3</channel_number>
-	<length_bar_code>19</length_bar_code>
-	<Lv_spec>300</Lv_spec>
+	<delayms>500</delayms>
+	<channel_number>1</channel_number>
+	<length_bar_code>1</length_bar_code>
+	<Lv_spec>250</Lv_spec>
 	<VPG>
 		<model>22294_A</model>
 		<timing>69</timing>
@@ -24,21 +24,21 @@
 	<warm_2>False</warm_2>
 	<check_color>True</check_color>
 	<adjust_offset>False</adjust_offset>
-	<chipset>MS938</chipset>
+	<chipset>Hi3751</chipset>
 	<SPEC>
 		<cool1>
-			<x>2720</x>
-			<y>2780</y>
+			<x>2680</x>
+			<y>2740</y>
 			<Lv>50</Lv>
 		</cool1>
 		<normal>
-			<x>2790</x>
-			<y>2910</y>
+			<x>2770</x>
+			<y>2780</y>
 			<Lv>50</Lv>
 		</normal>
 		<warm1>
-			<x>3130</x>
-			<y>3290</y>
+			<x>2850</x>
+			<y>2930</y>
 			<Lv>50</Lv>
 		</warm1>
 	</SPEC>
@@ -79,12 +79,12 @@
 		<normal>
 			<R>128</R>
 			<G>128</G>
-			<B>126</B>
+			<B>128</B>
 		</normal>
 		<warm1>
-			<R>130</R>
+			<R>128</R>
 			<G>128</G>
-			<B>116</B>
+			<B>128</B>
 		</warm1>
 	</PRESETGAN>
 	<PRESETOFF>
@@ -106,18 +106,18 @@
 	</PRESETOFF>
 	<CLEVELRGB>
 		<gain>
-			<min>63</min>
-			<max>135</max>
+			<min>0</min>
+			<max>256</max>
 		</gain>
 		<offset>
-			<min>63</min>
-			<max>255</max>
+			<min>0</min>
+			<max>256</max>
 		</offset>
 	</CLEVELRGB>
 	<MAGICVAL>
 		<x>
-			<stepgain>15</stepgain>
-			<stepoffset>15</stepoffset>
+			<stepgain>12</stepgain>
+			<stepoffset>12</stepoffset>
 		</x>
 		<y>
 			<stepgain>20</stepgain>

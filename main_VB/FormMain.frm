@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "mscomm32.ocx"
+Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
 Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
 Begin VB.Form FormMain 
    BorderStyle     =   1  'Fixed Single
@@ -768,7 +768,7 @@ CHECK_WARM1:
         End If
     End If
     
-    If gstrChipSet = "T111" Then
+    If (gstrChipSet = "T111" Or gstrChipSet = "Hi3751") Then
         Call clsProtocal.SelColorTemp(COLORTEMP_STANDARD, gstrTvInputSrc, gintTvInputSrcPort)
         SubLogInfo "Set color temp to cool1"
         
@@ -776,11 +776,6 @@ CHECK_WARM1:
         lvLastChk = CLng(ObjProbe.lv)
         SubLogInfo "lv = " + CStr(lvLastChk)
         SubShowData (LASTSTEP)
-        
-        If lvLastChk <= glngBlSpecVal Then
-            ShowError_Sys (30)
-            GoTo FAIL
-        End If
     Else
         'Last check:
         'Cool, 100% white pattern, brightness = 100, contrast = 100
@@ -1229,8 +1224,6 @@ On Error Resume Next
     Label_Lv = CStr(rColor.lv)
 End Sub
 
-
-
 Private Sub setWB_Click()
     FormWBSettings.Show
 End Sub
@@ -1545,39 +1538,39 @@ On Error GoTo ErrExit
         MsgBox xmlDoc.parseError.reason
     Else
         Select Case strColorTemp
-        Case COLORTEMP_COOL1
-            If isGain Then
-                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/R").Text = CStr(rConfigData.intPRESETGANCool1R)
-                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/G").Text = CStr(rConfigData.intPRESETGANCool1G)
-                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/B").Text = CStr(rConfigData.intPRESETGANCool1B)
-            Else
-                xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(rConfigData.intPRESETOFFCool1R)
-                xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(rConfigData.intPRESETOFFCool1G)
-                xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(rConfigData.intPRESETOFFCool1B)
-            End If
-            
-        Case COLORTEMP_STANDARD
-            If isGain Then
-                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/R").Text = CStr(rConfigData.intPRESETGANNormalR)
-                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/G").Text = CStr(rConfigData.intPRESETGANNormalG)
-                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/B").Text = CStr(rConfigData.intPRESETGANNormalB)
-            Else
-                xmlDoc.selectSingleNode("/config/PRESETOFF/normal/R").Text = CStr(rConfigData.intPRESETOFFNormalR)
-                xmlDoc.selectSingleNode("/config/PRESETOFF/normal/G").Text = CStr(rConfigData.intPRESETOFFNormalG)
-                xmlDoc.selectSingleNode("/config/PRESETOFF/normal/B").Text = CStr(rConfigData.intPRESETOFFNormalB)
-            End If
-            
-        Case COLORTEMP_WARM1
-            If isGain Then
-                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/R").Text = CStr(rConfigData.intPRESETGANWarm1R)
-                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/G").Text = CStr(rConfigData.intPRESETGANWarm1G)
-                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/B").Text = CStr(rConfigData.intPRESETGANWarm1B)
-            Else
-                xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/R").Text = CStr(rConfigData.intPRESETOFFWarm1R)
-                xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/G").Text = CStr(rConfigData.intPRESETOFFWarm1G)
-                xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/B").Text = CStr(rConfigData.intPRESETOFFWarm1B)
-            End If
-    End Select
+            Case COLORTEMP_COOL1
+                If isGain Then
+                    xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/R").Text = CStr(rConfigData.intPRESETGANCool1R)
+                    xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/G").Text = CStr(rConfigData.intPRESETGANCool1G)
+                    xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/B").Text = CStr(rConfigData.intPRESETGANCool1B)
+                Else
+                    xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(rConfigData.intPRESETOFFCool1R)
+                    xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(rConfigData.intPRESETOFFCool1G)
+                    xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(rConfigData.intPRESETOFFCool1B)
+                End If
+
+            Case COLORTEMP_STANDARD
+                If isGain Then
+                    xmlDoc.selectSingleNode("/config/PRESETGAN/normal/R").Text = CStr(rConfigData.intPRESETGANNormalR)
+                    xmlDoc.selectSingleNode("/config/PRESETGAN/normal/G").Text = CStr(rConfigData.intPRESETGANNormalG)
+                    xmlDoc.selectSingleNode("/config/PRESETGAN/normal/B").Text = CStr(rConfigData.intPRESETGANNormalB)
+                Else
+                    xmlDoc.selectSingleNode("/config/PRESETOFF/normal/R").Text = CStr(rConfigData.intPRESETOFFNormalR)
+                    xmlDoc.selectSingleNode("/config/PRESETOFF/normal/G").Text = CStr(rConfigData.intPRESETOFFNormalG)
+                    xmlDoc.selectSingleNode("/config/PRESETOFF/normal/B").Text = CStr(rConfigData.intPRESETOFFNormalB)
+                End If
+
+            Case COLORTEMP_WARM1
+                If isGain Then
+                    xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/R").Text = CStr(rConfigData.intPRESETGANWarm1R)
+                    xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/G").Text = CStr(rConfigData.intPRESETGANWarm1G)
+                    xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/B").Text = CStr(rConfigData.intPRESETGANWarm1B)
+                Else
+                    xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/R").Text = CStr(rConfigData.intPRESETOFFWarm1R)
+                    xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/G").Text = CStr(rConfigData.intPRESETOFFWarm1G)
+                    xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/B").Text = CStr(rConfigData.intPRESETOFFWarm1B)
+                End If
+        End Select
     End If
     
     End
@@ -1710,11 +1703,11 @@ Private Sub saveALLcData()
                 Exit For
             End If
         Next
-        
+
         If tabelExist = False Then
             Dim tblNew As New Table
             tblNew.Name = gstrCurProjName
-            tblNew.Columns.Append "ModelName", adVarWChar, 10
+            tblNew.Columns.Append "ModelName", adVarWChar, 30
             tblNew.Columns.Append "SerialNO", adVarWChar, 50
             tblNew.Columns.Append "Cool_1x", adInteger
             tblNew.Columns.Append "Cool_1y", adInteger
@@ -1743,13 +1736,13 @@ Private Sub saveALLcData()
             tblNew.Columns.Append "Max_Lv", adInteger
             tblNew.Columns.Append "Sepc_Max_Lv", adInteger
             tblNew.Columns.Append "Mark", adVarWChar, 10
-            tblNew.Columns.Append "SaveDate", adVarWChar, 10
-            tblNew.Columns.Append "SaveTime", adVarWChar, 10
+            tblNew.Columns.Append "SaveDate", adVarWChar, 20
+            tblNew.Columns.Append "SaveTime", adVarWChar, 20
             cat.Tables.Append tblNew
         End If
-
+        
         FuncOpenSQL (sqlstring)
-
+        
         rs.AddNew
         
         rs.Fields(0) = gstrCurProjName
@@ -1785,7 +1778,7 @@ Private Sub saveALLcData()
         rs.Fields(30) = Time
         
         rs.Update
-        
+
         Set cn = Nothing
         Set rs = Nothing
         sqlstring = ""

@@ -28,7 +28,7 @@ Begin VB.Form FormSplash
       Caption         =   "º”‘ÿ≈‰÷√Œƒº˛"
       Height          =   495
       Left            =   1560
-      TabIndex        =   2
+      TabIndex        =   0
       Top             =   240
       Width           =   1575
    End
@@ -42,7 +42,7 @@ Begin VB.Form FormSplash
       Picture         =   "FormSplash.frx":000C
       ScaleHeight     =   750
       ScaleWidth      =   750
-      TabIndex        =   1
+      TabIndex        =   2
       Top             =   240
       Width           =   780
    End
@@ -62,7 +62,7 @@ Begin VB.Form FormSplash
       ForeColor       =   &H00404040&
       Height          =   255
       Left            =   2280
-      TabIndex        =   0
+      TabIndex        =   1
       Top             =   840
       Width           =   825
    End
