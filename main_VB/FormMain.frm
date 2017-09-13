@@ -509,7 +509,6 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Dim RES As Long
-Dim Result As Boolean
 Dim gudtPreColorData As COLORTEMPSPEC
 Dim cCOOL1 As COLORTEMPSPEC
 Dim cNORMAL As COLORTEMPSPEC
@@ -545,6 +544,8 @@ Attribute Obj.VB_VarHelpID = -1
 
 Private Sub SubRun()
     On Error GoTo ErrExit
+    Dim Result As Boolean
+
     SubInitBeforeRun
 
     If gblnStop = True Then
@@ -818,7 +819,7 @@ PASS:
     clsProtocal.ExitFacMode
 
     cmdMark = TXTPass
-    Call saveALLcData
+    Call SubSaveDataToDB
 
     CheckStep = CheckStep + "TEST ALL PASS"
     CheckStep.SelStart = Len(CheckStep)
@@ -837,7 +838,7 @@ FAIL:
     clsProtocal.ExitFacMode
 
     cmdMark = TXTFail
-    Call saveALLcData
+    Call SubSaveDataToDB
 
     CheckStep.SelStart = Len(CheckStep)
     checkResult.BackColor = &HFF&
@@ -1607,8 +1608,6 @@ Private Sub SubUpdateRGBInXml(strColorTemp As String, HL As Long)
     
     success = xmlDoc.Load(gstrXmlPath)
 
-On Error GoTo ErrExit
-
     If success = False Then
         MsgBox xmlDoc.parseError.reason
     Else
@@ -1680,7 +1679,7 @@ On Error GoTo ErrExit
     End If
 End Sub
 
-Private Sub saveALLcData()
+Private Sub SubSaveDataToDB()
     Dim sqlstring As String
     Dim cat As New ADOX.Catalog
     Dim tbl As ADOX.Table
@@ -1857,14 +1856,6 @@ Private Sub SubInitVPG()
 
 End Sub
 
-Private Sub Obj_OnChangedConnectState(ByVal bIsConnected As Boolean)
-    If bIsConnected = False Then
-        Me.Caption = mTitle & " [Chroma " & gstrVPGModel & " Disconnected]"
-    Else
-        Me.Caption = mTitle
-    End If
-End Sub
-
 Private Sub SubVPGTiming(Tim As String)
     Dim bNo(1) As Byte
     
@@ -1882,4 +1873,12 @@ Private Sub SubVPGPattern(Ptn As String)
 
     ivpg.RunKey (VPG_KEY_CKEY_OUT)
     ivpg.ExecuteCmd VPG_CMD_CM_DOWNLOAD, VPG_SCMD_SCM_CTL_RUNPTN, bNo, False
+End Sub
+
+Private Sub Obj_OnChangedConnectState(ByVal bIsConnected As Boolean)
+    If bIsConnected = False Then
+        Me.Caption = mTitle & " [Chroma " & gstrVPGModel & " Disconnected]"
+    Else
+        Me.Caption = mTitle
+    End If
 End Sub
