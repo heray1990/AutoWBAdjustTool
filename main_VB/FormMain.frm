@@ -510,7 +510,7 @@ Option Explicit
 
 Dim RES As Long
 Dim Result As Boolean
-Dim presetData As COLORTEMPSPEC
+Dim gudtPreColorData As COLORTEMPSPEC
 Dim cCOOL1 As COLORTEMPSPEC
 Dim cNORMAL As COLORTEMPSPEC
 Dim cWARM1 As COLORTEMPSPEC
@@ -531,7 +531,6 @@ Dim clsHaierProtocal As HaierProtocal
 Dim ivpg As IVPGCtrl
 
 Private rRGB As REALRGB
-Private rRGB1 As REALRGB
 
 Private mAdjGainAgainCool1 As Integer
 Private mAdjGainAgainStandard As Integer
@@ -708,7 +707,7 @@ CHECK_COOL1:
         If gblnEnableCool1 Then
             Label6.Caption = TXTChk
             lbAdjustCOOL_1.BackColor = &H80FFFF
-            Result = checkColorAgain(COLORTEMP_COOL1)
+            Result = FuncChkColorAgain(COLORTEMP_COOL1)
 
             If Result = False Then
                 ShowError_Sys (1)
@@ -720,6 +719,8 @@ CHECK_COOL1:
                 mAdjGainAgainCool1 = mAdjGainAgainCool1 + 1
                 
                 GoTo ADJUST_GAIN_AGAIN_COOL1
+            Else
+                mAdjGainAgainCool1 = 0
             End If
       
             lbAdjustCOOL_1.BackColor = &HC0FFC0
@@ -729,7 +730,7 @@ CHECK_NORMAL:
         If gblnEnableStandard Then
             Label6.Caption = TXTChk
             lbAdjustStandard.BackColor = &H80FFFF
-            Result = checkColorAgain(COLORTEMP_STANDARD)
+            Result = FuncChkColorAgain(COLORTEMP_STANDARD)
 
             If Result = False Then
                 ShowError_Sys (3)
@@ -741,6 +742,8 @@ CHECK_NORMAL:
                 mAdjGainAgainStandard = mAdjGainAgainStandard + 1
 
                 GoTo ADJUST_GAIN_AGAIN_NORMAL
+            Else
+                mAdjGainAgainStandard = 0
             End If
     
             lbAdjustStandard.BackColor = &HC0FFC0
@@ -750,7 +753,7 @@ CHECK_WARM1:
         If gblnEnableWarm1 Then
             Label6.Caption = TXTChk
             lbAdjustWARM_1.BackColor = &H80FFFF
-            Result = checkColorAgain(COLORTEMP_WARM1)
+            Result = FuncChkColorAgain(COLORTEMP_WARM1)
 
             If Result = False Then
                 ShowError_Sys (4)
@@ -762,6 +765,8 @@ CHECK_WARM1:
                 mAdjGainAgainWarm1 = mAdjGainAgainWarm1 + 1
                 
                 GoTo ADJUST_GAIN_AGAIN_WARM1
+            Else
+                mAdjGainAgainWarm1 = 0
             End If
 
             lbAdjustWARM_1.BackColor = &HC0FFC0
@@ -946,43 +951,102 @@ Sub ShowError_Sys(t As Integer)
     CheckStep.SelStart = Len(CheckStep)
 End Sub
 
+Private Function FuncPreColorData(strColorTemp As String, GainOrOffset As Integer) As COLORTEMPSPEC
+    FuncPreColorData.xx = 0
+    FuncPreColorData.yy = 0
+    FuncPreColorData.lv = 0
+    FuncPreColorData.xt = 0
+    FuncPreColorData.yt = 0
+    FuncPreColorData.nColorRR = 0
+    FuncPreColorData.nColorGG = 0
+    FuncPreColorData.nColorBB = 0
+
+    Select Case strColorTemp
+        Case COLORTEMP_COOL1
+            FuncPreColorData.xx = gudtSpecData.intSPECCool1x
+            FuncPreColorData.yy = gudtSpecData.intSPECCool1y
+            FuncPreColorData.lv = gudtSpecData.intSPECCool1Lv
+            FuncPreColorData.xt = gudtSpecData.intTOLCool1xt
+            FuncPreColorData.yt = gudtSpecData.intTOLCool1yt
+
+            If GainOrOffset = ADJMODE_GAIN Then
+                FuncPreColorData.nColorRR = gudtSpecData.intPRESETGANCool1R
+                FuncPreColorData.nColorGG = gudtSpecData.intPRESETGANCool1G
+                FuncPreColorData.nColorBB = gudtSpecData.intPRESETGANCool1B
+            Else
+                FuncPreColorData.nColorRR = gudtSpecData.intPRESETOFFCool1R
+                FuncPreColorData.nColorGG = gudtSpecData.intPRESETOFFCool1G
+                FuncPreColorData.nColorBB = gudtSpecData.intPRESETOFFCool1B
+            End If
+        Case COLORTEMP_STANDARD
+            FuncPreColorData.xx = gudtSpecData.intSPECNormalx
+            FuncPreColorData.yy = gudtSpecData.intSPECNormaly
+            FuncPreColorData.lv = gudtSpecData.intSPECNormalLv
+            FuncPreColorData.xt = gudtSpecData.intTOLNormalxt
+            FuncPreColorData.yt = gudtSpecData.intTOLNormalyt
+
+            If GainOrOffset = ADJMODE_GAIN Then
+                FuncPreColorData.nColorRR = gudtSpecData.intPRESETGANNormalR
+                FuncPreColorData.nColorGG = gudtSpecData.intPRESETGANNormalG
+                FuncPreColorData.nColorBB = gudtSpecData.intPRESETGANNormalB
+            Else
+                FuncPreColorData.nColorRR = gudtSpecData.intPRESETOFFNormalR
+                FuncPreColorData.nColorGG = gudtSpecData.intPRESETOFFNormalG
+                FuncPreColorData.nColorBB = gudtSpecData.intPRESETOFFNormalB
+            End If
+        Case COLORTEMP_WARM1
+            FuncPreColorData.xx = gudtSpecData.intSPECWarm1x
+            FuncPreColorData.yy = gudtSpecData.intSPECWarm1y
+            FuncPreColorData.lv = gudtSpecData.intSPECWarm1Lv
+            FuncPreColorData.xt = gudtSpecData.intTOLWarm1xt
+            FuncPreColorData.yt = gudtSpecData.intTOLWarm1yt
+
+            If GainOrOffset = ADJMODE_GAIN Then
+                FuncPreColorData.nColorRR = gudtSpecData.intPRESETGANWarm1R
+                FuncPreColorData.nColorGG = gudtSpecData.intPRESETGANWarm1G
+                FuncPreColorData.nColorBB = gudtSpecData.intPRESETGANWarm1B
+            Else
+                FuncPreColorData.nColorRR = gudtSpecData.intPRESETOFFWarm1R
+                FuncPreColorData.nColorGG = gudtSpecData.intPRESETOFFWarm1G
+                FuncPreColorData.nColorBB = gudtSpecData.intPRESETOFFWarm1B
+            End If
+    End Select
+End Function
+
 Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Boolean
     Dim i, j As Integer
+    Dim rRGBOffset As REALRGB
 
-    Call clsProtocal.SelColorTemp(strColorTemp, gstrTvInputSrc, gintTvInputSrcPort)
-
-    ' Set Offset first
-    If mAdjGainAgainCool1 = 0 Then
-        Call ColorTSetSpec(strColorTemp, presetData, 0)
-        'SubDelayMs 200
-        
-        rRGB.cRR = presetData.nColorRR
-        rRGB.cGG = presetData.nColorGG
-        rRGB.cBB = presetData.nColorBB
-        
-        Call saveData(strColorTemp, 0)
+    If (mAdjGainAgainCool1 = 0 And mAdjGainAgainStandard = 0 And mAdjGainAgainWarm1 = 0) Then
+        SubLogInfo "====SelColorTemp " & strColorTemp & "===="
+        Call clsProtocal.SelColorTemp(strColorTemp, gstrTvInputSrc, gintTvInputSrcPort)
     End If
 
-    Call LoadData(strColorTemp, 0)
-    If UCase(gstrChipSet) = "MST6M60" Then
-        Call clsProtocal.SetRGBOffset(rRGB1.cRR * 8, rRGB1.cGG * 8, rRGB1.cBB * 8)
-    Else
-        Call clsProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
-    End If
-    
     SubLogInfo "========Adjust " & strColorTemp & "========"
 
+    ' Set RGB Offset
+    gudtPreColorData = FuncPreColorData(strColorTemp, ADJMODE_OFFSET)
+    rRGBOffset.cRR = gudtPreColorData.nColorRR
+    rRGBOffset.cGG = gudtPreColorData.nColorGG
+    rRGBOffset.cBB = gudtPreColorData.nColorBB
+    
+    If UCase(gstrChipSet) = "MST6M60" Then
+        Call clsProtocal.SetRGBOffset(rRGBOffset.cRR * 8, rRGBOffset.cGG * 8, rRGBOffset.cBB * 8)
+    Else
+        Call clsProtocal.SetRGBOffset(rRGBOffset.cRR, rRGBOffset.cGG, rRGBOffset.cBB)
+    End If
+
+    ' Set RGB Gain
     For i = 1 To 2
-        Call ColorTSetSpec(strColorTemp, presetData, ADJMODE_GAIN)
-        'SubDelayMs 200
-        
         SubLogInfo "Init current colorTemp. RES:" + str$(RES)
-        rRGB.cRR = presetData.nColorRR
-        rRGB.cGG = presetData.nColorGG
-        rRGB.cBB = presetData.nColorBB
+
+        gudtPreColorData = FuncPreColorData(strColorTemp, ADJMODE_GAIN)
+        rRGB.cRR = gudtPreColorData.nColorRR
+        rRGB.cGG = gudtPreColorData.nColorGG
+        rRGB.cBB = gudtPreColorData.nColorBB
         
-        Label1 = CStr(presetData.xx)
-        Label3 = CStr(presetData.yy)
+        Label1 = CStr(gudtPreColorData.xx)
+        Label3 = CStr(gudtPreColorData.yy)
 
         If UCase(gstrChipSet) = "MST6M60" Then
             Call clsProtocal.SetRGBGain(rRGB.cRR * 8, rRGB.cGG * 8, rRGB.cBB * 8)
@@ -999,8 +1063,8 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
             
             RES = ColorTChk(rColor, strColorTemp)
             SubLogInfo "Check colorTemp. RES: " + CStr(RES)
-            SubLogInfo "SPEC: x = " & CStr(presetData.xx) & " y = " & CStr(presetData.yy)
-            SubLogInfo "Tol: x = " & CStr(presetData.xt) & " y =  " & CStr(presetData.yt)
+            SubLogInfo "SPEC: x = " & CStr(gudtPreColorData.xx) & " y = " & CStr(gudtPreColorData.yy)
+            SubLogInfo "Tol: x = " & CStr(gudtPreColorData.xt) & " y =  " & CStr(gudtPreColorData.yt)
 
             If RES = 3 Then
                 Exit For
@@ -1042,7 +1106,7 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
 
 Cancel:
     If RES = 3 Then
-        Call saveData(strColorTemp, ADJMODE_GAIN)
+        Call SubUpdateRGBInXml(strColorTemp, ADJMODE_GAIN)
         SubLogInfo "Save current data of " & strColorTemp & "."
         FuncAdjRGBGain = True
     Else
@@ -1059,15 +1123,14 @@ Private Function FuncAdjRGBOffset(strColorTemp As String) As Boolean
     SubLogInfo "========Adjust " & strColorTemp & "========"
   
     For i = 1 To 2
-        Call ColorTSetSpec(strColorTemp, presetData, ADJMODE_OFFSET)
-        'SubDelayMs 200
         SubLogInfo "Init current colorTemp. RES:" + str$(RES)
-        rRGB.cRR = presetData.nColorRR
-        rRGB.cGG = presetData.nColorGG
-        rRGB.cBB = presetData.nColorBB
+        gudtPreColorData = FuncPreColorData(strColorTemp, ADJMODE_OFFSET)
+        rRGB.cRR = gudtPreColorData.nColorRR
+        rRGB.cGG = gudtPreColorData.nColorGG
+        rRGB.cBB = gudtPreColorData.nColorBB
   
-        'Label1 = Str$(presetData.xx)
-        'Label3 = Str$(presetData.yy)
+        Label1 = CStr(gudtPreColorData.xx)
+        Label3 = CStr(gudtPreColorData.yy)
 
         Call clsProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
@@ -1098,7 +1161,7 @@ Private Function FuncAdjRGBOffset(strColorTemp As String) As Boolean
 
 Cancel:
     If RES = 3 Then
-        Call saveData(strColorTemp, ADJMODE_OFFSET)
+        Call SubUpdateRGBInXml(strColorTemp, ADJMODE_OFFSET)
         SubLogInfo "Save current data of " & strColorTemp & "."
         FuncAdjRGBOffset = True
     Else
@@ -1107,20 +1170,21 @@ Cancel:
 
 End Function
 
-Private Function checkColorAgain(strColorTemp As String) As Boolean
+Private Function FuncChkColorAgain(strColorTemp As String) As Boolean
     Dim i As Integer
 
-    Call clsProtocal.SelColorTemp(strColorTemp, gstrTvInputSrc, gintTvInputSrcPort)
+    If (mAdjGainAgainCool1 = 0 And mAdjGainAgainStandard = 0 And mAdjGainAgainWarm1 = 0) Then
+        SubLogInfo "====SelColorTemp " & strColorTemp & "===="
+        Call clsProtocal.SelColorTemp(strColorTemp, gstrTvInputSrc, gintTvInputSrcPort)
+    End If
 
     SubLogInfo "========Check " & strColorTemp & "========"
   
     For i = 1 To 2
-        Call ColorTSetSpec(strColorTemp, presetData, ADJMODE_GAIN)
-        'SubDelayMs 200
         SubLogInfo "Init current colorTemp. RES:" + str$(RES)
-
-        Label1 = str$(presetData.xx)
-        Label3 = str$(presetData.yy)
+        gudtPreColorData = FuncPreColorData(strColorTemp, ADJMODE_GAIN)
+        Label1 = CStr(gudtPreColorData.xx)
+        Label3 = CStr(gudtPreColorData.yy)
 
         SubShowData (5)
 
@@ -1134,9 +1198,9 @@ Private Function checkColorAgain(strColorTemp As String) As Boolean
   
 Cancel:
     If RES = 3 Then
-        checkColorAgain = True
+        FuncChkColorAgain = True
     Else
-        checkColorAgain = False
+        FuncChkColorAgain = False
     End If
 
 End Function
@@ -1144,7 +1208,7 @@ End Function
 
 'step = LASTSTEP: Check max brightness of TV with brightness 100 and contrast 100 in 100% white pattern.
 Private Sub SubShowData(step As Integer)
-On Error Resume Next
+    On Error Resume Next
     Dim xPos, yPos, vPos As Long
 
     ObjCa.Measure
@@ -1158,19 +1222,19 @@ On Error Resume Next
     '(1515,1275) is the origin of dx-dy axis.
     'In lv axis, 1660 is the distance from the bottom edge of blue rectangle to the top of Picture1.
     'In dx, 365 is half a side of blue rectangle.
-    If presetData.xt = 0 Then
-        presetData.xt = 30
+    If gudtPreColorData.xt = 0 Then
+        gudtPreColorData.xt = 30
     End If
-    If presetData.yt = 0 Then
-        presetData.yt = 30
+    If gudtPreColorData.yt = 0 Then
+        gudtPreColorData.yt = 30
     End If
-    xPos = 1515 + (rColor.xx - presetData.xx) * 365 / presetData.xt
-    yPos = 1275 - (rColor.yy - presetData.yy) * 385 / presetData.yt
+    xPos = 1515 + (rColor.xx - gudtPreColorData.xx) * 365 / gudtPreColorData.xt
+    yPos = 1275 - (rColor.yy - gudtPreColorData.yy) * 385 / gudtPreColorData.yt
 
     If step = LASTSTEP Then
         vPos = 1660 - (rColor.lv - glngBlSpecVal) * 385 / 50
     Else
-        vPos = 1660 - (rColor.lv - presetData.lv) * 385 / 50
+        vPos = 1660 - (rColor.lv - gudtPreColorData.lv) * 385 / 50
     End If
 
     'In dx-dy axis, 360 is the distance from left edge of white rectangle to the left of Picture1.
@@ -1183,7 +1247,7 @@ On Error Resume Next
     If yPos > 2480 Then yPos = 2480
 
     If step <> LASTSTEP Then
-        If Abs(rColor.xx - presetData.xx) <= presetData.xt And Abs(rColor.yy - presetData.yy) <= presetData.yt Then
+        If Abs(rColor.xx - gudtPreColorData.xx) <= gudtPreColorData.xt And Abs(rColor.yy - gudtPreColorData.yy) <= gudtPreColorData.yt Then
             lbColorTempWrong.Visible = False
             Picture1.Circle (xPos, yPos), 23, &H30FF30
         Else
@@ -1208,7 +1272,7 @@ On Error Resume Next
             Picture1.Line (3060, vPos)-(3390, vPos), &HFF&
         End If
     Else
-        If rColor.lv > presetData.lv Then
+        If rColor.lv > gudtPreColorData.lv Then
             Picture1.Line (3060, vPos)-(3390, vPos), &H30FF30
         Else
             Picture1.Line (3060, vPos)-(3390, vPos), &HFF&
@@ -1536,9 +1600,11 @@ ErrExit:
     MsgBox Err.Description, vbCritical, Err.Source
 End Sub
 
-Private Sub saveData(strColorTemp As String, HL As Long)
+Private Sub SubUpdateRGBInXml(strColorTemp As String, HL As Long)
     Dim xmlDoc As New MSXML2.DOMDocument
     Dim success As Boolean
+    Dim lngR, lngB As Long
+    
     success = xmlDoc.Load(gstrXmlPath)
 
 On Error GoTo ErrExit
@@ -1555,9 +1621,10 @@ On Error GoTo ErrExit
                 cCOOL1.nColorRR = rRGB.cRR
                 cCOOL1.nColorGG = rRGB.cGG
                 cCOOL1.nColorBB = rRGB.cBB
-                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/R").Text = CStr(cCOOL1.nColorRR)
-                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/G").Text = CStr(cCOOL1.nColorGG)
-                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/B").Text = CStr(cCOOL1.nColorBB)
+                lngR = (cCOOL1.nColorRR + gudtSpecData.intPRESETGANCool1R) / 2
+                lngB = (cCOOL1.nColorBB + gudtSpecData.intPRESETGANCool1B) / 2
+                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/R").Text = CStr(lngR)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/cool1/B").Text = CStr(lngB)
             Else
                 cFFCOOL1.xx = rColor.xx
                 cFFCOOL1.yy = rColor.yy
@@ -1565,9 +1632,6 @@ On Error GoTo ErrExit
                 cFFCOOL1.nColorRR = rRGB.cRR
                 cFFCOOL1.nColorGG = rRGB.cGG
                 cFFCOOL1.nColorBB = rRGB.cBB
-                xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(cFFCOOL1.nColorRR)
-                xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(cFFCOOL1.nColorGG)
-                xmlDoc.selectSingleNode("/config/PRESETOFF/cool1/R").Text = CStr(cFFCOOL1.nColorBB)
             End If
 
         Case COLORTEMP_STANDARD
@@ -1578,9 +1642,10 @@ On Error GoTo ErrExit
                 cNORMAL.nColorRR = rRGB.cRR
                 cNORMAL.nColorGG = rRGB.cGG
                 cNORMAL.nColorBB = rRGB.cBB
-                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/R").Text = CStr(cNORMAL.nColorRR)
-                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/G").Text = CStr(cNORMAL.nColorGG)
-                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/B").Text = CStr(cNORMAL.nColorBB)
+                lngR = (cNORMAL.nColorRR + gudtSpecData.intPRESETGANNormalR) / 2
+                lngB = (cNORMAL.nColorBB + gudtSpecData.intPRESETGANNormalB) / 2
+                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/R").Text = CStr(lngR)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/normal/B").Text = CStr(lngB)
             Else
                 cFFNORMAL.xx = rColor.xx
                 cFFNORMAL.yy = rColor.yy
@@ -1588,9 +1653,6 @@ On Error GoTo ErrExit
                 cFFNORMAL.nColorRR = rRGB.cRR
                 cFFNORMAL.nColorGG = rRGB.cGG
                 cFFNORMAL.nColorBB = rRGB.cBB
-                xmlDoc.selectSingleNode("/config/PRESETOFF/normal/R").Text = CStr(cFFNORMAL.nColorRR)
-                xmlDoc.selectSingleNode("/config/PRESETOFF/normal/G").Text = CStr(cFFNORMAL.nColorGG)
-                xmlDoc.selectSingleNode("/config/PRESETOFF/normal/B").Text = CStr(cFFNORMAL.nColorBB)
             End If
 
         Case COLORTEMP_WARM1
@@ -1601,9 +1663,10 @@ On Error GoTo ErrExit
                 cWARM1.nColorRR = rRGB.cRR
                 cWARM1.nColorGG = rRGB.cGG
                 cWARM1.nColorBB = rRGB.cBB
-                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/R").Text = CStr(cWARM1.nColorRR)
-                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/G").Text = CStr(cWARM1.nColorGG)
-                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/B").Text = CStr(cWARM1.nColorBB)
+                lngR = (cWARM1.nColorRR + gudtSpecData.intPRESETGANWarm1R) / 2
+                lngB = (cWARM1.nColorBB + gudtSpecData.intPRESETGANWarm1B) / 2
+                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/R").Text = CStr(lngR)
+                xmlDoc.selectSingleNode("/config/PRESETGAN/warm1/B").Text = CStr(lngB)
             Else
                 cFFWARM1.xx = rColor.xx
                 cFFWARM1.yy = rColor.yy
@@ -1611,50 +1674,10 @@ On Error GoTo ErrExit
                 cFFWARM1.nColorRR = rRGB.cRR
                 cFFWARM1.nColorGG = rRGB.cGG
                 cFFWARM1.nColorBB = rRGB.cBB
-                xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/R").Text = CStr(cFFWARM1.nColorRR)
-                xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/G").Text = CStr(cFFWARM1.nColorGG)
-                xmlDoc.selectSingleNode("/config/PRESETOFF/warm1/B").Text = CStr(cFFWARM1.nColorBB)
             End If
         End Select
         xmlDoc.save gstrXmlPath
     End If
-End Sub
-
-Private Sub LoadData(strColorTemp As String, isGain As Boolean)
-    Select Case strColorTemp
-        Case COLORTEMP_COOL1
-            If isGain Then
-                rRGB1.cRR = gudtSpecData.intPRESETGANCool1R
-                rRGB1.cGG = gudtSpecData.intPRESETGANCool1G
-                rRGB1.cBB = gudtSpecData.intPRESETGANCool1B
-            Else
-                rRGB1.cRR = gudtSpecData.intPRESETOFFCool1R
-                rRGB1.cGG = gudtSpecData.intPRESETOFFCool1G
-                rRGB1.cBB = gudtSpecData.intPRESETOFFCool1B
-            End If
-            
-        Case COLORTEMP_STANDARD
-            If isGain Then
-                rRGB1.cRR = gudtSpecData.intPRESETGANNormalR
-                rRGB1.cGG = gudtSpecData.intPRESETGANNormalG
-                rRGB1.cBB = gudtSpecData.intPRESETGANNormalB
-            Else
-                rRGB1.cRR = gudtSpecData.intPRESETOFFNormalR
-                rRGB1.cGG = gudtSpecData.intPRESETOFFNormalG
-                rRGB1.cBB = gudtSpecData.intPRESETOFFNormalB
-            End If
-            
-        Case COLORTEMP_WARM1
-            If isGain Then
-                rRGB1.cRR = gudtSpecData.intPRESETGANWarm1R
-                rRGB1.cGG = gudtSpecData.intPRESETGANWarm1G
-                rRGB1.cBB = gudtSpecData.intPRESETGANWarm1B
-            Else
-                rRGB1.cRR = gudtSpecData.intPRESETOFFWarm1R
-                rRGB1.cGG = gudtSpecData.intPRESETOFFWarm1G
-                rRGB1.cBB = gudtSpecData.intPRESETOFFWarm1B
-            End If
-    End Select
 End Sub
 
 Private Sub saveALLcData()

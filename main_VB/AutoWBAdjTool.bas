@@ -82,14 +82,11 @@ Public Type COLORTEMPSPEC
     xx                         As Long
     yy                         As Long
     lv                         As Long
+    xt                         As Long
+    yt                         As Long
     nColorRR                   As Long
     nColorGG                   As Long
     nColorBB                   As Long
-    xt                         As Long
-    yt                         As Long
-    nLowRR                     As Long
-    nLowGG                     As Long
-    nLowBB                     As Long
 End Type
 
 Public Type REALCOLOR
