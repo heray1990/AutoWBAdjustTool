@@ -991,7 +991,7 @@ Private Sub Command1_Click()
 
     Unload Me
     
-    FormMain.subInitInterface
+    FormMain.SubInit
     FormMain.Show
 End Sub
 

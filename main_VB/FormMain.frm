@@ -546,7 +546,7 @@ Attribute Obj.VB_VarHelpID = -1
 
 Private Sub SubRun()
     On Error GoTo ErrExit
-    subInitBeforeRunning
+    SubInitBeforeRun
 
     If gblnStop = True Then
         Exit Sub
@@ -554,16 +554,16 @@ Private Sub SubRun()
 
     If gblnCaConnected = False Then
         MsgBox TXTCaDisconnectHint, vbOKOnly + vbInformation, "warning"
-        subInitAfterRunning
+        SubConfigAfterRun
         
         Exit Sub
     End If
 
-    checkResult.BackColor = &H80FFFF
     gblnStop = False
+    checkResult.BackColor = &H80FFFF
     checkResult.Caption = TXTRun
     checkResult.ForeColor = &HC0&
-    CheckStep = ""
+    CheckStep.Text = ""
 
     lbAdjustCOOL_1.BackColor = &H8000000F
     lbAdjustCOOL_2.BackColor = &H8000000F
@@ -578,7 +578,7 @@ Private Sub SubRun()
     ObjMemory.ChannelNO = glngCaChannel
 
     SubLogInfo "Start adjusting color temperature"
-    Call ChangePattern(gstrVPG80IRE)
+    Call SubVPGPattern(gstrVPG80IRE)
 
     clsProtocal.EnterFacMode
     Call clsProtocal.SwitchInputSource(gstrTvInputSrc, gintTvInputSrcPort)
@@ -651,7 +651,7 @@ ADJUST_GAIN_AGAIN_WARM1:
     If gblnAdjOffset Then
         Label6.Caption = TXTGrey
 
-        Call ChangePattern(gstrVPG20IRE)
+        Call SubVPGPattern(gstrVPG20IRE)
 
         If gblnEnableCool1 Then
             lbAdjustCOOL_1.BackColor = &H80FFFF
@@ -701,7 +701,7 @@ ADJUST_GAIN_AGAIN_WARM1:
 
     If gblnChkColorTemp Then
         If gblnAdjOffset Then
-            Call ChangePattern(gstrVPG80IRE)
+            Call SubVPGPattern(gstrVPG80IRE)
         End If
 
 CHECK_COOL1:
@@ -780,7 +780,7 @@ CHECK_WARM1:
         'Last check:
         'Cool, 100% white pattern, brightness = 100, contrast = 100
         'Check Lv and save x, y, lv
-        Call ChangePattern(gstrVPG100IRE)
+        Call SubVPGPattern(gstrVPG100IRE)
 
         Call clsProtocal.SetBrightness(100)
         SubLogInfo "Set brightness to 100"
@@ -824,7 +824,7 @@ PASS:
     
     Label6.Caption = TXTPass
     
-    Call subInitAfterRunning
+    Call SubConfigAfterRun
 
     Exit Sub
 
@@ -843,7 +843,7 @@ FAIL:
     
     Label6.Caption = TXTFail
 
-    Call subInitAfterRunning
+    Call SubConfigAfterRun
 
     Exit Sub
 
@@ -851,7 +851,7 @@ ErrExit:
     MsgBox Err.Description, vbCritical, Err.Source
 End Sub
 
-Private Sub subInitBeforeRunning()
+Private Sub SubInitBeforeRun()
     mCntTime = 0
     lbTimer.Caption = "0s"
     Timer1.Enabled = True
@@ -863,7 +863,7 @@ Private Sub subInitBeforeRunning()
     mAdjGainAgainWarm1 = 0
 End Sub
 
-Private Sub subInitAfterRunning()
+Private Sub SubConfigAfterRun()
     Timer1.Enabled = False
     
     SubSaveLogInFile "[Time]Total: " & lbTimer.Caption & vbCrLf
@@ -1278,7 +1278,7 @@ Private Sub Form_Load()
     
     Me.Caption = TXTTitle & " V" & App.Major & "." & App.Minor & "." & App.Revision
     mTitle = Me.Caption
-    subInitInterface
+    SubInit
 
     mBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
     
@@ -1308,11 +1308,9 @@ Private Sub Form_Load()
     RES = ColorTInit(gudtSpecData)
 End Sub
 
-Public Sub subInitInterface()
-    
+Public Sub SubInit()
     LoadConfigData
-    LoadSpecData
-    
+
     gstrCurProjName = gudtConfigData.strModel
     gEnumCommMode = gudtConfigData.CommMode
     gintCurComBaud = gudtConfigData.strComBaud
@@ -1340,11 +1338,10 @@ Public Sub subInitInterface()
     gstrChipSet = gudtConfigData.strChipSet
     
     If gEnumCommMode = modeUART Then
-        subInitComPort
+        SubInitComPort
     ElseIf gEnumCommMode = modeNetwork Then
-        subInitNetwork
+        SubInitNetwork
     End If
-    
 
     txtInput.Text = ""
     lbModelName.Caption = Split(gstrCurProjName, gstrDelimiterForProjName)(1)
@@ -1361,13 +1358,13 @@ Public Sub subInitInterface()
     If gblnEnableWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
     If gblnEnableWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
     
-    InitVPGDevice
+    SubInitVPG
     SubDelayMs 200
     
-    Call ChangeTiming(gstrVPGTiming)
+    Call SubVPGTiming(gstrVPGTiming)
 End Sub
 
-Private Sub subInitComPort()
+Private Sub SubInitComPort()
     If MSComm1.PortOpen = True Then
         MSComm1.PortOpen = False
     End If
@@ -1390,7 +1387,7 @@ Private Sub subInitComPort()
     MSComm1.OutBufferSize = 512
 End Sub
 
-Private Sub subInitNetwork()
+Private Sub SubInitNetwork()
     gblnNetConnected = False
     With tcpClient
         .Protocol = sckTCPProtocol
@@ -1775,7 +1772,7 @@ Private Sub tcpClient_Connect()
     gblnNetConnected = True
 End Sub
 
-Private Sub InitVPGDevice()
+Private Sub SubInitVPG()
     Select Case gstrVPGModel
         Case "2401"
             Set ivpg = New VPGCtrl.VPGCtrl_24xx
@@ -1845,7 +1842,7 @@ Private Sub Obj_OnChangedConnectState(ByVal bIsConnected As Boolean)
     End If
 End Sub
 
-Private Sub ChangeTiming(Tim As String)
+Private Sub SubVPGTiming(Tim As String)
     Dim bNo(1) As Byte
     
     bNo(0) = (CInt(Tim) And &HFF00) \ 256
@@ -1854,7 +1851,7 @@ Private Sub ChangeTiming(Tim As String)
     ivpg.ExecuteCmd VPG_CMD_CM_DOWNLOAD, VPG_SCMD_SCM_CTL_RUNTIM, bNo, False
 End Sub
 
-Private Sub ChangePattern(Ptn As String)
+Private Sub SubVPGPattern(Ptn As String)
     Dim bNo(1) As Byte
     
     bNo(0) = (CInt(Ptn) And &HFF00) \ 256

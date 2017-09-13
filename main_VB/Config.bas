@@ -39,60 +39,7 @@ Public Sub LoadConfigData()
         gudtConfigData.strVPG80IRE = xmlDoc.selectSingleNode("/config/VPG/IRE80").Text
         gudtConfigData.strVPG20IRE = xmlDoc.selectSingleNode("/config/VPG/IRE20").Text
         gudtConfigData.strChipSet = xmlDoc.selectSingleNode("/config/chipset").Text
-    End If
 
-    If xmlDoc.selectSingleNode("/config/cool_2").Text = "True" Then
-        gudtConfigData.bolEnableCool2 = True
-    Else
-        gudtConfigData.bolEnableCool2 = False
-    End If
-    
-    If xmlDoc.selectSingleNode("/config/cool_1").Text = "True" Then
-        gudtConfigData.bolEnableCool1 = True
-    Else
-        gudtConfigData.bolEnableCool1 = False
-    End If
-    
-    If xmlDoc.selectSingleNode("/config/normal").Text = "True" Then
-        gudtConfigData.bolEnableNormal = True
-    Else
-        gudtConfigData.bolEnableNormal = False
-    End If
-    
-    If xmlDoc.selectSingleNode("/config/warm_1").Text = "True" Then
-        gudtConfigData.bolEnableWarm1 = True
-    Else
-        gudtConfigData.bolEnableWarm1 = False
-    End If
-    
-    If xmlDoc.selectSingleNode("/config/warm_2").Text = "True" Then
-        gudtConfigData.bolEnableWarm2 = True
-    Else
-        gudtConfigData.bolEnableWarm2 = False
-    End If
-    
-    If xmlDoc.selectSingleNode("/config/check_color").Text = "True" Then
-        gudtConfigData.bolEnableChkColor = True
-    Else
-        gudtConfigData.bolEnableChkColor = False
-    End If
-    
-    If xmlDoc.selectSingleNode("/config/adjust_offset").Text = "True" Then
-        gudtConfigData.bolEnableAdjOffset = True
-    Else
-        gudtConfigData.bolEnableAdjOffset = False
-    End If
-End Sub
-
-Public Sub LoadSpecData()
-    Dim xmlDoc As New MSXML2.DOMDocument
-    Dim success As Boolean
-    
-    success = xmlDoc.Load(gstrXmlPath)
-    
-    If success = False Then
-        MsgBox xmlDoc.parseError.reason
-    Else
         gudtSpecData.intSPECCool1x = val(xmlDoc.selectSingleNode("/config/SPEC/cool1/x").Text)
         gudtSpecData.intSPECCool1y = val(xmlDoc.selectSingleNode("/config/SPEC/cool1/y").Text)
         gudtSpecData.intSPECCool1Lv = val(xmlDoc.selectSingleNode("/config/SPEC/cool1/Lv").Text)
@@ -140,6 +87,48 @@ Public Sub LoadSpecData()
         gudtSpecData.intMAGICVALGMax = val(xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepoffset").Text)
         gudtSpecData.intMAGICVALOMin = val(xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepgain").Text)
         gudtSpecData.intMAGICVALOMax = val(xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepoffset").Text)
+    End If
+
+    If xmlDoc.selectSingleNode("/config/cool_2").Text = "True" Then
+        gudtConfigData.bolEnableCool2 = True
+    Else
+        gudtConfigData.bolEnableCool2 = False
+    End If
+    
+    If xmlDoc.selectSingleNode("/config/cool_1").Text = "True" Then
+        gudtConfigData.bolEnableCool1 = True
+    Else
+        gudtConfigData.bolEnableCool1 = False
+    End If
+    
+    If xmlDoc.selectSingleNode("/config/normal").Text = "True" Then
+        gudtConfigData.bolEnableNormal = True
+    Else
+        gudtConfigData.bolEnableNormal = False
+    End If
+    
+    If xmlDoc.selectSingleNode("/config/warm_1").Text = "True" Then
+        gudtConfigData.bolEnableWarm1 = True
+    Else
+        gudtConfigData.bolEnableWarm1 = False
+    End If
+    
+    If xmlDoc.selectSingleNode("/config/warm_2").Text = "True" Then
+        gudtConfigData.bolEnableWarm2 = True
+    Else
+        gudtConfigData.bolEnableWarm2 = False
+    End If
+    
+    If xmlDoc.selectSingleNode("/config/check_color").Text = "True" Then
+        gudtConfigData.bolEnableChkColor = True
+    Else
+        gudtConfigData.bolEnableChkColor = False
+    End If
+    
+    If xmlDoc.selectSingleNode("/config/adjust_offset").Text = "True" Then
+        gudtConfigData.bolEnableAdjOffset = True
+    Else
+        gudtConfigData.bolEnableAdjOffset = False
     End If
 End Sub
 

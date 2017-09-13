@@ -76,7 +76,6 @@ Option Explicit
 
 
 Private Sub CommandLoadXml_Click()
-    ' CancelError is True.
     On Error GoTo ErrHandler
     ' Set filters.
     CommonDialog1.Filter = "All Files (*.*)|*.*|Xml Files (*.xml)|*.xml"
