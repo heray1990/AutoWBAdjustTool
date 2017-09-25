@@ -83,10 +83,10 @@ Public Sub LoadConfigData()
         gudtSpecData.intCLEVELRGBGMax = val(xmlDoc.selectSingleNode("/config/CLEVELRGB/gain/max").Text)
         gudtSpecData.intCLEVELRGBOMin = val(xmlDoc.selectSingleNode("/config/CLEVELRGB/offset/min").Text)
         gudtSpecData.intCLEVELRGBOMax = val(xmlDoc.selectSingleNode("/config/CLEVELRGB/offset/max").Text)
-        gudtSpecData.intMAGICVALGMin = val(xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepgain").Text)
-        gudtSpecData.intMAGICVALGMax = val(xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepoffset").Text)
-        gudtSpecData.intMAGICVALOMin = val(xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepgain").Text)
-        gudtSpecData.intMAGICVALOMax = val(xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepoffset").Text)
+        gudtSpecData.intMagicValGainXStep = val(xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepgain").Text)
+        gudtSpecData.intMagicValOffXStep = val(xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepoffset").Text)
+        gudtSpecData.intMagicValGainYStep = val(xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepgain").Text)
+        gudtSpecData.intMagicValOffYStep = val(xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepoffset").Text)
     End If
 
     If xmlDoc.selectSingleNode("/config/cool_2").Text = "True" Then
@@ -266,10 +266,10 @@ Public Sub SaveSpecData(strColorTemp As String)
         xmlDoc.selectSingleNode("/config/CLEVELRGB/offset/min").Text = CStr(gudtSpecData.intCLEVELRGBOMin)
         xmlDoc.selectSingleNode("/config/CLEVELRGB/offset/max").Text = CStr(gudtSpecData.intCLEVELRGBOMax)
 
-        xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepgain").Text = CStr(gudtSpecData.intMAGICVALGMin)
-        xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepoffset").Text = CStr(gudtSpecData.intMAGICVALGMax)
-        xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepgain").Text = CStr(gudtSpecData.intMAGICVALOMin)
-        xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepoffset").Text = CStr(gudtSpecData.intMAGICVALOMax)
+        xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepgain").Text = CStr(gudtSpecData.intMagicValGainXStep)
+        xmlDoc.selectSingleNode("/config/MAGICVAL/x/stepoffset").Text = CStr(gudtSpecData.intMagicValOffXStep)
+        xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepgain").Text = CStr(gudtSpecData.intMagicValGainYStep)
+        xmlDoc.selectSingleNode("/config/MAGICVAL/y/stepoffset").Text = CStr(gudtSpecData.intMagicValOffYStep)
         
         xmlDoc.save gstrXmlPath
     End If

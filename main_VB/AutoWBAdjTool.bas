@@ -72,10 +72,10 @@ Public Type udtSpecData
     intCLEVELRGBGMax As Long
     intCLEVELRGBOMin As Long
     intCLEVELRGBOMax As Long
-    intMAGICVALGMin As Long
-    intMAGICVALGMax As Long
-    intMAGICVALOMin As Long
-    intMAGICVALOMax As Long
+    intMagicValGainXStep As Long
+    intMagicValOffXStep As Long
+    intMagicValGainYStep As Long
+    intMagicValOffYStep As Long
 End Type
 
 Public Type COLORTEMPSPEC

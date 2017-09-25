@@ -787,10 +787,10 @@ Private Sub Form_Load()
     txtPresetOffR.Text = CStr(gudtSpecData.intPRESETOFFCool1R)
     txtPresetOffG.Text = CStr(gudtSpecData.intPRESETOFFCool1G)
     txtPresetOffB.Text = CStr(gudtSpecData.intPRESETOFFCool1B)
-    txtGainStepX.Text = Format(val(gudtSpecData.intMAGICVALGMin) / 10000, "0.####")
-    txtGainStepY.Text = Format(val(gudtSpecData.intMAGICVALOMin) / 10000, "0.####")
-    txtOffStepX.Text = Format(val(gudtSpecData.intMAGICVALGMax) / 10000, "0.####")
-    txtOffStepY.Text = Format(val(gudtSpecData.intMAGICVALOMax) / 10000, "0.####")
+    txtGainStepX.Text = Format(val(gudtSpecData.intMagicValGainXStep) / 10000, "0.####")
+    txtGainStepY.Text = Format(val(gudtSpecData.intMagicValGainYStep) / 10000, "0.####")
+    txtOffStepX.Text = Format(val(gudtSpecData.intMagicValOffXStep) / 10000, "0.####")
+    txtOffStepY.Text = Format(val(gudtSpecData.intMagicValOffYStep) / 10000, "0.####")
     cmbColorT.AddItem COLORTEMP_COOL1
     cmbColorT.AddItem COLORTEMP_STANDARD
     cmbColorT.AddItem COLORTEMP_WARM1
@@ -839,10 +839,10 @@ Private Sub cmbColorT_Click()
         txtPresetOffB.Text = CStr(gudtSpecData.intPRESETOFFWarm1B)
     End If
 
-    txtGainStepX.Text = Format(val(gudtSpecData.intMAGICVALGMin) / 10000, "0.####")
-    txtGainStepY.Text = Format(val(gudtSpecData.intMAGICVALOMin) / 10000, "0.####")
-    txtOffStepX.Text = Format(val(gudtSpecData.intMAGICVALGMax) / 10000, "0.####")
-    txtOffStepY.Text = Format(val(gudtSpecData.intMAGICVALOMax) / 10000, "0.####")
+    txtGainStepX.Text = Format(val(gudtSpecData.intMagicValGainXStep) / 10000, "0.####")
+    txtGainStepY.Text = Format(val(gudtSpecData.intMagicValGainYStep) / 10000, "0.####")
+    txtOffStepX.Text = Format(val(gudtSpecData.intMagicValOffXStep) / 10000, "0.####")
+    txtOffStepY.Text = Format(val(gudtSpecData.intMagicValOffYStep) / 10000, "0.####")
 End Sub
 
 Private Sub Command1_Click()
@@ -887,10 +887,10 @@ Private Sub Command1_Click()
         gudtSpecData.intPRESETOFFWarm1B = val(txtPresetOffB.Text)
     End If
     
-    gudtSpecData.intMAGICVALGMin = val(txtGainStepX.Text) * 10000
-    gudtSpecData.intMAGICVALOMin = val(txtGainStepY.Text) * 10000
-    gudtSpecData.intMAGICVALGMax = val(txtOffStepX.Text) * 10000
-    gudtSpecData.intMAGICVALOMax = val(txtOffStepY.Text) * 10000
+    gudtSpecData.intMagicValGainXStep = val(txtGainStepX.Text) * 10000
+    gudtSpecData.intMagicValGainYStep = val(txtGainStepY.Text) * 10000
+    gudtSpecData.intMagicValOffXStep = val(txtOffStepX.Text) * 10000
+    gudtSpecData.intMagicValOffYStep = val(txtOffStepY.Text) * 10000
     
     Call SaveSpecData(cmbColorT.Text)
 
