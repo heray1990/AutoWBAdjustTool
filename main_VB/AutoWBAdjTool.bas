@@ -28,65 +28,18 @@ Public Type udtConfigData
     strChipSet As String
 End Type
 
-Public Type udtSpecData
-    intSPECCool1x As Long
-    intSPECCool1y As Long
-    intSPECCool1Lv As Long
-    intSPECNormalx As Long
-    intSPECNormaly As Long
-    intSPECNormalLv As Long
-    intSPECWarm1x As Long
-    intSPECWarm1y As Long
-    intSPECWarm1Lv As Long
-    intTOLCool1xt As Long
-    intTOLCool1yt As Long
-    intTOLNormalxt As Long
-    intTOLNormalyt As Long
-    intTOLWarm1xt As Long
-    intTOLWarm1yt As Long
-    intCHKCool1Cxt As Long
-    intCHKCool1Cyt As Long
-    intCHKNormalCxt As Long
-    intCHKNormalCyt As Long
-    intCHKWarm1Cxt As Long
-    intCHKWarm1Cyt As Long
-    intPRESETGANCool1R As Long
-    intPRESETGANCool1G As Long
-    intPRESETGANCool1B As Long
-    intPRESETGANNormalR As Long
-    intPRESETGANNormalG As Long
-    intPRESETGANNormalB As Long
-    intPRESETGANWarm1R As Long
-    intPRESETGANWarm1G As Long
-    intPRESETGANWarm1B As Long
-    intPRESETOFFCool1R As Long
-    intPRESETOFFCool1G As Long
-    intPRESETOFFCool1B As Long
-    intPRESETOFFNormalR As Long
-    intPRESETOFFNormalG As Long
-    intPRESETOFFNormalB As Long
-    intPRESETOFFWarm1R As Long
-    intPRESETOFFWarm1G As Long
-    intPRESETOFFWarm1B As Long
-    intCLEVELRGBGMin As Long
-    intCLEVELRGBGMax As Long
-    intCLEVELRGBOMin As Long
-    intCLEVELRGBOMax As Long
-    intMagicValGainXStep As Long
-    intMagicValOffXStep As Long
-    intMagicValGainYStep As Long
-    intMagicValOffYStep As Long
-End Type
-
 Public Type COLORTEMPSPEC
     xx                         As Long
     yy                         As Long
     lv                         As Long
-    xt                         As Long
-    yt                         As Long
     nColorRR                   As Long
     nColorGG                   As Long
     nColorBB                   As Long
+    xt                         As Long
+    yt                         As Long
+    nLowRR                     As Long
+    nLowGG                     As Long
+    nLowBB                     As Long
 End Type
 
 Public Type REALCOLOR
@@ -127,7 +80,6 @@ Public Const REMOTE_PORT As Long = 8888
 '==========Public Variables==========
 Public gEnumCommMode As CommunicationMode
 Public gudtConfigData As udtConfigData
-Public gudtSpecData As udtSpecData
 
 Public glngCaChannel As Long
 Public glngDelayTime As Long

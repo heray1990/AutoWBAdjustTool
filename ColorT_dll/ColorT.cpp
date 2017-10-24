@@ -28,74 +28,36 @@ CColorT::CColorT()
 	return; 
 }
 
-COLORT_API int _stdcall ColorTInit(pudtConfigData pConfigdata)
+COLORT_API int _stdcall ColorTInit(char* ModelFile,char* pCurDir)
 {
-	ConfigData.intCLEVELRGBOMax=pConfigdata->intCLEVELRGBOMax;
-	ConfigData.intCLEVELRGBOMin=pConfigdata->intCLEVELRGBOMin;	
-	ConfigData.intCLEVELRGBGMax=pConfigdata->intCLEVELRGBGMax;
-	ConfigData.intCLEVELRGBGMin=pConfigdata->intCLEVELRGBGMin;
-	ConfigData.intSPECCool1x=pConfigdata->intSPECCool1x;
-	ConfigData.intSPECCool1y=pConfigdata->intSPECCool1y;
-	ConfigData.intSPECCool1Lv=pConfigdata->intSPECCool1Lv;
-	ConfigData.intPRESETGANCool1R=pConfigdata->intPRESETGANCool1R;
-	ConfigData.intPRESETGANCool1G=pConfigdata->intPRESETGANCool1G;
-	ConfigData.intPRESETGANCool1B=pConfigdata->intPRESETGANCool1B;
-	ConfigData.intPRESETOFFCool1R=pConfigdata->intPRESETOFFCool1R;
-	ConfigData.intPRESETOFFCool1G=pConfigdata->intPRESETOFFCool1G;
-	ConfigData.intPRESETOFFCool1B=pConfigdata->intPRESETOFFCool1B;
-	ConfigData.intTOLCool1xt=pConfigdata->intTOLCool1xt;
-	ConfigData.intTOLCool1yt=pConfigdata->intTOLCool1yt;
-	ConfigData.intCHKCool1Cxt=pConfigdata->intCHKCool1Cxt;
-	ConfigData.intCHKCool1Cyt=pConfigdata->intCHKCool1Cyt;
-	ConfigData.intSPECNormalx=pConfigdata->intSPECNormalx;
-	ConfigData.intSPECNormaly=pConfigdata->intSPECNormaly;
-	ConfigData.intSPECNormalLv=pConfigdata->intSPECNormalLv;
-	ConfigData.intPRESETGANNormalR=pConfigdata->intPRESETGANNormalR;
-	ConfigData.intPRESETGANNormalG=pConfigdata->intPRESETGANNormalG;
-	ConfigData.intPRESETGANNormalB=pConfigdata->intPRESETGANNormalB;
-	ConfigData.intPRESETOFFNormalR=pConfigdata->intPRESETOFFNormalR;
-	ConfigData.intPRESETOFFNormalG=pConfigdata->intPRESETOFFNormalG;
-	ConfigData.intPRESETOFFNormalB=pConfigdata->intPRESETOFFNormalB;
-	ConfigData.intTOLNormalxt=pConfigdata->intTOLNormalxt;
-	ConfigData.intTOLNormalyt=pConfigdata->intTOLNormalyt;
-	ConfigData.intCHKNormalCxt=pConfigdata->intCHKNormalCxt;
-	ConfigData.intCHKNormalCyt=pConfigdata->intCHKNormalCyt;
-	ConfigData.intSPECWarm1x=pConfigdata->intSPECWarm1x;
-	ConfigData.intSPECWarm1y=pConfigdata->intSPECWarm1y;
-	ConfigData.intSPECWarm1Lv=pConfigdata->intSPECWarm1Lv;
-	ConfigData.intPRESETGANWarm1R=pConfigdata->intPRESETGANWarm1R;
-	ConfigData.intPRESETGANWarm1G=pConfigdata->intPRESETGANWarm1G;
-	ConfigData.intPRESETGANWarm1B=pConfigdata->intPRESETGANWarm1B;
-	ConfigData.intPRESETOFFWarm1R=pConfigdata->intPRESETOFFWarm1R;
-	ConfigData.intPRESETOFFWarm1G=pConfigdata->intPRESETOFFWarm1G;
-	ConfigData.intPRESETOFFWarm1B=pConfigdata->intPRESETOFFWarm1B;
-	ConfigData.intTOLWarm1xt=pConfigdata->intTOLWarm1xt;
-	ConfigData.intTOLWarm1yt=pConfigdata->intTOLWarm1yt;
-	ConfigData.intCHKWarm1Cxt=pConfigdata->intCHKWarm1Cxt;
-	ConfigData.intCHKWarm1Cyt=pConfigdata->intCHKWarm1Cyt;
-	ConfigData.intMAGICVALGMin=pConfigdata->intMAGICVALGMin;
-	ConfigData.intMAGICVALOMin=pConfigdata->intMAGICVALOMin;
-	ConfigData.intMAGICVALGMax=pConfigdata->intMAGICVALGMax;
-	ConfigData.intMAGICVALOMax=pConfigdata->intMAGICVALOMax;
+	//::GetCurrentDirectory(512,buf);
+	strcpy(buf, pCurDir);
+	strcat(buf, "\\");
+	strcat(buf, ModelFile);
+	strcat(buf, "\\CONFIG.ini");
+  
+	maxColorRGB_OFF = GetPrivateProfileInt("Color_Level_RGB_OFF", "####max", nDefault, buf);
+	minColorRGB_OFF = GetPrivateProfileInt("Color_Level_RGB_OFF", "####min", nDefault, buf);	
+	maxColorRGB_GAN = GetPrivateProfileInt("Color_Level_RGB_GAN", "####max", nDefault, buf);
+	minColorRGB_GAN = GetPrivateProfileInt("Color_Level_RGB_GAN", "####min", nDefault, buf);
+	
 
-
-	maxColorRGB_OFF = pConfigdata->intCLEVELRGBOMax;
-	minColorRGB_OFF = pConfigdata->intCLEVELRGBOMin;	
-	maxColorRGB_GAN = pConfigdata->intCLEVELRGBGMax;
-	minColorRGB_GAN = pConfigdata->intCLEVELRGBGMin;
-
-	Getdata(&SpecCool1,&ConfigData,"COOL1");
-	Getdata(&SpecNormal,&ConfigData,"NORMAL");
-	Getdata(&SpecWarm1,&ConfigData,"WARM1");	
+	// COOL1
+	getdata(&SpecCool1, "COOL1");
+	// NORMAL
+    getdata(&SpecNormal, "NORMAL");
+	// WARM1
+    getdata(&SpecWarm1, "WARM1");
 
     return true;
 }
 
-COLORT_API int _stdcall ColorTDeInit(pudtConfigData pConfigdata)
+COLORT_API int _stdcall ColorTDeInit()
 {
-	Savedata(&SpecCool1,&ConfigData,"COOL1");
-	Savedata(&SpecNormal,&ConfigData,"NORMAL");
-	Savedata(&SpecWarm1,&ConfigData,"WARM1");
+	savedata(&SpecCool1, "COOL1");
+	savedata(&SpecNormal, "NORMAL");
+	savedata(&SpecWarm1, "WARM1");
+
     return true;
 }
 
@@ -452,6 +414,32 @@ void delay(unsigned milliseconds)
 	Sleep(milliseconds);
 }
 
+int savedata(pCOLORSPEC pColorST,char* CT)
+{
+	char strTemp[18];
+	char preset[32] = "PRESET_GAN_";
+	char lowset[32] = "PRESET_OFF_";
+
+    strcat(preset, CT);
+    strcat(lowset, CT);
+
+    if (0 != pColorST->PriRR)
+	{
+		if (AdjustGAN == 1)
+		{
+	        WritePrivateProfileString(preset, "###R", _itoa(pColorST->PriRR, strTemp, 10), buf);
+     	    WritePrivateProfileString(preset, "###G", _itoa(pColorST->PriGG, strTemp, 10), buf);
+	        WritePrivateProfileString(preset, "###B", _itoa(pColorST->PriBB, strTemp, 10), buf);	
+		}
+		else
+		{
+	        WritePrivateProfileString(lowset, "###R", _itoa(pColorST->LowRR, strTemp, 10), buf);
+     	    WritePrivateProfileString(lowset, "###G", _itoa(pColorST->LowGG, strTemp, 10), buf);
+	        WritePrivateProfileString(lowset, "###B", _itoa(pColorST->LowBB, strTemp, 10), buf);	
+		}
+	}
+	return true;
+}
 
 
 BOOL CheckRGBisInRangeOkorNO(COLORSPEC rgb)
@@ -500,64 +488,40 @@ void VerifyRGB(int& RGB)
 	}
 }
 
-int Getdata(pCOLORSPEC pColorST,pudtConfigData pConfigdata,char* CT)
+int getdata(pCOLORSPEC pColorST, char* CT)
 {
-	
-	if (strcmp(CT, "COOL1") == 0)
-	{
-		pColorST->sx =pConfigdata->intSPECCool1x;
-		pColorST->sy =pConfigdata->intSPECCool1y;
-		pColorST->LimLV =pConfigdata->intSPECCool1Lv;
-		pColorST->PriRR =pConfigdata->intPRESETGANCool1R;
-		pColorST->PriGG =pConfigdata->intPRESETGANCool1G;
-		pColorST->PriBB =pConfigdata->intPRESETGANCool1B;
-		pColorST->LowRR =pConfigdata->intPRESETOFFCool1R;
-		pColorST->LowGG =pConfigdata->intPRESETOFFCool1G;
-		pColorST->LowBB =pConfigdata->intPRESETOFFCool1B;
-		pColorST->xt =pConfigdata->intTOLCool1xt;
-		pColorST->yt =pConfigdata->intTOLCool1yt;
-		pColorST->cxt =pConfigdata->intCHKCool1Cxt;
-		pColorST->cyt =pConfigdata->intCHKCool1Cyt;
-	}
+//	char strTemp[16];
+	char spec[32] = "SPEC_";
+	char preset[32] = "PRESET_GAN_";
+    char tol[32] = "TOL_";
+	char chk[32] = "CHK_";
+	char lowset[32] = "PRESET_OFF_";
+	char magicValX[32] = "MAGIC_VAL_X";
+	char magicValY[32] = "MAGIC_VAL_Y";
 
-	if (strcmp(CT, "NORMAL") == 0)
-	{
-		pColorST->sx =pConfigdata->intSPECNormalx;
-		pColorST->sy =pConfigdata->intSPECNormaly;
-		pColorST->LimLV =pConfigdata->intSPECNormalLv;
-		pColorST->PriRR =pConfigdata->intPRESETGANNormalR;
-		pColorST->PriGG =pConfigdata->intPRESETGANNormalG;
-		pColorST->PriBB =pConfigdata->intPRESETGANNormalB;
-		pColorST->LowRR =pConfigdata->intPRESETOFFNormalR;
-		pColorST->LowGG =pConfigdata->intPRESETOFFNormalG;
-		pColorST->LowBB =pConfigdata->intPRESETOFFNormalB;
-		pColorST->xt =pConfigdata->intTOLNormalxt;
-		pColorST->yt =pConfigdata->intTOLNormalyt;
-		pColorST->cxt =pConfigdata->intCHKNormalCxt;
-		pColorST->cyt =pConfigdata->intCHKNormalCyt;
-	}
+    strcat(spec, CT);
+    strcat(preset, CT);
+	strcat(tol, CT);
+	strcat(chk, CT);
+    strcat(lowset, CT);
+    pColorST->sx = GetPrivateProfileInt(spec, "##x", nDefault,buf);
+    pColorST->sy = GetPrivateProfileInt(spec, "##y", nDefault, buf);
+    pColorST->LimLV = GetPrivateProfileInt(spec, "##Lv", nDefault, buf);
+	pColorST->PriRR = GetPrivateProfileInt(preset, "###R", nDefault, buf);
+    pColorST->PriGG = GetPrivateProfileInt(preset, "###G", nDefault, buf);
+    pColorST->PriBB = GetPrivateProfileInt(preset, "###B", nDefault, buf);
+	pColorST->xt = GetPrivateProfileInt(tol, "###x", nDefault, buf);
+    pColorST->yt = GetPrivateProfileInt(tol, "###y", nDefault, buf);
+	pColorST->cxt = GetPrivateProfileInt(chk, "###x", nDefault, buf);
+    pColorST->cyt = GetPrivateProfileInt(chk, "###y", nDefault, buf);
+	pColorST->LowRR = GetPrivateProfileInt(lowset, "###R", nDefault, buf);
+    pColorST->LowGG = GetPrivateProfileInt(lowset, "###G", nDefault, buf);
+    pColorST->LowBB = GetPrivateProfileInt(lowset, "###B", nDefault, buf);
+	pColorST->MagicValXStepGain = GetPrivateProfileInt(magicValX, "#####STEP_GAIN", nDefault, buf);
+	pColorST->MagicValXStepOffset = GetPrivateProfileInt(magicValX, "#####STEP_OFFSET", nDefault, buf);
+	pColorST->MagicValYStepGain = GetPrivateProfileInt(magicValY, "#####STEP_GAIN", nDefault, buf);
+	pColorST->MagicValYStepOffset = GetPrivateProfileInt(magicValY, "#####STEP_OFFSET", nDefault, buf);
 
-	if (strcmp(CT, "WARM1") == 0)
-	{
-		pColorST->sx =pConfigdata->intSPECWarm1x;
-		pColorST->sy =pConfigdata->intSPECWarm1y;
-		pColorST->LimLV =pConfigdata->intSPECWarm1Lv;
-		pColorST->PriRR =pConfigdata->intPRESETGANWarm1R;
-		pColorST->PriGG =pConfigdata->intPRESETGANWarm1G;
-		pColorST->PriBB =pConfigdata->intPRESETGANWarm1B;
-		pColorST->LowRR =pConfigdata->intPRESETOFFWarm1R;
-		pColorST->LowGG =pConfigdata->intPRESETOFFWarm1G;
-		pColorST->LowBB =pConfigdata->intPRESETOFFWarm1B;
-		pColorST->xt =pConfigdata->intTOLWarm1xt;
-		pColorST->yt =pConfigdata->intTOLWarm1yt;
-		pColorST->cxt =pConfigdata->intCHKWarm1Cxt;
-		pColorST->cyt =pConfigdata->intCHKWarm1Cyt;
-	}
-	pColorST->MagicValXStepGain = pConfigdata->intMAGICVALGMin;
-	pColorST->MagicValXStepOffset = pConfigdata->intMAGICVALOMin;
-	pColorST->MagicValYStepGain = pConfigdata->intMAGICVALGMax;
-	pColorST->MagicValYStepOffset = pConfigdata->intMAGICVALOMax;
-	
 	if (pColorST->MagicValXStepGain > pColorST->xt)
 	{
 		pColorST->MagicValXStepGain = pColorST->xt;
@@ -577,39 +541,6 @@ int Getdata(pCOLORSPEC pColorST,pudtConfigData pConfigdata,char* CT)
 	{
 		pColorST->MagicValYStepOffset = pColorST->yt;
 	}
-	return true;
-}
 
-
-
-int Savedata(pCOLORSPEC pColorST,pudtConfigData pConfigdata,char* CT)
-{
-	if(strcmp(CT, "COOL1") == 0)
-	{
-		pConfigdata->intPRESETGANCool1R=pColorST->PriRR;
-		pConfigdata->intPRESETGANCool1G=pColorST->PriGG;
-		pConfigdata->intPRESETGANCool1B=pColorST->PriBB;
-		pConfigdata->intPRESETOFFCool1R=pColorST->LowRR;
-		pConfigdata->intPRESETOFFCool1G=pColorST->LowGG;
-		pConfigdata->intPRESETOFFCool1B=pColorST->LowBB;
-	}
-	if (strcmp(CT, "NORMAL") == 0)
-	{
-		pConfigdata->intPRESETGANNormalR=pColorST->PriRR;
-		pConfigdata->intPRESETGANNormalG=pColorST->PriGG;
-		pConfigdata->intPRESETGANNormalB=pColorST->PriBB;
-		pConfigdata->intPRESETOFFNormalR=pColorST->LowRR;
-		pConfigdata->intPRESETOFFNormalG=pColorST->LowGG;
-		pConfigdata->intPRESETOFFNormalB=pColorST->LowBB;	
-	}
-	if (strcmp(CT, "WARM1") == 0)
-	{
-		pConfigdata->intPRESETGANWarm1R=pColorST->PriRR;
-		pConfigdata->intPRESETGANWarm1G=pColorST->PriGG;
-		pConfigdata->intPRESETGANWarm1B=pColorST->PriBB;
-		pConfigdata->intPRESETOFFWarm1R=pColorST->LowRR;
-		pConfigdata->intPRESETOFFWarm1G=pColorST->LowGG;
-		pConfigdata->intPRESETOFFWarm1B=pColorST->LowBB;	
-	}
 	return true;
 }
