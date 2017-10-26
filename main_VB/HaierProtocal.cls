@@ -39,7 +39,7 @@ End Sub
 Private Sub SendCmd()
     If gEnumCommMode = modeUART Then
         FormMain.MSComm1.Output = mSendDataBuf
-    ElseIf gEnumCommMode = modeNetwork Then
+    ElseIf gEnumCommMode = modeNetClient Then
         FormMain.tcpClient.SendData mSendDataBuf
     End If
     

@@ -19,10 +19,12 @@ Public Sub LoadConfigData()
     Else
         If xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "UART" Then
             gudtConfigData.CommMode = modeUART
-        ElseIf xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "Network" Then
-            gudtConfigData.CommMode = modeNetwork
+        ElseIf xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "NETCLIENT" Then
+            gudtConfigData.CommMode = modeNetClient
         ElseIf xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "I2C" Then
             gudtConfigData.CommMode = modeI2c
+        ElseIf xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "NETSERVER" Then
+            gudtConfigData.CommMode = modeNetServer
         End If
         gudtConfigData.strModel = xmlDoc.selectSingleNode("/config/model").Text
         gudtConfigData.strComBaud = xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@baud").Text
@@ -95,10 +97,12 @@ Public Sub SaveConfigData()
     Else
         If gudtConfigData.CommMode = modeUART Then
             xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "UART"
-        ElseIf gudtConfigData.CommMode = modeNetwork Then
-            xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "Network"
+        ElseIf gudtConfigData.CommMode = modeNetClient Then
+            xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "NETCLIENT"
         ElseIf gudtConfigData.CommMode = modeI2c Then
             xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "I2C"
+        ElseIf gudtConfigData.CommMode = modeNetServer Then
+            xmlDoc.selectSingleNode("/config/communication").selectSingleNode("@mode").Text = "NETSERVER"
         End If
         xmlDoc.selectSingleNode("/config/model").Text = gudtConfigData.strModel
         xmlDoc.selectSingleNode("/config/communication/common").selectSingleNode("@baud").Text = gudtConfigData.strComBaud

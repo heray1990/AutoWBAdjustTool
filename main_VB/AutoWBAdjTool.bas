@@ -56,8 +56,9 @@ End Type
 
 Public Enum CommunicationMode
     modeUART = 1
-    modeNetwork
+    modeNetClient
     modeI2c
+    modeNetServer
 End Enum
 
 '==========Const==========
@@ -76,6 +77,7 @@ Public Const COLORTEMP_WARM1 As String = "WARM1"
 Public Const LASTSTEP As Integer = 6
 Public Const REMOTE_HOST As String = "192.168.1.11"
 Public Const REMOTE_PORT As Long = 8888
+Public Const PORT_FOR_KONKA As Long = 8866
 
 '==========Public Variables==========
 Public gEnumCommMode As CommunicationMode

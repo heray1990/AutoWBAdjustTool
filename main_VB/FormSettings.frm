@@ -390,6 +390,23 @@ Begin VB.Form FormSettings
       TabIndex        =   22
       Top             =   840
       Width           =   2400
+      Begin VB.OptionButton optNetServer 
+         Caption         =   "NetServer"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   250
+         Left            =   1100
+         TabIndex        =   46
+         Top             =   720
+         Width           =   1125
+      End
       Begin VB.OptionButton optI2c 
          Caption         =   "I2C"
          BeginProperty Font 
@@ -424,8 +441,8 @@ Begin VB.Form FormSettings
          Top             =   360
          Width           =   800
       End
-      Begin VB.OptionButton optNetwork 
-         Caption         =   "Network"
+      Begin VB.OptionButton optNetClient 
+         Caption         =   "NetClient"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -439,7 +456,7 @@ Begin VB.Form FormSettings
          Left            =   1100
          TabIndex        =   23
          Top             =   360
-         Width           =   1000
+         Width           =   1125
       End
    End
    Begin VB.Frame Frame2 
@@ -881,25 +898,36 @@ Private Sub Form_Load()
 
     If gEnumCommMode = modeUART Then
         optUart.Value = True
-        optNetwork.Value = False
+        optNetClient.Value = False
         optI2c.Value = False
+        optNetServer.Value = False
         cmbComBaud.Enabled = True
         cmbComID.Enabled = True
         cmbI2cClockRate.Enabled = False
-    ElseIf gEnumCommMode = modeNetwork Then
+    ElseIf gEnumCommMode = modeNetClient Then
         optUart.Value = False
-        optNetwork.Value = True
+        optNetClient.Value = True
         optI2c.Value = False
+        optNetServer.Value = False
         cmbComBaud.Enabled = False
         cmbComID.Enabled = False
         cmbI2cClockRate.Enabled = False
     ElseIf gEnumCommMode = modeI2c Then
         optUart.Value = False
-        optNetwork.Value = False
+        optNetClient.Value = False
         optI2c.Value = True
+        optNetServer.Value = False
         cmbComBaud.Enabled = False
         cmbComID.Enabled = False
         cmbI2cClockRate.Enabled = True
+    ElseIf gEnumCommMode = modeNetServer Then
+        optUart.Value = False
+        optNetClient.Value = False
+        optI2c.Value = False
+        optNetServer.Value = True
+        cmbComBaud.Enabled = False
+        cmbComID.Enabled = False
+        cmbI2cClockRate.Enabled = False
     End If
     
     If gblnEnableCool2 Then
@@ -964,10 +992,12 @@ Private Sub Command1_Click()
     
     If optUart.Value = True Then
         gudtConfigData.CommMode = modeUART
-    ElseIf optNetwork.Value = True Then
-        gudtConfigData.CommMode = modeNetwork
+    ElseIf optNetClient.Value = True Then
+        gudtConfigData.CommMode = modeNetClient
     ElseIf optI2c.Value = True Then
         gudtConfigData.CommMode = modeI2c
+    ElseIf optNetServer.Value = True Then
+        gudtConfigData.CommMode = modeNetServer
     Else
         gudtConfigData.CommMode = modeUART
     End If
@@ -1001,7 +1031,7 @@ Private Sub optI2c_Click()
     cmbI2cClockRate.Enabled = True
 End Sub
 
-Private Sub optNetwork_Click()
+Private Sub optNetClient_Click()
     cmbComBaud.Enabled = False
     cmbComID.Enabled = False
     cmbI2cClockRate.Enabled = False

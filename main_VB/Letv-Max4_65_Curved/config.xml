@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<model>Letv-Max4_65_Curved</model>
 	<communication mode="I2C">
 		<common baud="115200" id="6"/>
 		<i2c clockrate="50"/>

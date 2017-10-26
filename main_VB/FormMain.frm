@@ -24,6 +24,13 @@ Begin VB.Form FormMain
    ScaleHeight     =   4620
    ScaleWidth      =   10230
    StartUpPosition =   2  'CenterScreen
+   Begin MSWinsockLib.Winsock tcpServer 
+      Left            =   10560
+      Top             =   2400
+      _ExtentX        =   741
+      _ExtentY        =   741
+      _Version        =   393216
+   End
    Begin VB.PictureBox PictureBrand 
       Appearance      =   0  'Flat
       BackColor       =   &H00E0E0E0&
@@ -523,6 +530,7 @@ Dim clsLetvProtocal As LetvProtocal
 Dim clsLetvCurvedProtocal As LetvCurvedProtocal
 Dim clsLetvMST6M60 As LetvMST6M60
 Dim clsHaierProtocal As HaierProtocal
+Dim clsKONKAProtocal As KONKAProtocal
 
 Dim ivpg As IVPGCtrl
 
@@ -880,9 +888,13 @@ Private Sub SubConfigAfterRun()
     txtInput.Text = ""
     txtInput.SetFocus
     
-    If gEnumCommMode = modeNetwork Then
+    If gEnumCommMode = modeNetClient Then
         gblnNetConnected = False
         tcpClient.Close
+    ElseIf gEnumCommMode = modeNetServer Then
+        If tcpServer.State <> sckClosed Then
+            tcpServer.Close
+        End If
     End If
 End Sub
 
@@ -1290,6 +1302,10 @@ Private Sub Form_Load()
         Set clsHaierProtocal = New HaierProtocal
         Set clsProtocal = clsHaierProtocal
         PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
+    ElseIf UCase(mBrand) = "KONKA" Then    'KONKA
+        Set clsKONKAProtocal = New KONKAProtocal
+        Set clsProtocal = clsKONKAProtocal
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\KONKA.bmp")
     Else    'Letv
         If UCase(gstrChipSet) = "HX6310" Then
             Set clsLetvCurvedProtocal = New LetvCurvedProtocal
@@ -1339,8 +1355,10 @@ Public Sub SubInit()
     
     If gEnumCommMode = modeUART Then
         SubInitComPort
-    ElseIf gEnumCommMode = modeNetwork Then
-        SubInitNetwork
+    ElseIf gEnumCommMode = modeNetClient Then
+        SubInitNetClient
+    ElseIf gEnumCommMode = modeNetServer Then
+        SubInitNetServer
     End If
 
     txtInput.Text = ""
@@ -1387,7 +1405,7 @@ Private Sub SubInitComPort()
     MSComm1.OutBufferSize = 512
 End Sub
 
-Private Sub SubInitNetwork()
+Private Sub SubInitNetClient()
     gblnNetConnected = False
     With tcpClient
         .Protocol = sckTCPProtocol
@@ -1396,6 +1414,18 @@ Private Sub SubInitNetwork()
         .RemoteHost = REMOTE_HOST
         .RemotePort = REMOTE_PORT
     End With
+End Sub
+
+Private Sub SubInitNetServer()
+    If tcpServer.State <> sckListening Then
+        With tcpServer
+            .Protocol = sckTCPProtocol
+            ' IMPORTANT: be sure to change the RemoteHost
+            ' value to the name of your computer.
+            .LocalPort = PORT_FOR_KONKA
+            .Listen
+        End With
+    End If
 End Sub
 
 Private Sub txtInput_KeyPress(KeyAscii As Integer)
@@ -1427,7 +1457,7 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
                     MSComm1.PortOpen = True
                 End If
                 SubRun
-            ElseIf gEnumCommMode = modeNetwork Then
+            ElseIf gEnumCommMode = modeNetClient Then
                 gblnNetConnected = False
                 Do
                     If tcpClient.State = sckClosed Then
@@ -1467,6 +1497,17 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
                 End If
                 
                 SubRun
+            ElseIf gEnumCommMode = modeNetServer Then
+                If tcpServer.State = sckConnected Then
+                    SubRun
+                Else
+                    SubLogInfo "TCP Server state is: " + CStr(tcpServer.State)
+                    If tcpServer.State <> sckClosed Then
+                        tcpServer.Close
+                    End If
+                    MsgBox "请进入工厂菜单，点击【自动调节白平衡】"
+                End If
+                txtInput.Enabled = True
             End If
         End If
         
@@ -1740,6 +1781,18 @@ End Sub
 Private Sub tcpClient_Connect()
     'Success to connect the TV.
     gblnNetConnected = True
+End Sub
+
+Private Sub tcpServer_ConnectionRequest(ByVal requestID As Long)
+    ' Check if the control's State is closed. If not,
+    ' close the connection before accepting the new
+    ' connection.
+    If tcpServer.State <> sckClosed Then
+        tcpServer.Close
+        ' Accept the request with the requestID
+        ' parameter.
+        tcpServer.Accept requestID
+    End If
 End Sub
 
 Private Sub SubInitVPG()

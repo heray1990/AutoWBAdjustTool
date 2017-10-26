@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<model>Haier-U75</model>
-	<communication mode="UART">
+	<model>Letv-X43</model>
+	<communication mode="NETCLIENT">
 		<common baud="115200" id="6"/>
 		<i2c clockrate="50"/>
 	</communication>
-	<input_source>HDMI1</input_source>
+	<input_source>HDMI2</input_source>
 	<delayms>300</delayms>
 	<channel_number>3</channel_number>
-	<length_bar_code>1</length_bar_code>
-	<Lv_spec>350</Lv_spec>
+	<length_bar_code>19</length_bar_code>
+	<Lv_spec>220</Lv_spec>
 	<VPG>
 		<model>22294</model>
-		<timing>74</timing>
+		<timing>69</timing>
 		<IRE100>101</IRE100>
 		<IRE80>103</IRE80>
 		<IRE20>109</IRE20>
@@ -24,5 +24,5 @@
 	<warm_2>False</warm_2>
 	<check_color>True</check_color>
 	<adjust_offset>False</adjust_offset>
-	<chipset>MST6M60</chipset>
+	<chipset>MS938</chipset>
 </config>

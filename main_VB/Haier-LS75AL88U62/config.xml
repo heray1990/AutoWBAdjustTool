@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<model>Haier-LS75AL88U62</model>
 	<communication mode="UART">
 		<common baud="115200" id="6"/>
 		<i2c clockrate="50"/>
