@@ -513,7 +513,6 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Dim RES As Long
-Dim gudtPreColorData As COLORTEMPSPEC
 Dim cCOOL1 As COLORTEMPSPEC
 Dim cNORMAL As COLORTEMPSPEC
 Dim cWARM1 As COLORTEMPSPEC
@@ -523,7 +522,6 @@ Dim cFFWARM1 As COLORTEMPSPEC
 Dim rColor As REALCOLOR
 Dim lvLastChk As Long
 Dim resCodeForAdjustColorTemp As Long
-Dim cmdMark As String
 Dim clsProtocal As Protocal
 Dim clsCANTVProtocal As CANTVProtocal
 Dim clsLetvProtocal As LetvProtocal
@@ -537,6 +535,7 @@ Dim ivpg As IVPGCtrl
 Private rRGB As REALRGB
 Private rRGB1 As REALRGB
 
+Private mudtPreColorData As COLORTEMPSPEC
 Private mAdjGainAgainCool1 As Integer
 Private mAdjGainAgainStandard As Integer
 Private mAdjGainAgainWarm1 As Integer
@@ -831,8 +830,7 @@ CHECK_WARM1:
 PASS:
     clsProtocal.ExitFacMode
 
-    cmdMark = TXTPass
-    Call SubSaveDataToDB
+    Call SubSaveDataToDB(TXTPass)
 
     CheckStep = CheckStep + "TEST ALL PASS"
     CheckStep.SelStart = Len(CheckStep)
@@ -850,8 +848,7 @@ PASS:
 FAIL:
     clsProtocal.ExitFacMode
 
-    cmdMark = TXTFail
-    Call SubSaveDataToDB
+    Call SubSaveDataToDB(TXTFail)
 
     CheckStep.SelStart = Len(CheckStep)
     checkResult.BackColor = &HFF&
@@ -978,12 +975,12 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
 
     ' Set RGB Offset
     If mAdjGainAgainCool1 = 0 Then
-        Call ColorTSetSpec(strColorTemp, gudtPreColorData, 0)
+        Call ColorTSetSpec(strColorTemp, mudtPreColorData, 0)
         'SubDelayMs 200
         
-        rRGB.cRR = gudtPreColorData.nColorRR
-        rRGB.cGG = gudtPreColorData.nColorGG
-        rRGB.cBB = gudtPreColorData.nColorBB
+        rRGB.cRR = mudtPreColorData.nColorRR
+        rRGB.cGG = mudtPreColorData.nColorGG
+        rRGB.cBB = mudtPreColorData.nColorBB
         
         Call SubUpdateRGB(strColorTemp, 0)
     End If
@@ -996,16 +993,16 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
     End If
 
     For i = 1 To 2
-        Call ColorTSetSpec(strColorTemp, gudtPreColorData, ADJMODE_GAIN)
+        Call ColorTSetSpec(strColorTemp, mudtPreColorData, ADJMODE_GAIN)
         'SubDelayMs 200
         
         SubLogInfo "Init current colorTemp. RES:" + str$(RES)
-        rRGB.cRR = gudtPreColorData.nColorRR
-        rRGB.cGG = gudtPreColorData.nColorGG
-        rRGB.cBB = gudtPreColorData.nColorBB
+        rRGB.cRR = mudtPreColorData.nColorRR
+        rRGB.cGG = mudtPreColorData.nColorGG
+        rRGB.cBB = mudtPreColorData.nColorBB
         
-        Label1 = CStr(gudtPreColorData.xx)
-        Label3 = CStr(gudtPreColorData.yy)
+        Label1 = CStr(mudtPreColorData.xx)
+        Label3 = CStr(mudtPreColorData.yy)
 
         If UCase(gstrChipSet) = "MST6M60" Then
             Call clsProtocal.SetRGBGain(rRGB.cRR * 8, rRGB.cGG * 8, rRGB.cBB * 8)
@@ -1022,8 +1019,8 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
             
             RES = ColorTChk(rColor, strColorTemp)
             SubLogInfo "Check colorTemp. RES: " + CStr(RES)
-            SubLogInfo "SPEC: x = " & CStr(gudtPreColorData.xx) & " y = " & CStr(gudtPreColorData.yy)
-            SubLogInfo "Tol: x = " & CStr(gudtPreColorData.xt) & " y =  " & CStr(gudtPreColorData.yt)
+            SubLogInfo "SPEC: x = " & CStr(mudtPreColorData.xx) & " y = " & CStr(mudtPreColorData.yy)
+            SubLogInfo "Tol: x = " & CStr(mudtPreColorData.xt) & " y =  " & CStr(mudtPreColorData.yt)
 
             If RES = 3 Then
                 Exit For
@@ -1082,15 +1079,15 @@ Private Function FuncAdjRGBOffset(strColorTemp As String) As Boolean
     SubLogInfo "========Adjust " & strColorTemp & "========"
   
     For i = 1 To 2
-        Call ColorTSetSpec(strColorTemp, gudtPreColorData, ADJMODE_OFFSET)
+        Call ColorTSetSpec(strColorTemp, mudtPreColorData, ADJMODE_OFFSET)
         'SubDelayMs 200
         SubLogInfo "Init current colorTemp. RES:" + str$(RES)
-        rRGB.cRR = gudtPreColorData.nColorRR
-        rRGB.cGG = gudtPreColorData.nColorGG
-        rRGB.cBB = gudtPreColorData.nColorBB
+        rRGB.cRR = mudtPreColorData.nColorRR
+        rRGB.cGG = mudtPreColorData.nColorGG
+        rRGB.cBB = mudtPreColorData.nColorBB
   
-        Label1 = CStr(gudtPreColorData.xx)
-        Label3 = CStr(gudtPreColorData.yy)
+        Label1 = CStr(mudtPreColorData.xx)
+        Label3 = CStr(mudtPreColorData.yy)
 
         Call clsProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
 
@@ -1138,12 +1135,12 @@ Private Function FuncChkColorAgain(strColorTemp As String) As Boolean
     SubLogInfo "========Check " & strColorTemp & "========"
   
     For i = 1 To 2
-        Call ColorTSetSpec(strColorTemp, gudtPreColorData, ADJMODE_GAIN)
+        Call ColorTSetSpec(strColorTemp, mudtPreColorData, ADJMODE_GAIN)
         'SubDelayMs 200
         SubLogInfo "Init current colorTemp. RES:" + str$(RES)
 
-        Label1 = CStr(gudtPreColorData.xx)
-        Label3 = CStr(gudtPreColorData.yy)
+        Label1 = CStr(mudtPreColorData.xx)
+        Label3 = CStr(mudtPreColorData.yy)
 
         SubShowData (5)
 
@@ -1181,19 +1178,19 @@ Private Sub SubShowData(step As Integer)
     '(1515,1275) is the origin of dx-dy axis.
     'In lv axis, 1660 is the distance from the bottom edge of blue rectangle to the top of Picture1.
     'In dx, 365 is half a side of blue rectangle.
-    If gudtPreColorData.xt = 0 Then
-        gudtPreColorData.xt = 30
+    If mudtPreColorData.xt = 0 Then
+        mudtPreColorData.xt = 30
     End If
-    If gudtPreColorData.yt = 0 Then
-        gudtPreColorData.yt = 30
+    If mudtPreColorData.yt = 0 Then
+        mudtPreColorData.yt = 30
     End If
-    xPos = 1515 + (rColor.xx - gudtPreColorData.xx) * 365 / gudtPreColorData.xt
-    yPos = 1275 - (rColor.yy - gudtPreColorData.yy) * 385 / gudtPreColorData.yt
+    xPos = 1515 + (rColor.xx - mudtPreColorData.xx) * 365 / mudtPreColorData.xt
+    yPos = 1275 - (rColor.yy - mudtPreColorData.yy) * 385 / mudtPreColorData.yt
 
     If step = LASTSTEP Then
         vPos = 1660 - (rColor.lv - glngBlSpecVal) * 385 / 50
     Else
-        vPos = 1660 - (rColor.lv - gudtPreColorData.lv) * 385 / 50
+        vPos = 1660 - (rColor.lv - mudtPreColorData.lv) * 385 / 50
     End If
 
     'In dx-dy axis, 360 is the distance from left edge of white rectangle to the left of Picture1.
@@ -1206,7 +1203,7 @@ Private Sub SubShowData(step As Integer)
     If yPos > 2480 Then yPos = 2480
 
     If step <> LASTSTEP Then
-        If Abs(rColor.xx - gudtPreColorData.xx) <= gudtPreColorData.xt And Abs(rColor.yy - gudtPreColorData.yy) <= gudtPreColorData.yt Then
+        If Abs(rColor.xx - mudtPreColorData.xx) <= mudtPreColorData.xt And Abs(rColor.yy - mudtPreColorData.yy) <= mudtPreColorData.yt Then
             lbColorTempWrong.Visible = False
             Picture1.Circle (xPos, yPos), 23, &H30FF30
         Else
@@ -1231,7 +1228,7 @@ Private Sub SubShowData(step As Integer)
             Picture1.Line (3060, vPos)-(3390, vPos), &HFF&
         End If
     Else
-        If rColor.lv > gudtPreColorData.lv Then
+        If rColor.lv > mudtPreColorData.lv Then
             Picture1.Line (3060, vPos)-(3390, vPos), &H30FF30
         Else
             Picture1.Line (3060, vPos)-(3390, vPos), &HFF&
@@ -1675,7 +1672,7 @@ Private Sub LoadData(strColorTemp As String, isGain As Boolean)
     End Select
 End Sub
 
-Private Sub SubSaveDataToDB()
+Private Sub SubSaveDataToDB(strMark As String)
     Dim sqlstring As String
     Dim cat As New ADOX.Catalog
     Dim tbl As ADOX.Table
@@ -1773,7 +1770,7 @@ Private Sub SubSaveDataToDB()
         rs.Fields(25) = cFFWARM1.nColorBB
         rs.Fields(26) = lvLastChk
         rs.Fields(27) = glngBlSpecVal
-        rs.Fields(28) = cmdMark
+        rs.Fields(28) = strMark
         rs.Fields(29) = Date
         rs.Fields(30) = Time
         
