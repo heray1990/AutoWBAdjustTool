@@ -547,6 +547,444 @@ Private mBarCode As String
 Private WithEvents Obj As VPGCtrl.VPGCtrl
 Attribute Obj.VB_VarHelpID = -1
 
+
+Private Sub Form_Load()
+    vbFunc.Caption = TXTFun
+    vbConCA310.Caption = TXTConnectCA
+    tbDisConnectastro.Caption = TXTDisConnectCA
+    vbSet.Caption = TXTSet
+    vbSetSPEC.Caption = TXTSetSpec
+    vbDescription.Caption = TXTDiscription
+    vbAbout.Caption = TXTAbout
+    lbAdjustCOOL_1.Caption = TXTCOOL1
+    lbAdjustCOOL_2.Caption = TXTCOOL2
+    lbAdjustStandard.Caption = TXTSTD
+    lbAdjustWARM_1.Caption = TXTWARM1
+    lbAdjustWARM_2.Caption = TXTWARM2
+    Label6.Caption = TXTINITIAL
+    Label7.Caption = "SPEC"
+    checkResult.Caption = TXTChkResult
+    gblnStop = False
+    txtInput.Enabled = True
+    
+    Me.Caption = TXTTitle & " V" & App.Major & "." & App.Minor & "." & App.Revision
+    mTitle = Me.Caption
+    SubInit
+
+    mBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
+    
+    If UCase(mBrand) = "CAN" Then    'CANTV
+        Set clsCANTVProtocal = New CANTVProtocal
+        Set clsProtocal = clsCANTVProtocal
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\CANTV.bmp")
+    ElseIf UCase(mBrand) = "HAIER" Then    'Haier
+        Set clsHaierProtocal = New HaierProtocal
+        Set clsProtocal = clsHaierProtocal
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
+    ElseIf UCase(mBrand) = "KONKA" Then    'KONKA
+        Set clsKONKAProtocal = New KONKAProtocal
+        Set clsProtocal = clsKONKAProtocal
+        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\KONKA.bmp")
+    Else    'Letv
+        If UCase(gstrChipSet) = "HX6310" Then
+            Set clsLetvCurvedProtocal = New LetvCurvedProtocal
+            Set clsProtocal = clsLetvCurvedProtocal
+            PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
+        ElseIf UCase(gstrChipSet) = "MST6M60" Then
+            Set clsLetvMST6M60 = New LetvMST6M60
+            Set clsProtocal = clsLetvMST6M60
+        Else
+            Set clsLetvProtocal = New LetvProtocal
+            Set clsProtocal = clsLetvProtocal
+            PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
+        End If
+    End If
+    
+    RES = ColorTInit(gstrCurProjName, App.Path)
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+On Error GoTo ErrExit
+
+    If UCase(mBrand) = "CAN" Then
+        If Not (clsCANTVProtocal Is Nothing) Then
+            Set clsCANTVProtocal = Nothing
+        End If
+    ElseIf UCase(mBrand) = "HAIER" Then
+        If Not (clsHaierProtocal Is Nothing) Then
+            Set clsHaierProtocal = Nothing
+        End If
+    Else
+        If UCase(gstrChipSet) = "HX6310" Then
+            If Not (clsLetvCurvedProtocal Is Nothing) Then
+                Set clsLetvCurvedProtocal = Nothing
+            End If
+        ElseIf UCase(gstrChipSet) = "MST6M60" Then
+            If Not (clsLetvMST6M60 Is Nothing) Then
+                Set clsLetvMST6M60 = Nothing
+            End If
+        Else
+            If Not (clsLetvProtocal Is Nothing) Then
+                Set clsLetvProtocal = Nothing
+            End If
+        End If
+    End If
+    
+    If Not (clsProtocal Is Nothing) Then
+        Set clsProtocal = Nothing
+    End If
+
+    gblnStop = True
+    If (gblnCaConnected = True) Then
+        ObjCa.RemoteMode = 0
+    End If
+  
+    If MSComm1.PortOpen = True Then
+        MSComm1.PortOpen = False
+    End If
+  
+    Call ColorTDeInit
+
+    Exit Sub
+
+ErrExit:
+    MsgBox Err.Description, vbCritical, Err.Source
+End Sub
+
+Private Sub vbSetSPEC_Click()
+    FormSettings.Show
+End Sub
+
+Private Sub vbAbout_Click()
+    FormAbout.Show
+End Sub
+
+Private Sub vbConCA310_Click()
+    If gblnCaConnected = True Then
+        ObjCa.RemoteMode = 1
+        Exit Sub
+    Else
+        SubConnectCa
+    End If
+End Sub
+
+Private Sub tbDisConnectastro_Click()
+    If gblnCaConnected Then
+        ObjCa.RemoteMode = 0
+    End If
+End Sub
+
+Private Sub Timer1_Timer()
+    mCntTime = mCntTime + 1
+    lbTimer.Caption = CStr(mCntTime) & "s"
+End Sub
+
+Private Sub SubInitNetClient()
+    gblnNetConnected = False
+    With tcpClient
+        .Protocol = sckTCPProtocol
+        ' IMPORTANT: be sure to change the RemoteHost
+        ' value to the name of your computer.
+        .RemoteHost = REMOTE_HOST
+        .RemotePort = REMOTE_PORT
+    End With
+End Sub
+
+Private Sub tcpClient_Connect()
+    'Success to connect the TV.
+    gblnNetConnected = True
+End Sub
+
+Private Sub SubInitNetServer()
+    If tcpServer.State <> sckListening Then
+        With tcpServer
+            .Protocol = sckTCPProtocol
+            .LocalPort = PORT_FOR_KONKA
+            .Listen
+        End With
+    End If
+End Sub
+
+Private Sub tcpServer_ConnectionRequest(ByVal requestID As Long)
+    ' Check if the control's State is closed. If not,
+    ' close the connection before accepting the new
+    ' connection.
+    If tcpServer.State <> sckClosed Then
+        tcpServer.Close
+        ' Accept the request with the requestID
+        ' parameter.
+        tcpServer.Accept requestID
+    End If
+End Sub
+
+Public Sub SubInit()
+    LoadConfigData
+
+    gstrCurProjName = gudtConfigData.strModel
+    gEnumCommMode = gudtConfigData.CommMode
+    gintCurComBaud = gudtConfigData.strComBaud
+    gintCurComId = gudtConfigData.intComID
+    glngI2cClockRate = gudtConfigData.lngI2cClockRate
+    gstrTvInputSrc = gudtConfigData.strInputSource
+    gintTvInputSrcPort = CInt(Right(gstrTvInputSrc, 1))
+    gstrTvInputSrc = Left(gstrTvInputSrc, Len(gstrTvInputSrc) - 1)
+    glngDelayTime = gudtConfigData.lngDelayMs
+    glngCaChannel = gudtConfigData.intChannelNum
+    gintBarCodeLen = gudtConfigData.intBarCodeLen
+    glngBlSpecVal = gudtConfigData.intLvSpec
+    gstrVPGModel = gudtConfigData.strVPGModel
+    gstrVPGTiming = gudtConfigData.strVPGTiming
+    gstrVPG100IRE = gudtConfigData.strVPG100IRE
+    gstrVPG80IRE = gudtConfigData.strVPG80IRE
+    gstrVPG20IRE = gudtConfigData.strVPG20IRE
+    gblnEnableCool2 = gudtConfigData.bolEnableCool2
+    gblnEnableCool1 = gudtConfigData.bolEnableCool1
+    gblnEnableStandard = gudtConfigData.bolEnableNormal
+    gblnEnableWarm1 = gudtConfigData.bolEnableWarm1
+    gblnEnableWarm2 = gudtConfigData.bolEnableWarm2
+    gblnChkColorTemp = gudtConfigData.bolEnableChkColor
+    gblnAdjOffset = gudtConfigData.bolEnableAdjOffset
+    gstrChipSet = gudtConfigData.strChipSet
+    
+    If gEnumCommMode = modeUART Then
+        SubInitComPort
+    ElseIf gEnumCommMode = modeNetClient Then
+        SubInitNetClient
+    ElseIf gEnumCommMode = modeNetServer Then
+        SubInitNetServer
+    End If
+
+    txtInput.Text = ""
+    lbModelName.Caption = Split(gstrCurProjName, gstrDelimiterForProjName)(1)
+    
+    If gblnEnableCool1 = True Then lbAdjustCOOL_1.ForeColor = &H80000008
+    If gblnEnableCool2 = True Then lbAdjustCOOL_2.ForeColor = &H80000008
+    If gblnEnableStandard = True Then lbAdjustStandard.ForeColor = &H80000008
+    If gblnEnableWarm1 = True Then lbAdjustWARM_1.ForeColor = &H80000008
+    If gblnEnableWarm2 = True Then lbAdjustWARM_2.ForeColor = &H80000008
+
+    If gblnEnableCool1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
+    If gblnEnableCool2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0
+    If gblnEnableStandard = False Then lbAdjustStandard.ForeColor = &HC0C0C0
+    If gblnEnableWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
+    If gblnEnableWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
+    
+    SubInitVPG
+    SubDelayMs 200
+    
+    Call SubVPGTiming(gstrVPGTiming)
+End Sub
+
+Private Sub SubInitComPort()
+    If MSComm1.PortOpen = True Then
+        MSComm1.PortOpen = False
+    End If
+    
+    MSComm1.CommPort = gintCurComId
+    MSComm1.Settings = gintCurComBaud & ",N,8,1"
+    MSComm1.InputLen = 0
+        
+    MSComm1.InBufferCount = 0
+    MSComm1.OutBufferCount = 0
+    MSComm1.InputMode = comInputModeBinary
+        
+    MSComm1.NullDiscard = False
+    MSComm1.DTREnable = False
+    MSComm1.EOFEnable = False
+    MSComm1.RTSEnable = False
+    MSComm1.SThreshold = 1
+    MSComm1.RThreshold = 1
+    MSComm1.InBufferSize = 1024
+    MSComm1.OutBufferSize = 512
+End Sub
+
+Private Sub SubInitVPG()
+    Select Case gstrVPGModel
+        Case "2401"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2401)
+        Case "2402"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2402)
+        Case "2333_B"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2333_B)
+        Case "23293_B"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG23293_B)
+        Case "23294"
+            Set ivpg = New VPGCtrl.VPGCtrl_24xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG23294)
+        Case "22293"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22293)
+        Case "22293_A"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22293_A)
+        Case "22293_B"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22293_B)
+        Case "2233"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2233)
+        Case "2233_A"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2233_A)
+        Case "2233_B"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2233_B)
+        Case "2234"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG2234)
+        Case "22294"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22294)
+        Case "22294_A"
+            Set ivpg = New VPGCtrl.VPGCtrl_22xx
+            Set Obj = ivpg
+            ivpg.InitDevice (VPG_MODEL_VPG22294_A)
+    End Select
+
+End Sub
+
+Private Sub SubVPGTiming(Tim As String)
+    Dim bNo(1) As Byte
+    
+    bNo(0) = (CInt(Tim) And &HFF00) \ 256
+    bNo(1) = CInt(Tim) And &HFF
+
+    ivpg.ExecuteCmd VPG_CMD_CM_DOWNLOAD, VPG_SCMD_SCM_CTL_RUNTIM, bNo, False
+End Sub
+
+Private Sub SubVPGPattern(Ptn As String)
+    Dim bNo(1) As Byte
+    
+    bNo(0) = (CInt(Ptn) And &HFF00) \ 256
+    bNo(1) = CInt(Ptn) And &HFF
+
+    ivpg.RunKey (VPG_KEY_CKEY_OUT)
+    ivpg.ExecuteCmd VPG_CMD_CM_DOWNLOAD, VPG_SCMD_SCM_CTL_RUNPTN, bNo, False
+End Sub
+
+Private Sub Obj_OnChangedConnectState(ByVal bIsConnected As Boolean)
+    If bIsConnected = False Then
+        Me.Caption = mTitle & " [Chroma " & gstrVPGModel & " Disconnected]"
+    Else
+        Me.Caption = mTitle
+    End If
+End Sub
+
+Private Sub txtInput_KeyPress(KeyAscii As Integer)
+    On Error GoTo ErrExit
+    Dim i As Integer
+    
+    i = 0
+
+    If KeyAscii = 13 Then
+        gblnStop = False
+        
+        If txtInput.Enabled = True Then
+            If txtInput.Text = "" Or Len(txtInput.Text) <> gintBarCodeLen Then
+                MsgBox TXTBarcodeError & CStr(gintBarCodeLen), vbOKOnly, TXTBarcodeErrorTitle
+                txtInput.Text = ""
+                Exit Sub
+            Else
+                mBarCode = txtInput.Text
+            End If
+
+            SubSaveLogInFile "======================================================================="
+            SubSaveLogInFile "        Auto-White Balance Adjusting Tool by Echom                     "
+            SubSaveLogInFile "        Software Version: " & App.Major & "." & App.Minor & "." & App.Revision
+            SubSaveLogInFile "        Barcode of TV: " & mBarCode
+            SubSaveLogInFile "======================================================================="
+
+            If gEnumCommMode = modeUART Then
+                If MSComm1.PortOpen = False Then
+                    MSComm1.PortOpen = True
+                End If
+                SubRun
+            ElseIf gEnumCommMode = modeNetClient Then
+                gblnNetConnected = False
+                Do
+                    If tcpClient.State = sckClosed Then
+                        SubLogInfo "TCP Connect"
+                        tcpClient.Connect
+                        txtInput.Enabled = False
+                    End If
+                    Call SubDelayWithFlag(10, gblnNetConnected)
+                
+                    If tcpClient.State = sckConnected Then
+                        SubRun
+                        Exit Do
+                    Else
+                        If tcpClient.State <> sckClosed Then
+                            tcpClient.Close
+                        End If
+                        i = i + 1
+                    End If
+                    SubLogInfo "Re-connect to TV."
+                Loop While i <= 5
+                txtInput.Enabled = True
+            ElseIf gEnumCommMode = modeI2c Then
+                Dim SetDeviceSts As Integer
+
+                If DEVICE_USED = 0 Then
+                    '=====================================
+                    '  I2C tool initialization
+                    '=====================================
+                    SetDeviceSts = LptioSetDevice(DEVICE_FTDI)
+    
+                    '=====================================
+                    '  Set I2C Clock Rate
+                    '=====================================
+                    Call I2cSetClockRate(glngI2cClockRate)
+                    
+                    DEVICE_USED = 1
+                End If
+                
+                SubRun
+            ElseIf gEnumCommMode = modeNetServer Then
+                If tcpServer.State = sckConnected Then
+                    SubRun
+                Else
+                    SubLogInfo "TCP Server state is: " + CStr(tcpServer.State)
+                    If tcpServer.State <> sckClosed Then
+                        tcpServer.Close
+                    End If
+                    MsgBox "请进入工厂菜单，点击【自动调节白平衡】"
+                End If
+                txtInput.Enabled = True
+            End If
+        End If
+        
+        If gblnStop = True Then
+            Exit Sub
+        End If
+    End If
+    Exit Sub
+
+ErrExit:
+    txtInput.Text = ""
+    MsgBox Err.Description, vbCritical, Err.Source
+    'Invalid Port Number
+    'If Err.Number = 8002 Then
+    '    MsgBox Err.Description, vbCritical, Err.Source
+    'End If
+End Sub
+
 Private Sub SubRun()
     On Error GoTo ErrExit
     Dim Result As Boolean
@@ -1244,340 +1682,6 @@ Private Sub SubShowData(step As Integer)
     Label_Lv = CStr(rColor.lv)
 End Sub
 
-Private Sub tbDisConnectastro_Click()
-    If gblnCaConnected Then
-        ObjCa.RemoteMode = 0
-    End If
-End Sub
-
-Private Sub Timer1_Timer()
-    mCntTime = mCntTime + 1
-    lbTimer.Caption = CStr(mCntTime) & "s"
-End Sub
-
-Private Sub vbSetSPEC_Click()
-    FormSettings.Show
-End Sub
-
-Private Sub vbAbout_Click()
-    FormAbout.Show
-End Sub
-
-Private Sub vbConCA310_Click()
-    If gblnCaConnected = True Then
-        ObjCa.RemoteMode = 1
-        Exit Sub
-    Else
-        SubConnectCa
-    End If
-End Sub
-
-
-Private Sub Form_Load()
-    vbFunc.Caption = TXTFun
-    vbConCA310.Caption = TXTConnectCA
-    tbDisConnectastro.Caption = TXTDisConnectCA
-    vbSet.Caption = TXTSet
-    vbSetSPEC.Caption = TXTSetSpec
-    vbDescription.Caption = TXTDiscription
-    vbAbout.Caption = TXTAbout
-    lbAdjustCOOL_1.Caption = TXTCOOL1
-    lbAdjustCOOL_2.Caption = TXTCOOL2
-    lbAdjustStandard.Caption = TXTSTD
-    lbAdjustWARM_1.Caption = TXTWARM1
-    lbAdjustWARM_2.Caption = TXTWARM2
-    Label6.Caption = TXTINITIAL
-    Label7.Caption = "SPEC"
-    checkResult.Caption = TXTChkResult
-    gblnStop = False
-    txtInput.Enabled = True
-    
-    Me.Caption = TXTTitle & " V" & App.Major & "." & App.Minor & "." & App.Revision
-    mTitle = Me.Caption
-    SubInit
-
-    mBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
-    
-    If UCase(mBrand) = "CAN" Then    'CANTV
-        Set clsCANTVProtocal = New CANTVProtocal
-        Set clsProtocal = clsCANTVProtocal
-        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\CANTV.bmp")
-    ElseIf UCase(mBrand) = "HAIER" Then    'Haier
-        Set clsHaierProtocal = New HaierProtocal
-        Set clsProtocal = clsHaierProtocal
-        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
-    ElseIf UCase(mBrand) = "KONKA" Then    'KONKA
-        Set clsKONKAProtocal = New KONKAProtocal
-        Set clsProtocal = clsKONKAProtocal
-        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\KONKA.bmp")
-    Else    'Letv
-        If UCase(gstrChipSet) = "HX6310" Then
-            Set clsLetvCurvedProtocal = New LetvCurvedProtocal
-            Set clsProtocal = clsLetvCurvedProtocal
-            PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
-        ElseIf UCase(gstrChipSet) = "MST6M60" Then
-            Set clsLetvMST6M60 = New LetvMST6M60
-            Set clsProtocal = clsLetvMST6M60
-        Else
-            Set clsLetvProtocal = New LetvProtocal
-            Set clsProtocal = clsLetvProtocal
-            PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
-        End If
-    End If
-    
-    RES = ColorTInit(gstrCurProjName, App.Path)
-End Sub
-
-Public Sub SubInit()
-    LoadConfigData
-
-    gstrCurProjName = gudtConfigData.strModel
-    gEnumCommMode = gudtConfigData.CommMode
-    gintCurComBaud = gudtConfigData.strComBaud
-    gintCurComId = gudtConfigData.intComID
-    glngI2cClockRate = gudtConfigData.lngI2cClockRate
-    gstrTvInputSrc = gudtConfigData.strInputSource
-    gintTvInputSrcPort = CInt(Right(gstrTvInputSrc, 1))
-    gstrTvInputSrc = Left(gstrTvInputSrc, Len(gstrTvInputSrc) - 1)
-    glngDelayTime = gudtConfigData.lngDelayMs
-    glngCaChannel = gudtConfigData.intChannelNum
-    gintBarCodeLen = gudtConfigData.intBarCodeLen
-    glngBlSpecVal = gudtConfigData.intLvSpec
-    gstrVPGModel = gudtConfigData.strVPGModel
-    gstrVPGTiming = gudtConfigData.strVPGTiming
-    gstrVPG100IRE = gudtConfigData.strVPG100IRE
-    gstrVPG80IRE = gudtConfigData.strVPG80IRE
-    gstrVPG20IRE = gudtConfigData.strVPG20IRE
-    gblnEnableCool2 = gudtConfigData.bolEnableCool2
-    gblnEnableCool1 = gudtConfigData.bolEnableCool1
-    gblnEnableStandard = gudtConfigData.bolEnableNormal
-    gblnEnableWarm1 = gudtConfigData.bolEnableWarm1
-    gblnEnableWarm2 = gudtConfigData.bolEnableWarm2
-    gblnChkColorTemp = gudtConfigData.bolEnableChkColor
-    gblnAdjOffset = gudtConfigData.bolEnableAdjOffset
-    gstrChipSet = gudtConfigData.strChipSet
-    
-    If gEnumCommMode = modeUART Then
-        SubInitComPort
-    ElseIf gEnumCommMode = modeNetClient Then
-        SubInitNetClient
-    ElseIf gEnumCommMode = modeNetServer Then
-        SubInitNetServer
-    End If
-
-    txtInput.Text = ""
-    lbModelName.Caption = Split(gstrCurProjName, gstrDelimiterForProjName)(1)
-    
-    If gblnEnableCool1 = True Then lbAdjustCOOL_1.ForeColor = &H80000008
-    If gblnEnableCool2 = True Then lbAdjustCOOL_2.ForeColor = &H80000008
-    If gblnEnableStandard = True Then lbAdjustStandard.ForeColor = &H80000008
-    If gblnEnableWarm1 = True Then lbAdjustWARM_1.ForeColor = &H80000008
-    If gblnEnableWarm2 = True Then lbAdjustWARM_2.ForeColor = &H80000008
-
-    If gblnEnableCool1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
-    If gblnEnableCool2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0
-    If gblnEnableStandard = False Then lbAdjustStandard.ForeColor = &HC0C0C0
-    If gblnEnableWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
-    If gblnEnableWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
-    
-    SubInitVPG
-    SubDelayMs 200
-    
-    Call SubVPGTiming(gstrVPGTiming)
-End Sub
-
-Private Sub SubInitComPort()
-    If MSComm1.PortOpen = True Then
-        MSComm1.PortOpen = False
-    End If
-    
-    MSComm1.CommPort = gintCurComId
-    MSComm1.Settings = gintCurComBaud & ",N,8,1"
-    MSComm1.InputLen = 0
-        
-    MSComm1.InBufferCount = 0
-    MSComm1.OutBufferCount = 0
-    MSComm1.InputMode = comInputModeBinary
-        
-    MSComm1.NullDiscard = False
-    MSComm1.DTREnable = False
-    MSComm1.EOFEnable = False
-    MSComm1.RTSEnable = False
-    MSComm1.SThreshold = 1
-    MSComm1.RThreshold = 1
-    MSComm1.InBufferSize = 1024
-    MSComm1.OutBufferSize = 512
-End Sub
-
-Private Sub SubInitNetClient()
-    gblnNetConnected = False
-    With tcpClient
-        .Protocol = sckTCPProtocol
-        ' IMPORTANT: be sure to change the RemoteHost
-        ' value to the name of your computer.
-        .RemoteHost = REMOTE_HOST
-        .RemotePort = REMOTE_PORT
-    End With
-End Sub
-
-Private Sub SubInitNetServer()
-    If tcpServer.State <> sckListening Then
-        With tcpServer
-            .Protocol = sckTCPProtocol
-            ' IMPORTANT: be sure to change the RemoteHost
-            ' value to the name of your computer.
-            .LocalPort = PORT_FOR_KONKA
-            .Listen
-        End With
-    End If
-End Sub
-
-Private Sub txtInput_KeyPress(KeyAscii As Integer)
-    On Error GoTo ErrExit
-    Dim i As Integer
-    
-    i = 0
-
-    If KeyAscii = 13 Then
-        gblnStop = False
-        
-        If txtInput.Enabled = True Then
-            If txtInput.Text = "" Or Len(txtInput.Text) <> gintBarCodeLen Then
-                MsgBox TXTBarcodeError & CStr(gintBarCodeLen), vbOKOnly, TXTBarcodeErrorTitle
-                txtInput.Text = ""
-                Exit Sub
-            Else
-                mBarCode = txtInput.Text
-            End If
-
-            SubSaveLogInFile "======================================================================="
-            SubSaveLogInFile "        Auto-White Balance Adjusting Tool by Echom                     "
-            SubSaveLogInFile "        Software Version: " & App.Major & "." & App.Minor & "." & App.Revision
-            SubSaveLogInFile "        Barcode of TV: " & mBarCode
-            SubSaveLogInFile "======================================================================="
-
-            If gEnumCommMode = modeUART Then
-                If MSComm1.PortOpen = False Then
-                    MSComm1.PortOpen = True
-                End If
-                SubRun
-            ElseIf gEnumCommMode = modeNetClient Then
-                gblnNetConnected = False
-                Do
-                    If tcpClient.State = sckClosed Then
-                        SubLogInfo "TCP Connect"
-                        tcpClient.Connect
-                        txtInput.Enabled = False
-                    End If
-                    Call SubDelayWithFlag(10, gblnNetConnected)
-                
-                    If tcpClient.State = sckConnected Then
-                        SubRun
-                        Exit Do
-                    Else
-                        If tcpClient.State <> sckClosed Then
-                            tcpClient.Close
-                        End If
-                        i = i + 1
-                    End If
-                    SubLogInfo "Re-connect to TV."
-                Loop While i <= 5
-                txtInput.Enabled = True
-            ElseIf gEnumCommMode = modeI2c Then
-                Dim SetDeviceSts As Integer
-
-                If DEVICE_USED = 0 Then
-                    '=====================================
-                    '  I2C tool initialization
-                    '=====================================
-                    SetDeviceSts = LptioSetDevice(DEVICE_FTDI)
-    
-                    '=====================================
-                    '  Set I2C Clock Rate
-                    '=====================================
-                    Call I2cSetClockRate(glngI2cClockRate)
-                    
-                    DEVICE_USED = 1
-                End If
-                
-                SubRun
-            ElseIf gEnumCommMode = modeNetServer Then
-                If tcpServer.State = sckConnected Then
-                    SubRun
-                Else
-                    SubLogInfo "TCP Server state is: " + CStr(tcpServer.State)
-                    If tcpServer.State <> sckClosed Then
-                        tcpServer.Close
-                    End If
-                    MsgBox "请进入工厂菜单，点击【自动调节白平衡】"
-                End If
-                txtInput.Enabled = True
-            End If
-        End If
-        
-        If gblnStop = True Then
-            Exit Sub
-        End If
-    End If
-    Exit Sub
-
-ErrExit:
-    txtInput.Text = ""
-    MsgBox Err.Description, vbCritical, Err.Source
-    'Invalid Port Number
-    'If Err.Number = 8002 Then
-    '    MsgBox Err.Description, vbCritical, Err.Source
-    'End If
-End Sub
-
-Private Sub Form_Unload(Cancel As Integer)
-On Error GoTo ErrExit
-
-    If UCase(mBrand) = "CAN" Then
-        If Not (clsCANTVProtocal Is Nothing) Then
-            Set clsCANTVProtocal = Nothing
-        End If
-    ElseIf UCase(mBrand) = "HAIER" Then
-        If Not (clsHaierProtocal Is Nothing) Then
-            Set clsHaierProtocal = Nothing
-        End If
-    Else
-        If UCase(gstrChipSet) = "HX6310" Then
-            If Not (clsLetvCurvedProtocal Is Nothing) Then
-                Set clsLetvCurvedProtocal = Nothing
-            End If
-        ElseIf UCase(gstrChipSet) = "MST6M60" Then
-            If Not (clsLetvMST6M60 Is Nothing) Then
-                Set clsLetvMST6M60 = Nothing
-            End If
-        Else
-            If Not (clsLetvProtocal Is Nothing) Then
-                Set clsLetvProtocal = Nothing
-            End If
-        End If
-    End If
-    
-    If Not (clsProtocal Is Nothing) Then
-        Set clsProtocal = Nothing
-    End If
-
-    gblnStop = True
-    If (gblnCaConnected = True) Then
-        ObjCa.RemoteMode = 0
-    End If
-  
-    If MSComm1.PortOpen = True Then
-        MSComm1.PortOpen = False
-    End If
-  
-    Call ColorTDeInit
-
-    Exit Sub
-
-ErrExit:
-    MsgBox Err.Description, vbCritical, Err.Source
-End Sub
-
 Private Sub SubUpdateRGB(strColorTemp As String, HL As Long)
 
     Select Case strColorTemp
@@ -1779,111 +1883,5 @@ Private Sub SubSaveDataToDB(strMark As String)
         Set cn = Nothing
         Set rs = Nothing
         sqlstring = ""
-    End If
-End Sub
-
-Private Sub tcpClient_Connect()
-    'Success to connect the TV.
-    gblnNetConnected = True
-End Sub
-
-Private Sub tcpServer_ConnectionRequest(ByVal requestID As Long)
-    ' Check if the control's State is closed. If not,
-    ' close the connection before accepting the new
-    ' connection.
-    If tcpServer.State <> sckClosed Then
-        tcpServer.Close
-        ' Accept the request with the requestID
-        ' parameter.
-        tcpServer.Accept requestID
-    End If
-End Sub
-
-Private Sub SubInitVPG()
-    Select Case gstrVPGModel
-        Case "2401"
-            Set ivpg = New VPGCtrl.VPGCtrl_24xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG2401)
-        Case "2402"
-            Set ivpg = New VPGCtrl.VPGCtrl_24xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG2402)
-        Case "2333_B"
-            Set ivpg = New VPGCtrl.VPGCtrl_24xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG2333_B)
-        Case "23293_B"
-            Set ivpg = New VPGCtrl.VPGCtrl_24xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG23293_B)
-        Case "23294"
-            Set ivpg = New VPGCtrl.VPGCtrl_24xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG23294)
-        Case "22293"
-            Set ivpg = New VPGCtrl.VPGCtrl_22xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG22293)
-        Case "22293_A"
-            Set ivpg = New VPGCtrl.VPGCtrl_22xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG22293_A)
-        Case "22293_B"
-            Set ivpg = New VPGCtrl.VPGCtrl_22xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG22293_B)
-        Case "2233"
-            Set ivpg = New VPGCtrl.VPGCtrl_22xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG2233)
-        Case "2233_A"
-            Set ivpg = New VPGCtrl.VPGCtrl_22xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG2233_A)
-        Case "2233_B"
-            Set ivpg = New VPGCtrl.VPGCtrl_22xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG2233_B)
-        Case "2234"
-            Set ivpg = New VPGCtrl.VPGCtrl_22xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG2234)
-        Case "22294"
-            Set ivpg = New VPGCtrl.VPGCtrl_22xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG22294)
-        Case "22294_A"
-            Set ivpg = New VPGCtrl.VPGCtrl_22xx
-            Set Obj = ivpg
-            ivpg.InitDevice (VPG_MODEL_VPG22294_A)
-    End Select
-
-End Sub
-
-Private Sub SubVPGTiming(Tim As String)
-    Dim bNo(1) As Byte
-    
-    bNo(0) = (CInt(Tim) And &HFF00) \ 256
-    bNo(1) = CInt(Tim) And &HFF
-
-    ivpg.ExecuteCmd VPG_CMD_CM_DOWNLOAD, VPG_SCMD_SCM_CTL_RUNTIM, bNo, False
-End Sub
-
-Private Sub SubVPGPattern(Ptn As String)
-    Dim bNo(1) As Byte
-    
-    bNo(0) = (CInt(Ptn) And &HFF00) \ 256
-    bNo(1) = CInt(Ptn) And &HFF
-
-    ivpg.RunKey (VPG_KEY_CKEY_OUT)
-    ivpg.ExecuteCmd VPG_CMD_CM_DOWNLOAD, VPG_SCMD_SCM_CTL_RUNPTN, bNo, False
-End Sub
-
-Private Sub Obj_OnChangedConnectState(ByVal bIsConnected As Boolean)
-    If bIsConnected = False Then
-        Me.Caption = mTitle & " [Chroma " & gstrVPGModel & " Disconnected]"
-    Else
-        Me.Caption = mTitle
     End If
 End Sub
