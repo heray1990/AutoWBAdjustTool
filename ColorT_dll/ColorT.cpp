@@ -42,38 +42,38 @@ COLORT_API int _stdcall ColorTInit(char* ModelFile,char* pCurDir)
 	minColorRGB_GAN = GetPrivateProfileInt("Color_Level_RGB_GAN", "####min", nDefault, buf);
 	
 
-	// COOL1
-	getdata(&SpecCool1, "COOL1");
-	// NORMAL
-    getdata(&SpecNormal, "NORMAL");
-	// WARM1
-    getdata(&SpecWarm1, "WARM1");
+	// COOL
+	getdata(&SpecCool, "COOL");
+	// STANDARD
+    getdata(&SpecStandard, "STANDARD");
+	// WARM
+    getdata(&SpecWarm, "WARM");
 
     return true;
 }
 
 COLORT_API int _stdcall ColorTDeInit()
 {
-	savedata(&SpecCool1, "COOL1");
-	savedata(&SpecNormal, "NORMAL");
-	savedata(&SpecWarm1, "WARM1");
+	savedata(&SpecCool, "COOL");
+	savedata(&SpecStandard, "STANDARD");
+	savedata(&SpecWarm, "WARM");
 
     return true;
 }
 
 COLORT_API int _stdcall ColorTSetSpec(char* colorTemp, pCOLORSPEC pSpecData,int GANref)
 {
-	if (strcmp(colorTemp, "COOL1") == 0)
+	if (strcmp(colorTemp, "COOL") == 0)
 	{
-		PrimaryData = SpecCool1;
+		PrimaryData = SpecCool;
 	}
-	else if (strcmp(colorTemp, "NORMAL") == 0)
+	else if (strcmp(colorTemp, "STANDARD") == 0)
 	{
-		PrimaryData = SpecNormal;
+		PrimaryData = SpecStandard;
 	}
-	else if (strcmp(colorTemp, "WARM1") == 0)
+	else if (strcmp(colorTemp, "WARM") == 0)
 	{
-		PrimaryData = SpecWarm1; 
+		PrimaryData = SpecWarm; 
 	}
 
 	AdjustGAN = GANref;    
@@ -167,17 +167,17 @@ void AverageData(pCOLORSPEC pColorST)
 
 void ReLoadRGB(char* colorTemp)
 {
-	if (strcmp(colorTemp, "COOL1") == 0)
+	if (strcmp(colorTemp, "COOL") == 0)
 	{
-		AverageData(&SpecCool1);
+		AverageData(&SpecCool);
 	}
-	else if (strcmp(colorTemp, "NORMAL") == 0)
+	else if (strcmp(colorTemp, "STANDARD") == 0)
 	{
-		AverageData(&SpecNormal);
+		AverageData(&SpecStandard);
 	}
-	else if (strcmp(colorTemp, "WARM1") == 0)
+	else if (strcmp(colorTemp, "WARM") == 0)
 	{
-		AverageData(&SpecWarm1); 
+		AverageData(&SpecWarm); 
 	}
 }
 

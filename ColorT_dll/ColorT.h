@@ -61,9 +61,9 @@ int minColorRGB_OFF;
 int maxColorRGB_GAN;
 int minColorRGB_GAN;
 
-COLORSPEC SpecCool1;
-COLORSPEC SpecNormal;
-COLORSPEC SpecWarm1;
+COLORSPEC SpecCool;
+COLORSPEC SpecStandard;
+COLORSPEC SpecWarm;
 COLORSPEC PrimaryData;
 //REALCOLOR CurrentData;
 REALRGB CalcRGB;

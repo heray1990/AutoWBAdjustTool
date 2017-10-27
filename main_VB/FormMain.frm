@@ -564,7 +564,7 @@ Private Sub Form_Load()
     mTitle = Me.Caption
     SubInit
 
-    mBrand = Split(gstrCurProjName, gstrDelimiterForProjName)(0)
+    mBrand = Split(gstrCurProjName, DELIMITER)(0)
     
     If UCase(mBrand) = "CAN" Then    'CANTV
         Set clsCANTVProtocal = New CANTVProtocal
@@ -695,6 +695,8 @@ Private Sub SubInitNetServer()
             .LocalPort = PORT_FOR_KONKA
             .Listen
         End With
+        txtInput.Enabled = False
+        SubLogInfo "Please enter factory menu and select [Auto White Balance]"
     End If
 End Sub
 
@@ -707,6 +709,9 @@ Private Sub tcpServer_ConnectionRequest(ByVal requestID As Long)
         ' Accept the request with the requestID
         ' parameter.
         tcpServer.Accept requestID
+        txtInput.Enabled = True
+        txtInput.SetFocus
+        CheckStep.Text = "Connect TV successfully."
     End If
 End Sub
 
@@ -746,7 +751,7 @@ Public Sub SubInit()
     End If
 
     txtInput.Text = ""
-    lbModelName.Caption = Split(gstrCurProjName, gstrDelimiterForProjName)(1)
+    lbModelName.Caption = Split(gstrCurProjName, DELIMITER)(1)
     
     If gblnEnableCool = True Then lbAdjustCool.ForeColor = &H80000008
     If gblnEnableStandard = True Then lbAdjustStandard.ForeColor = &H80000008
@@ -951,9 +956,10 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
                     If tcpServer.State <> sckClosed Then
                         tcpServer.Close
                     End If
-                    MsgBox "请进入工厂菜单，点击【自动调节白平衡】"
+                    SubLogInfo "Please enter factory menu and select [Auto White Balance]"
                 End If
                 txtInput.Enabled = True
+                txtInput.SetFocus
             End If
         End If
         
@@ -985,7 +991,7 @@ Private Sub SubRun()
     If gblnCaConnected = False Then
         MsgBox TXTCaDisconnectHint, vbOKOnly + vbInformation, "warning"
         SubConfigAfterRun
-        
+
         Exit Sub
     End If
 
@@ -1005,7 +1011,7 @@ Private Sub SubRun()
     Set ObjMemory = ObjCa.Memory
     ObjMemory.ChannelNO = glngCaChannel
 
-    SubLogInfo "Start adjusting color temperature"
+    SubLogInfo "Start..."
     Call SubVPGPattern(gstrVPG80IRE)
 
     clsProtocal.EnterFacMode
@@ -1014,7 +1020,7 @@ Private Sub SubRun()
     Call clsProtocal.SetBrightness(50)
     Call clsProtocal.SetContrast(50)
     Call clsProtocal.SetBacklight(100)
-    SubLogInfo "Set backlight to 100"
+    SubLogInfo "Set Brightness: 50, Set Contrast: 50, Set Backlight: 100"
 
     Label6.Caption = "WHITE"
 
@@ -1044,7 +1050,7 @@ ADJUST_GAIN_AGAIN_STANDARD:
         Result = FuncAdjRGBGain(COLORTEMP_STANDARD, ADJMODE_3)
 
         If Result = False Then
-            ShowError_Sys (3)
+            ShowError_Sys (2)
             GoTo FAIL
         Else
             Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
@@ -1064,7 +1070,7 @@ ADJUST_GAIN_AGAIN_WARM:
         Result = FuncAdjRGBGain(COLORTEMP_WARM, ADJMODE_3)
 
         If Result = False Then
-            ShowError_Sys (4)
+            ShowError_Sys (3)
             GoTo FAIL
         Else
             Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
@@ -1088,7 +1094,7 @@ ADJUST_GAIN_AGAIN_WARM:
             Result = FuncAdjRGBOffset(COLORTEMP_COOL)
                 
             If Result = False Then
-                ShowError_Sys (11)
+                ShowError_Sys (5)
                 GoTo FAIL
             Else
                 Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
@@ -1103,7 +1109,7 @@ ADJUST_GAIN_AGAIN_WARM:
             Result = FuncAdjRGBOffset(COLORTEMP_STANDARD)
 
             If Result = False Then
-                ShowError_Sys (13)
+                ShowError_Sys (6)
                 GoTo FAIL
             Else
                 Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
@@ -1118,7 +1124,7 @@ ADJUST_GAIN_AGAIN_WARM:
             Result = FuncAdjRGBOffset(COLORTEMP_WARM)
                 
             If Result = False Then
-                ShowError_Sys (14)
+                ShowError_Sys (7)
                 GoTo FAIL
             Else
                 Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
@@ -1164,7 +1170,7 @@ CHECK_STANDARD:
             Result = FuncChkColorAgain(COLORTEMP_STANDARD)
 
             If Result = False Then
-                ShowError_Sys (3)
+                ShowError_Sys (2)
 
                 If mAdjGainAgainStandard > 0 Then
                     GoTo FAIL
@@ -1187,7 +1193,7 @@ CHECK_WARM:
             Result = FuncChkColorAgain(COLORTEMP_WARM)
 
             If Result = False Then
-                ShowError_Sys (4)
+                ShowError_Sys (3)
                 
                 If mAdjGainAgainWarm > 0 Then
                     GoTo FAIL
@@ -1245,7 +1251,7 @@ CHECK_WARM:
         clsProtocal.ChannelPreset
 
         If lvLastChk <= glngBlSpecVal Then
-            ShowError_Sys (30)
+            ShowError_Sys (8)
             GoTo FAIL
         End If
     End If
@@ -1311,21 +1317,28 @@ Private Sub SubConfigAfterRun()
     mAdjGainAgainStandard = 0
     mAdjGainAgainWarm = 0
 
-    txtInput.Enabled = True
-    txtInput.Text = ""
-    txtInput.SetFocus
-    
-    If gEnumCommMode = modeNetClient Then
-        gblnNetConnected = False
-        tcpClient.Close
-    ElseIf gEnumCommMode = modeNetServer Then
+    If gEnumCommMode = modeNetServer Then
+        txtInput.Enabled = False
+        txtInput.Text = ""
+
         If tcpServer.State <> sckClosed Then
             tcpServer.Close
+        End If
+    Else
+        txtInput.Enabled = True
+        txtInput.Text = ""
+        txtInput.SetFocus
+        
+        If gEnumCommMode = modeNetClient Then
+            If tcpClient.State <> sckClosed Then
+                gblnNetConnected = False
+                tcpClient.Close
+            End If
         End If
     End If
 End Sub
 
-Sub ShowError_Sys(t As Integer)
+Private Sub ShowError_Sys(t As Integer)
     Dim s As String
     
     s = "Unknown"
@@ -1333,48 +1346,20 @@ Sub ShowError_Sys(t As Integer)
     Select Case t
         Case 1
             s = TXTGainCoolWrong
-        Case 3
+        Case 2
             s = TXTGainStandardWrong
-        Case 4
+        Case 3
             s = TXTGainWarmWrong
-        Case 6
+        Case 4
             s = "LAB_SN:" + mBarCode + "(End)  Len:" + str$(gintBarCodeLen) + vbCrLf + TXTSNLenWrong
-        Case 7
-            s = TXTDVIWrong
-        Case 8
-            s = TXTCalFail
-        Case 9
-            s = TXTRS232Er
-        Case 10
-            s = TXTDSUBFail
-        Case 11
+        Case 5
             s = TXTOffsetCoolWrong
-        Case 13
+        Case 6
             s = TXTOffsetStandardWrong
-        Case 14
+        Case 7
             s = TXTOffsetWarmWrong
-        Case 16
-            s = TXTHDMI2ChkWrong
-        Case 17
-            s = TXTHDMI2EDIDWrong
-        Case 18
-            s = TXTMinBriTooHigh
-        Case 19
-            s = TXTFWVerWrong
-        Case 20
-            s = TXTOSDSNWriteWrong
-        Case 21
-            s = TXTMaxBriTooHigh
-        Case 22
-            s = TXTCT5000Wrong
-        Case 23
-            s = TXTCT3000Wrong
-        Case 24
-            s = TXTLSDataWrong
-        Case 25
+        Case 8
             s = TXTLvTooLow
-        Case 26
-            s = ""
     End Select
 
     CheckStep.Text = CheckStep.Text + TXTErrCode + str$(t) + vbCrLf + s + vbCrLf
@@ -1383,22 +1368,20 @@ End Sub
 
 Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Boolean
     Dim i, j As Integer
-
+    
+    SubLogInfo "====SelColorTemp " + strColorTemp + "===="
     Call clsProtocal.SelColorTemp(strColorTemp, gstrTvInputSrc, gintTvInputSrcPort)
 
     SubLogInfo "========Adjust " & strColorTemp & "========"
 
     ' Set RGB Offset
-    If mAdjGainAgainCool = 0 Then
-        Call ColorTSetSpec(strColorTemp, mudtPreColorData, 0)
-        'SubDelayMs 200
+    Call ColorTSetSpec(strColorTemp, mudtPreColorData, ADJMODE_OFFSET)
         
-        rRGB.cRR = mudtPreColorData.nColorRR
-        rRGB.cGG = mudtPreColorData.nColorGG
-        rRGB.cBB = mudtPreColorData.nColorBB
-        
-        Call SubUpdateRGB(strColorTemp, 0)
-    End If
+    rRGB.cRR = mudtPreColorData.nColorRR
+    rRGB.cGG = mudtPreColorData.nColorGG
+    rRGB.cBB = mudtPreColorData.nColorBB
+
+    Call SubUpdateRGB(strColorTemp, 0)
 
     Call LoadData(strColorTemp, 0)
     If UCase(gstrChipSet) = "MST6M60" Then
@@ -1489,6 +1472,7 @@ End Function
 Private Function FuncAdjRGBOffset(strColorTemp As String) As Boolean
     Dim i, j As Integer
 
+    SubLogInfo "====SelColorTemp " + strColorTemp + "===="
     Call clsProtocal.SelColorTemp(strColorTemp, gstrTvInputSrc, gintTvInputSrcPort)
 
     SubLogInfo "========Adjust " & strColorTemp & "========"
@@ -1545,6 +1529,7 @@ End Function
 Private Function FuncChkColorAgain(strColorTemp As String) As Boolean
     Dim i As Integer
 
+    SubLogInfo "====SelColorTemp " + strColorTemp + "===="
     Call clsProtocal.SelColorTemp(strColorTemp, gstrTvInputSrc, gintTvInputSrcPort)
 
     SubLogInfo "========Check " & strColorTemp & "========"
