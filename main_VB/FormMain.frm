@@ -635,6 +635,12 @@ On Error GoTo ErrExit
     If MSComm1.PortOpen = True Then
         MSComm1.PortOpen = False
     End If
+    
+    If gEnumCommMode = modeNetServer Then
+        If tcpServer.State <> sckClosed Then
+            tcpServer.Close
+        End If
+    End If
   
     Call ColorTDeInit
 
@@ -696,7 +702,7 @@ Private Sub SubInitNetServer()
             .Listen
         End With
         txtInput.Enabled = False
-        SubLogInfo "Please enter factory menu and select [Auto White Balance]"
+        CheckStep.Text = "Please enter factory menu and select [Auto White Balance]"
     End If
 End Sub
 
@@ -710,6 +716,7 @@ Private Sub tcpServer_ConnectionRequest(ByVal requestID As Long)
         ' parameter.
         tcpServer.Accept requestID
         txtInput.Enabled = True
+        txtInput.Text = ""
         txtInput.SetFocus
         CheckStep.Text = "Connect TV successfully."
     End If
@@ -956,10 +963,9 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
                     If tcpServer.State <> sckClosed Then
                         tcpServer.Close
                     End If
+                    SubInitNetServer
                     SubLogInfo "Please enter factory menu and select [Auto White Balance]"
                 End If
-                txtInput.Enabled = True
-                txtInput.SetFocus
             End If
         End If
         
@@ -1318,12 +1324,10 @@ Private Sub SubConfigAfterRun()
     mAdjGainAgainWarm = 0
 
     If gEnumCommMode = modeNetServer Then
-        txtInput.Enabled = False
-        txtInput.Text = ""
-
         If tcpServer.State <> sckClosed Then
             tcpServer.Close
         End If
+        SubInitNetServer
     Else
         txtInput.Enabled = True
         txtInput.Text = ""
