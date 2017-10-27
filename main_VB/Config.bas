@@ -42,35 +42,23 @@ Public Sub LoadConfigData()
         gudtConfigData.strVPG20IRE = xmlDoc.selectSingleNode("/config/VPG/IRE20").Text
         gudtConfigData.strChipSet = xmlDoc.selectSingleNode("/config/chipset").Text
     End If
-
-    If xmlDoc.selectSingleNode("/config/cool_2").Text = "True" Then
-        gudtConfigData.bolEnableCool2 = True
+    
+    If xmlDoc.selectSingleNode("/config/cool").Text = "True" Then
+        gudtConfigData.bolEnableCool = True
     Else
-        gudtConfigData.bolEnableCool2 = False
+        gudtConfigData.bolEnableCool = False
     End If
     
-    If xmlDoc.selectSingleNode("/config/cool_1").Text = "True" Then
-        gudtConfigData.bolEnableCool1 = True
+    If xmlDoc.selectSingleNode("/config/standard").Text = "True" Then
+        gudtConfigData.bolEnableStandard = True
     Else
-        gudtConfigData.bolEnableCool1 = False
+        gudtConfigData.bolEnableStandard = False
     End If
     
-    If xmlDoc.selectSingleNode("/config/normal").Text = "True" Then
-        gudtConfigData.bolEnableNormal = True
+    If xmlDoc.selectSingleNode("/config/warm").Text = "True" Then
+        gudtConfigData.bolEnableWarm = True
     Else
-        gudtConfigData.bolEnableNormal = False
-    End If
-    
-    If xmlDoc.selectSingleNode("/config/warm_1").Text = "True" Then
-        gudtConfigData.bolEnableWarm1 = True
-    Else
-        gudtConfigData.bolEnableWarm1 = False
-    End If
-    
-    If xmlDoc.selectSingleNode("/config/warm_2").Text = "True" Then
-        gudtConfigData.bolEnableWarm2 = True
-    Else
-        gudtConfigData.bolEnableWarm2 = False
+        gudtConfigData.bolEnableWarm = False
     End If
     
     If xmlDoc.selectSingleNode("/config/check_color").Text = "True" Then
@@ -117,35 +105,23 @@ Public Sub SaveConfigData()
         xmlDoc.selectSingleNode("/config/VPG/IRE100").Text = gudtConfigData.strVPG100IRE
         xmlDoc.selectSingleNode("/config/VPG/IRE80").Text = gudtConfigData.strVPG80IRE
         xmlDoc.selectSingleNode("/config/VPG/IRE20").Text = gudtConfigData.strVPG20IRE
-        
-        If gudtConfigData.bolEnableCool2 Then
-            xmlDoc.selectSingleNode("/config/cool_2").Text = "True"
+
+        If gudtConfigData.bolEnableCool Then
+            xmlDoc.selectSingleNode("/config/cool").Text = "True"
         Else
-            xmlDoc.selectSingleNode("/config/cool_2").Text = "False"
+            xmlDoc.selectSingleNode("/config/cool").Text = "False"
         End If
         
-        If gudtConfigData.bolEnableCool1 Then
-            xmlDoc.selectSingleNode("/config/cool_1").Text = "True"
+        If gudtConfigData.bolEnableStandard Then
+            xmlDoc.selectSingleNode("/config/standard").Text = "True"
         Else
-            xmlDoc.selectSingleNode("/config/cool_1").Text = "False"
+            xmlDoc.selectSingleNode("/config/standard").Text = "False"
         End If
         
-        If gudtConfigData.bolEnableNormal Then
-            xmlDoc.selectSingleNode("/config/normal").Text = "True"
+        If gudtConfigData.bolEnableWarm Then
+            xmlDoc.selectSingleNode("/config/warm").Text = "True"
         Else
-            xmlDoc.selectSingleNode("/config/normal").Text = "False"
-        End If
-        
-        If gudtConfigData.bolEnableWarm1 Then
-            xmlDoc.selectSingleNode("/config/warm_1").Text = "True"
-        Else
-            xmlDoc.selectSingleNode("/config/warm_1").Text = "False"
-        End If
-        
-        If gudtConfigData.bolEnableWarm2 Then
-            xmlDoc.selectSingleNode("/config/warm_2").Text = "True"
-        Else
-            xmlDoc.selectSingleNode("/config/warm_2").Text = "False"
+            xmlDoc.selectSingleNode("/config/warm").Text = "False"
         End If
         
         If gudtConfigData.bolEnableChkColor Then

@@ -202,16 +202,16 @@ End Sub
 
 Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)
     Select Case strColorT
-      Case COLORTEMP_COOL1
-         Call SetColorTempCool1(strInputSrc, intSrcNum)
+      Case COLORTEMP_COOL
+         Call SetColorTempCool(strInputSrc, intSrcNum)
       Case COLORTEMP_STANDARD
-         Call SetColorTempNormal(strInputSrc, intSrcNum)
-      Case COLORTEMP_WARM1
-         Call SetColorTempWarm1(strInputSrc, intSrcNum)
+         Call SetColorTempStandard(strInputSrc, intSrcNum)
+      Case COLORTEMP_WARM
+         Call SetColorTempWarm(strInputSrc, intSrcNum)
     End Select
 End Sub
 
-Private Sub SetColorTempCool1(strInputSrc As String, intSrcNum As Integer)
+Private Sub SetColorTempCool(strInputSrc As String, intSrcNum As Integer)
     'HDMI Cool
     '6E 51 86 03 FE 14 0A 23 01 78
     mSendDataBuf(0) = &H6E
@@ -262,8 +262,8 @@ Private Sub SetColorTempCool1(strInputSrc As String, intSrcNum As Integer)
     SendCmd
 End Sub
 
-Private Sub SetColorTempNormal(strInputSrc As String, intSrcNum As Integer)
-    'HDMI normal
+Private Sub SetColorTempStandard(strInputSrc As String, intSrcNum As Integer)
+    'HDMI Standard
     '6E 51 86 03 FE 14 06 23 01 74
     mSendDataBuf(0) = &H6E
     mSendDataBuf(1) = &H51
@@ -313,7 +313,7 @@ Private Sub SetColorTempNormal(strInputSrc As String, intSrcNum As Integer)
     SendCmd
 End Sub
 
-Private Sub SetColorTempWarm1(strInputSrc As String, intSrcNum As Integer)
+Private Sub SetColorTempWarm(strInputSrc As String, intSrcNum As Integer)
     'HDMI warm
     '6E 51 86 03 FE 14 05 23 01 77
     mSendDataBuf(0) = &H6E

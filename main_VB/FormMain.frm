@@ -211,7 +211,6 @@ Begin VB.Form FormMain
    Begin VB.Label Label7 
       Appearance      =   0  'Flat
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "SPEC"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   8.25
@@ -246,14 +245,14 @@ Begin VB.Form FormMain
       Height          =   525
       Left            =   120
       TabIndex        =   15
-      Top             =   4020
+      Top             =   3000
       Width           =   2535
    End
-   Begin VB.Label lbAdjustWARM_2 
+   Begin VB.Label lbSpec 
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "WARM2"
+      Caption         =   "SPEC"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   21.75
@@ -267,14 +266,14 @@ Begin VB.Form FormMain
       Height          =   525
       Left            =   120
       TabIndex        =   14
-      Top             =   3510
+      Top             =   4020
       Width           =   2535
    End
-   Begin VB.Label lbAdjustCOOL_2 
+   Begin VB.Label lbMeasure 
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "COOL2"
+      Caption         =   "Measure"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   21.75
@@ -288,7 +287,7 @@ Begin VB.Form FormMain
       Height          =   525
       Left            =   120
       TabIndex        =   13
-      Top             =   1980
+      Top             =   3510
       Width           =   2535
    End
    Begin VB.Label Label_Lv 
@@ -355,11 +354,11 @@ Begin VB.Form FormMain
       Top             =   3555
       Width           =   900
    End
-   Begin VB.Label lbAdjustWARM_1 
+   Begin VB.Label lbAdjustWarm 
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "WARM1"
+      Caption         =   "Warm"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   21.75
@@ -373,14 +372,14 @@ Begin VB.Form FormMain
       Height          =   525
       Left            =   120
       TabIndex        =   4
-      Top             =   3000
+      Top             =   2490
       Width           =   2535
    End
    Begin VB.Label lbAdjustStandard 
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "STANDARD"
+      Caption         =   "Standard"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   21.75
@@ -394,14 +393,14 @@ Begin VB.Form FormMain
       Height          =   525
       Left            =   120
       TabIndex        =   3
-      Top             =   2490
+      Top             =   1980
       Width           =   2535
    End
-   Begin VB.Label lbAdjustCOOL_1 
+   Begin VB.Label lbAdjustCool 
       Alignment       =   2  'Center
       Appearance      =   0  'Flat
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "COOL1"
+      Caption         =   "Cool"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   21.75
@@ -513,12 +512,12 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Dim RES As Long
-Dim cCOOL1 As COLORTEMPSPEC
-Dim cNORMAL As COLORTEMPSPEC
-Dim cWARM1 As COLORTEMPSPEC
-Dim cFFCOOL1 As COLORTEMPSPEC
-Dim cFFNORMAL As COLORTEMPSPEC
-Dim cFFWARM1 As COLORTEMPSPEC
+Dim cCool As COLORTEMPSPEC
+Dim cStandard As COLORTEMPSPEC
+Dim cWarm As COLORTEMPSPEC
+Dim cFFCool As COLORTEMPSPEC
+Dim cFFStandard As COLORTEMPSPEC
+Dim cFFWarm As COLORTEMPSPEC
 Dim rColor As REALCOLOR
 Dim lvLastChk As Long
 Dim resCodeForAdjustColorTemp As Long
@@ -536,9 +535,9 @@ Private rRGB As REALRGB
 Private rRGB1 As REALRGB
 
 Private mudtPreColorData As COLORTEMPSPEC
-Private mAdjGainAgainCool1 As Integer
+Private mAdjGainAgainCool As Integer
 Private mAdjGainAgainStandard As Integer
-Private mAdjGainAgainWarm1 As Integer
+Private mAdjGainAgainWarm As Integer
 Private mCntTime As Long
 Private mTitle As String
 Private mBrand As String
@@ -556,13 +555,7 @@ Private Sub Form_Load()
     vbSetSPEC.Caption = TXTSetSpec
     vbDescription.Caption = TXTDiscription
     vbAbout.Caption = TXTAbout
-    lbAdjustCOOL_1.Caption = TXTCOOL1
-    lbAdjustCOOL_2.Caption = TXTCOOL2
-    lbAdjustStandard.Caption = TXTSTD
-    lbAdjustWARM_1.Caption = TXTWARM1
-    lbAdjustWARM_2.Caption = TXTWARM2
     Label6.Caption = TXTINITIAL
-    Label7.Caption = "SPEC"
     checkResult.Caption = TXTChkResult
     gblnStop = False
     txtInput.Enabled = True
@@ -737,11 +730,9 @@ Public Sub SubInit()
     gstrVPG100IRE = gudtConfigData.strVPG100IRE
     gstrVPG80IRE = gudtConfigData.strVPG80IRE
     gstrVPG20IRE = gudtConfigData.strVPG20IRE
-    gblnEnableCool2 = gudtConfigData.bolEnableCool2
-    gblnEnableCool1 = gudtConfigData.bolEnableCool1
-    gblnEnableStandard = gudtConfigData.bolEnableNormal
-    gblnEnableWarm1 = gudtConfigData.bolEnableWarm1
-    gblnEnableWarm2 = gudtConfigData.bolEnableWarm2
+    gblnEnableCool = gudtConfigData.bolEnableCool
+    gblnEnableStandard = gudtConfigData.bolEnableStandard
+    gblnEnableWarm = gudtConfigData.bolEnableWarm
     gblnChkColorTemp = gudtConfigData.bolEnableChkColor
     gblnAdjOffset = gudtConfigData.bolEnableAdjOffset
     gstrChipSet = gudtConfigData.strChipSet
@@ -757,17 +748,13 @@ Public Sub SubInit()
     txtInput.Text = ""
     lbModelName.Caption = Split(gstrCurProjName, gstrDelimiterForProjName)(1)
     
-    If gblnEnableCool1 = True Then lbAdjustCOOL_1.ForeColor = &H80000008
-    If gblnEnableCool2 = True Then lbAdjustCOOL_2.ForeColor = &H80000008
+    If gblnEnableCool = True Then lbAdjustCool.ForeColor = &H80000008
     If gblnEnableStandard = True Then lbAdjustStandard.ForeColor = &H80000008
-    If gblnEnableWarm1 = True Then lbAdjustWARM_1.ForeColor = &H80000008
-    If gblnEnableWarm2 = True Then lbAdjustWARM_2.ForeColor = &H80000008
+    If gblnEnableWarm = True Then lbAdjustWarm.ForeColor = &H80000008
 
-    If gblnEnableCool1 = False Then lbAdjustCOOL_1.ForeColor = &HC0C0C0
-    If gblnEnableCool2 = False Then lbAdjustCOOL_2.ForeColor = &HC0C0C0
+    If gblnEnableCool = False Then lbAdjustCool.ForeColor = &HC0C0C0
     If gblnEnableStandard = False Then lbAdjustStandard.ForeColor = &HC0C0C0
-    If gblnEnableWarm1 = False Then lbAdjustWARM_1.ForeColor = &HC0C0C0
-    If gblnEnableWarm2 = False Then lbAdjustWARM_2.ForeColor = &HC0C0C0
+    If gblnEnableWarm = False Then lbAdjustWarm.ForeColor = &HC0C0C0
     
     SubInitVPG
     SubDelayMs 200
@@ -1008,11 +995,9 @@ Private Sub SubRun()
     checkResult.ForeColor = &HC0&
     CheckStep.Text = ""
 
-    lbAdjustCOOL_1.BackColor = &H8000000F
-    lbAdjustCOOL_2.BackColor = &H8000000F
+    lbAdjustCool.BackColor = &H8000000F
     lbAdjustStandard.BackColor = &H8000000F
-    lbAdjustWARM_1.BackColor = &H8000000F
-    lbAdjustWARM_2.BackColor = &H8000000F
+    lbAdjustWarm.BackColor = &H8000000F
 
     Picture1.Cls
     lbColorTempWrong.Visible = False
@@ -1033,10 +1018,10 @@ Private Sub SubRun()
 
     Label6.Caption = "WHITE"
 
-ADJUST_GAIN_AGAIN_COOL1:
-    If gblnEnableCool1 Then
-        lbAdjustCOOL_1.BackColor = &H80FFFF
-        Result = FuncAdjRGBGain(COLORTEMP_COOL1, ADJMODE_3)
+ADJUST_GAIN_AGAIN_COOL:
+    If gblnEnableCool Then
+        lbAdjustCool.BackColor = &H80FFFF
+        Result = FuncAdjRGBGain(COLORTEMP_COOL, ADJMODE_3)
   
         If Result = False Then
             ShowError_Sys (1)
@@ -1045,15 +1030,15 @@ ADJUST_GAIN_AGAIN_COOL1:
             Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
         End If
 
-        SubSaveLogInFile "[Time]White Cool1: " & lbTimer.Caption
-        lbAdjustCOOL_1.BackColor = &HC0FFC0
+        SubSaveLogInFile "[Time]White Cool: " & lbTimer.Caption
+        lbAdjustCool.BackColor = &HC0FFC0
         
-        If mAdjGainAgainCool1 > 0 Then
-            GoTo CHECK_COOL1
+        If mAdjGainAgainCool > 0 Then
+            GoTo CHECK_COOL
         End If
     End If
 
-ADJUST_GAIN_AGAIN_NORMAL:
+ADJUST_GAIN_AGAIN_STANDARD:
     If gblnEnableStandard Then
         lbAdjustStandard.BackColor = &H80FFFF
         Result = FuncAdjRGBGain(COLORTEMP_STANDARD, ADJMODE_3)
@@ -1065,18 +1050,18 @@ ADJUST_GAIN_AGAIN_NORMAL:
             Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
         End If
 
-        SubSaveLogInFile "[Time]White Normal: " & lbTimer.Caption
+        SubSaveLogInFile "[Time]White Standard: " & lbTimer.Caption
         lbAdjustStandard.BackColor = &HC0FFC0
         
         If mAdjGainAgainStandard > 0 Then
-            GoTo CHECK_NORMAL
+            GoTo CHECK_STANDARD
         End If
     End If
 
-ADJUST_GAIN_AGAIN_WARM1:
-    If gblnEnableWarm1 Then
-        lbAdjustWARM_1.BackColor = &H80FFFF
-        Result = FuncAdjRGBGain(COLORTEMP_WARM1, ADJMODE_3)
+ADJUST_GAIN_AGAIN_WARM:
+    If gblnEnableWarm Then
+        lbAdjustWarm.BackColor = &H80FFFF
+        Result = FuncAdjRGBGain(COLORTEMP_WARM, ADJMODE_3)
 
         If Result = False Then
             ShowError_Sys (4)
@@ -1085,11 +1070,11 @@ ADJUST_GAIN_AGAIN_WARM1:
             Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
         End If
 
-        SubSaveLogInFile "[Time]White Warm1: " & lbTimer.Caption
-        lbAdjustWARM_1.BackColor = &HC0FFC0
+        SubSaveLogInFile "[Time]White Warm: " & lbTimer.Caption
+        lbAdjustWarm.BackColor = &HC0FFC0
         
-        If mAdjGainAgainWarm1 > 0 Then
-            GoTo CHECK_WARM1
+        If mAdjGainAgainWarm > 0 Then
+            GoTo CHECK_WARM
         End If
     End If
 
@@ -1098,9 +1083,9 @@ ADJUST_GAIN_AGAIN_WARM1:
 
         Call SubVPGPattern(gstrVPG20IRE)
 
-        If gblnEnableCool1 Then
-            lbAdjustCOOL_1.BackColor = &H80FFFF
-            Result = FuncAdjRGBOffset(COLORTEMP_COOL1)
+        If gblnEnableCool Then
+            lbAdjustCool.BackColor = &H80FFFF
+            Result = FuncAdjRGBOffset(COLORTEMP_COOL)
                 
             If Result = False Then
                 ShowError_Sys (11)
@@ -1109,8 +1094,8 @@ ADJUST_GAIN_AGAIN_WARM1:
                 Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
             End If
             
-            SubSaveLogInFile "[Time]Grey Cool1: " & lbTimer.Caption
-            lbAdjustCOOL_1.BackColor = &HC0FFC0
+            SubSaveLogInFile "[Time]Grey Cool: " & lbTimer.Caption
+            lbAdjustCool.BackColor = &HC0FFC0
         End If
    
         If gblnEnableStandard Then
@@ -1124,13 +1109,13 @@ ADJUST_GAIN_AGAIN_WARM1:
                 Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
             End If
 
-            SubSaveLogInFile "[Time]Grey Normal: " & lbTimer.Caption
+            SubSaveLogInFile "[Time]Grey Standard: " & lbTimer.Caption
             lbAdjustStandard.BackColor = &HC0FFC0
         End If
    
-        If gblnEnableWarm1 Then
-            lbAdjustWARM_1.BackColor = &H80FFFF
-            Result = FuncAdjRGBOffset(COLORTEMP_WARM1)
+        If gblnEnableWarm Then
+            lbAdjustWarm.BackColor = &H80FFFF
+            Result = FuncAdjRGBOffset(COLORTEMP_WARM)
                 
             If Result = False Then
                 ShowError_Sys (14)
@@ -1139,8 +1124,8 @@ ADJUST_GAIN_AGAIN_WARM1:
                 Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
             End If
 
-            SubSaveLogInFile "[Time]Grey Warm1: " & lbTimer.Caption
-            lbAdjustWARM_1.BackColor = &HC0FFC0
+            SubSaveLogInFile "[Time]Grey Warm: " & lbTimer.Caption
+            lbAdjustWarm.BackColor = &HC0FFC0
         End If
     End If
 
@@ -1149,30 +1134,30 @@ ADJUST_GAIN_AGAIN_WARM1:
             Call SubVPGPattern(gstrVPG80IRE)
         End If
 
-CHECK_COOL1:
-        If gblnEnableCool1 Then
+CHECK_COOL:
+        If gblnEnableCool Then
             Label6.Caption = TXTChk
-            lbAdjustCOOL_1.BackColor = &H80FFFF
-            Result = FuncChkColorAgain(COLORTEMP_COOL1)
+            lbAdjustCool.BackColor = &H80FFFF
+            Result = FuncChkColorAgain(COLORTEMP_COOL)
 
             If Result = False Then
                 ShowError_Sys (1)
 
-                If mAdjGainAgainCool1 > 0 Then
+                If mAdjGainAgainCool > 0 Then
                     GoTo FAIL
                 End If
                 
-                mAdjGainAgainCool1 = mAdjGainAgainCool1 + 1
+                mAdjGainAgainCool = mAdjGainAgainCool + 1
                 
-                GoTo ADJUST_GAIN_AGAIN_COOL1
+                GoTo ADJUST_GAIN_AGAIN_COOL
             Else
-                mAdjGainAgainCool1 = 0
+                mAdjGainAgainCool = 0
             End If
       
-            lbAdjustCOOL_1.BackColor = &HC0FFC0
+            lbAdjustCool.BackColor = &HC0FFC0
         End If
 
-CHECK_NORMAL:
+CHECK_STANDARD:
         If gblnEnableStandard Then
             Label6.Caption = TXTChk
             lbAdjustStandard.BackColor = &H80FFFF
@@ -1187,7 +1172,7 @@ CHECK_NORMAL:
     
                 mAdjGainAgainStandard = mAdjGainAgainStandard + 1
 
-                GoTo ADJUST_GAIN_AGAIN_NORMAL
+                GoTo ADJUST_GAIN_AGAIN_STANDARD
             Else
                 mAdjGainAgainStandard = 0
             End If
@@ -1195,27 +1180,27 @@ CHECK_NORMAL:
             lbAdjustStandard.BackColor = &HC0FFC0
         End If
 
-CHECK_WARM1:
-        If gblnEnableWarm1 Then
+CHECK_WARM:
+        If gblnEnableWarm Then
             Label6.Caption = TXTChk
-            lbAdjustWARM_1.BackColor = &H80FFFF
-            Result = FuncChkColorAgain(COLORTEMP_WARM1)
+            lbAdjustWarm.BackColor = &H80FFFF
+            Result = FuncChkColorAgain(COLORTEMP_WARM)
 
             If Result = False Then
                 ShowError_Sys (4)
                 
-                If mAdjGainAgainWarm1 > 0 Then
+                If mAdjGainAgainWarm > 0 Then
                     GoTo FAIL
                 End If
     
-                mAdjGainAgainWarm1 = mAdjGainAgainWarm1 + 1
+                mAdjGainAgainWarm = mAdjGainAgainWarm + 1
                 
-                GoTo ADJUST_GAIN_AGAIN_WARM1
+                GoTo ADJUST_GAIN_AGAIN_WARM
             Else
-                mAdjGainAgainWarm1 = 0
+                mAdjGainAgainWarm = 0
             End If
 
-            lbAdjustWARM_1.BackColor = &HC0FFC0
+            lbAdjustWarm.BackColor = &HC0FFC0
         End If
     End If
     
@@ -1240,8 +1225,8 @@ CHECK_WARM1:
         SubLogInfo "Set contrast to 100"
 
         If UCase(mBrand) = "LETV" Then
-            Call clsProtocal.SelColorTemp(COLORTEMP_COOL1, gstrTvInputSrc, gintTvInputSrcPort)
-            SubLogInfo "Set color temp to cool1."
+            Call clsProtocal.SelColorTemp(COLORTEMP_COOL, gstrTvInputSrc, gintTvInputSrcPort)
+            SubLogInfo "Set color temp to Cool."
         Else
             Call clsProtocal.SelColorTemp(COLORTEMP_STANDARD, gstrTvInputSrc, gintTvInputSrcPort)
             SubLogInfo "Set color temp to Standard."
@@ -1312,9 +1297,9 @@ Private Sub SubInitBeforeRun()
 
     txtInput.Enabled = False
     'mBarCode = ""
-    mAdjGainAgainCool1 = 0
+    mAdjGainAgainCool = 0
     mAdjGainAgainStandard = 0
-    mAdjGainAgainWarm1 = 0
+    mAdjGainAgainWarm = 0
 End Sub
 
 Private Sub SubConfigAfterRun()
@@ -1322,9 +1307,9 @@ Private Sub SubConfigAfterRun()
     
     SubSaveLogInFile "[Time]Total: " & lbTimer.Caption & vbCrLf
     
-    mAdjGainAgainCool1 = 0
+    mAdjGainAgainCool = 0
     mAdjGainAgainStandard = 0
-    mAdjGainAgainWarm1 = 0
+    mAdjGainAgainWarm = 0
 
     txtInput.Enabled = True
     txtInput.Text = ""
@@ -1347,15 +1332,11 @@ Sub ShowError_Sys(t As Integer)
 
     Select Case t
         Case 1
-            s = TXTGainCool1Wrong
-        Case 2
-            s = TXTGainCool2Wrong
+            s = TXTGainCoolWrong
         Case 3
-            s = TXTGainNormalWrong
+            s = TXTGainStandardWrong
         Case 4
-            s = TXTGainWarm1Wrong
-        Case 5
-            s = TXTGainWarm2Wrong
+            s = TXTGainWarmWrong
         Case 6
             s = "LAB_SN:" + mBarCode + "(End)  Len:" + str$(gintBarCodeLen) + vbCrLf + TXTSNLenWrong
         Case 7
@@ -1367,15 +1348,11 @@ Sub ShowError_Sys(t As Integer)
         Case 10
             s = TXTDSUBFail
         Case 11
-            s = TXTOffsetCool1Wrong
-        Case 12
-            s = TXTOffsetCool2Wrong
+            s = TXTOffsetCoolWrong
         Case 13
-            s = TXTOffsetNormalWrong
+            s = TXTOffsetStandardWrong
         Case 14
-            s = TXTOffsetWarm1Wrong
-        Case 15
-            s = TXTOffsetWarm2Wrong
+            s = TXTOffsetWarmWrong
         Case 16
             s = TXTHDMI2ChkWrong
         Case 17
@@ -1412,7 +1389,7 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
     SubLogInfo "========Adjust " & strColorTemp & "========"
 
     ' Set RGB Offset
-    If mAdjGainAgainCool1 = 0 Then
+    If mAdjGainAgainCool = 0 Then
         Call ColorTSetSpec(strColorTemp, mudtPreColorData, 0)
         'SubDelayMs 200
         
@@ -1685,55 +1662,55 @@ End Sub
 Private Sub SubUpdateRGB(strColorTemp As String, HL As Long)
 
     Select Case strColorTemp
-        Case COLORTEMP_COOL1
+        Case COLORTEMP_COOL
             If HL Then
-                cCOOL1.xx = rColor.xx
-                cCOOL1.yy = rColor.yy
-                cCOOL1.lv = rColor.lv
-                cCOOL1.nColorRR = rRGB.cRR
-                cCOOL1.nColorGG = rRGB.cGG
-                cCOOL1.nColorBB = rRGB.cBB
+                cCool.xx = rColor.xx
+                cCool.yy = rColor.yy
+                cCool.lv = rColor.lv
+                cCool.nColorRR = rRGB.cRR
+                cCool.nColorGG = rRGB.cGG
+                cCool.nColorBB = rRGB.cBB
             Else
-                cFFCOOL1.xx = rColor.xx
-                cFFCOOL1.yy = rColor.yy
-                cFFCOOL1.lv = rColor.lv
-                cFFCOOL1.nColorRR = rRGB.cRR
-                cFFCOOL1.nColorGG = rRGB.cGG
-                cFFCOOL1.nColorBB = rRGB.cBB
+                cFFCool.xx = rColor.xx
+                cFFCool.yy = rColor.yy
+                cFFCool.lv = rColor.lv
+                cFFCool.nColorRR = rRGB.cRR
+                cFFCool.nColorGG = rRGB.cGG
+                cFFCool.nColorBB = rRGB.cBB
             End If
 
         Case COLORTEMP_STANDARD
             If HL Then
-                cNORMAL.xx = rColor.xx
-                cNORMAL.yy = rColor.yy
-                cNORMAL.lv = rColor.lv
-                cNORMAL.nColorRR = rRGB.cRR
-                cNORMAL.nColorGG = rRGB.cGG
-                cNORMAL.nColorBB = rRGB.cBB
+                cStandard.xx = rColor.xx
+                cStandard.yy = rColor.yy
+                cStandard.lv = rColor.lv
+                cStandard.nColorRR = rRGB.cRR
+                cStandard.nColorGG = rRGB.cGG
+                cStandard.nColorBB = rRGB.cBB
             Else
-                cFFNORMAL.xx = rColor.xx
-                cFFNORMAL.yy = rColor.yy
-                cFFNORMAL.lv = rColor.lv
-                cFFNORMAL.nColorRR = rRGB.cRR
-                cFFNORMAL.nColorGG = rRGB.cGG
-                cFFNORMAL.nColorBB = rRGB.cBB
+                cFFStandard.xx = rColor.xx
+                cFFStandard.yy = rColor.yy
+                cFFStandard.lv = rColor.lv
+                cFFStandard.nColorRR = rRGB.cRR
+                cFFStandard.nColorGG = rRGB.cGG
+                cFFStandard.nColorBB = rRGB.cBB
             End If
 
-        Case COLORTEMP_WARM1
+        Case COLORTEMP_WARM
             If HL Then
-                cWARM1.xx = rColor.xx
-                cWARM1.yy = rColor.yy
-                cWARM1.lv = rColor.lv
-                cWARM1.nColorRR = rRGB.cRR
-                cWARM1.nColorGG = rRGB.cGG
-                cWARM1.nColorBB = rRGB.cBB
+                cWarm.xx = rColor.xx
+                cWarm.yy = rColor.yy
+                cWarm.lv = rColor.lv
+                cWarm.nColorRR = rRGB.cRR
+                cWarm.nColorGG = rRGB.cGG
+                cWarm.nColorBB = rRGB.cBB
             Else
-                cFFWARM1.xx = rColor.xx
-                cFFWARM1.yy = rColor.yy
-                cFFWARM1.lv = rColor.lv
-                cFFWARM1.nColorRR = rRGB.cRR
-                cFFWARM1.nColorGG = rRGB.cGG
-                cFFWARM1.nColorBB = rRGB.cBB
+                cFFWarm.xx = rColor.xx
+                cFFWarm.yy = rColor.yy
+                cFFWarm.lv = rColor.lv
+                cFFWarm.nColorRR = rRGB.cRR
+                cFFWarm.nColorGG = rRGB.cGG
+                cFFWarm.nColorBB = rRGB.cBB
             End If
     End Select
   
@@ -1741,37 +1718,37 @@ End Sub
 
 Private Sub LoadData(strColorTemp As String, isGain As Boolean)
     Select Case strColorTemp
-        Case COLORTEMP_COOL1
+        Case COLORTEMP_COOL
             If isGain Then
-                rRGB1.cRR = cCOOL1.nColorRR
-                rRGB1.cGG = cCOOL1.nColorGG
-                rRGB1.cBB = cCOOL1.nColorBB
+                rRGB1.cRR = cCool.nColorRR
+                rRGB1.cGG = cCool.nColorGG
+                rRGB1.cBB = cCool.nColorBB
             Else
-                rRGB1.cRR = cFFCOOL1.nColorRR
-                rRGB1.cGG = cFFCOOL1.nColorGG
-                rRGB1.cBB = cFFCOOL1.nColorBB
+                rRGB1.cRR = cFFCool.nColorRR
+                rRGB1.cGG = cFFCool.nColorGG
+                rRGB1.cBB = cFFCool.nColorBB
             End If
             
         Case COLORTEMP_STANDARD
             If isGain Then
-                rRGB1.cRR = cNORMAL.nColorRR
-                rRGB1.cGG = cNORMAL.nColorGG
-                rRGB1.cBB = cNORMAL.nColorBB
+                rRGB1.cRR = cStandard.nColorRR
+                rRGB1.cGG = cStandard.nColorGG
+                rRGB1.cBB = cStandard.nColorBB
             Else
-                rRGB1.cRR = cFFNORMAL.nColorRR
-                rRGB1.cGG = cFFNORMAL.nColorGG
-                rRGB1.cBB = cFFNORMAL.nColorBB
+                rRGB1.cRR = cFFStandard.nColorRR
+                rRGB1.cGG = cFFStandard.nColorGG
+                rRGB1.cBB = cFFStandard.nColorBB
             End If
             
-        Case COLORTEMP_WARM1
+        Case COLORTEMP_WARM
             If isGain Then
-                rRGB1.cRR = cWARM1.nColorRR
-                rRGB1.cGG = cWARM1.nColorGG
-                rRGB1.cBB = cWARM1.nColorBB
+                rRGB1.cRR = cWarm.nColorRR
+                rRGB1.cGG = cWarm.nColorGG
+                rRGB1.cBB = cWarm.nColorBB
             Else
-                rRGB1.cRR = cFFWARM1.nColorRR
-                rRGB1.cGG = cFFWARM1.nColorGG
-                rRGB1.cBB = cFFWARM1.nColorBB
+                rRGB1.cRR = cFFWarm.nColorRR
+                rRGB1.cGG = cFFWarm.nColorGG
+                rRGB1.cBB = cFFWarm.nColorBB
             End If
     End Select
 End Sub
@@ -1810,30 +1787,30 @@ Private Sub SubSaveDataToDB(strMark As String)
             tblNew.Name = gstrCurProjName
             tblNew.Columns.Append "ModelName", adVarWChar, 30
             tblNew.Columns.Append "SerialNO", adVarWChar, 50
-            tblNew.Columns.Append "Cool_1x", adInteger
-            tblNew.Columns.Append "Cool_1y", adInteger
-            tblNew.Columns.Append "Cool_1R", adInteger
-            tblNew.Columns.Append "Cool_1G", adInteger
-            tblNew.Columns.Append "Cool_1B", adInteger
-            tblNew.Columns.Append "Normalx", adInteger
-            tblNew.Columns.Append "Normaly", adInteger
-            tblNew.Columns.Append "NormalR", adInteger
-            tblNew.Columns.Append "NormalG", adInteger
-            tblNew.Columns.Append "NormalB", adInteger
-            tblNew.Columns.Append "Warm_1x", adInteger
-            tblNew.Columns.Append "Warm_1y", adInteger
-            tblNew.Columns.Append "Warm_1R", adInteger
-            tblNew.Columns.Append "Warm_1G", adInteger
-            tblNew.Columns.Append "Warm_1B", adInteger
-            tblNew.Columns.Append "OFF_Cool_1R", adInteger
-            tblNew.Columns.Append "OFF_Cool_1G", adInteger
-            tblNew.Columns.Append "OFF_Cool_1B", adInteger
-            tblNew.Columns.Append "OFF_NormalR", adInteger
-            tblNew.Columns.Append "OFF_NormalG", adInteger
-            tblNew.Columns.Append "OFF_NormalB", adInteger
-            tblNew.Columns.Append "OFF_Warm_1R", adInteger
-            tblNew.Columns.Append "OFF_Warm_1G", adInteger
-            tblNew.Columns.Append "OFF_Warm_1B", adInteger
+            tblNew.Columns.Append "Coolx", adInteger
+            tblNew.Columns.Append "Cooly", adInteger
+            tblNew.Columns.Append "CoolR", adInteger
+            tblNew.Columns.Append "CoolG", adInteger
+            tblNew.Columns.Append "CoolB", adInteger
+            tblNew.Columns.Append "Standardx", adInteger
+            tblNew.Columns.Append "Standardy", adInteger
+            tblNew.Columns.Append "StandardR", adInteger
+            tblNew.Columns.Append "StandardG", adInteger
+            tblNew.Columns.Append "StandardB", adInteger
+            tblNew.Columns.Append "Warmx", adInteger
+            tblNew.Columns.Append "Warmy", adInteger
+            tblNew.Columns.Append "WarmR", adInteger
+            tblNew.Columns.Append "WarmG", adInteger
+            tblNew.Columns.Append "WarmB", adInteger
+            tblNew.Columns.Append "OFF_CoolR", adInteger
+            tblNew.Columns.Append "OFF_CoolG", adInteger
+            tblNew.Columns.Append "OFF_CoolB", adInteger
+            tblNew.Columns.Append "OFF_StandardR", adInteger
+            tblNew.Columns.Append "OFF_StandardG", adInteger
+            tblNew.Columns.Append "OFF_StandardB", adInteger
+            tblNew.Columns.Append "OFF_WarmR", adInteger
+            tblNew.Columns.Append "OFF_WarmG", adInteger
+            tblNew.Columns.Append "OFF_WarmB", adInteger
             tblNew.Columns.Append "Max_Lv", adInteger
             tblNew.Columns.Append "Sepc_Max_Lv", adInteger
             tblNew.Columns.Append "Mark", adVarWChar, 10
@@ -1848,30 +1825,30 @@ Private Sub SubSaveDataToDB(strMark As String)
         
         rs.Fields(0) = gstrCurProjName
         rs.Fields(1) = mBarCode
-        rs.Fields(2) = cCOOL1.xx
-        rs.Fields(3) = cCOOL1.yy
-        rs.Fields(4) = cCOOL1.nColorRR
-        rs.Fields(5) = cCOOL1.nColorGG
-        rs.Fields(6) = cCOOL1.nColorBB
-        rs.Fields(7) = cNORMAL.xx
-        rs.Fields(8) = cNORMAL.yy
-        rs.Fields(9) = cNORMAL.nColorRR
-        rs.Fields(10) = cNORMAL.nColorGG
-        rs.Fields(11) = cNORMAL.nColorBB
-        rs.Fields(12) = cWARM1.xx
-        rs.Fields(13) = cWARM1.yy
-        rs.Fields(14) = cWARM1.nColorRR
-        rs.Fields(15) = cWARM1.nColorGG
-        rs.Fields(16) = cWARM1.nColorBB
-        rs.Fields(17) = cFFCOOL1.nColorRR
-        rs.Fields(18) = cFFCOOL1.nColorGG
-        rs.Fields(19) = cFFCOOL1.nColorBB
-        rs.Fields(20) = cFFNORMAL.nColorRR
-        rs.Fields(21) = cFFNORMAL.nColorGG
-        rs.Fields(22) = cFFNORMAL.nColorBB
-        rs.Fields(23) = cFFWARM1.nColorRR
-        rs.Fields(24) = cFFWARM1.nColorGG
-        rs.Fields(25) = cFFWARM1.nColorBB
+        rs.Fields(2) = cCool.xx
+        rs.Fields(3) = cCool.yy
+        rs.Fields(4) = cCool.nColorRR
+        rs.Fields(5) = cCool.nColorGG
+        rs.Fields(6) = cCool.nColorBB
+        rs.Fields(7) = cStandard.xx
+        rs.Fields(8) = cStandard.yy
+        rs.Fields(9) = cStandard.nColorRR
+        rs.Fields(10) = cStandard.nColorGG
+        rs.Fields(11) = cStandard.nColorBB
+        rs.Fields(12) = cWarm.xx
+        rs.Fields(13) = cWarm.yy
+        rs.Fields(14) = cWarm.nColorRR
+        rs.Fields(15) = cWarm.nColorGG
+        rs.Fields(16) = cWarm.nColorBB
+        rs.Fields(17) = cFFCool.nColorRR
+        rs.Fields(18) = cFFCool.nColorGG
+        rs.Fields(19) = cFFCool.nColorBB
+        rs.Fields(20) = cFFStandard.nColorRR
+        rs.Fields(21) = cFFStandard.nColorGG
+        rs.Fields(22) = cFFStandard.nColorBB
+        rs.Fields(23) = cFFWarm.nColorRR
+        rs.Fields(24) = cFFWarm.nColorGG
+        rs.Fields(25) = cFFWarm.nColorBB
         rs.Fields(26) = lvLastChk
         rs.Fields(27) = glngBlSpecVal
         rs.Fields(28) = strMark

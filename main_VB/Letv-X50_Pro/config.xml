@@ -17,11 +17,9 @@
 		<IRE80>103</IRE80>
 		<IRE20>109</IRE20>
 	</VPG>
-	<cool_2>False</cool_2>
-	<cool_1>True</cool_1>
-	<normal>True</normal>
-	<warm_1>True</warm_1>
-	<warm_2>False</warm_2>
+	<cool>True</cool>
+	<standard>True</standard>
+	<warm>True</warm>
 	<check_color>True</check_color>
 	<adjust_offset>False</adjust_offset>
 	<chipset>MS938</chipset>

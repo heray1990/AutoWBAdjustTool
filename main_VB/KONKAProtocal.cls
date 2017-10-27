@@ -86,11 +86,11 @@ End Sub
 
 Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)
     Select Case strColorT
-      Case COLORTEMP_COOL1
+      Case COLORTEMP_COOL
          mSendDataBuf = "{Method:[{""name"" : ""setWBMode"", ""param_value"" : ""cool""}]}"
       Case COLORTEMP_STANDARD
          mSendDataBuf = "{Method:[{""name"" : ""setWBMode"", ""param_value"" : ""normal""}]}"
-      Case COLORTEMP_WARM1
+      Case COLORTEMP_WARM
          mSendDataBuf = "{Method:[{""name"" : ""setWBMode"", ""param_value"" : ""warm""}]}"
     End Select
     

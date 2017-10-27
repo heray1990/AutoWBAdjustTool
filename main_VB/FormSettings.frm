@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin VB.Form FormSettings 
    Caption         =   "Common Settings"
-   ClientHeight    =   7350
+   ClientHeight    =   6630
    ClientLeft      =   6435
    ClientTop       =   3210
    ClientWidth     =   5055
@@ -16,7 +16,7 @@ Begin VB.Form FormSettings
    EndProperty
    Icon            =   "FormSettings.frx":0000
    LinkTopic       =   "Form4"
-   ScaleHeight     =   7350
+   ScaleHeight     =   6630
    ScaleWidth      =   5055
    Begin VB.Frame Frame7 
       Caption         =   "Chroma"
@@ -31,8 +31,8 @@ Begin VB.Form FormSettings
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   34
-      Top             =   3720
+      TabIndex        =   32
+      Top             =   3000
       Width           =   2400
       Begin VB.ComboBox cmbChromaModel 
          BeginProperty Font 
@@ -48,7 +48,7 @@ Begin VB.Form FormSettings
          ItemData        =   "FormSettings.frx":1DF72
          Left            =   1200
          List            =   "FormSettings.frx":1DFA0
-         TabIndex        =   43
+         TabIndex        =   41
          Text            =   "22294"
          Top             =   280
          Width           =   1000
@@ -67,7 +67,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   300
          Left            =   1200
-         TabIndex        =   42
+         TabIndex        =   40
          Text            =   "1"
          Top             =   720
          Width           =   1000
@@ -85,7 +85,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   1455
          Left            =   120
-         TabIndex        =   35
+         TabIndex        =   33
          Top             =   1080
          Width           =   2175
          Begin VB.TextBox txt100IRE 
@@ -102,7 +102,7 @@ Begin VB.Form FormSettings
             EndProperty
             Height          =   300
             Left            =   1150
-            TabIndex        =   38
+            TabIndex        =   36
             Text            =   "1"
             Top             =   240
             Width           =   800
@@ -121,7 +121,7 @@ Begin VB.Form FormSettings
             EndProperty
             Height          =   300
             Left            =   1150
-            TabIndex        =   37
+            TabIndex        =   35
             Text            =   "1"
             Top             =   600
             Width           =   800
@@ -140,7 +140,7 @@ Begin VB.Form FormSettings
             EndProperty
             Height          =   300
             Left            =   1150
-            TabIndex        =   36
+            TabIndex        =   34
             Text            =   "1"
             Top             =   960
             Width           =   800
@@ -158,7 +158,7 @@ Begin VB.Form FormSettings
             EndProperty
             Height          =   255
             Left            =   240
-            TabIndex        =   41
+            TabIndex        =   39
             Top             =   270
             Width           =   795
          End
@@ -175,7 +175,7 @@ Begin VB.Form FormSettings
             EndProperty
             Height          =   255
             Left            =   240
-            TabIndex        =   40
+            TabIndex        =   38
             Top             =   630
             Width           =   795
          End
@@ -192,7 +192,7 @@ Begin VB.Form FormSettings
             EndProperty
             Height          =   255
             Left            =   240
-            TabIndex        =   39
+            TabIndex        =   37
             Top             =   990
             Width           =   795
          End
@@ -210,7 +210,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   45
+         TabIndex        =   43
          Top             =   330
          Width           =   900
       End
@@ -227,7 +227,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   44
+         TabIndex        =   42
          Top             =   750
          Width           =   900
       End
@@ -245,7 +245,7 @@ Begin VB.Form FormSettings
       EndProperty
       Height          =   800
       Left            =   2550
-      TabIndex        =   31
+      TabIndex        =   29
       Top             =   3240
       Width           =   2400
       Begin VB.ComboBox cmbI2cClockRate 
@@ -262,7 +262,7 @@ Begin VB.Form FormSettings
          ItemData        =   "FormSettings.frx":1E00D
          Left            =   1200
          List            =   "FormSettings.frx":1E00F
-         TabIndex        =   32
+         TabIndex        =   30
          Text            =   "50KHz"
          Top             =   300
          Width           =   1000
@@ -280,7 +280,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   255
          Left            =   195
-         TabIndex        =   33
+         TabIndex        =   31
          Top             =   330
          Width           =   1140
       End
@@ -298,7 +298,7 @@ Begin VB.Form FormSettings
       EndProperty
       Height          =   1095
       Left            =   2550
-      TabIndex        =   25
+      TabIndex        =   23
       Top             =   2040
       Width           =   2400
       Begin VB.ComboBox cmbComID 
@@ -315,7 +315,7 @@ Begin VB.Form FormSettings
          ItemData        =   "FormSettings.frx":1E011
          Left            =   1200
          List            =   "FormSettings.frx":1E013
-         TabIndex        =   27
+         TabIndex        =   25
          Text            =   "COM1"
          Top             =   300
          Width           =   1000
@@ -334,7 +334,7 @@ Begin VB.Form FormSettings
          ItemData        =   "FormSettings.frx":1E015
          Left            =   1200
          List            =   "FormSettings.frx":1E017
-         TabIndex        =   26
+         TabIndex        =   24
          Text            =   "9600"
          Top             =   660
          Width           =   1000
@@ -352,7 +352,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   29
+         TabIndex        =   27
          Top             =   330
          Width           =   900
       End
@@ -369,7 +369,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   28
+         TabIndex        =   26
          Top             =   700
          Width           =   900
       End
@@ -387,7 +387,7 @@ Begin VB.Form FormSettings
       EndProperty
       Height          =   1095
       Left            =   2550
-      TabIndex        =   22
+      TabIndex        =   20
       Top             =   840
       Width           =   2400
       Begin VB.OptionButton optNetServer 
@@ -403,7 +403,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   250
          Left            =   1100
-         TabIndex        =   46
+         TabIndex        =   44
          Top             =   720
          Width           =   1125
       End
@@ -420,7 +420,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   250
          Left            =   120
-         TabIndex        =   30
+         TabIndex        =   28
          Top             =   720
          Width           =   800
       End
@@ -437,7 +437,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   250
          Left            =   120
-         TabIndex        =   24
+         TabIndex        =   22
          Top             =   360
          Width           =   800
       End
@@ -454,7 +454,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   250
          Left            =   1100
-         TabIndex        =   23
+         TabIndex        =   21
          Top             =   360
          Width           =   1125
       End
@@ -472,7 +472,7 @@ Begin VB.Form FormSettings
       EndProperty
       Height          =   1815
       Left            =   2550
-      TabIndex        =   10
+      TabIndex        =   8
       Top             =   4080
       Width           =   2400
       Begin VB.TextBox txtLvSpec 
@@ -489,7 +489,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   300
          Left            =   1200
-         TabIndex        =   21
+         TabIndex        =   19
          Text            =   "280"
          Top             =   1350
          Width           =   1000
@@ -508,7 +508,7 @@ Begin VB.Form FormSettings
          ItemData        =   "FormSettings.frx":1E019
          Left            =   1200
          List            =   "FormSettings.frx":1E029
-         TabIndex        =   17
+         TabIndex        =   15
          Text            =   "HDMI1"
          Top             =   1000
          Width           =   1000
@@ -527,7 +527,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   300
          Left            =   1200
-         TabIndex        =   13
+         TabIndex        =   11
          Text            =   "1"
          Top             =   650
          Width           =   1000
@@ -546,7 +546,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   300
          Left            =   1200
-         TabIndex        =   11
+         TabIndex        =   9
          Text            =   "500"
          Top             =   300
          Width           =   1000
@@ -564,7 +564,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   20
+         TabIndex        =   18
          Top             =   1380
          Width           =   900
       End
@@ -581,7 +581,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   18
+         TabIndex        =   16
          Top             =   1030
          Width           =   900
       End
@@ -598,7 +598,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   14
+         TabIndex        =   12
          Top             =   680
          Width           =   900
       End
@@ -615,7 +615,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   12
+         TabIndex        =   10
          Top             =   330
          Width           =   900
       End
@@ -633,8 +633,8 @@ Begin VB.Form FormSettings
       EndProperty
       Height          =   800
       Left            =   120
-      TabIndex        =   7
-      Top             =   6480
+      TabIndex        =   5
+      Top             =   5760
       Width           =   2400
       Begin VB.TextBox txtChannel 
          Alignment       =   2  'Center
@@ -650,7 +650,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   300
          Left            =   1200
-         TabIndex        =   9
+         TabIndex        =   7
          Text            =   "1"
          Top             =   300
          Width           =   1000
@@ -668,7 +668,7 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   8
+         TabIndex        =   6
          Top             =   330
          Width           =   900
       End
@@ -684,9 +684,9 @@ Begin VB.Form FormSettings
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   2835
+      Height          =   2115
       Left            =   120
-      TabIndex        =   6
+      TabIndex        =   4
       Top             =   840
       Width           =   2400
       Begin VB.CheckBox Check7 
@@ -703,8 +703,8 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   16
-         Top             =   2450
+         TabIndex        =   14
+         Top             =   1750
          Value           =   1  'Checked
          Width           =   1900
       End
@@ -722,14 +722,14 @@ Begin VB.Form FormSettings
          EndProperty
          Height          =   255
          Left            =   200
-         TabIndex        =   15
-         Top             =   2100
+         TabIndex        =   13
+         Top             =   1400
          Value           =   1  'Checked
          Width           =   1900
       End
-      Begin VB.CheckBox Check1 
+      Begin VB.CheckBox Check2 
          Alignment       =   1  'Right Justify
-         Caption         =   "COOL_2"
+         Caption         =   "Cool"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -743,11 +743,12 @@ Begin VB.Form FormSettings
          Left            =   200
          TabIndex        =   0
          Top             =   350
+         Value           =   1  'Checked
          Width           =   1900
       End
-      Begin VB.CheckBox Check2 
+      Begin VB.CheckBox Check3 
          Alignment       =   1  'Right Justify
-         Caption         =   "COOL_1"
+         Caption         =   "Standard"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -764,9 +765,9 @@ Begin VB.Form FormSettings
          Value           =   1  'Checked
          Width           =   1900
       End
-      Begin VB.CheckBox Check3 
+      Begin VB.CheckBox Check4 
          Alignment       =   1  'Right Justify
-         Caption         =   "NORMAL"
+         Caption         =   "Warm"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -783,43 +784,6 @@ Begin VB.Form FormSettings
          Value           =   1  'Checked
          Width           =   1900
       End
-      Begin VB.CheckBox Check4 
-         Alignment       =   1  'Right Justify
-         Caption         =   "WARM_1"
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   9
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Left            =   200
-         TabIndex        =   3
-         Top             =   1400
-         Value           =   1  'Checked
-         Width           =   1900
-      End
-      Begin VB.CheckBox Check5 
-         Alignment       =   1  'Right Justify
-         Caption         =   "WARM_2"
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   9
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Left            =   200
-         TabIndex        =   4
-         Top             =   1750
-         Width           =   1900
-      End
    End
    Begin VB.CommandButton Command1 
       Caption         =   "Save"
@@ -834,8 +798,8 @@ Begin VB.Form FormSettings
       EndProperty
       Height          =   435
       Left            =   3840
-      TabIndex        =   5
-      Top             =   6840
+      TabIndex        =   3
+      Top             =   6120
       Width           =   1095
    End
    Begin VB.Label Label1 
@@ -852,7 +816,7 @@ Begin VB.Form FormSettings
       EndProperty
       Height          =   555
       Left            =   120
-      TabIndex        =   19
+      TabIndex        =   17
       Top             =   120
       Width           =   4815
    End
@@ -929,14 +893,8 @@ Private Sub Form_Load()
         cmbComID.Enabled = False
         cmbI2cClockRate.Enabled = False
     End If
-    
-    If gblnEnableCool2 Then
-        Check1.Value = 1
-    Else
-        Check1.Value = 0
-    End If
 
-    If gblnEnableCool1 Then
+    If gblnEnableCool Then
         Check2.Value = 1
     Else
         Check2.Value = 0
@@ -948,16 +906,10 @@ Private Sub Form_Load()
         Check3.Value = 0
     End If
 
-    If gblnEnableWarm1 Then
+    If gblnEnableWarm Then
         Check4.Value = 1
     Else
         Check4.Value = 0
-    End If
-
-    If gblnEnableWarm2 Then
-        Check5.Value = 1
-    Else
-        Check5.Value = 0
     End If
 
     If gblnChkColorTemp Then
@@ -975,16 +927,12 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub Command1_Click()
-    If Check1.Value = 1 Then gudtConfigData.bolEnableCool2 = True
-    If Check1.Value = 0 Then gudtConfigData.bolEnableCool2 = False
-    If Check2.Value = 1 Then gudtConfigData.bolEnableCool1 = True
-    If Check2.Value = 0 Then gudtConfigData.bolEnableCool1 = False
-    If Check3.Value = 1 Then gudtConfigData.bolEnableNormal = True
-    If Check3.Value = 0 Then gudtConfigData.bolEnableNormal = False
-    If Check4.Value = 1 Then gudtConfigData.bolEnableWarm1 = True
-    If Check4.Value = 0 Then gudtConfigData.bolEnableWarm1 = False
-    If Check5.Value = 1 Then gudtConfigData.bolEnableWarm2 = True
-    If Check5.Value = 0 Then gudtConfigData.bolEnableWarm2 = False
+    If Check2.Value = 1 Then gudtConfigData.bolEnableCool = True
+    If Check2.Value = 0 Then gudtConfigData.bolEnableCool = False
+    If Check3.Value = 1 Then gudtConfigData.bolEnableStandard = True
+    If Check3.Value = 0 Then gudtConfigData.bolEnableStandard = False
+    If Check4.Value = 1 Then gudtConfigData.bolEnableWarm = True
+    If Check4.Value = 0 Then gudtConfigData.bolEnableWarm = False
     If Check6.Value = 1 Then gudtConfigData.bolEnableChkColor = True
     If Check6.Value = 0 Then gudtConfigData.bolEnableChkColor = False
     If Check7.Value = 1 Then gudtConfigData.bolEnableAdjOffset = True

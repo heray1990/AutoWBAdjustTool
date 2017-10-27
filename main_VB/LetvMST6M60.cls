@@ -215,9 +215,9 @@ Private Sub Protocal_SetBacklight(intBacklight As Integer)
 End Sub
 
 Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)
-    'Cool:   E0 0B 40 6D 06 00 00 00 00 00 61
-    'Normal: E0 0B 40 7D 06 01 00 00 00 00 50
-    'Warm:   E0 0B 40 8D 06 02 00 00 00 00 3F
+    'Cool:     E0 0B 40 6D 06 00 00 00 00 00 61
+    'Standard: E0 0B 40 7D 06 01 00 00 00 00 50
+    'Warm:     E0 0B 40 8D 06 02 00 00 00 00 3F
     mSendDataBuf(0) = &HE0
     mSendDataBuf(1) = &HB
     mSendDataBuf(2) = &H40
@@ -228,11 +228,11 @@ Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, in
     mSendDataBuf(9) = &H0
 
     Select Case strColorT
-      Case COLORTEMP_COOL1
+      Case COLORTEMP_COOL
          mSendDataBuf(5) = &H0
       Case COLORTEMP_STANDARD
          mSendDataBuf(5) = &H1
-      Case COLORTEMP_WARM1
+      Case COLORTEMP_WARM
          mSendDataBuf(5) = &H2
     End Select
     

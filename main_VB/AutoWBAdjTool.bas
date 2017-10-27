@@ -18,11 +18,9 @@ Public Type udtConfigData
     strVPG80IRE As String
     strVPG20IRE As String
     lngI2cClockRate As Long
-    bolEnableCool2 As Boolean
-    bolEnableCool1 As Boolean
-    bolEnableNormal As Boolean
-    bolEnableWarm1 As Boolean
-    bolEnableWarm2 As Boolean
+    bolEnableCool As Boolean
+    bolEnableStandard As Boolean
+    bolEnableWarm As Boolean
     bolEnableChkColor As Boolean
     bolEnableAdjOffset As Boolean
     strChipSet As String
@@ -70,9 +68,9 @@ Public Const ADJMODE_4 As Integer = 4
 Public Const ADJMODE_GAIN As Integer = 1
 Public Const ADJMODE_OFFSET As Integer = 0
 
-Public Const COLORTEMP_COOL1 As String = "COOL1"
-Public Const COLORTEMP_STANDARD As String = "NORMAL"
-Public Const COLORTEMP_WARM1 As String = "WARM1"
+Public Const COLORTEMP_COOL As String = "COOL"
+Public Const COLORTEMP_STANDARD As String = "STANDARD"
+Public Const COLORTEMP_WARM As String = "WARM"
 
 Public Const LASTSTEP As Integer = 6
 Public Const REMOTE_HOST As String = "192.168.1.11"
@@ -93,11 +91,9 @@ Public gintBarCodeLen As Integer
 Public gintCurComId As Integer
 Public gintTvInputSrcPort As Integer
 
-Public gblnEnableCool1 As Boolean
-Public gblnEnableCool2  As Boolean
+Public gblnEnableCool As Boolean
 Public gblnEnableStandard  As Boolean
-Public gblnEnableWarm1 As Boolean
-Public gblnEnableWarm2  As Boolean
+Public gblnEnableWarm As Boolean
 Public gblnChkColorTemp  As Boolean
 Public gblnAdjOffset As Boolean
 Public gblnStop As Boolean

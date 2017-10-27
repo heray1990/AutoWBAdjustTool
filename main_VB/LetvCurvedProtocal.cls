@@ -179,16 +179,16 @@ End Sub
 
 Private Sub Protocal_SelColorTemp(strColorT As String, strInputSrc As String, intSrcNum As Integer)
     Select Case strColorT
-      Case COLORTEMP_COOL1
-         Call SetColorTempCool1
+      Case COLORTEMP_COOL
+         Call SetColorTempCool
       Case COLORTEMP_STANDARD
-         Call SetColorTempNormal
-      Case COLORTEMP_WARM1
-         Call SetColorTempWarm1
+         Call SetColorTempStandard
+      Case COLORTEMP_WARM
+         Call SetColorTempWarm
     End Select
 End Sub
 
-Private Sub SetColorTempCool1()
+Private Sub SetColorTempCool()
     'Cool
     '6E 51 84 03 14 00 02 AE
     mSendDataBuf(0) = &H51
@@ -200,12 +200,12 @@ Private Sub SetColorTempCool1()
     mSendDataBuf(6) = &HAE
     
     If Not SendCmd(mSendDataBuf) Then
-        'SubSaveLogInFile "SetColorTempCool1 Fail!"
+        'SubSaveLogInFile "SetColorTempCool Fail!"
     End If
 End Sub
 
-Private Sub SetColorTempNormal()
-    'normal
+Private Sub SetColorTempStandard()
+    'Standard
     '6E 51 84 03 14 00 01 AD
     mSendDataBuf(0) = &H51
     mSendDataBuf(1) = &H84
@@ -216,12 +216,12 @@ Private Sub SetColorTempNormal()
     mSendDataBuf(6) = &HAD
     
     If Not SendCmd(mSendDataBuf) Then
-        'SubSaveLogInFile "SetColorTempNormal Fail!"
+        'SubSaveLogInFile "SetColorTempStandard Fail!"
     End If
 End Sub
 
-Private Sub SetColorTempWarm1()
-    'warm
+Private Sub SetColorTempWarm()
+    'Warm
     '6E 51 84 03 14 00 00 AC
     mSendDataBuf(0) = &H51
     mSendDataBuf(1) = &H84
@@ -232,7 +232,7 @@ Private Sub SetColorTempWarm1()
     mSendDataBuf(6) = &HAC
     
     If Not SendCmd(mSendDataBuf) Then
-        'SubSaveLogInFile "SetColorTempWarm1 Fail!"
+        'SubSaveLogInFile "SetColorTempWarm Fail!"
     End If
 End Sub
 
