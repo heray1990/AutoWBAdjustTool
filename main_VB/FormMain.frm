@@ -588,7 +588,9 @@ Private Sub SubRun()
 
     clsProtocal.EnterFacMode
     Call clsProtocal.SwitchInputSource(gstrTvInputSrc, gintTvInputSrcPort)
-    Call clsProtocal.ResetPicMode
+    'Call clsProtocal.ResetPicMode
+    Call clsProtocal.SetBrightness(50)
+    Call clsProtocal.SetContrast(50)
     Call clsProtocal.SetBacklight(100)
     SubLogInfo "Set backlight to 100"
 
@@ -800,8 +802,13 @@ CHECK_WARM1:
         Call clsProtocal.SetContrast(100)
         SubLogInfo "Set contrast to 100"
 
-        Call clsProtocal.SelColorTemp(COLORTEMP_COOL1, gstrTvInputSrc, gintTvInputSrcPort)
-        SubLogInfo "Set color temp to cool1."
+        If UCase(mBrand) = "LETV" Then
+            Call clsProtocal.SelColorTemp(COLORTEMP_COOL1, gstrTvInputSrc, gintTvInputSrcPort)
+            SubLogInfo "Set color temp to cool1."
+        Else
+            Call clsProtocal.SelColorTemp(COLORTEMP_STANDARD, gstrTvInputSrc, gintTvInputSrcPort)
+            SubLogInfo "Set color temp to Standard."
+        End If
 
         ObjCa.Measure
         lvLastChk = CLng(ObjProbe.lv)
@@ -812,7 +819,7 @@ CHECK_WARM1:
         Call clsProtocal.SetContrast(50)
         SubLogInfo "Set both brightness and contrast to 50."
     
-        clsProtocal.ResetPicMode
+        'clsProtocal.ResetPicMode
         clsProtocal.ChannelPreset
 
         If lvLastChk <= glngBlSpecVal Then
