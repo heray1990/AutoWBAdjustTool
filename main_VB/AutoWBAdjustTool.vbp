@@ -28,7 +28,6 @@ Class=CANTVProtocal; CANTVProtocal.cls
 Class=LetvMST6M60; LetvMST6M60.cls
 Form=FormCalZero.frm
 Module=AutoWBAdjTool; AutoWBAdjTool.bas
-Module=Language; Language.bas
 Module=Config; Config.bas
 Class=KONKAProtocal; KONKAProtocal.cls
 ResFile32="AutoWBAdjustTool.RES"

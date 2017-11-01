@@ -545,6 +545,13 @@ Private mBarCode As String
 Private WithEvents Obj As VPGCtrl.VPGCtrl
 Attribute Obj.VB_VarHelpID = -1
 
+Private Const DELIMITER As String = "-"
+Private Const TXTWhite As String = "WHITE"
+Private Const TXTGrey As String = "GREY"
+Private Const TXTPass As String = "PASS"
+Private Const TXTFail As String = "FAIL"
+Private Const TXTChk As String = "CHECK"
+
 
 Private Sub Form_Load()
     vbFunc.Caption = LoadResString(104)
@@ -554,6 +561,9 @@ Private Sub Form_Load()
     vbSetSPEC.Caption = LoadResString(108)
     vbHelp.Caption = LoadResString(109)
     vbAbout.Caption = LoadResString(110)
+    lbAdjustCool.Caption = LoadResString(111)
+    lbAdjustStandard.Caption = LoadResString(112)
+    lbAdjustWarm.Caption = LoadResString(113)
 
     gblnStop = False
     txtInput.Enabled = True
@@ -567,17 +577,14 @@ Private Sub Form_Load()
     If UCase(mBrand) = "CAN" Then    'CANTV
         Set clsCANTVProtocal = New CANTVProtocal
         Set clsProtocal = clsCANTVProtocal
-        'PictureBrand.Picture = LoadPicture(App.Path & "\Resources\CANTV.bmp")
         PictureBrand.Picture = LoadResPicture(101, vbResBitmap)
     ElseIf UCase(mBrand) = "HAIER" Then    'Haier
         Set clsHaierProtocal = New HaierProtocal
         Set clsProtocal = clsHaierProtocal
-        'PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
         PictureBrand.Picture = LoadResPicture(102, vbResBitmap)
     ElseIf UCase(mBrand) = "KONKA" Then    'KONKA
         Set clsKONKAProtocal = New KONKAProtocal
         Set clsProtocal = clsKONKAProtocal
-        'PictureBrand.Picture = LoadPicture(App.Path & "\Resources\KONKA.bmp")
         PictureBrand.Picture = LoadResPicture(103, vbResBitmap)
     Else    'Letv
         If UCase(gstrChipSet) = "HX6310" Then
@@ -590,7 +597,6 @@ Private Sub Form_Load()
             Set clsLetvProtocal = New LetvProtocal
             Set clsProtocal = clsLetvProtocal
         End If
-        'PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
         PictureBrand.Picture = LoadResPicture(104, vbResBitmap)
     End If
     
@@ -703,7 +709,7 @@ Private Sub SubInitNetServer()
             .Listen
         End With
         txtInput.Enabled = False
-        CheckStep.Text = "Please enter factory menu and select [Adjust White Balance automatically]"
+        CheckStep.Text = LoadResString(114)
     End If
 End Sub
 
@@ -719,7 +725,7 @@ Private Sub tcpServer_ConnectionRequest(ByVal requestID As Long)
         txtInput.Enabled = True
         txtInput.Text = ""
         txtInput.SetFocus
-        CheckStep.Text = "Connect TV successfully."
+        CheckStep.Text = LoadResString(115)
     End If
 End Sub
 
@@ -881,7 +887,7 @@ End Sub
 
 Private Sub Obj_OnChangedConnectState(ByVal bIsConnected As Boolean)
     If bIsConnected = False Then
-        Me.Caption = mTitle & " [Chroma " & gstrVPGModel & " Disconnected]"
+        Me.Caption = mTitle & " [Chroma " & gstrVPGModel & " " & LoadResString(116) & "]"
     Else
         Me.Caption = mTitle
     End If
@@ -898,7 +904,7 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
         
         If txtInput.Enabled = True Then
             If txtInput.Text = "" Or Len(txtInput.Text) <> gintBarCodeLen Then
-                MsgBox TXTBarcodeError & CStr(gintBarCodeLen), vbOKOnly, TXTBarcodeErrorTitle
+                MsgBox LoadResString(117) & CStr(gintBarCodeLen), vbOKOnly, LoadResString(118)
                 txtInput.Text = ""
                 Exit Sub
             Else
@@ -920,7 +926,7 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
                 gblnNetConnected = False
                 Do
                     If tcpClient.State = sckClosed Then
-                        SubLogInfo "TCP Connect"
+                        SubLogInfo LoadResString(119)
                         tcpClient.Connect
                         txtInput.Enabled = False
                     End If
@@ -935,7 +941,7 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
                         End If
                         i = i + 1
                     End If
-                    SubLogInfo "Re-connect to TV."
+                    SubLogInfo LoadResString(120)
                 Loop While i <= 5
                 txtInput.Enabled = True
             ElseIf gEnumCommMode = modeI2c Then
@@ -965,7 +971,7 @@ Private Sub txtInput_KeyPress(KeyAscii As Integer)
                         tcpServer.Close
                     End If
                     SubInitNetServer
-                    SubLogInfo "Please enter factory menu and select [Auto White Balance]"
+                    SubLogInfo LoadResString(114)
                 End If
             End If
         End If
@@ -996,7 +1002,7 @@ Private Sub SubRun()
     End If
 
     If gblnCaConnected = False Then
-        MsgBox TXTCaDisconnectHint, vbOKOnly + vbInformation, "warning"
+        MsgBox LoadResString(121), vbOKOnly + vbInformation, "Warning"
         SubConfigAfterRun
 
         Exit Sub
@@ -1004,7 +1010,7 @@ Private Sub SubRun()
 
     gblnStop = False
     checkResult.BackColor = &H80FFFF
-    checkResult.Caption = TXTRun
+    checkResult.Caption = "RUN..."
     checkResult.ForeColor = &HC0&
     CheckStep.Text = ""
 
@@ -1027,9 +1033,9 @@ Private Sub SubRun()
     Call clsProtocal.SetBrightness(50)
     Call clsProtocal.SetContrast(50)
     Call clsProtocal.SetBacklight(100)
-    SubLogInfo "Set Brightness: 50, Set Contrast: 50, Set Backlight: 100"
+    SubLogInfo LoadResString(127) & "50, " & LoadResString(128) & "50, " & LoadResString(129) & "100."
 
-    Label6.Caption = "WHITE"
+    Label6.Caption = TXTWhite
 
 ADJUST_GAIN_AGAIN_COOL:
     If gblnEnableCool Then
@@ -1037,7 +1043,7 @@ ADJUST_GAIN_AGAIN_COOL:
         Result = FuncAdjRGBGain(COLORTEMP_COOL, ADJMODE_3)
   
         If Result = False Then
-            ShowError_Sys (1)
+            SubLogInfo LoadResString(123) & LoadResString(111) & LoadResString(124)
             GoTo FAIL
         Else
             Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
@@ -1057,7 +1063,7 @@ ADJUST_GAIN_AGAIN_STANDARD:
         Result = FuncAdjRGBGain(COLORTEMP_STANDARD, ADJMODE_3)
 
         If Result = False Then
-            ShowError_Sys (2)
+            SubLogInfo LoadResString(123) & LoadResString(112) & LoadResString(124)
             GoTo FAIL
         Else
             Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
@@ -1077,7 +1083,7 @@ ADJUST_GAIN_AGAIN_WARM:
         Result = FuncAdjRGBGain(COLORTEMP_WARM, ADJMODE_3)
 
         If Result = False Then
-            ShowError_Sys (3)
+            SubLogInfo LoadResString(123) & LoadResString(113) & LoadResString(124)
             GoTo FAIL
         Else
             Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
@@ -1101,7 +1107,7 @@ ADJUST_GAIN_AGAIN_WARM:
             Result = FuncAdjRGBOffset(COLORTEMP_COOL)
                 
             If Result = False Then
-                ShowError_Sys (5)
+                SubLogInfo LoadResString(123) & LoadResString(111) & LoadResString(125)
                 GoTo FAIL
             Else
                 Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
@@ -1116,7 +1122,7 @@ ADJUST_GAIN_AGAIN_WARM:
             Result = FuncAdjRGBOffset(COLORTEMP_STANDARD)
 
             If Result = False Then
-                ShowError_Sys (6)
+                SubLogInfo LoadResString(123) & LoadResString(112) & LoadResString(125)
                 GoTo FAIL
             Else
                 Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
@@ -1131,7 +1137,7 @@ ADJUST_GAIN_AGAIN_WARM:
             Result = FuncAdjRGBOffset(COLORTEMP_WARM)
                 
             If Result = False Then
-                ShowError_Sys (7)
+                SubLogInfo LoadResString(123) & LoadResString(113) & LoadResString(125)
                 GoTo FAIL
             Else
                 Call clsProtocal.SaveWBDataToAllSrc(gstrTvInputSrc, gintTvInputSrcPort)
@@ -1154,7 +1160,7 @@ CHECK_COOL:
             Result = FuncChkColorAgain(COLORTEMP_COOL)
 
             If Result = False Then
-                ShowError_Sys (1)
+                SubLogInfo LoadResString(123) & LoadResString(111) & LoadResString(124)
 
                 If mAdjGainAgainCool > 0 Then
                     GoTo FAIL
@@ -1177,7 +1183,7 @@ CHECK_STANDARD:
             Result = FuncChkColorAgain(COLORTEMP_STANDARD)
 
             If Result = False Then
-                ShowError_Sys (2)
+                SubLogInfo LoadResString(123) & LoadResString(112) & LoadResString(124)
 
                 If mAdjGainAgainStandard > 0 Then
                     GoTo FAIL
@@ -1200,7 +1206,7 @@ CHECK_WARM:
             Result = FuncChkColorAgain(COLORTEMP_WARM)
 
             If Result = False Then
-                ShowError_Sys (3)
+                SubLogInfo LoadResString(123) & LoadResString(113) & LoadResString(124)
                 
                 If mAdjGainAgainWarm > 0 Then
                     GoTo FAIL
@@ -1219,7 +1225,7 @@ CHECK_WARM:
     
     If (gstrChipSet = "T111" Or gstrChipSet = "Hi3751") Then
         Call clsProtocal.SelColorTemp(COLORTEMP_STANDARD, gstrTvInputSrc, gintTvInputSrcPort)
-        SubLogInfo "Set color temp to Standard."
+        SubLogInfo LoadResString(126) & LoadResString(112)
         
         ObjCa.Measure
         lvLastChk = CLng(ObjProbe.lv)
@@ -1232,17 +1238,17 @@ CHECK_WARM:
         Call SubVPGPattern(gstrVPG100IRE)
 
         Call clsProtocal.SetBrightness(100)
-        SubLogInfo "Set brightness to 100"
+        SubLogInfo LoadResString(127) & "100"
 
         Call clsProtocal.SetContrast(100)
-        SubLogInfo "Set contrast to 100"
+        SubLogInfo LoadResString(128) & "100"
 
         If UCase(mBrand) = "LETV" Then
             Call clsProtocal.SelColorTemp(COLORTEMP_COOL, gstrTvInputSrc, gintTvInputSrcPort)
-            SubLogInfo "Set color temp to Cool."
+            SubLogInfo LoadResString(126) & LoadResString(111)
         Else
             Call clsProtocal.SelColorTemp(COLORTEMP_STANDARD, gstrTvInputSrc, gintTvInputSrcPort)
-            SubLogInfo "Set color temp to Standard."
+            SubLogInfo LoadResString(126) & LoadResString(112)
         End If
 
         ObjCa.Measure
@@ -1252,13 +1258,13 @@ CHECK_WARM:
 
         Call clsProtocal.SetBrightness(50)
         Call clsProtocal.SetContrast(50)
-        SubLogInfo "Set both brightness and contrast to 50."
+        SubLogInfo LoadResString(127) & "50, " & LoadResString(128) & "50."
     
         'clsProtocal.ResetPicMode
         clsProtocal.ChannelPreset
 
         If lvLastChk <= glngBlSpecVal Then
-            ShowError_Sys (8)
+            LoadResString (122)
             GoTo FAIL
         End If
     End If
@@ -1341,34 +1347,6 @@ Private Sub SubConfigAfterRun()
             End If
         End If
     End If
-End Sub
-
-Private Sub ShowError_Sys(t As Integer)
-    Dim s As String
-    
-    s = "Unknown"
-
-    Select Case t
-        Case 1
-            s = TXTGainCoolWrong
-        Case 2
-            s = TXTGainStandardWrong
-        Case 3
-            s = TXTGainWarmWrong
-        Case 4
-            s = "LAB_SN:" + mBarCode + "(End)  Len:" + str$(gintBarCodeLen) + vbCrLf + TXTSNLenWrong
-        Case 5
-            s = TXTOffsetCoolWrong
-        Case 6
-            s = TXTOffsetStandardWrong
-        Case 7
-            s = TXTOffsetWarmWrong
-        Case 8
-            s = TXTLvTooLow
-    End Select
-
-    CheckStep.Text = CheckStep.Text + TXTErrCode + str$(t) + vbCrLf + s + vbCrLf
-    CheckStep.SelStart = Len(CheckStep)
 End Sub
 
 Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Boolean
@@ -1615,7 +1593,7 @@ Private Sub SubShowData(step As Integer)
             If rColor.xx < 5 Then
                 gblnStop = True
                 ObjCa.RemoteMode = 2
-                MsgBox (TXTChkCA210)
+                MsgBox LoadResString(130)
                 RES = 0
             End If
         End If
