@@ -38,6 +38,10 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Sub Form_Activate()
+    Infbox.Caption = LoadResString(131)
+End Sub
+
 Private Sub Form_Deactivate()
     Me.Hide
 End Sub

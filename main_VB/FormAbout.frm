@@ -15,6 +15,7 @@ Begin VB.Form FormAbout
    ScaleMode       =   0  'User
    ScaleWidth      =   5380.766
    ShowInTaskbar   =   0   'False
+   StartUpPosition =   2  'CenterScreen
    Begin VB.CommandButton cmdOK 
       Cancel          =   -1  'True
       Caption         =   "OK"
@@ -62,11 +63,12 @@ Begin VB.Form FormAbout
       Y2              =   1242.392
    End
    Begin VB.Label lblTitle 
+      Alignment       =   2  'Center
       Caption         =   "Auto White Balance System"
       BeginProperty Font 
-         Name            =   "PMingLiU"
-         Size            =   14.25
-         Charset         =   136
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
          Weight          =   700
          Underline       =   0   'False
          Italic          =   0   'False
@@ -74,10 +76,10 @@ Begin VB.Form FormAbout
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   480
-      Left            =   1080
+      Left            =   120
       TabIndex        =   1
       Top             =   240
-      Width           =   4485
+      Width           =   5445
    End
    Begin VB.Line Line1 
       BorderColor     =   &H00FFFFFF&
@@ -142,9 +144,9 @@ Private Sub cmdOK_Click()
 End Sub
 
 Private Sub Form_Load()
-    Me.Caption = "About " & App.Title
+    Me.Caption = LoadResString(110)
     lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision
-    lblTitle.Caption = App.Title
+    lblTitle.Caption = LoadResString(101)
 End Sub
 
 Public Sub StartSysInfo()
