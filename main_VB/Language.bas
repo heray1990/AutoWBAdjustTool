@@ -8,7 +8,6 @@ Public Const TXTVersion As String = "Version"
 
 ' FormMain
 Public Const DELIMITER As String = "-"
-Public Const TXTTitle As String = "Auto White Balance Tool"
 Public Const TXTBarcodeError As String = "Please check the barcode of TV. Its length is: "
 Public Const TXTBarcodeErrorTitle As String = "Barcode Error"
 Public Const TXTCaDisconnectHint As String = "CA310/CA210 disconnected. Please click 'Function'->'Connect CA310/CA210' to connect it!"

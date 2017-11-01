@@ -23,9 +23,10 @@ Begin VB.Form FormSplash
       _ExtentX        =   847
       _ExtentY        =   847
       _Version        =   393216
+      CancelError     =   -1  'True
    End
    Begin VB.CommandButton CommandLoadXml 
-      Caption         =   "加载配置文件"
+      Caption         =   "Load config file"
       Height          =   495
       Left            =   1560
       TabIndex        =   0
@@ -91,13 +92,14 @@ Private Sub CommandLoadXml_Click()
 
 ErrHandler:
     ' User pressed Cancel button.
-    MsgBox "请加载 XML 文件，否则无法运行软件", vbExclamation, "加载配置文件"
+    MsgBox LoadResString(103), vbExclamation, LoadResString(101)
     Exit Sub
 End Sub
 
 Private Sub Form_Load()
-    Me.Caption = TXTTitle
+    Me.Caption = LoadResString(101)
     lblVersion.Caption = "Version: " & App.Major & "." & App.Minor & "." & App.Revision
+    CommandLoadXml.Caption = LoadResString(102)
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

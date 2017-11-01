@@ -559,7 +559,7 @@ Private Sub Form_Load()
     gblnStop = False
     txtInput.Enabled = True
     
-    Me.Caption = TXTTitle & " V" & App.Major & "." & App.Minor & "." & App.Revision
+    Me.Caption = LoadResString(101) & " V" & App.Major & "." & App.Minor & "." & App.Revision
     mTitle = Me.Caption
     SubInit
 
