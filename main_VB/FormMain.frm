@@ -568,28 +568,31 @@ Private Sub Form_Load()
     If UCase(mBrand) = "CAN" Then    'CANTV
         Set clsCANTVProtocal = New CANTVProtocal
         Set clsProtocal = clsCANTVProtocal
-        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\CANTV.bmp")
+        'PictureBrand.Picture = LoadPicture(App.Path & "\Resources\CANTV.bmp")
+        PictureBrand.Picture = LoadResPicture(101, vbResBitmap)
     ElseIf UCase(mBrand) = "HAIER" Then    'Haier
         Set clsHaierProtocal = New HaierProtocal
         Set clsProtocal = clsHaierProtocal
-        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
+        'PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Haier.bmp")
+        PictureBrand.Picture = LoadResPicture(102, vbResBitmap)
     ElseIf UCase(mBrand) = "KONKA" Then    'KONKA
         Set clsKONKAProtocal = New KONKAProtocal
         Set clsProtocal = clsKONKAProtocal
-        PictureBrand.Picture = LoadPicture(App.Path & "\Resources\KONKA.bmp")
+        'PictureBrand.Picture = LoadPicture(App.Path & "\Resources\KONKA.bmp")
+        PictureBrand.Picture = LoadResPicture(103, vbResBitmap)
     Else    'Letv
         If UCase(gstrChipSet) = "HX6310" Then
             Set clsLetvCurvedProtocal = New LetvCurvedProtocal
             Set clsProtocal = clsLetvCurvedProtocal
-            PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
         ElseIf UCase(gstrChipSet) = "MST6M60" Then
             Set clsLetvMST6M60 = New LetvMST6M60
             Set clsProtocal = clsLetvMST6M60
         Else
             Set clsLetvProtocal = New LetvProtocal
             Set clsProtocal = clsLetvProtocal
-            PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
         End If
+        'PictureBrand.Picture = LoadPicture(App.Path & "\Resources\Letv.bmp")
+        PictureBrand.Picture = LoadResPicture(104, vbResBitmap)
     End If
     
     RES = ColorTInit(gstrCurProjName, App.Path)
@@ -701,7 +704,7 @@ Private Sub SubInitNetServer()
             .Listen
         End With
         txtInput.Enabled = False
-        CheckStep.Text = "Please enter factory menu and select [Auto White Balance]"
+        CheckStep.Text = "Please enter factory menu and select [Adjust White Balance automatically]"
     End If
 End Sub
 

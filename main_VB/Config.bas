@@ -5,7 +5,6 @@ Attribute VB_Name = "Config"
 '**********************************************
 
 Option Explicit
-Private Declare Function PathFileExists Lib "shlwapi.dll" Alias "PathFileExistsA" (ByVal pszPath As String) As Long
 
 
 Public Sub LoadConfigData()
