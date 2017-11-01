@@ -1751,14 +1751,14 @@ Private Sub SubSaveDataToDB(strMark As String)
     Dim tabelExist As Boolean
 
     Set cat = New ADOX.Catalog
-    pstr1 = "Provider=Microsoft.Jet.OLEDB.4.0;" & "Data Source=" & App.Path & "\Data.mdb"
+    pstr1 = "Provider=Microsoft.Jet.OLEDB.4.0;" & "Data Source=" & App.Path & "\" & MDB_FILE_NAME
     sqlstring = "select * from [" & gstrCurProjName & "]"
     tabelExist = False
     
     If mBarCode = "" Then
         Exit Sub
     Else
-        path1 = Dir(App.Path & "\Data.mdb")
+        path1 = Dir(App.Path & "\" & MDB_FILE_NAME)
         If path1 = "" Then
             cat.Create pstr1
         End If

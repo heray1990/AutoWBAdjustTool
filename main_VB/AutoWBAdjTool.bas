@@ -77,6 +77,8 @@ Public Const REMOTE_HOST As String = "192.168.1.11"
 Public Const REMOTE_PORT As Long = 8888
 Public Const PORT_FOR_KONKA As Long = 8866
 
+Public Const MDB_FILE_NAME As String = "Data.mdb"
+
 '==========Public Variables==========
 Public gEnumCommMode As CommunicationMode
 Public gudtConfigData As udtConfigData
@@ -129,7 +131,7 @@ Public Function FuncOpenSQL(sqlstr As String)
     Set rs = New ADODB.Recordset
 
     rs.CursorLocation = adUseClient
-    cn.ConnectionString = "provider=microsoft.jet.oledb.4.0;data source=" & strPath & "Data.mdb"
+    cn.ConnectionString = "provider=microsoft.jet.oledb.4.0;data source=" & strPath & MDB_FILE_NAME
     cn.Open
     rs.Open sqlstr, cn, adOpenDynamic, adLockOptimistic
 
