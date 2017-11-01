@@ -18,6 +18,7 @@ Begin VB.Form FormSettings
    LinkTopic       =   "Form4"
    ScaleHeight     =   6630
    ScaleWidth      =   5055
+   StartUpPosition =   2  'CenterScreen
    Begin VB.Frame Frame7 
       Caption         =   "Chroma"
       BeginProperty Font 
@@ -198,7 +199,7 @@ Begin VB.Form FormSettings
          End
       End
       Begin VB.Label lbChromaModel 
-         Caption         =   "Model:"
+         Caption         =   "Model"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -215,7 +216,7 @@ Begin VB.Form FormSettings
          Width           =   900
       End
       Begin VB.Label lbChromaTiming 
-         Caption         =   "Timing:"
+         Caption         =   "Timing"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -268,7 +269,7 @@ Begin VB.Form FormSettings
          Width           =   1000
       End
       Begin VB.Label lbClockRate 
-         Caption         =   "Clock Rate:"
+         Caption         =   "Clock Rate"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -340,7 +341,7 @@ Begin VB.Form FormSettings
          Width           =   1000
       End
       Begin VB.Label lbComId 
-         Caption         =   "ComID:"
+         Caption         =   "ComID"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -357,7 +358,7 @@ Begin VB.Form FormSettings
          Width           =   900
       End
       Begin VB.Label lbComBaud 
-         Caption         =   "ComBaud:"
+         Caption         =   "ComBaud"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -552,7 +553,7 @@ Begin VB.Form FormSettings
          Width           =   1000
       End
       Begin VB.Label lbLvSpec 
-         Caption         =   "Lv Spec:"
+         Caption         =   "Lv Spec"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -569,7 +570,7 @@ Begin VB.Form FormSettings
          Width           =   900
       End
       Begin VB.Label lbInputSrc 
-         Caption         =   "TV Source:"
+         Caption         =   "TV Source"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -586,7 +587,7 @@ Begin VB.Form FormSettings
          Width           =   900
       End
       Begin VB.Label lbSnLen 
-         Caption         =   "SN_Len:"
+         Caption         =   "SN_Len"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -603,7 +604,7 @@ Begin VB.Form FormSettings
          Width           =   900
       End
       Begin VB.Label lbDelayMs 
-         Caption         =   "Delay(ms):"
+         Caption         =   "Delay(ms)"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -656,7 +657,7 @@ Begin VB.Form FormSettings
          Width           =   1000
       End
       Begin VB.Label lbChannelNum 
-         Caption         =   "Channel:"
+         Caption         =   "Channel"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -689,7 +690,7 @@ Begin VB.Form FormSettings
       TabIndex        =   4
       Top             =   840
       Width           =   2400
-      Begin VB.CheckBox Check7 
+      Begin VB.CheckBox Check5 
          Alignment       =   1  'Right Justify
          Caption         =   "Adjust Offset"
          BeginProperty Font 
@@ -708,7 +709,7 @@ Begin VB.Form FormSettings
          Value           =   1  'Checked
          Width           =   1900
       End
-      Begin VB.CheckBox Check6 
+      Begin VB.CheckBox Check4 
          Alignment       =   1  'Right Justify
          Caption         =   "Check Color"
          BeginProperty Font 
@@ -727,7 +728,7 @@ Begin VB.Form FormSettings
          Value           =   1  'Checked
          Width           =   1900
       End
-      Begin VB.CheckBox Check2 
+      Begin VB.CheckBox Check1 
          Alignment       =   1  'Right Justify
          Caption         =   "Cool"
          BeginProperty Font 
@@ -746,7 +747,7 @@ Begin VB.Form FormSettings
          Value           =   1  'Checked
          Width           =   1900
       End
-      Begin VB.CheckBox Check3 
+      Begin VB.CheckBox Check2 
          Alignment       =   1  'Right Justify
          Caption         =   "Standard"
          BeginProperty Font 
@@ -765,7 +766,7 @@ Begin VB.Form FormSettings
          Value           =   1  'Checked
          Width           =   1900
       End
-      Begin VB.CheckBox Check4 
+      Begin VB.CheckBox Check3 
          Alignment       =   1  'Right Justify
          Caption         =   "Warm"
          BeginProperty Font 
@@ -833,7 +834,23 @@ Option Explicit
 Private Sub Form_Load()
     Dim i As Integer
 
+    Me.Caption = LoadResString(108)
     Label1.Caption = gstrCurProjName
+    Check1.Caption = LoadResString(111)
+    Check2.Caption = LoadResString(112)
+    Check3.Caption = LoadResString(113)
+    Check4.Caption = LoadResString(132)
+    Check5.Caption = LoadResString(133)
+
+    lbChromaModel.Caption = LoadResString(134)
+    lbChannelNum.Caption = LoadResString(135)
+    lbComId.Caption = LoadResString(136)
+    lbComBaud.Caption = LoadResString(137)
+    lbSnLen.Caption = LoadResString(138)
+    lbInputSrc.Caption = LoadResString(139)
+    lbLvSpec.Caption = LoadResString(140)
+    
+    Command1.Caption = LoadResString(141)
     
     txtChannel.Text = CStr(glngCaChannel)
     txtSNLen.Text = CStr(gintBarCodeLen)
@@ -895,48 +912,48 @@ Private Sub Form_Load()
     End If
 
     If gblnEnableCool Then
+        Check1.Value = 1
+    Else
+        Check1.Value = 0
+    End If
+
+    If gblnEnableStandard Then
         Check2.Value = 1
     Else
         Check2.Value = 0
     End If
 
-    If gblnEnableStandard Then
+    If gblnEnableWarm Then
         Check3.Value = 1
     Else
         Check3.Value = 0
     End If
 
-    If gblnEnableWarm Then
+    If gblnChkColorTemp Then
         Check4.Value = 1
     Else
         Check4.Value = 0
     End If
 
-    If gblnChkColorTemp Then
-        Check6.Value = 1
-    Else
-        Check6.Value = 0
-    End If
-
     If gblnAdjOffset Then
-        Check7.Value = 1
+        Check5.Value = 1
     Else
-        Check7.Value = 0
+        Check5.Value = 0
     End If
     
 End Sub
 
 Private Sub Command1_Click()
-    If Check2.Value = 1 Then gudtConfigData.bolEnableCool = True
-    If Check2.Value = 0 Then gudtConfigData.bolEnableCool = False
-    If Check3.Value = 1 Then gudtConfigData.bolEnableStandard = True
-    If Check3.Value = 0 Then gudtConfigData.bolEnableStandard = False
-    If Check4.Value = 1 Then gudtConfigData.bolEnableWarm = True
-    If Check4.Value = 0 Then gudtConfigData.bolEnableWarm = False
-    If Check6.Value = 1 Then gudtConfigData.bolEnableChkColor = True
-    If Check6.Value = 0 Then gudtConfigData.bolEnableChkColor = False
-    If Check7.Value = 1 Then gudtConfigData.bolEnableAdjOffset = True
-    If Check7.Value = 0 Then gudtConfigData.bolEnableAdjOffset = False
+    If Check1.Value = 1 Then gudtConfigData.bolEnableCool = True
+    If Check1.Value = 0 Then gudtConfigData.bolEnableCool = False
+    If Check2.Value = 1 Then gudtConfigData.bolEnableStandard = True
+    If Check2.Value = 0 Then gudtConfigData.bolEnableStandard = False
+    If Check3.Value = 1 Then gudtConfigData.bolEnableWarm = True
+    If Check3.Value = 0 Then gudtConfigData.bolEnableWarm = False
+    If Check4.Value = 1 Then gudtConfigData.bolEnableChkColor = True
+    If Check4.Value = 0 Then gudtConfigData.bolEnableChkColor = False
+    If Check5.Value = 1 Then gudtConfigData.bolEnableAdjOffset = True
+    If Check5.Value = 0 Then gudtConfigData.bolEnableAdjOffset = False
     
     If optUart.Value = True Then
         gudtConfigData.CommMode = modeUART
