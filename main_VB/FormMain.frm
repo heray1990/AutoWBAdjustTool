@@ -482,22 +482,22 @@ Begin VB.Form FormMain
       Width           =   1440
    End
    Begin VB.Menu vbFunc 
-      Caption         =   "Function"
+      Caption         =   "File"
       Begin VB.Menu vbConCA310 
          Caption         =   "Connect CA310/CA210"
       End
-      Begin VB.Menu tbDisConnectastro 
+      Begin VB.Menu vbDisConnectCA 
          Caption         =   "DisConnect CA310/CA210(&D)"
       End
    End
    Begin VB.Menu vbSet 
-      Caption         =   "Setting"
+      Caption         =   "Options"
       Begin VB.Menu vbSetSPEC 
          Caption         =   "Common Settings"
       End
    End
-   Begin VB.Menu vbDescription 
-      Caption         =   "Description"
+   Begin VB.Menu vbHelp 
+      Caption         =   "Help"
       Begin VB.Menu vbAbout 
          Caption         =   "About"
          Shortcut        =   {F2}
@@ -547,15 +547,14 @@ Attribute Obj.VB_VarHelpID = -1
 
 
 Private Sub Form_Load()
-    vbFunc.Caption = TXTFun
-    vbConCA310.Caption = TXTConnectCA
-    tbDisConnectastro.Caption = TXTDisConnectCA
-    vbSet.Caption = TXTSet
-    vbSetSPEC.Caption = TXTSetSpec
-    vbDescription.Caption = TXTDiscription
-    vbAbout.Caption = TXTAbout
-    Label6.Caption = TXTINITIAL
-    checkResult.Caption = TXTChkResult
+    vbFunc.Caption = LoadResString(104)
+    vbConCA310.Caption = LoadResString(105)
+    vbDisConnectCA.Caption = LoadResString(106)
+    vbSet.Caption = LoadResString(107)
+    vbSetSPEC.Caption = LoadResString(108)
+    vbHelp.Caption = LoadResString(109)
+    vbAbout.Caption = LoadResString(110)
+
     gblnStop = False
     txtInput.Enabled = True
     
@@ -669,7 +668,7 @@ Private Sub vbConCA310_Click()
     End If
 End Sub
 
-Private Sub tbDisConnectastro_Click()
+Private Sub vbDisConnectCA_Click()
     If gblnCaConnected Then
         ObjCa.RemoteMode = 0
     End If
