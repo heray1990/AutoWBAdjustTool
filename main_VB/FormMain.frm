@@ -532,7 +532,6 @@ Dim clsKONKAProtocal As KONKAProtocal
 Dim ivpg As IVPGCtrl
 
 Private rRGB As REALRGB
-Private rRGB1 As REALRGB
 
 Private mudtPreColorData As COLORTEMPSPEC
 Private mAdjGainAgainCool As Integer
@@ -1380,25 +1379,22 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
 
     ' Set RGB Offset
     Call ColorTSetSpec(strColorTemp, mudtPreColorData, ADJMODE_OFFSET)
-        
     rRGB.cRR = mudtPreColorData.nColorRR
     rRGB.cGG = mudtPreColorData.nColorGG
     rRGB.cBB = mudtPreColorData.nColorBB
 
-    Call SubUpdateRGB(strColorTemp, 0)
+    Call SubUpdateRGB(strColorTemp, ADJMODE_OFFSET)
 
-    Call LoadData(strColorTemp, 0)
     If UCase(gstrChipSet) = "MST6M60" Then
-        Call clsProtocal.SetRGBOffset(rRGB1.cRR * 8, rRGB1.cGG * 8, rRGB1.cBB * 8)
+        Call clsProtocal.SetRGBOffset(rRGB.cRR * 8, rRGB.cGG * 8, rRGB.cBB * 8)
     Else
-        Call clsProtocal.SetRGBOffset(rRGB1.cRR, rRGB1.cGG, rRGB1.cBB)
+        Call clsProtocal.SetRGBOffset(rRGB.cRR, rRGB.cGG, rRGB.cBB)
     End If
 
     For i = 1 To 2
-        Call ColorTSetSpec(strColorTemp, mudtPreColorData, ADJMODE_GAIN)
-        'SubDelayMs 200
-        
         SubLogInfo "Init current colorTemp. RES:" + str$(RES)
+
+        Call ColorTSetSpec(strColorTemp, mudtPreColorData, ADJMODE_GAIN)
         rRGB.cRR = mudtPreColorData.nColorRR
         rRGB.cGG = mudtPreColorData.nColorGG
         rRGB.cBB = mudtPreColorData.nColorBB
@@ -1464,8 +1460,8 @@ Private Function FuncAdjRGBGain(strColorTemp As String, adjustVal As Long) As Bo
 
 Cancel:
     If RES = 3 Then
+        SubLogInfo "Update RGB Gain, x, y and lv value in " & strColorTemp & "."
         Call SubUpdateRGB(strColorTemp, ADJMODE_GAIN)
-        SubLogInfo "Save current data of " & strColorTemp & "."
         FuncAdjRGBGain = True
     Else
         FuncAdjRGBGain = False
@@ -1482,9 +1478,9 @@ Private Function FuncAdjRGBOffset(strColorTemp As String) As Boolean
     SubLogInfo "========Adjust " & strColorTemp & "========"
   
     For i = 1 To 2
-        Call ColorTSetSpec(strColorTemp, mudtPreColorData, ADJMODE_OFFSET)
-        'SubDelayMs 200
         SubLogInfo "Init current colorTemp. RES:" + str$(RES)
+
+        Call ColorTSetSpec(strColorTemp, mudtPreColorData, ADJMODE_OFFSET)
         rRGB.cRR = mudtPreColorData.nColorRR
         rRGB.cGG = mudtPreColorData.nColorGG
         rRGB.cBB = mudtPreColorData.nColorBB
@@ -1521,8 +1517,8 @@ Private Function FuncAdjRGBOffset(strColorTemp As String) As Boolean
 
 Cancel:
     If RES = 3 Then
+        SubLogInfo "Update RGB Offset, x, y and lv value in " & strColorTemp & "."
         Call SubUpdateRGB(strColorTemp, ADJMODE_OFFSET)
-        SubLogInfo "Save current data of " & strColorTemp & "."
         FuncAdjRGBOffset = True
     Else
         FuncAdjRGBOffset = False
@@ -1648,11 +1644,10 @@ Private Sub SubShowData(step As Integer)
     Label_Lv = CStr(rColor.lv)
 End Sub
 
-Private Sub SubUpdateRGB(strColorTemp As String, HL As Long)
-
+Private Sub SubUpdateRGB(strColorTemp As String, isGain As Integer)
     Select Case strColorTemp
         Case COLORTEMP_COOL
-            If HL Then
+            If isGain = ADJMODE_GAIN Then
                 cCool.xx = rColor.xx
                 cCool.yy = rColor.yy
                 cCool.lv = rColor.lv
@@ -1669,7 +1664,7 @@ Private Sub SubUpdateRGB(strColorTemp As String, HL As Long)
             End If
 
         Case COLORTEMP_STANDARD
-            If HL Then
+            If isGain = ADJMODE_GAIN Then
                 cStandard.xx = rColor.xx
                 cStandard.yy = rColor.yy
                 cStandard.lv = rColor.lv
@@ -1686,7 +1681,7 @@ Private Sub SubUpdateRGB(strColorTemp As String, HL As Long)
             End If
 
         Case COLORTEMP_WARM
-            If HL Then
+            If isGain = ADJMODE_GAIN Then
                 cWarm.xx = rColor.xx
                 cWarm.yy = rColor.yy
                 cWarm.lv = rColor.lv
@@ -1700,44 +1695,6 @@ Private Sub SubUpdateRGB(strColorTemp As String, HL As Long)
                 cFFWarm.nColorRR = rRGB.cRR
                 cFFWarm.nColorGG = rRGB.cGG
                 cFFWarm.nColorBB = rRGB.cBB
-            End If
-    End Select
-  
-End Sub
-
-Private Sub LoadData(strColorTemp As String, isGain As Boolean)
-    Select Case strColorTemp
-        Case COLORTEMP_COOL
-            If isGain Then
-                rRGB1.cRR = cCool.nColorRR
-                rRGB1.cGG = cCool.nColorGG
-                rRGB1.cBB = cCool.nColorBB
-            Else
-                rRGB1.cRR = cFFCool.nColorRR
-                rRGB1.cGG = cFFCool.nColorGG
-                rRGB1.cBB = cFFCool.nColorBB
-            End If
-            
-        Case COLORTEMP_STANDARD
-            If isGain Then
-                rRGB1.cRR = cStandard.nColorRR
-                rRGB1.cGG = cStandard.nColorGG
-                rRGB1.cBB = cStandard.nColorBB
-            Else
-                rRGB1.cRR = cFFStandard.nColorRR
-                rRGB1.cGG = cFFStandard.nColorGG
-                rRGB1.cBB = cFFStandard.nColorBB
-            End If
-            
-        Case COLORTEMP_WARM
-            If isGain Then
-                rRGB1.cRR = cWarm.nColorRR
-                rRGB1.cGG = cWarm.nColorGG
-                rRGB1.cBB = cWarm.nColorBB
-            Else
-                rRGB1.cRR = cFFWarm.nColorRR
-                rRGB1.cGG = cFFWarm.nColorGG
-                rRGB1.cBB = cFFWarm.nColorBB
             End If
     End Select
 End Sub
